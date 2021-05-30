@@ -24,12 +24,8 @@ QString qbrformatfb2::parseXmlTextFromNode(QDomNode xmlNode)
         return xmlNode.nodeValue();
     }
 
-    if (!xmlNode.hasChildNodes())
-    {
-        return QString("");
-    }
-    QString rv = "";
-    for (int i; i < xmlNode.childNodes().count(); i++)
+    QString rv = QString("");
+    for (int i = 0; xmlNode.hasChildNodes() && i < xmlNode.childNodes().count(); i++)
     {
         rv.append(parseXmlTextFromNode(xmlNode.childNodes().at(i)));
     }
@@ -182,9 +178,15 @@ void qbrformatfb2::parseXml(QByteArray fileData)
         QDomNode fb2_binary = fb2_binaries.at(i);
         if (fb2_binary.attributes().contains("id") && fb2_binary.attributes().contains("content-type"))
         {
-            QString img_key = "#" + fb2_binary.attributes().namedItem("id").toAttr().value();
-            QString img_val = "data:" + fb2_binary.attributes().namedItem("content-type").toAttr().value() + ";base64," + parseXmlTextFromNode(fb2_binary);
-            fb2_images[img_key] = img_val.replace("\n", "").replace("\r", "");
+            QString img_key = QString("#");
+            img_key.append(fb2_binary.attributes().namedItem("id").toAttr().value());
+
+            QString img_val = QString("data:");
+            img_val.append(fb2_binary.attributes().namedItem("content-type").toAttr().value());
+            img_val.append(";base64,");
+            img_val.append(parseXmlTextFromNode(fb2_binary).replace("\n", "").replace("\r", ""));
+
+            fb2_images.insert(img_key, img_val);
         }
     }
 
@@ -222,11 +224,16 @@ bool qbrformatfb2::loadFile(QString fileName)
         f.open(QIODevice::ReadOnly);
         QDataStream in(&f);
         QByteArray fileData;
+        int buff_size = 1024*1024;
+        char buff[buff_size];
         while (!in.atEnd())
         {
-            char buff[4096];
-            in.readRawData(buff, 4096);
-            fileData.append(buff, 4096);
+
+            int readed = in.readRawData(buff, buff_size);
+            if (readed > 0)
+            {
+                fileData.append(buff, readed);
+            }
         }
         f.close();
         parseXml(fileData);
