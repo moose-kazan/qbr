@@ -2,6 +2,7 @@
 #include "qbrcfg.h"
 #include "qbrtemplate.h"
 #include "qbrformat.h"
+#include "format/qbrformatcbz.h"
 #include "format/qbrformatfb2.h"
 
 #include <QAction>
@@ -12,6 +13,7 @@
 #include <QCloseEvent>
 #include <QIcon>
 #include <QToolBar>
+#include <QList>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -104,7 +106,7 @@ void MainWindow::saveAsFile()
 
 void MainWindow::openFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), tr(""), tr("Books (*.fb2)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), tr(""), tr("Books (*.fb2 *.cbz)"));
     if (fileName != "")
     {
         loadBook(fileName);
@@ -113,9 +115,39 @@ void MainWindow::openFile()
 
 void MainWindow::loadBook(QString fileName)
 {
-    qbrformat* parser = new qbrformatfb2();
-    parser->loadFile(fileName);
-    browser->setHtml(parser->getHtml());
+    QByteArray fileData;
+    try
+    {
+        QFile f(fileName);
+        f.open(QIODevice::ReadOnly);
+        QDataStream in(&f);
+        int buff_size = 4096;
+        char buff[buff_size];
+        while (!in.atEnd())
+        {
+
+            int readed = in.readRawData(buff, buff_size);
+            if (readed > 0)
+            {
+                fileData.append(buff, readed);
+            }
+        }
+        f.close();
+    }
+    catch (...)
+    {
+        return;
+    }
+
+    QList<qbrformat*> parsers;
+    parsers.append(new qbrformatfb2());
+    parsers.append(new qbrformatcbz());
+    for (int i = 0; i < parsers.count(); i++) {
+        if (parsers.at(i)->loadFile(fileName, fileData)) {
+            browser->setHtml(parsers.at(i)->getHtml());
+            return;
+        }
+    }
 }
 
 void MainWindow::helpAbout()

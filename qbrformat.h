@@ -2,12 +2,13 @@
 #define QBRFORMAT_H
 
 #include <QString>
+#include <QByteArray>
 
 class qbrformat
 {
 public:
     qbrformat();
-    virtual bool loadFile(QString fileName) { return fileName != "" && false; };
+    virtual bool loadFile(QString fileName, QByteArray fileData) { return fileName != "" && false; };
     virtual QString getHtml() { return QString(""); };
 };
 

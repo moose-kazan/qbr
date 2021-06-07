@@ -166,10 +166,12 @@ QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xml
     return rv;
 }
 
-void qbrformatfb2::parseXml(QByteArray fileData)
+bool qbrformatfb2::parseXml(QByteArray fileData)
 {
     QDomDocument* parserXml = new QDomDocument();
-    parserXml->setContent(fileData, true);
+    if (!parserXml->setContent(fileData, true)) {
+        return false;
+    }
 
     QHash<QString, QString> fb2_images;
     QDomNodeList fb2_binaries = parserXml->elementsByTagName("binary");
@@ -192,6 +194,10 @@ void qbrformatfb2::parseXml(QByteArray fileData)
 
     htmlData.append(qbrtemplate::header());
     QDomNodeList fb2_bodies = parserXml->elementsByTagName("body");
+    if (fb2_bodies.count() < 1) {
+        return false;
+    }
+
     for (int i = 0; i < fb2_bodies.count(); i++)
     {
         QDomNode fb2_body = fb2_bodies.at(i);
@@ -214,36 +220,21 @@ void qbrformatfb2::parseXml(QByteArray fileData)
     }
     htmlData.append(qbrtemplate::footer());
 
+    return true;
 }
 
-bool qbrformatfb2::loadFile(QString fileName)
+bool qbrformatfb2::loadFile(QString fileName, QByteArray fileData)
 {
     try
     {
-        QFile f(fileName);
-        f.open(QIODevice::ReadOnly);
-        QDataStream in(&f);
-        QByteArray fileData;
-        int buff_size = 1024*1024;
-        char buff[buff_size];
-        while (!in.atEnd())
-        {
-
-            int readed = in.readRawData(buff, buff_size);
-            if (readed > 0)
-            {
-                fileData.append(buff, readed);
-            }
-        }
-        f.close();
-        parseXml(fileData);
+        return parseXml(fileData);
     }
     catch (...)
     {
         return false;
     }
 
-    return true;
+    return false;
 }
 
 QString qbrformatfb2::getHtml()

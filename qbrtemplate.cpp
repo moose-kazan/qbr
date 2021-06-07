@@ -49,7 +49,12 @@ QString qbrtemplate::header()
                 "    }\n"
 
                 "    img {\n"
+                "        width: 90%;\n"
                 "        max-width: 90%;\n"
+                "    }\n"
+
+                "    .comics_image {\n"
+                "        display: block;"
                 "    }\n"
                 "</style>\n"
                 "</head>\n"
