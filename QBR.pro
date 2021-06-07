@@ -1,4 +1,4 @@
-QT       += core gui xml gui-private
+QT       += core gui xml gui-private webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

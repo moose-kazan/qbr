@@ -16,6 +16,7 @@ QString qbrtemplate::header()
                 "        background: #ffeeaa;\n"
                 "        color: #000000;\n"
                 "        font-size: 14pt;\n"
+                "        font-family: Verdana, Arial, Helvetica, sans-serif;\n"
                 "        word-wrap: break-word;\n"
                 "    }\n"
 
@@ -39,8 +40,8 @@ QString qbrtemplate::header()
                 "    }\n"
 
                 "    .doc_section {\n"
-                "        margin-left: 50px;\n"
-                "        margin-right: 50px;\n"
+                "        margin-left: 20px;\n"
+                "        margin-right: 20px;\n"
                 "    }\n"
 
                 "    .doc_note_link {\n"
@@ -49,12 +50,12 @@ QString qbrtemplate::header()
                 "    }\n"
 
                 "    img {\n"
-                "        width: 90%;\n"
                 "        max-width: 90%;\n"
                 "    }\n"
 
                 "    .comics_image {\n"
-                "        display: block;"
+                "        width: 100%;\n"
+                "        text-align: center;\n"
                 "    }\n"
                 "</style>\n"
                 "</head>\n"
@@ -70,4 +71,11 @@ QString qbrtemplate::footer()
 QString qbrtemplate::empty()
 {
     return qbrtemplate::header() + qbrtemplate::footer();
+}
+
+QString qbrtemplate::emptyAsDataUri()
+{
+    QString rv = "data:text/html;base64,";
+    rv.append(qbrtemplate::empty().toUtf8().toBase64());
+    return rv;
 }

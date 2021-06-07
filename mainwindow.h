@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTextBrowser>
+#include <QWebEngineView>
 #include <QCloseEvent>
 
 class MainWindow : public QMainWindow
@@ -15,11 +15,14 @@ public:
     void saveAsFile();
     void helpAbout();
     void helpAboutQt();
+    void naviGoBack();
+    void naviGoForward();
 
-    QTextBrowser* browser;
+    QWebEngineView* browser;
 
 protected:
     void closeEvent(QCloseEvent *event);
+    void bookLoadFinished(bool ok);
 
 private:
     void readSettings();

@@ -9,6 +9,7 @@
 #include <QList>
 #include <QStringList>
 #include <QDebug>
+#include <QFile>
 
 #include <private/qzipreader_p.h>
 
@@ -62,11 +63,11 @@ bool qbrformatcbz::loadFile(QString fileName, QByteArray fileData)
 
         if (mimeType != "")
         {
-            htmlData.append("<img class=\"comics_image\" src=\"data:");
+            htmlData.append("<div class=\"comics_image\"><img src=\"data:");
             htmlData.append(mimeType);
             htmlData.append(";base64,");
             htmlData.append(zip->fileData(zipEntryName).toBase64());
-            htmlData.append("\"><br />\n");
+            htmlData.append("\"><br /></div>\n");
         }
     }
 
@@ -77,6 +78,5 @@ bool qbrformatcbz::loadFile(QString fileName, QByteArray fileData)
 
 QString qbrformatcbz::getHtml()
 {
-    qDebug() << htmlData;
     return htmlData;
 }

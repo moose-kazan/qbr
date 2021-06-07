@@ -11,6 +11,7 @@ public:
     static QString header();
     static QString footer();
     static QString empty();
+    static QString emptyAsDataUri();
 };
 
 #endif // QBRTEMPLATE_H

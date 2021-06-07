@@ -14,14 +14,20 @@
 #include <QIcon>
 #include <QToolBar>
 #include <QList>
+#include <QDesktopWidget>
+#include <QTemporaryFile>
+#include <QDir>
+#include <QWebEngineView>
+#include <QWebEngineHistory>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    browser = new QTextBrowser(this);
-    browser->setOpenExternalLinks(true);
-    browser->setHtml(qbrtemplate::empty());
+    browser = new QWebEngineView(this);
+    //browser->setOpenExternalLinks(true);
+    browser->load(QUrl(qbrtemplate::emptyAsDataUri()));
     setCentralWidget(browser);
+    connect(browser, &QWebEngineView::loadFinished, this, &MainWindow::bookLoadFinished);
 
     QAction* openAction = new QAction(tr("Open file"), this);
     openAction->setShortcut(QKeySequence("Ctrl+O"));
@@ -57,6 +63,20 @@ MainWindow::MainWindow(QWidget *parent)
     fileMenu->addAction(saveAsAction);
     fileMenu->addAction(exitAction);
 
+    QAction* naviActionBack = new QAction(tr("Go back"), this);
+    naviActionBack->setStatusTip(tr("Go back"));
+    naviActionBack->setIcon(QIcon::fromTheme("go-previous"));
+    connect(naviActionBack, &QAction::triggered, this, &MainWindow::naviGoBack);
+
+    QAction* naviActionForward = new QAction(tr("Go forard"), this);
+    naviActionForward->setStatusTip(tr("Go forward"));
+    naviActionForward->setIcon(QIcon::fromTheme("go-next"));
+    connect(naviActionForward, &QAction::triggered, this, &MainWindow::naviGoForward);
+
+    QMenu* naviMenu = menubar->addMenu(tr("&Navigation"));
+    naviMenu->addAction(naviActionBack);
+    naviMenu->addAction(naviActionForward);
+
     QMenu* helpMenu = menubar->addMenu(tr("&Help"));
     helpMenu->addAction(helpAboutAction);
     helpMenu->addAction(helpAboutQtAction);
@@ -66,11 +86,24 @@ MainWindow::MainWindow(QWidget *parent)
     mainToolBar->addAction(QIcon::fromTheme("document-open"), tr("Open file"), this, &MainWindow::openFile);
     mainToolBar->addAction(QIcon::fromTheme("document-save-as"), tr("Save file as..."), this, &MainWindow::saveAsFile);
     mainToolBar->addSeparator();
+    mainToolBar->addAction(QIcon::fromTheme("go-previous"), tr("Go back"), this, &MainWindow::naviGoBack);
+    mainToolBar->addAction(QIcon::fromTheme("go-next"), tr("Go forward"), this, &MainWindow::naviGoForward);
+    mainToolBar->addSeparator();
     mainToolBar->addAction(QIcon::fromTheme("help-about"), tr("About"), this, &MainWindow::helpAbout);
 
     setWindowTitle(tr("Qt Book Reader"));
     setGeometry(300, 300, 480, 320);
     readSettings();
+}
+
+void MainWindow::naviGoBack()
+{
+    browser->back();
+}
+
+void MainWindow::naviGoForward()
+{
+    browser->forward();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -97,7 +130,7 @@ void MainWindow::saveAsFile()
         QFile f(fileName);
         if(f.open(QIODevice::WriteOnly))
         {
-            f.write(browser->toHtml().toUtf8());
+            //f.write(browser->toHtml().toUtf8());
             f.close();
         }
         //browser->toHtml();
@@ -144,10 +177,31 @@ void MainWindow::loadBook(QString fileName)
     parsers.append(new qbrformatcbz());
     for (int i = 0; i < parsers.count(); i++) {
         if (parsers.at(i)->loadFile(fileName, fileData)) {
-            browser->setHtml(parsers.at(i)->getHtml());
+            QTemporaryFile f(QDir::tempPath() + "/QBR.XXXXXXX.html");
+            f.setAutoRemove(false);
+            if(f.open())
+            {
+                f.write(parsers.at(i)->getHtml().toUtf8());
+                f.close();
+
+                browser->load(QUrl::fromLocalFile(f.fileName()));
+            }
             return;
         }
     }
+}
+
+void MainWindow::bookLoadFinished(bool ok)
+{
+    // Fix for HiDpi screens
+    // By default X.Org have 72 dpi
+    QDesktopWidget desktop;
+    if (desktop.logicalDpiY() > 72)
+    {
+        browser->setZoomFactor(desktop.logicalDpiY() / 72);
+    }
+    browser->page()->history()->clear();
+    QFile::remove(browser->url().toLocalFile());
 }
 
 void MainWindow::helpAbout()
