@@ -127,12 +127,14 @@ void MainWindow::saveAsFile()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."), tr(""), tr("Html pages (*.html *.html)"));
     if (fileName != "")
     {
-        QFile f(fileName);
-        if(f.open(QIODevice::WriteOnly))
-        {
-            //f.write(browser->toHtml().toUtf8());
-            f.close();
-        }
+        browser->page()->toHtml([fileName](QString htmlData){
+            QFile f(fileName);
+            if(f.open(QIODevice::WriteOnly))
+            {
+                f.write(htmlData.toUtf8());
+                f.close();
+            }
+        });
         //browser->toHtml();
     }
 }
