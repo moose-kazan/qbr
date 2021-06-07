@@ -7,10 +7,11 @@
 
 В настоящий момент поддерживаются следующие форматы:
 * FictionBook 2.0 (fb2)
+* Comics Book Zip (cbz)
 
 Сборка на Ubuntu 20.04:
 1. Склонировать репозиторий
-2. sudo apt install qt5-make qt5-default build-essential
+2. sudo apt install qt5-make qt5-default qtbase5-private-dev build-essential
 3. mkdir -p build && cd build && qmake .. && make
 
 ## English ##
@@ -18,9 +19,10 @@ Simple book reader, written on C++ with Qt5 toolkit.
 
 For now support the next file formats:
 * FictionBook 2.0 (fb2)
+* Comics Book Zip (cbz)
 
 Build on Ubuntu 20.04:
-1. Склонировать репозиторий
-2. sudo apt install qt5-make qt5-default build-essential
+1. Clone this repository
+2. sudo apt install qt5-make qt5-default qtbase5-private-dev build-essential
 3. mkdir -p build && cd build && qmake .. && make
 
