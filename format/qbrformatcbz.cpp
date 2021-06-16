@@ -1,5 +1,6 @@
 #include "qbrformatcbz.h"
 #include "../qbrtemplate.h"
+#include "../qbrzip.h"
 
 #include <QString>
 #include <QByteArray>
@@ -10,8 +11,6 @@
 #include <QStringList>
 #include <QDebug>
 #include <QFile>
-
-#include <private/qzipreader_p.h>
 
 qbrformatcbz::qbrformatcbz()
 {
@@ -26,19 +25,13 @@ bool qbrformatcbz::loadFile(QString fileName, QByteArray fileData)
         return false;
     }
 
-    QBuffer* buff = new QBuffer();
-    buff->setData(fileData);
-    QZipReader* zip = new QZipReader(buff);
-
-    QStringList zipEntryNames;
-
-    for (int i = 0; i < zip->count(); i++)
+    qbrzip unZip;
+    if (!unZip.setData(fileData))
     {
-        if (zip->entryInfoAt(i).isFile == 1)
-        {
-            zipEntryNames.append(zip->entryInfoAt(i).filePath);
-        }
+        return false;
     }
+
+    QStringList zipEntryNames = unZip.getFileNameList();
 
     zipEntryNames.sort(Qt::CaseInsensitive);
 
@@ -66,7 +59,7 @@ bool qbrformatcbz::loadFile(QString fileName, QByteArray fileData)
             htmlData.append("<div class=\"comics_image\"><img src=\"data:");
             htmlData.append(mimeType);
             htmlData.append(";base64,");
-            htmlData.append(zip->fileData(zipEntryName).toBase64());
+            htmlData.append(unZip.getFileData(zipEntryName).toBase64());
             htmlData.append("\"><br /></div>\n");
         }
     }

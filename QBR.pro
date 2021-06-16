@@ -1,4 +1,4 @@
-QT       += core gui xml gui-private webenginewidgets
+QT       += core gui xml webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,7 +22,8 @@ SOURCES += \
     mainwindow.cpp \
     qbrcfg.cpp \
     qbrformat.cpp \
-    qbrtemplate.cpp
+    qbrtemplate.cpp \
+    qbrzip.cpp
 
 HEADERS += \
     format/qbrformatcbz.h \
@@ -30,7 +31,8 @@ HEADERS += \
     mainwindow.h \
     qbrcfg.h \
     qbrformat.h \
-    qbrtemplate.h
+    qbrtemplate.h \
+    qbrzip.h
 
 FORMS +=
 
@@ -41,3 +43,8 @@ TRANSLATIONS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+#unix: CONFIG += link_pkgconfig
+#unix: PKGCONFIG += libzip
+
+LIBS += -lquazip5

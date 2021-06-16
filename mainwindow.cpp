@@ -203,7 +203,10 @@ void MainWindow::bookLoadFinished(bool ok)
         browser->setZoomFactor(desktop.logicalDpiY() / 72);
     }
     browser->page()->history()->clear();
-    QFile::remove(browser->url().toLocalFile());
+    if (browser->url().toLocalFile() != "")
+    {
+        QFile::remove(browser->url().toLocalFile());
+    }
 }
 
 void MainWindow::helpAbout()
