@@ -168,10 +168,16 @@ QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xml
 
 bool qbrformatfb2::parseXml(QByteArray fileData)
 {
+
     QDomDocument* parserXml = new QDomDocument();
-    if (!parserXml->setContent(fileData, true)) {
+    QString paserXmlErrorMsg;
+    int parserXmlErrorLine;
+    int parserXmlErrorColumn;
+    if (!parserXml->setContent(fileData, true, &paserXmlErrorMsg, &parserXmlErrorLine, &parserXmlErrorColumn)) {
+        qDebug() << "Error message: " << paserXmlErrorMsg << " at line " << parserXmlErrorLine << ", column: " << parserXmlErrorColumn;
         return false;
     }
+
 
     QHash<QString, QString> fb2_images;
     QDomNodeList fb2_binaries = parserXml->elementsByTagName("binary");

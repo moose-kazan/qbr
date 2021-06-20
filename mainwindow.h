@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QWebEngineView>
 #include <QCloseEvent>
+#include <QLabel>
 
 class MainWindow : public QMainWindow
 {
@@ -15,10 +16,12 @@ public:
     void saveAsFile();
     void helpAbout();
     void helpAboutQt();
+    void naviFind();
     void naviGoBack();
     void naviGoForward();
 
     QWebEngineView* browser;
+    QLabel* statusBarFileName;
 
 protected:
     void closeEvent(QCloseEvent *event);

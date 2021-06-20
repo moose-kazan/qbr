@@ -70,7 +70,10 @@ QString qbrtemplate::footer()
 
 QString qbrtemplate::empty()
 {
-    return qbrtemplate::header() + qbrtemplate::footer();
+    QString rv;
+    rv.append(qbrtemplate::header());
+    rv.append(qbrtemplate::footer());
+    return rv;
 }
 
 QString qbrtemplate::emptyAsDataUri()
