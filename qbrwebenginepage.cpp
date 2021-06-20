@@ -7,13 +7,13 @@
 
 qbrWebEnginePage::qbrWebEnginePage() : QWebEnginePage()
 {
-    qDebug() << "WebEnginePage created";
+    //qDebug() << "WebEnginePage created";
 }
 
 
 bool qbrWebEnginePage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame)
 {
-    qDebug() << url;
+    //qDebug() << url;
     if (url.scheme() != "file" && url.scheme() != "data")
     {
         QDesktopServices::openUrl(url);
