@@ -23,6 +23,7 @@ SOURCES += \
     qbrcfg.cpp \
     qbrformat.cpp \
     qbrtemplate.cpp \
+    qbrwebenginepage.cpp \
     qbrzip.cpp
 
 HEADERS += \
@@ -32,6 +33,7 @@ HEADERS += \
     qbrcfg.h \
     qbrformat.h \
     qbrtemplate.h \
+    qbrwebenginepage.h \
     qbrzip.h
 
 FORMS +=
