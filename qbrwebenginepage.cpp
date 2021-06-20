@@ -13,7 +13,11 @@ qbrWebEnginePage::qbrWebEnginePage() : QWebEnginePage()
 
 bool qbrWebEnginePage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame)
 {
+    (void)type;
+    (void)isMainFrame;
+
     //qDebug() << url;
+
     if (url.scheme() != "file" && url.scheme() != "data")
     {
         QDesktopServices::openUrl(url);

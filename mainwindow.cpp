@@ -247,6 +247,8 @@ void MainWindow::loadBook(QString fileName)
 
 void MainWindow::bookLoadFinished(bool ok)
 {
+    if (!ok) return;
+
     // Fix for HiDpi screens
     // By default X.Org have 72 dpi
     QDesktopWidget desktop;

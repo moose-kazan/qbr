@@ -243,6 +243,7 @@ bool qbrformatfb2::parseXml(QByteArray fileData)
 
 bool qbrformatfb2::loadFile(QString fileName, QByteArray fileData)
 {
+    (void)fileName; // Remove "unused parameter" warning
     try
     {
         return parseXml(fileData);
