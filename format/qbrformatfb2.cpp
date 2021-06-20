@@ -9,6 +9,7 @@
 #include <QDomNode>
 #include <QDomNodeList>
 #include <QHash>
+#include <QRegularExpression>
 
 #include <QDebug>
 
@@ -145,12 +146,23 @@ QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xml
                     {
                         a_href = curXmlNode.attributes().namedItem("href").toAttr().value();
                     }
+
+
+                    // Link to note
                     if (a_type == "note" && a_href != "")
                     {
                         rv.append("<a class=\"doc_note_link\" href=\"" + a_href + "\">");
                         rv.append(parseXmlBody(curXmlNode, xmlImages));
                         rv.append("</a>\n");
                     }
+                    // Link to URL with not empty schema
+                    else if (QString(a_href).contains(QRegularExpression("^[a-z]+://.+", QRegularExpression::CaseInsensitiveOption)))
+                    {
+                        rv.append("<a href=\"" + a_href + "\">");
+                        rv.append(parseXmlBody(curXmlNode, xmlImages));
+                        rv.append("</a>\n");
+                    }
+                    // All other cases
                     else
                     {
                         rv.append(parseXmlBody(curXmlNode, xmlImages));
@@ -174,7 +186,7 @@ bool qbrformatfb2::parseXml(QByteArray fileData)
     int parserXmlErrorLine;
     int parserXmlErrorColumn;
     if (!parserXml->setContent(fileData, true, &paserXmlErrorMsg, &parserXmlErrorLine, &parserXmlErrorColumn)) {
-        qDebug() << "Error message: " << paserXmlErrorMsg << " at line " << parserXmlErrorLine << ", column: " << parserXmlErrorColumn;
+        //qDebug() << "Error message: " << paserXmlErrorMsg << " at line " << parserXmlErrorLine << ", column: " << parserXmlErrorColumn;
         return false;
     }
 

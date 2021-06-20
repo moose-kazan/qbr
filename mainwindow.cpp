@@ -2,6 +2,7 @@
 #include "qbrcfg.h"
 #include "qbrtemplate.h"
 #include "qbrformat.h"
+#include "qbrwebenginepage.h"
 #include "format/qbrformatcbz.h"
 #include "format/qbrformatfb2.h"
 //#include "format/qbrformatfb3.h"
@@ -29,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     browser = new QWebEngineView(this);
     //browser->setOpenExternalLinks(true);
+    browser->setPage(new qbrWebEnginePage);
+    browser->setContextMenuPolicy(Qt::NoContextMenu);
     browser->load(QUrl(qbrtemplate::emptyAsDataUri()));
     setCentralWidget(browser);
     connect(browser, &QWebEngineView::loadFinished, this, &MainWindow::bookLoadFinished);
@@ -130,7 +133,7 @@ void MainWindow::naviFind()
         Qt::Dialog
     );
 
-    if (ok && !text.isEmpty())
+    if (ok)
     {
         browser->page()->findText(text);
     }

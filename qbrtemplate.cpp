@@ -1,5 +1,7 @@
 #include "qbrtemplate.h"
 
+#include <QString>
+
 qbrtemplate::qbrtemplate()
 {
 
@@ -72,6 +74,18 @@ QString qbrtemplate::empty()
 {
     QString rv;
     rv.append(qbrtemplate::header());
+    rv.append("<div class=\"document_body\">\n");
+        rv.append("<div class=\"doc_title\"><p>Welcome to Qt Book Reader!</p></div>\n");
+        rv.append(
+                    "<div class=\"doc_section\">"
+                    "<p>More info and source code can be found at "
+                    "<a href=\"https://github.com/moose-kazan/qbr\">"
+                    "https://github.com/moose-kazan/qbr"
+                    "</a>"
+                    "</p>"
+                    "</div>"
+                );
+    rv.append("<div>\n");
     rv.append(qbrtemplate::footer());
     return rv;
 }
