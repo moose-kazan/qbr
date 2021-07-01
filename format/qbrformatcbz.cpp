@@ -25,6 +25,11 @@ bool qbrformatcbz::loadFile(QString fileName, QByteArray fileData)
         return false;
     }
 
+    if (!isZipFile(fileData))
+    {
+        return false;
+    }
+
     qbrzip unZip;
     if (!unZip.setData(fileData))
     {

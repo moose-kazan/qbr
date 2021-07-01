@@ -10,6 +10,7 @@ public:
     qbrformat();
     virtual bool loadFile(QString fileName, QByteArray fileData) { return fileName != "" && fileData.size() > 0 && false; };
     virtual QString getHtml() { return QString(""); };
+    bool isZipFile(QByteArray data);
 };
 
 #endif // QBRFORMAT_H
