@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     format/qbrformatcbz.cpp \
     format/qbrformatfb2.cpp \
+    format/qbrformatfb3.cpp \
     main.cpp \
     mainwindow.cpp \
     qbrcfg.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
 HEADERS += \
     format/qbrformatcbz.h \
     format/qbrformatfb2.h \
+    format/qbrformatfb3.h \
     mainwindow.h \
     qbrcfg.h \
     qbrformat.h \
