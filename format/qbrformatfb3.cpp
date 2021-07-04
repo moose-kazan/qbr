@@ -58,29 +58,36 @@ QString qbrformatfb3::parseFB3TextFromNode(QDomNode xmlNode)
 
 QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
 {
+    QHash<QString, QString> base_tags;
+    base_tags.insert("strong", "strong");
+    base_tags.insert("p", "p");
+    base_tags.insert("em", "em");
+    base_tags.insert("code", "pre");
+    base_tags.insert("sub", "sub");
+    base_tags.insert("sup", "sup");
+    base_tags.insert("strikethrough", "s");
+    base_tags.insert("u", "u");
+    base_tags.insert("b", "b");
+    base_tags.insert("i", "i");
+    base_tags.insert("blockquote", "blockquote");
+    base_tags.insert("div", "div");
+
+    QHash<QString, QString> tag_to_class;
+    tag_to_class.insert("title", "doc_title");
+    tag_to_class.insert("subtitle", "doc_subtitle");
+    tag_to_class.insert("poem", "doc_poem");
+
     QString rv;
     if (xmlNode.hasChildNodes())
     {
-        QHash<QString, QString> base_tags;
-        base_tags.insert("strong", "strong");
-        base_tags.insert("p", "p");
-        base_tags.insert("em", "em");
-        base_tags.insert("pre", "pre");
-        base_tags.insert("sub", "sub");
-        base_tags.insert("sup", "sup");
-        base_tags.insert("s", "s");
-        base_tags.insert("u", "u");
-        base_tags.insert("b", "b");
-        base_tags.insert("i", "i");
-        base_tags.insert("blockquote", "blockquote");
-        base_tags.insert("div", "div");
-
         for (int i = 0; i < xmlNode.childNodes().count(); i++)
         {
             QDomNode curXmlNode = xmlNode.childNodes().at(i);
-            if (curXmlNode.nodeName() == "title")
+            if (tag_to_class.value(curXmlNode.nodeName(), "") != "")
             {
-                rv.append("<div class=\"doc_title\">\n");
+                rv.append("<div class=\"");
+                rv.append(tag_to_class.value(curXmlNode.nodeName()));
+                rv.append("\">\n");
                 rv.append(parseFB3Node(curXmlNode));
                 rv.append("</div>\n");
             }
@@ -111,7 +118,7 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
             }
             else
             {
-                //qDebug() << curXmlNode.nodeName();
+                qDebug() << curXmlNode.nodeName();
                 rv.append(parseFB3Node(curXmlNode));
             }
         }
@@ -145,7 +152,6 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
     QStringList requiredFiles = {
         "[Content_Types].xml",
         "_rels/.rels",
-        "fb3/_rels/description.xml.rels"
     };
 
     for (int i = 0; i < requiredFiles.count(); i++)
