@@ -19,7 +19,6 @@ public:
 private:
     QString htmlData;
     bool parseFile(QByteArray fileData);
-    QString parseFB3Body(QString bodyName);
     QString parseFB3Node(QDomNode xmlNode);
     QString parseFB3TextFromNode(QDomNode xmlNode);
     qbrzip unZip;
