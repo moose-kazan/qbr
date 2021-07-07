@@ -35,6 +35,22 @@ QString qbrformatfb2::parseXmlTextFromNode(QDomNode xmlNode)
 
 QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xmlImages)
 {
+    QHash<QString, QString> base_tags;
+    base_tags.insert("strong", "strong");
+    base_tags.insert("p", "p");
+    base_tags.insert("emphasis", "em");
+    base_tags.insert("code", "pre");
+    base_tags.insert("sub", "sub");
+    base_tags.insert("sup", "sup");
+    base_tags.insert("strikethrough", "s");
+    base_tags.insert("cite", "blockquote");
+
+    QHash<QString, QString> tags_to_class;
+    tags_to_class.insert("title", "doc_title");
+    tags_to_class.insert("subtitle", "doc_subtitle");
+    tags_to_class.insert("stanza", "doc_poem");
+    tags_to_class.insert("section", "doc_section");
+
     QString rv = QString("");
     for (int i = 0; i < xmlNode.childNodes().count(); i++)
     {
@@ -73,105 +89,76 @@ QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xml
         }
         else
         {
-            QHash<QString, QString> base_tags;
-            base_tags.insert("strong", "strong");
-            base_tags.insert("p", "p");
-            base_tags.insert("emphasis", "em");
-            base_tags.insert("code", "pre");
-            base_tags.insert("sub", "sub");
-            base_tags.insert("sup", "sup");
-            base_tags.insert("strikethrough", "s");
-            base_tags.insert("cite", "blockquote");
-
-            bool base_tag = false;
-            for (int j = 0; j < base_tags.keys().count(); j++)
+            if (base_tags.value(curXmlNode.nodeName(), "") != "")
             {
-                if (curXmlNode.nodeName() == base_tags.keys().value(j))
-                {
-                    base_tag = true;
-                    QString html_tag = base_tags[base_tags.keys().value(j)];
-                    rv.append("<" + html_tag + ">" + parseXmlBody(curXmlNode, xmlImages) + "</" + html_tag + ">\n");
-                }
+                rv.append("<" + base_tags.value(curXmlNode.nodeName()) + ">");
+                rv.append(parseXmlBody(curXmlNode, xmlImages));
+                rv.append("</" + base_tags.value(curXmlNode.nodeName()) + ">\n");
             }
-            if (!base_tag)
+            else if (tags_to_class.value(curXmlNode.nodeName(), "") != "")
             {
-                if (curXmlNode.nodeName() == "title")
+                if (curXmlNode.attributes().contains("id"))
                 {
-                    rv.append("<div class=\"doc_title\">" + parseXmlBody(curXmlNode, xmlImages) + "</div>\n");
+                    rv.append("<div class=\"" + tags_to_class.value(curXmlNode.nodeName()) + "\" id=\">");
+                    rv.append(curXmlNode.attributes().namedItem("id").toAttr().value());
+                    rv.append("\">");
                 }
-                else if (curXmlNode.nodeName() == "subtitle")
+                else
                 {
-                    rv.append("<div class=\"doc_subtitle\">" + parseXmlBody(curXmlNode, xmlImages) + "</div>\n");
+                    rv.append("<div class=\"" + tags_to_class.value(curXmlNode.nodeName()) + "\">");
                 }
-                else if (curXmlNode.nodeName() == "stanza")
+                rv.append(parseXmlBody(curXmlNode, xmlImages));
+                rv.append("</div>\n");
+            }
+            else if (curXmlNode.nodeName() == "v")
+            {
+                rv.append(parseXmlBody(curXmlNode, xmlImages) + "<br />\n");
+            }
+            else if (curXmlNode.nodeName() == "a")
+            {
+                QString a_type = "";
+                if (curXmlNode.attributes().contains("type"))
                 {
-                    rv.append("<div class=\"doc_poem\">" + parseXmlBody(curXmlNode, xmlImages) + "</div>\n");
+                    a_type = curXmlNode.attributes().namedItem("type").toAttr().value();
                 }
-                else if (curXmlNode.nodeName() == "v")
+                QString a_href = "";
+                if (curXmlNode.attributes().contains("l:href"))
                 {
-                    rv.append(parseXmlBody(curXmlNode, xmlImages) + "<br />\n");
+                    a_href = curXmlNode.attributes().namedItem("l:href").toAttr().value();
                 }
-                else if (curXmlNode.nodeName() == "section")
+                else if (curXmlNode.attributes().contains("xlink:href"))
                 {
-                    if (curXmlNode.attributes().contains("id"))
-                    {
-                        rv.append("<div class=\"doc_section\" id=\"");
-                        rv.append(curXmlNode.attributes().namedItem("id").toAttr().value());
-                        rv.append("\">");
-                        rv.append(parseXmlBody(curXmlNode, xmlImages));
-                        rv.append("</div>\n");
-                    }
-                    else
-                    {
-                        rv.append("<div class=\"doc_section\">" + parseXmlBody(curXmlNode, xmlImages) + "</div>\n");
-                    }
+                    a_href = curXmlNode.attributes().namedItem("xlink:href").toAttr().value();
                 }
-                else if (curXmlNode.nodeName() == "a")
+                else if (curXmlNode.attributes().contains("href"))
                 {
-                    QString a_type = "";
-                    if (curXmlNode.attributes().contains("type"))
-                    {
-                        a_type = curXmlNode.attributes().namedItem("type").toAttr().value();
-                    }
-                    QString a_href = "";
-                    if (curXmlNode.attributes().contains("l:href"))
-                    {
-                        a_href = curXmlNode.attributes().namedItem("l:href").toAttr().value();
-                    }
-                    else if (curXmlNode.attributes().contains("xlink:href"))
-                    {
-                        a_href = curXmlNode.attributes().namedItem("xlink:href").toAttr().value();
-                    }
-                    else if (curXmlNode.attributes().contains("href"))
-                    {
-                        a_href = curXmlNode.attributes().namedItem("href").toAttr().value();
-                    }
+                    a_href = curXmlNode.attributes().namedItem("href").toAttr().value();
+                }
 
 
-                    // Link to note
-                    if (a_type == "note" && a_href != "")
-                    {
-                        rv.append("<a class=\"doc_note_link\" href=\"" + a_href + "\">");
-                        rv.append(parseXmlBody(curXmlNode, xmlImages));
-                        rv.append("</a>\n");
-                    }
-                    // Link to URL with not empty schema
-                    else if (QString(a_href).contains(QRegularExpression("^[a-z]+://.+", QRegularExpression::CaseInsensitiveOption)))
-                    {
-                        rv.append("<a href=\"" + a_href + "\">");
-                        rv.append(parseXmlBody(curXmlNode, xmlImages));
-                        rv.append("</a>\n");
-                    }
-                    // All other cases
-                    else
-                    {
-                        rv.append(parseXmlBody(curXmlNode, xmlImages));
-                    }
+                // Link to note
+                if (a_type == "note" && a_href != "")
+                {
+                    rv.append("<a class=\"doc_note_link\" href=\"" + a_href + "\">");
+                    rv.append(parseXmlBody(curXmlNode, xmlImages));
+                    rv.append("</a>\n");
                 }
+                // Link to URL with not empty schema
+                else if (QString(a_href).contains(QRegularExpression("^[a-z]+://.+", QRegularExpression::CaseInsensitiveOption)))
+                {
+                    rv.append("<a href=\"" + a_href + "\">");
+                    rv.append(parseXmlBody(curXmlNode, xmlImages));
+                    rv.append("</a>\n");
+                }
+                // All other cases
                 else
                 {
                     rv.append(parseXmlBody(curXmlNode, xmlImages));
                 }
+            }
+            else
+            {
+                rv.append(parseXmlBody(curXmlNode, xmlImages));
             }
         }
     }
