@@ -76,6 +76,7 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
     tag_to_class.insert("title", "doc_title");
     tag_to_class.insert("subtitle", "doc_subtitle");
     tag_to_class.insert("poem", "doc_poem");
+    tag_to_class.insert("section", "doc_section");
 
     QString rv;
     if (xmlNode.hasChildNodes())
@@ -85,22 +86,18 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
             QDomNode curXmlNode = xmlNode.childNodes().at(i);
             if (tag_to_class.value(curXmlNode.nodeName(), "") != "")
             {
-                rv.append("<div class=\"");
-                rv.append(tag_to_class.value(curXmlNode.nodeName()));
-                rv.append("\">\n");
-                rv.append(parseFB3Node(curXmlNode));
-                rv.append("</div>\n");
-            }
-            else if (curXmlNode.nodeName() == "section")
-            {
                 if (curXmlNode.attributes().contains("id"))
                 {
                     QString section_id = curXmlNode.attributes().namedItem("id").toAttr().value();
-                    rv.append("<div class=\"doc_section\" id=\"" + section_id + "\">\n");
+                    rv.append("<div class=\"");
+                    rv.append(tag_to_class.value(curXmlNode.nodeName()));
+                    rv.append("\" id=\"" + section_id + "\">\n");
                 }
                 else
                 {
-                    rv.append("<div class=\"doc_section\">\n");
+                    rv.append("<div class=\"");
+                    rv.append(tag_to_class.value(curXmlNode.nodeName()));
+                    rv.append("\">\n");
                 }
                 rv.append(parseFB3Node(curXmlNode));
                 rv.append("</div>\n");
