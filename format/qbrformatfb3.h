@@ -7,6 +7,7 @@
 #include <QString>
 #include <QByteArray>
 #include <QDomNode>
+#include <QHash>
 
 
 class qbrformatfb3 : public qbrformat
@@ -22,6 +23,7 @@ private:
     QString parseFB3Node(QDomNode xmlNode);
     QString parseFB3TextFromNode(QDomNode xmlNode);
     qbrzip unZip;
+    QHash<QString, QString> fb3_binaries;
 };
 
 #endif // QBRFORMATFB3_H

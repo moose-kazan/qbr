@@ -20,7 +20,7 @@
  * Many ideas found at: https://github.com/gribuser/FB3
  */
 
-qbrformatfb3::qbrformatfb3()
+qbrformatfb3::qbrformatfb3() : unZip(false)
 {
 
 }
@@ -111,11 +111,20 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
             else if (curXmlNode.nodeName() == "img")
             {
                 QString img_src_key = curXmlNode.attributes().namedItem("src").toAttr().value();
-                rv.append("<p>[IMG=" + img_src_key + "]</p>\n");
+                if (fb3_binaries.contains(img_src_key))
+                {
+                    rv.append("<img src=\"");
+                    rv.append(fb3_binaries.value(img_src_key));
+                    rv.append("\">\n");
+                }
+                else
+                {
+                    rv.append("<p>[ImgNotFound! Id=" + img_src_key + "]</p>\n");
+                }
             }
             else
             {
-                qDebug() << curXmlNode.nodeName();
+                //qDebug() << curXmlNode.nodeName();
                 rv.append(parseFB3Node(curXmlNode));
             }
         }
@@ -167,13 +176,35 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
 
     // Default file name of body entry
     QString body_entry_name = "fb3/body.xml";
-    // Try to find bodies
-    QDomNodeList fb3_overrides = docContentType->elementsByTagName("Override");
-    for (int i = 0; i < fb3_overrides.count(); i++)
+
+    // Extensions -> Content-TYpe
+    QHash<QString, QString> fb3_ext_types;
+
+    // Overrides
+    QHash<QString, QDomNode> fb3_overrides;
+
+    // Load content-types for extensions
+    QDomNodeList fb3_default_nodes = docContentType->elementsByTagName("Default");
+    for (int i = 0; i < fb3_default_nodes.count(); i++)
     {
-        if (fb3_overrides.at(i).attributes().contains("PartName") && fb3_overrides.at(i).attributes().contains("ContentType"))
+        QDomNode default_node = fb3_default_nodes.at(i);
+        if (default_node.attributes().contains("Extension") && default_node.attributes().contains("ContentType"))
         {
-            QString overridePartName = fb3_overrides.at(i).attributes().namedItem("PartName").toAttr().value();
+            fb3_ext_types.insert(
+                    default_node.attributes().namedItem("Extension").toAttr().value(),
+                    default_node.attributes().namedItem("ContentType").toAttr().value()
+                );
+        }
+    }
+
+    // Try to find bodies and load overrides
+    QDomNodeList fb3_overrides_nodes = docContentType->elementsByTagName("Override");
+    for (int i = 0; i < fb3_overrides_nodes.count(); i++)
+    {
+        QDomNode override_node = fb3_overrides_nodes.at(i);
+        if (override_node.attributes().contains("PartName") && override_node.attributes().contains("ContentType"))
+        {
+            QString overridePartName = override_node.attributes().namedItem("PartName").toAttr().value();
             if (overridePartName.startsWith("/"))
             {
                 overridePartName = overridePartName.right(overridePartName.length()-1);
@@ -183,18 +214,16 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
                 overridePartName = overridePartName.right(overridePartName.length()-2);
             }
 
-            if (fb3_overrides.at(i).attributes().namedItem("ContentType").toAttr().value() == "application/fb3-body+xml")
+            if (override_node.attributes().namedItem("ContentType").toAttr().value() == "application/fb3-body+xml")
             {
                 body_entry_name = overridePartName;
             }
             else
             {
-
+                fb3_overrides.insert(overridePartName, override_node);
             }
         }
     }
-
-    qDebug() << body_entry_name;
 
 
     // Try to load body
@@ -213,17 +242,20 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
 
     // Body rels file name
     QString body_rels_entry_name;
+    QString body_entry_base_path;
     QFileInfo body_entry_name_info(body_entry_name);
 
-    body_rels_entry_name.append(body_entry_name_info.path());
-    if (body_rels_entry_name == ".")
+    body_entry_base_path = body_entry_name_info.path();
+
+    if (body_entry_base_path == ".")
     {
-        body_rels_entry_name = "";
+        body_entry_base_path = "";
     }
-    else if (!body_rels_entry_name.endsWith("/"))
+    else if (!body_entry_base_path.endsWith("/"))
     {
-        body_rels_entry_name.append("/");
+        body_entry_base_path.append("/");
     }
+    body_rels_entry_name = body_entry_base_path;
     body_rels_entry_name.append("_rels/");
     body_rels_entry_name.append(body_entry_name_info.fileName());
     body_rels_entry_name.append(".rels");
@@ -242,6 +274,58 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
     }
 
     // Load binaries
+    QDomNodeList relation_nodes = bodyRelsXml->elementsByTagName("Relationship");
+    for (int i = 0; i < relation_nodes.count(); i++)
+    {
+        QDomNode relation_node = relation_nodes.at(i);
+        if (relation_node.attributes().contains("Id") && relation_node.attributes().contains("Target"))
+        {
+            QString node_id = relation_node.attributes().namedItem("Id").toAttr().value();
+            QString node_target = relation_node.attributes().namedItem("Target").toAttr().value();
+            if (node_target.startsWith("/"))
+            {
+                node_target = node_target.right(node_target.length()-1);
+            }
+            else if (node_target.startsWith("./"))
+            {
+                node_target = node_target.right(node_target.length()-2);
+                node_target.prepend(body_entry_base_path);
+            }
+            else
+            {
+                node_target.prepend(body_entry_base_path);
+            }
+
+            QString node_content_type;
+
+            if (fb3_ext_types.contains(node_target.section('.', -1)))
+            {
+                node_content_type = fb3_ext_types.value(node_target.section('.', -1));
+            }
+
+            // If we have override for this file
+            if (fb3_overrides.contains(node_target))
+            {
+                if (fb3_overrides.value(node_target).attributes().contains("ContentType"))
+                {
+                    node_content_type = fb3_overrides.value(node_target).attributes().namedItem("ContentType").toAttr().value();
+                }
+            }
+
+            QByteArray node_entry_data = unZip.getFileData(node_target);
+            if (node_entry_data == NULL)
+            {
+                return false;
+            }
+
+            fb3_binaries.insert(
+                    node_id,
+                    "data:" + node_content_type + ";base64," + node_entry_data.toBase64()
+                );
+
+            qDebug() << "Id: " << node_id << " Target: " << node_target << " Type: " << node_content_type;
+        }
+    }
 
 
     // Process body
