@@ -166,20 +166,48 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
     }
 
     // Default file name of body entry
-    QString body_entry_name = "/fb3/body.xml";
+    QString body_entry_name = "fb3/body.xml";
     // Try to find bodies
     QDomNodeList fb3_overrides = docContentType->elementsByTagName("Override");
     for (int i = 0; i < fb3_overrides.count(); i++)
     {
-        if (
-                fb3_overrides.at(i).attributes().contains("PartName") &&
-                fb3_overrides.at(i).attributes().contains("ContentType") &&
-                fb3_overrides.at(i).attributes().namedItem("ContentType").toAttr().value() == "application/fb3-body+xml"
-            )
+        if (fb3_overrides.at(i).attributes().contains("PartName") && fb3_overrides.at(i).attributes().contains("ContentType"))
         {
-            body_entry_name = fb3_overrides.at(i).attributes().namedItem("PartName").toAttr().value();
-            break;
+            QString overridePartName = fb3_overrides.at(i).attributes().namedItem("PartName").toAttr().value();
+            if (overridePartName.startsWith("/"))
+            {
+                overridePartName = overridePartName.right(overridePartName.length()-1);
+            }
+            else if (overridePartName.startsWith("./"))
+            {
+                overridePartName = overridePartName.right(overridePartName.length()-2);
+            }
+
+            if (fb3_overrides.at(i).attributes().namedItem("ContentType").toAttr().value() == "application/fb3-body+xml")
+            {
+                body_entry_name = overridePartName;
+            }
+            else
+            {
+
+            }
         }
+    }
+
+    qDebug() << body_entry_name;
+
+
+    // Try to load body
+    QByteArray fb3_body_data = unZip.getFileData(body_entry_name);
+    if (fb3_body_data == NULL)
+    {
+        return false;
+    }
+
+    QDomDocument* bodyXml = new QDomDocument();
+    if (!bodyXml->setContent(fb3_body_data))
+    {
+        return false;
     }
 
 
@@ -188,34 +216,35 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
     QFileInfo body_entry_name_info(body_entry_name);
 
     body_rels_entry_name.append(body_entry_name_info.path());
-    if (!body_rels_entry_name.endsWith("/"))
+    if (body_rels_entry_name == ".")
+    {
+        body_rels_entry_name = "";
+    }
+    else if (!body_rels_entry_name.endsWith("/"))
     {
         body_rels_entry_name.append("/");
     }
-    body_rels_entry_name.append("rels/");
+    body_rels_entry_name.append("_rels/");
     body_rels_entry_name.append(body_entry_name_info.fileName());
     body_rels_entry_name.append(".rels");
 
-
-    // Try to load body
-    QByteArray fb3_body_data = unZip.getFileData(body_entry_name);
-    if (fb3_body_data == NULL && body_entry_name.startsWith("/"))
-    {
-        fb3_body_data = unZip.getFileData(body_entry_name.right(body_entry_name.length()-1));
-    }
-    if (fb3_body_data == NULL)
-    {
-        return false;
-    }
-    QDomDocument* bodyXml = new QDomDocument();
-    if (!bodyXml->setContent(fb3_body_data))
+    // Try to load body rels file
+    QByteArray body_rels_data = unZip.getFileData(body_rels_entry_name);
+    if (body_rels_data == NULL)
     {
         return false;
     }
 
+    QDomDocument* bodyRelsXml = new QDomDocument();
+    if (!bodyRelsXml->setContent(body_rels_data))
+    {
+        return false;
+    }
 
-    // Try to load body rels
+    // Load binaries
 
+
+    // Process body
     htmlData.append(qbrtemplate::header());
     htmlData.append("<div class=\"document_body\">\n");
     for (int i = 0; i < bodyXml->childNodes().count(); i++)
