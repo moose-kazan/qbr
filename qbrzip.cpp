@@ -11,9 +11,9 @@
 // Some ideas found here: https://github.com/ctabin/libzippp/blob/master/src/
 
 
-qbrzip::qbrzip()
+qbrzip::qbrzip(bool CS)
 {
-
+    entry_names_cs = CS;
 }
 
 bool qbrzip::setData(QByteArray zipData)
@@ -50,6 +50,10 @@ bool qbrzip::setData(QByteArray zipData)
                 }
             }
             zipFile.close();
+            if (!entry_names_cs)
+            {
+                zipEntryName = zipEntryName.toLower();
+            }
             zipEntries.insert(zipEntryName, zipEntryData);
         }
 
@@ -66,5 +70,9 @@ QStringList qbrzip::getFileNameList()
 
 QByteArray qbrzip::getFileData(QString fileName)
 {
+    if (!entry_names_cs)
+    {
+        fileName = fileName.toLower();
+    }
     return zipEntries.value(fileName, NULL);
 }

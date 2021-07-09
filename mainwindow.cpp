@@ -5,7 +5,7 @@
 #include "qbrwebenginepage.h"
 #include "format/qbrformatcbz.h"
 #include "format/qbrformatfb2.h"
-//#include "format/qbrformatfb3.h"
+#include "format/qbrformatfb3.h"
 
 #include <QAction>
 #include <QMenuBar>
@@ -226,6 +226,7 @@ void MainWindow::loadBook(QString fileName)
     QList<qbrformat*> parsers;
     parsers.append(new qbrformatcbz());
     parsers.append(new qbrformatfb2());
+    parsers.append(new qbrformatfb3());
     //parsers.append(new qbrformatfb3());
     for (int i = 0; i < parsers.count(); i++) {
         if (parsers.at(i)->loadFile(fileName, fileData)) {

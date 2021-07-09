@@ -51,6 +51,25 @@ QString qbrtemplate::header()
                 "        font-size: 10pt;\n"
                 "    }\n"
 
+                "    .doc_note_body {\n"
+                "        font-size: 75%;\n"
+                "    }\n"
+
+                "    .doc_notes {\n"
+                "    }\n"
+
+                "    .doc_notes .doc_title {\n"
+                "        text-align: left;\n"
+                "    }\n"
+
+                "    .doc_epigraph {\n"
+                "        text-align: right;\n"
+                "    }\n"
+
+                "    .doc_annotation {\n"
+                "        font-size: 75%;\n"
+                "    }\n"
+
                 "    img {\n"
                 "        max-width: 90%;\n"
                 "    }\n"
