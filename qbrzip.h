@@ -11,12 +11,13 @@
 class qbrzip
 {
 public:
-    qbrzip();
+    qbrzip(bool CS = true);
     bool setData(QByteArray zipData);
     QStringList getFileNameList();
     QByteArray getFileData(QString fileName);
 
 private:
+    bool entry_names_cs;
     QuaZip zipArchive;
     QHash<QString, QByteArray> zipEntries;
 };
