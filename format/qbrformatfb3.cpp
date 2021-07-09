@@ -12,6 +12,7 @@
 #include <QHash>
 #include <QStringList>
 #include <QFileInfo>
+#include <QUrl>;
 
 #include <QDebug>
 
@@ -83,6 +84,10 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
     tag_to_class.insert("epigraph", "doc_epigraph");
     tag_to_class.insert("annotation", "doc_annotation");
 
+    QList<QString> bad_urls_schemes;
+    bad_urls_schemes.append("data");
+    bad_urls_schemes.append("javascript");
+
     QString rv;
     if (xmlNode.hasChildNodes())
     {
@@ -127,9 +132,38 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
                     rv.append("<p>[ImgNotFound! Id=" + img_src_key + "]</p>\n");
                 }
             }
+            else if (curXmlNode.nodeName() == "a")
+            {
+                QString a_href = "";
+                if (curXmlNode.attributes().contains("l:href"))
+                {
+                    a_href = curXmlNode.attributes().namedItem("l:href").toAttr().value();
+                }
+                else if (curXmlNode.attributes().contains("xlink:href"))
+                {
+                    a_href = curXmlNode.attributes().namedItem("xlink:href").toAttr().value();
+                }
+                else if (curXmlNode.attributes().contains("href"))
+                {
+                    a_href = curXmlNode.attributes().namedItem("href").toAttr().value();
+                }
+
+                QUrl a_href_url(a_href);
+                if (a_href.startsWith("#") || (!a_href_url.isLocalFile() && !bad_urls_schemes.contains(a_href_url.scheme()) ) )
+                {
+                    rv.append("<a href=\"" + a_href + "\">");
+                    rv.append(parseFB3Node(curXmlNode));
+                    rv.append("</a>");
+                }
+                else
+                {
+                    rv.append(parseFB3Node(curXmlNode));
+                }
+
+            }
             else
             {
-                qDebug() << curXmlNode.nodeName();
+                //qDebug() << curXmlNode.nodeName();
                 rv.append(parseFB3Node(curXmlNode));
             }
         }
