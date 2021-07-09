@@ -76,7 +76,12 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
     tag_to_class.insert("title", "doc_title");
     tag_to_class.insert("subtitle", "doc_subtitle");
     tag_to_class.insert("poem", "doc_poem");
+    tag_to_class.insert("stanza", "doc_poem");
     tag_to_class.insert("section", "doc_section");
+    tag_to_class.insert("notebody", "doc_note_body");
+    tag_to_class.insert("notes", "doc_notes");
+    tag_to_class.insert("epigraph", "doc_epigraph");
+    tag_to_class.insert("annotation", "doc_annotation");
 
     QString rv;
     if (xmlNode.hasChildNodes())
@@ -124,7 +129,7 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
             }
             else
             {
-                //qDebug() << curXmlNode.nodeName();
+                qDebug() << curXmlNode.nodeName();
                 rv.append(parseFB3Node(curXmlNode));
             }
         }
@@ -323,7 +328,7 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
                     "data:" + node_content_type + ";base64," + node_entry_data.toBase64()
                 );
 
-            qDebug() << "Id: " << node_id << " Target: " << node_target << " Type: " << node_content_type;
+            //qDebug() << "Id: " << node_id << " Target: " << node_target << " Type: " << node_content_type;
         }
     }
 
