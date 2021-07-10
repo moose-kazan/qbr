@@ -143,8 +143,8 @@ QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xml
                     rv.append(parseXmlBody(curXmlNode, xmlImages));
                     rv.append("</a>\n");
                 }
-                // Link to URL with not empty schema
-                else if (QString(a_href).contains(QRegularExpression("^[a-z]+://.+", QRegularExpression::CaseInsensitiveOption)))
+                // Link to all other urls
+                else if (a_href != "")
                 {
                     rv.append("<a href=\"" + a_href + "\">");
                     rv.append(parseXmlBody(curXmlNode, xmlImages));

@@ -148,8 +148,7 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
                     a_href = curXmlNode.attributes().namedItem("href").toAttr().value();
                 }
 
-                QUrl a_href_url(a_href);
-                if (a_href.startsWith("#") || (!a_href_url.isLocalFile() && !bad_urls_schemes.contains(a_href_url.scheme()) ) )
+                if (a_href != "")
                 {
                     rv.append("<a href=\"" + a_href + "\">");
                     rv.append(parseFB3Node(curXmlNode));
