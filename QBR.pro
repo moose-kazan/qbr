@@ -52,3 +52,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 #unix: PKGCONFIG += libzip
 
 LIBS += -lquazip5
+
+RESOURCES += \
+    QBR.qrc

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/16x16/qbr.png</file>
+        <file>icon/24x24/qbr.png</file>
+        <file>icon/32x32/qbr.png</file>
+        <file>icon/48x48/qbr.png</file>
+        <file>icon/64x64/qbr.png</file>
+        <file>icon/96x96/qbr.png</file>
+        <file>icon/128x128/qbr.png</file>
+        <file>icon/256x256/qbr.png</file>
+        <file>icon/512x512/qbr.png</file>
+    </qresource>
+</RCC>
