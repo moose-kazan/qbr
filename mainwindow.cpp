@@ -2,6 +2,7 @@
 #include "qbrcfg.h"
 #include "qbrtemplate.h"
 #include "qbrformat.h"
+#include "aboutdialog.h"
 #include "qbrwebenginepage.h"
 #include "format/qbrformatcbz.h"
 #include "format/qbrformatfb2.h"
@@ -266,7 +267,9 @@ void MainWindow::bookLoadFinished(bool ok)
 
 void MainWindow::helpAbout()
 {
-    QMessageBox::about(this, tr("About Qt Book Reader"), tr("Simple Book reader written on C++ and using Qt5"));
+    //QMessageBox::about(this, tr("About Qt Book Reader"), tr("Simple Book reader written on C++ and using Qt5"));
+    AboutDialog *aboutDlg = new AboutDialog(this, Qt::Dialog);
+    aboutDlg->show();
 }
 
 void MainWindow::helpAboutQt()
