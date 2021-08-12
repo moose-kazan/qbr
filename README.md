@@ -12,7 +12,7 @@
 
 Сборка на Ubuntu 20.04:
 1. Склонировать репозиторий
-2. sudo apt install qt5-make qt5-default qtwebengine5-dev libquazip5-dev build-essential
+2. sudo apt install qt5-qmake qt5-default qtwebengine5-dev libquazip5-dev build-essential
 3. mkdir -p build && cd build && qmake .. && make
 
 ## English ##
@@ -25,6 +25,6 @@ For now support the next file formats:
 
 Build on Ubuntu 20.04:
 1. Clone this repository
-2. sudo apt install qt5-make qt5-default qtwebengine5-dev libquazip5-dev build-essential
+2. sudo apt install qt5-qmake qt5-default qtwebengine5-dev libquazip5-dev build-essential
 3. mkdir -p build && cd build && qmake .. && make
 
