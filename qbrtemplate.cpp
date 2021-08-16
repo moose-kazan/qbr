@@ -1,5 +1,7 @@
 #include "qbrtemplate.h"
 
+#include "qbrcommon.h"
+
 #include <QString>
 
 qbrtemplate::qbrtemplate()
@@ -17,20 +19,20 @@ QString qbrtemplate::header()
                 "    body {\n"
                 "        background: #ffeeaa;\n"
                 "        color: #000000;\n"
-                "        font-size: 14pt;\n"
+                "        font-size: " + qbrcommon::getDesktopScaledIntAsQString(16) + "px;\n"
                 "        font-family: Verdana, Arial, Helvetica, sans-serif;\n"
                 "        word-wrap: break-word;\n"
                 "    }\n"
 
                 "   .doc_title {\n"
-                "        font-size: 18pt;\n"
+                "        font-size: " + qbrcommon::getDesktopScaledIntAsQString(22) + "px;\n"
                 "        color: #222222;\n"
                 "        font-weight: bold;\n"
                 "        text-align: center;\n"
                 "    }\n"
 
                 "    .doc_subtitle {\n"
-                "        font-size: 16pt;\n"
+                "        font-size: " + qbrcommon::getDesktopScaledIntAsQString(18) + "px;\n"
                 "        color: #444444;\n"
                 "        font-weight: bold;\n"
                 "        text-align: center;\n"
@@ -42,13 +44,13 @@ QString qbrtemplate::header()
                 "    }\n"
 
                 "    .doc_section {\n"
-                "        margin-left: 20px;\n"
-                "        margin-right: 20px;\n"
+                "        margin-left: " + qbrcommon::getDesktopScaledIntAsQString(20) + "px;\n"
+                "        margin-right: " + qbrcommon::getDesktopScaledIntAsQString(20) + "px;\n"
                 "    }\n"
 
                 "    .doc_note_link {\n"
                 "        vertical-align: super;\n"
-                "        font-size: 10pt;\n"
+                "        font-size: " + qbrcommon::getDesktopScaledIntAsQString(12) + "px;\n"
                 "    }\n"
 
                 "    .doc_note_body {\n"

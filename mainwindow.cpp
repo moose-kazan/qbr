@@ -253,11 +253,11 @@ void MainWindow::bookLoadFinished(bool ok)
 
     // Fix for HiDpi screens
     // By default X.Org have 72 dpi
-    QDesktopWidget desktop;
+    /*QDesktopWidget desktop;
     if (desktop.logicalDpiY() > 72)
     {
         browser->setZoomFactor(desktop.logicalDpiY() / 72);
-    }
+    }*/
     browser->page()->history()->clear();
     if (browser->url().toLocalFile() != "")
     {

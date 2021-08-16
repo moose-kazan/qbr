@@ -16,8 +16,6 @@ bool qbrWebEnginePage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::
     (void)type;
     (void)isMainFrame;
 
-    //qDebug() << url;
-
     if (url.scheme() != "file" && url.scheme() != "data" && url.scheme() != "javascript")
     {
         QDesktopServices::openUrl(url);
@@ -25,3 +23,4 @@ bool qbrWebEnginePage::acceptNavigationRequest(const QUrl &url, QWebEnginePage::
     }
     return true;
 }
+
