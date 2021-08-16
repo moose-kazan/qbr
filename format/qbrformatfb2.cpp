@@ -99,7 +99,7 @@ QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xml
             {
                 if (curXmlNode.attributes().contains("id"))
                 {
-                    rv.append("<div class=\"" + tags_to_class.value(curXmlNode.nodeName()) + "\" id=\">");
+                    rv.append("<div class=\"" + tags_to_class.value(curXmlNode.nodeName()) + "\" id=\"");
                     rv.append(curXmlNode.attributes().namedItem("id").toAttr().value());
                     rv.append("\">");
                 }
