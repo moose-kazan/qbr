@@ -44,4 +44,6 @@ AboutDialog::AboutDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f
     //setWindowModality(Qt::ApplicationModal);
     setModal(true);
     setFixedSize(sizeHint());
+
+    setWindowTitle("About Qt Book Reader");
 }
