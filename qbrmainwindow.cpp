@@ -101,6 +101,10 @@ void QBRMainWindow::naviFindGo()
 
 void QBRMainWindow::naviFind()
 {
+    if (statusBarFileName->text().length() < 1)
+    {
+        return;
+    }
     bool visible = findChild<QWidget*>("findWidget")->isVisible();
     if (visible)
     {

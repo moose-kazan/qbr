@@ -21,7 +21,6 @@ SOURCES += \
     format/qbrformatfb2.cpp \
     format/qbrformatfb3.cpp \
     main.cpp \
-    mainwindow.cpp \
     qbrcfg.cpp \
     qbrcommon.cpp \
     qbrformat.cpp \
@@ -35,7 +34,6 @@ HEADERS += \
     format/qbrformatcbz.h \
     format/qbrformatfb2.h \
     format/qbrformatfb3.h \
-    mainwindow.h \
     qbrcfg.h \
     qbrcommon.h \
     qbrformat.h \
