@@ -25,6 +25,7 @@ SOURCES += \
     qbrcfg.cpp \
     qbrcommon.cpp \
     qbrformat.cpp \
+    qbrmainwindow.cpp \
     qbrtemplate.cpp \
     qbrwebenginepage.cpp \
     qbrzip.cpp
@@ -38,11 +39,13 @@ HEADERS += \
     qbrcfg.h \
     qbrcommon.h \
     qbrformat.h \
+    qbrmainwindow.h \
     qbrtemplate.h \
     qbrwebenginepage.h \
     qbrzip.h
 
-FORMS +=
+FORMS += \
+    qbrmainwindow.ui
 
 TRANSLATIONS += \
     QBR_en_US.ts
