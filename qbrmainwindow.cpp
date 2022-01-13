@@ -121,6 +121,8 @@ void QBRMainWindow::naviFind()
 
 void QBRMainWindow::closeEvent(QCloseEvent *event)
 {
+    positionSave();
+
     QSettings* cfg = qbrcfg::getInstance();
     cfg->setValue("geometry", saveGeometry());
     cfg->setValue("windowState", saveState());
@@ -137,6 +139,8 @@ void QBRMainWindow::readSettings()
 
 void QBRMainWindow::loadBook(QString fileName)
 {
+    positionSave();
+
     QByteArray fileData;
     try
     {
@@ -192,7 +196,34 @@ void QBRMainWindow::bookLoadFinished(bool ok)
     {
         QFile::remove(findChild<QWebEngineView*>("browser")->url().toLocalFile());
     }
+
+    positionRestore();
 }
+
+void QBRMainWindow::positionSave()
+{
+    // If no file loaded
+    if (statusBarFileName->text().length() < 1)
+    {
+        return;
+    }
+    // Save position
+    qbrWebEnginePage* wp = (qbrWebEnginePage*)findChild<QWebEngineView*>("browser")->page();
+    wp->positionSave(statusBarFileName->text());
+}
+
+void QBRMainWindow::positionRestore()
+{
+    // If no file loaded
+    if (statusBarFileName->text().length() < 1)
+    {
+        return;
+    }
+    // Restore position
+    qbrWebEnginePage* wp = (qbrWebEnginePage*)findChild<QWebEngineView*>("browser")->page();
+    wp->positionRestore(statusBarFileName->text());
+}
+
 
 QBRMainWindow::~QBRMainWindow()
 {

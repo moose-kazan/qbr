@@ -33,6 +33,9 @@ private slots:
     void naviFind();
 
 private:
+    void positionSave();
+    void positionRestore();
+
     Ui::QBRMainWindow *ui;
 };
 
