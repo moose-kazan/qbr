@@ -7,7 +7,7 @@
 
 В настоящий момент поддерживаются следующие форматы:
 * FictionBook 2.0 (fb2)
-* FictionBook 3.9 (fb3)
+* FictionBook 3.0 (fb3)
 * Comics Book Zip (cbz)
 
 Сборка на Ubuntu 20.04:
