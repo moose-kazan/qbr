@@ -80,6 +80,20 @@ QString qbrtemplate::header()
                 "        width: 100%;\n"
                 "        text-align: center;\n"
                 "    }\n"
+
+                "   .amb_body {\n"
+                "       font-family: 'Roboto Mono', monospace;\n"
+                //"       white-space: pre;\n"
+                "   }\n"
+
+                "   span.amb_notice {\n"
+                "       color: #333300;\n"
+                "   }\n"
+
+                "   span.amb_boring {\n"
+                "       color: 888888;\n"
+                "   }\n"
+
                 "</style>\n"
                 "</head>\n"
                 "<body>\n"

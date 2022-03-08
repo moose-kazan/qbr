@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     aboutdialog.cpp \
+    format/qbrformatamb.cpp \
     format/qbrformatcbz.cpp \
     format/qbrformatfb2.cpp \
     format/qbrformatfb3.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 
 HEADERS += \
     aboutdialog.h \
+    format/qbrformatamb.h \
     format/qbrformatcbz.h \
     format/qbrformatfb2.h \
     format/qbrformatfb3.h \

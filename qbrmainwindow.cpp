@@ -6,6 +6,7 @@
 #include "qbrcfg.h"
 
 #include "qbrformat.h"
+#include "format/qbrformatamb.h"
 #include "format/qbrformatcbz.h"
 #include "format/qbrformatfb2.h"
 #include "format/qbrformatfb3.h"
@@ -41,7 +42,7 @@ QBRMainWindow::QBRMainWindow(QWidget *parent) :
 
 void QBRMainWindow::openFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), tr(""), tr("Books (*.fb2 *.fb3 *.cbz)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), tr(""), tr("Books (*.amb *.fb2 *.fb3 *.cbz)"));
     if (fileName != "")
     {
         loadBook(fileName);
@@ -165,6 +166,7 @@ void QBRMainWindow::loadBook(QString fileName)
         return;
     }
     QList<qbrformat*> parsers;
+    parsers.append(new qbrformatamb());
     parsers.append(new qbrformatcbz());
     parsers.append(new qbrformatfb2());
     parsers.append(new qbrformatfb3());
