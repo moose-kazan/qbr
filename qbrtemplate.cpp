@@ -94,6 +94,17 @@ QString qbrtemplate::header()
                 "       color: 888888;\n"
                 "   }\n"
 
+                "   .amb_part_header {\n"
+                "       display: block;\n"
+                "       background-color: #666666;\n"
+                "       color: #ffeeaa;\n"
+                "       padding: 3px;\n"
+                "   }\n"
+
+                "   .amb_part_header a {\n"
+                "       color: #ffffff;"
+                "   }\n"
+
                 "</style>\n"
                 "</head>\n"
                 "<body>\n"

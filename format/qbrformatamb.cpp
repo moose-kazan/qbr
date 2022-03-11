@@ -129,6 +129,12 @@ QString qbrformatamb::amaToHtml(QString fileName)
     rv.append(fileName);
     rv.append("\">\n");
 
+    rv.append("<div class=\"amb_part_header\">");
+    rv.append("Part name: ");
+    rv.append(fileName);
+    rv.append(". <a href=\"#index.ama\">Go to index</a>.");
+    rv.append("</div>\n");
+
     QString fileData = convertToUtf8(ambEntries.value(fileName, ""));
 
     bool readlink = false;

@@ -9,6 +9,7 @@
 * FictionBook 2.0 (fb2)
 * FictionBook 3.0 (fb3)
 * Comics Book Zip (cbz)
+* Ancient Machine Book (amb)
 
 Сборка на Ubuntu 20.04:
 1. Склонировать репозиторий
@@ -22,6 +23,7 @@ For now support the next file formats:
 * FictionBook 2.0 (fb2)
 * FictionBook 3.0 (fb3)
 * Comics Book Zip (cbz)
+* Ancient Machine Book (amb)
 
 Build on Ubuntu 20.04:
 1. Clone this repository
