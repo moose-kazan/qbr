@@ -5,6 +5,7 @@
 #include <QtEndian>
 #include <QUrl>
 #include <QDebug>
+#include <QCollator>
 
 /*
  * AMB support
@@ -62,12 +63,31 @@ bool qbrformatamb::parseAmb(QByteArray fileData)
                 amaToHtml("index.ama")
             );
 
-    for (int i = 0; i < ambEntries.keys().length(); i++)
+    // Sort entry names with QCollator. It's fix some issues fith numbers
+    QStringList entryNames = ambEntries.keys();
+    QCollator collator;
+    collator.setNumericMode(true);
+
+    for (int i = 0; i < entryNames.length() - 1; i++)
     {
-        if (ambEntries.keys().at(i) != "index.ama" && ambEntries.keys().at(i).endsWith(".ama"))
+        for (int j = i+1; j < entryNames.length(); j++)
+        {
+            int r = collator.compare(entryNames.at(i), entryNames.at(j));
+            if (r > 0)
+            {
+                QString tmp = entryNames.at(i);
+                entryNames.replace(i, entryNames.at(j));
+                entryNames.replace(j, tmp);
+            }
+        }
+    }
+
+    for (int i = 0; i < entryNames.length(); i++)
+    {
+        if (entryNames.at(i) != "index.ama" && entryNames.at(i).endsWith(".ama"))
         {
             htmlData.append(
-                        amaToHtml(ambEntries.keys().at(i))
+                        amaToHtml(entryNames.at(i))
                     );
         }
     }
