@@ -1,0 +1,5 @@
+qbr (0.0.1) none; urgency=medium
+
+  * Initial release with dpkg
+
+ -- Vadim Kalinnikov <moose@ylsoftware.com>  Sun, 15 Apr 2022 05:03:00 +0300

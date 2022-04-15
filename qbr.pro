@@ -48,12 +48,33 @@ FORMS += \
     qbrmainwindow.ui
 
 TRANSLATIONS += \
-    QBR_en_US.ts
+    qbr_en_US.ts
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
+
+unix: {
+    isEmpty(PREFIX) {
+        PREFIX = /usr/local
+    }
+
+    SRCDIR = $${PWD}
+    BINDIR = $${PREFIX}/bin
+    DATADIR = $${PREFIX}/share
+
+
+    target.path = $${BINDIR}
+
+    desktop.files = $${SRCDIR}/QBR.desktop
+    desktop.path = $${DATADIR}/applications
+
+    icon.files = $${SRCDIR}/icon/512x512/qbr.png
+    icon.path = $${DATADIR}/icons
+
+    INSTALLS += target desktop icon
+}
 
 #unix: CONFIG += link_pkgconfig
 #unix: PKGCONFIG += libzip
@@ -61,4 +82,22 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 LIBS += -lquazip5
 
 RESOURCES += \
-    QBR.qrc
+    qbr.qrc
+
+DISTFILES += \
+    qbr.desktop \
+    debian/source/format \
+    debian/control \
+    debian/rules \
+    debian/compat \
+    debian/changelog \
+    debian/copyright \
+    icon/16x16/qbr.png \
+    icon/24x24/qbr.png \
+    icon/32x32/qbr.png \
+    icon/48x48/qbr.png \
+    icon/64x64/qbr.png \
+    icon/96x96/qbr.png \
+    icon/128x128/qbr.png \
+    icon/256x256/qbr.png \
+    icon/512x512/qbr.png

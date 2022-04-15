@@ -1,0 +1,15 @@
+Source: qbr
+Section: text
+Priority: optional
+Maintainer: Vadim Kalinnikov <moose@ylsoftware.com>
+Build-Depends: debhelper (>= 7), qt5-qmake, qt5-default, qtwebengine5-dev, libquazip5-dev
+Standards-Version: 4.5.0
+Homepage: https://github.com/moose-kazan/qbr
+Vcs-Git: https://github.com/moose-kazan/qbr.git
+Vcs-Browser: https://github.com/moose-kazan/qbr.git
+
+Package: qbr
+Architecture: any
+Depends: ${misc:Depends}
+Description: Simple book reader, written on C++ with Qt5 toolkit.
+
