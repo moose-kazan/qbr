@@ -2,6 +2,7 @@
 #define QBRZIP_H
 
 #include <quazip5/quazip.h>
+#include <quazip5/quazipfile.h>
 
 #include <QByteArray>
 #include <QStringList>

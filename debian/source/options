@@ -1,0 +1,4 @@
+tar-ignore=build
+tar-ignore=.git
+tar-ignore=tests
+tar-ignore=icon-src

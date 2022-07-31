@@ -1,6 +1,4 @@
 #include "qbrzip.h"
-#include <quazip/quazip.h>
-#include <quazip/quazipfile.h>
 
 #include <QByteArray>
 #include <QBuffer>

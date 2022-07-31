@@ -1,4 +1,18 @@
-qbr (0.0.1) none; urgency=medium
+qbr (0.0.3-ppa1) none; urgency=medium
+
+  * Fixed build on ubuntu 22.04
+
+ -- Vadim Kalinnikov <moose@ylsoftware.com>  Sun, 31 Jul 2022 08:39:00 +0300
+
+
+qbr (0.0.2-ppa1) none; urgency=medium
+
+  * Small fixes
+
+ -- Vadim Kalinnikov <moose@ylsoftware.com>  Sun, 31 Jul 2022 04:19:00 +0300
+
+
+qbr (0.0.1-ppa1) none; urgency=medium
 
   * Initial release with dpkg
 
