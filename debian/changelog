@@ -1,3 +1,10 @@
+qbr (0.0.3-ppa4) jammy; urgency=medium
+
+  * Fixed distroseries name to jammy
+
+ -- Vadim Kalinnikov <moose@ylsoftware.com>  Sun, 31 Jul 2022 08:50:00 +0300
+
+
 qbr (0.0.3-ppa1) none; urgency=medium
 
   * Fixed build on ubuntu 22.04
