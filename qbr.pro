@@ -16,36 +16,36 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    aboutdialog.cpp \
-    format/qbrformatamb.cpp \
-    format/qbrformatcbz.cpp \
-    format/qbrformatfb2.cpp \
-    format/qbrformatfb3.cpp \
-    main.cpp \
-    qbrcfg.cpp \
-    qbrcommon.cpp \
-    qbrformat.cpp \
-    qbrmainwindow.cpp \
-    qbrtemplate.cpp \
-    qbrwebenginepage.cpp \
-    qbrzip.cpp
+    src/aboutdialog.cpp \
+    src/format/qbrformatamb.cpp \
+    src/format/qbrformatcbz.cpp \
+    src/format/qbrformatfb2.cpp \
+    src/format/qbrformatfb3.cpp \
+    src/main.cpp \
+    src/qbrcfg.cpp \
+    src/qbrcommon.cpp \
+    src/qbrformat.cpp \
+    src/qbrmainwindow.cpp \
+    src/qbrtemplate.cpp \
+    src/qbrwebenginepage.cpp \
+    src/qbrzip.cpp
 
 HEADERS += \
-    aboutdialog.h \
-    format/qbrformatamb.h \
-    format/qbrformatcbz.h \
-    format/qbrformatfb2.h \
-    format/qbrformatfb3.h \
-    qbrcfg.h \
-    qbrcommon.h \
-    qbrformat.h \
-    qbrmainwindow.h \
-    qbrtemplate.h \
-    qbrwebenginepage.h \
-    qbrzip.h
+    src/aboutdialog.h \
+    src/format/qbrformatamb.h \
+    src/format/qbrformatcbz.h \
+    src/format/qbrformatfb2.h \
+    src/format/qbrformatfb3.h \
+    src/qbrcfg.h \
+    src/qbrcommon.h \
+    src/qbrformat.h \
+    src/qbrmainwindow.h \
+    src/qbrtemplate.h \
+    src/qbrwebenginepage.h \
+    src/qbrzip.h
 
 FORMS += \
-    qbrmainwindow.ui
+    src/qbrmainwindow.ui
 
 TRANSLATIONS += \
     qbr_en_US.ts
@@ -82,7 +82,7 @@ unix: {
 LIBS += -lquazip5
 
 RESOURCES += \
-    qbr.qrc
+    src/qbr.qrc
 
 DISTFILES += \
     qbr.desktop \
