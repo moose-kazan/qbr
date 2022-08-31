@@ -31,6 +31,7 @@ private slots:
     void naviGoForward();
     void naviFindGo();
     void naviFind();
+    void settingsShow();
 
 private:
     void positionSave();

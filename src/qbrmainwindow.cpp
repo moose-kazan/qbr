@@ -1,6 +1,7 @@
 #include "qbrmainwindow.h"
 #include "ui_qbrmainwindow.h"
 #include "aboutdialog.h"
+#include "qbrsettingsdialog.h"
 #include "qbrtemplate.h"
 #include "qbrwebenginepage.h"
 #include "qbrcfg.h"
@@ -120,6 +121,17 @@ void QBRMainWindow::naviFind()
     }
 }
 
+void QBRMainWindow::settingsShow()
+{
+    QBRSettingsDialog *settingsDlg = new QBRSettingsDialog(this, Qt::Dialog);
+    settingsDlg->settingsLoad();
+    if (settingsDlg->exec() == QDialog::Accepted)
+    {
+        settingsDlg->settingsSave();
+        readSettings();
+    }
+}
+
 void QBRMainWindow::closeEvent(QCloseEvent *event)
 {
     positionSave();
@@ -136,6 +148,26 @@ void QBRMainWindow::readSettings()
     QSettings* cfg = qbrcfg::getInstance();
     restoreGeometry(cfg->value("geometry").toByteArray());
     restoreState(cfg->value("windowState").toByteArray());
+
+    statusBar()->setVisible(qbrcfg::getStatusBarEnabled());
+
+    switch(qbrcfg::getUiVariant())
+    {
+        case qbrcfg::uiMenuOnly:
+            menuBar()->setVisible(true);
+            findChild<QToolBar*>("toolBar")->setVisible(false);
+
+        break;
+
+        case qbrcfg::uiToolbarOnly:
+            menuBar()->setVisible(false);
+            findChild<QToolBar*>("toolBar")->setVisible(true);
+        break;
+
+        default:
+            menuBar()->setVisible(true);
+            findChild<QToolBar*>("toolBar")->setVisible(true);
+    }
 }
 
 void QBRMainWindow::loadBook(QString fileName)

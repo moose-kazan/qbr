@@ -15,3 +15,23 @@ QSettings* qbrcfg::getInstance()
     }
     return cfg;
 }
+
+bool qbrcfg::getStatusBarEnabled()
+{
+    return getInstance()->value("statusBarEnabled", true).toBool();
+}
+void qbrcfg::setStatusBarEnabled(bool enabled)
+{
+    getInstance()->setValue("statusBarEnabled", enabled);
+}
+
+int qbrcfg::getUiVariant()
+{
+     return getInstance()->value("uiVariant", 0).toInt();
+}
+
+void qbrcfg::setUiVariant(int uiVaraint)
+{
+    getInstance()->setValue("uiVariant", uiVaraint);
+}
+

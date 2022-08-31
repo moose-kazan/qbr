@@ -26,6 +26,7 @@ SOURCES += \
     src/qbrcommon.cpp \
     src/qbrformat.cpp \
     src/qbrmainwindow.cpp \
+    src/qbrsettingsdialog.cpp \
     src/qbrtemplate.cpp \
     src/qbrwebenginepage.cpp \
     src/qbrzip.cpp
@@ -40,12 +41,14 @@ HEADERS += \
     src/qbrcommon.h \
     src/qbrformat.h \
     src/qbrmainwindow.h \
+    src/qbrsettingsdialog.h \
     src/qbrtemplate.h \
     src/qbrwebenginepage.h \
     src/qbrzip.h
 
 FORMS += \
-    src/qbrmainwindow.ui
+    src/qbrmainwindow.ui \
+    src/qbrsettingsdialog.ui
 
 TRANSLATIONS += \
     qbr_en_US.ts

@@ -112,6 +112,9 @@
     </property>
     <addaction name="actionOpen_File"/>
     <addaction name="actionSave_as"/>
+    <addaction name="separator"/>
+    <addaction name="actionSettings"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuNavigation">
@@ -157,6 +160,8 @@
    <addaction name="actionGo_forward"/>
    <addaction name="separator"/>
    <addaction name="actionFind_text"/>
+   <addaction name="separator"/>
+   <addaction name="actionSettings"/>
    <addaction name="separator"/>
    <addaction name="actionAbout"/>
   </widget>
@@ -242,6 +247,15 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset theme="settings">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>
@@ -414,6 +428,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSettings</sender>
+   <signal>triggered()</signal>
+   <receiver>QBRMainWindow</receiver>
+   <slot>settingsShow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>493</x>
+     <y>234</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>helpAbout()</slot>
@@ -424,5 +454,6 @@
   <slot>naviGoForward()</slot>
   <slot>naviFindGo()</slot>
   <slot>saveFileAs()</slot>
+  <slot>settingsShow()</slot>
  </slots>
 </ui>
