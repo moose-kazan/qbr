@@ -2,6 +2,7 @@
 #define QBRCFG_H
 
 #include <QSettings>
+#include <QPointF>
 
 class qbrcfg
 {
@@ -13,10 +14,21 @@ public:
     static const int uiToolbarOnly = 2;
 
     static QSettings* getInstance();
+
     static bool getStatusBarEnabled();
     static void setStatusBarEnabled(bool enabled);
+
     static int getUiVariant();
     static void setUiVariant(int setUiVariant);
+
+    static void setFilePosition(QString fileName, QPointF pos);
+    static QPointF getFilePosition(QString fileName);
+
+    static QByteArray getMainWindowState();
+    static void setMainWindowState(QByteArray state);
+
+    static QByteArray getMainWindowGeometry();
+    static void setMainWindowGeometry(QByteArray geometry);
 
 protected:
     static QSettings* cfg;

@@ -135,19 +135,17 @@ void QBRMainWindow::settingsShow()
 void QBRMainWindow::closeEvent(QCloseEvent *event)
 {
     positionSave();
+    qbrcfg::setMainWindowState(saveState());
+    qbrcfg::setMainWindowGeometry(saveGeometry());
 
-    QSettings* cfg = qbrcfg::getInstance();
-    cfg->setValue("geometry", saveGeometry());
-    cfg->setValue("windowState", saveState());
     QMainWindow::closeEvent(event);
 
 }
 
 void QBRMainWindow::readSettings()
 {
-    QSettings* cfg = qbrcfg::getInstance();
-    restoreGeometry(cfg->value("geometry").toByteArray());
-    restoreState(cfg->value("windowState").toByteArray());
+    restoreGeometry(qbrcfg::getMainWindowGeometry());
+    restoreState(qbrcfg::getMainWindowState());
 
     statusBar()->setVisible(qbrcfg::getStatusBarEnabled());
 
