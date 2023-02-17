@@ -17,6 +17,9 @@ void QBRSettingsDialog::settingsLoad()
     QCheckBox *statusBarEnable = findChild<QCheckBox*>("statusBarEnable");
     statusBarEnable->setChecked(qbrcfg::getStatusBarEnabled());
 
+    QCheckBox *enableLoadLast = findChild<QCheckBox*>("enableLoadLast");
+    enableLoadLast->setChecked(qbrcfg::getLastOpenedFileEnable());
+
     switch(qbrcfg::getUiVariant())
     {
         case qbrcfg::uiMenuOnly:
@@ -35,6 +38,7 @@ void QBRSettingsDialog::settingsLoad()
 void QBRSettingsDialog::settingsSave()
 {
     qbrcfg::setStatusBarEnabled(findChild<QCheckBox*>("statusBarEnable")->isChecked());
+    qbrcfg::setLastOpenedFileEnable(findChild<QCheckBox*>("enableLoadLast")->isChecked());
 
     if (findChild<QRadioButton*>("uiMenuOnly")->isChecked())
     {

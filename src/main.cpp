@@ -1,4 +1,5 @@
 #include "qbrmainwindow.h"
+#include "qbrcfg.h"
 
 #include <QApplication>
 #include <QIcon>
@@ -12,6 +13,9 @@ int main(int argc, char *argv[])
     if (argc > 1)
     {
         w.loadBook(argv[1]);
+    }
+    else if (qbrcfg::getLastOpenedFileEnable() && qbrcfg::getLastOpenedFile().length() > 0) {
+        w.loadBook(qbrcfg::getLastOpenedFile());
     }
     return a.exec();
 }

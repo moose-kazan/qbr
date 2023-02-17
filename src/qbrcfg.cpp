@@ -71,4 +71,20 @@ void qbrcfg::setMainWindowGeometry(QByteArray geometry)
     getInstance()->setValue("mainWindowGeometry", geometry);
 }
 
+QString qbrcfg::getLastOpenedFile() {
+    return getInstance()->value("LastOpenedFileName", "").toString();
+}
+
+void qbrcfg::setLastOpenedFile(QString fileName) {
+    getInstance()->setValue("LastOpenedFileName", fileName);
+}
+
+bool qbrcfg::getLastOpenedFileEnable() {
+    return getInstance()->value("LastOpenedFileNameEnable", true).toBool();
+}
+
+void qbrcfg::setLastOpenedFileEnable(bool enable) {
+    getInstance()->setValue("LastOpenedFileNameEnable", enable);
+}
+
 

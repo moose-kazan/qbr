@@ -137,6 +137,9 @@ void QBRMainWindow::closeEvent(QCloseEvent *event)
     positionSave();
     qbrcfg::setMainWindowState(saveState());
     qbrcfg::setMainWindowGeometry(saveGeometry());
+    if (statusBarFileName->text().length() > 0) {
+        qbrcfg::setLastOpenedFile(statusBarFileName->text());
+    }
 
     QMainWindow::closeEvent(event);
 

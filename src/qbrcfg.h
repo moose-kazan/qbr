@@ -30,6 +30,12 @@ public:
     static QByteArray getMainWindowGeometry();
     static void setMainWindowGeometry(QByteArray geometry);
 
+    static QString getLastOpenedFile();
+    static void setLastOpenedFile(QString fileName);
+
+    static bool getLastOpenedFileEnable();
+    static void setLastOpenedFileEnable(bool enable);
+
 protected:
     static QSettings* cfg;
 };
