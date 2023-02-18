@@ -1,3 +1,12 @@
+qbr (0.0.4-ppa1) jammy; urgency=medium
+
+  * Added settings dialog
+  * Load last opened file on start
+  * Some refactoring
+
+-- Vadim Kalinnikov <moose@ylsoftware.com>  Sat, 18 Feb 2023 05:53:00 +0300
+
+
 qbr (0.0.3-ppa4) jammy; urgency=medium
 
   * Fixed distroseries name to jammy
