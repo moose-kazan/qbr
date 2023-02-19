@@ -3,10 +3,23 @@
 
 #include <QApplication>
 #include <QIcon>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
+    QString currentLocale = QLocale::system().name();
+    currentLocale.truncate(currentLocale.lastIndexOf('_'));
+    QString langFilePath = ":/languages/qbr_";
+    langFilePath.append(currentLocale);
+    langFilePath.append(".qm");
+
     QApplication a(argc, argv);
+
+    QTranslator translator;
+    if (translator.load(langFilePath)) {
+        a.installTranslator(&translator);
+    }
+
     a.setWindowIcon(QIcon(":/icon/64x64/qbr.png"));
     QBRMainWindow w;
     w.show();

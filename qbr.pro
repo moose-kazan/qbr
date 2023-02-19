@@ -51,7 +51,8 @@ FORMS += \
     src/qbrsettingsdialog.ui
 
 TRANSLATIONS += \
-    qbr_en_US.ts
+    src/languages/qbr_en.ts \
+    src/languages/qbr_ru.ts
 
 # Default rules for deployment.
 #qnx: target.path = /tmp/$${TARGET}/bin
@@ -95,12 +96,12 @@ DISTFILES += \
     debian/compat \
     debian/changelog \
     debian/copyright \
-    icon/16x16/qbr.png \
-    icon/24x24/qbr.png \
-    icon/32x32/qbr.png \
-    icon/48x48/qbr.png \
-    icon/64x64/qbr.png \
-    icon/96x96/qbr.png \
-    icon/128x128/qbr.png \
-    icon/256x256/qbr.png \
-    icon/512x512/qbr.png
+    src/icon/16x16/qbr.png \
+    src/icon/24x24/qbr.png \
+    src/icon/32x32/qbr.png \
+    src/icon/48x48/qbr.png \
+    src/icon/64x64/qbr.png \
+    src/icon/96x96/qbr.png \
+    src/icon/128x128/qbr.png \
+    src/icon/256x256/qbr.png \
+    src/icon/512x512/qbr.png
