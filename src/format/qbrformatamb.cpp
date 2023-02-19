@@ -16,12 +16,17 @@
  * And here: https://osdn.net/projects/amb/scm/svn/tree/head/phpamb/
  */
 
-qbrformatamb::qbrformatamb()
+QBRFormatAMB::QBRFormatAMB()
 {
 
 }
 
-bool qbrformatamb::parseAmb(QByteArray fileData)
+QStringList QBRFormatAMB::getExtensions()
+{
+    return QStringList("amb");
+}
+
+bool QBRFormatAMB::parseAmb(QByteArray fileData)
 {
     // Check file signature
     if (!fileData.startsWith("AMB1"))
@@ -100,7 +105,7 @@ bool qbrformatamb::parseAmb(QByteArray fileData)
     return true;
 }
 
-QString qbrformatamb::convertToUtf8(QByteArray fileData)
+QString QBRFormatAMB::convertToUtf8(QByteArray fileData)
 {
     QString rv;
     for (int i = 0; i < fileData.size(); i++)
@@ -121,7 +126,7 @@ QString qbrformatamb::convertToUtf8(QByteArray fileData)
     return rv;
 }
 
-QString qbrformatamb::amaToHtml(QString fileName)
+QString QBRFormatAMB::amaToHtml(QString fileName)
 {
     QString rv;
 
@@ -238,7 +243,7 @@ QString qbrformatamb::amaToHtml(QString fileName)
     return rv;
 }
 
-bool qbrformatamb::loadFile(QString fileName, QByteArray fileData)
+bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData)
 {
     /*
      * AMB file have hard-defined signature. We use it to detect
@@ -262,7 +267,7 @@ bool qbrformatamb::loadFile(QString fileName, QByteArray fileData)
     return false;
 }
 
-QString qbrformatamb::getHtml()
+QString QBRFormatAMB::getHtml()
 {
     return htmlData;
 }

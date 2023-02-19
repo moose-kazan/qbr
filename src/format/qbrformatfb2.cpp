@@ -13,12 +13,17 @@
 
 #include <QDebug>
 
-qbrformatfb2::qbrformatfb2()
+QBRFormatFB2::QBRFormatFB2()
 {
 
 }
 
-QString qbrformatfb2::parseXmlTextFromNode(QDomNode xmlNode)
+QStringList QBRFormatFB2::getExtensions()
+{
+    return QStringList("fb2");
+}
+
+QString QBRFormatFB2::parseXmlTextFromNode(QDomNode xmlNode)
 {
     if (xmlNode.isText())
     {
@@ -33,7 +38,7 @@ QString qbrformatfb2::parseXmlTextFromNode(QDomNode xmlNode)
     return rv;
 }
 
-QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xmlImages)
+QString QBRFormatFB2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xmlImages)
 {
     QHash<QString, QString> base_tags;
     base_tags.insert("strong", "strong");
@@ -165,7 +170,7 @@ QString qbrformatfb2::parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xml
     return rv;
 }
 
-bool qbrformatfb2::parseXml(QByteArray fileData)
+bool QBRFormatFB2::parseXml(QByteArray fileData)
 {
 
     QDomDocument* parserXml = new QDomDocument();
@@ -228,7 +233,7 @@ bool qbrformatfb2::parseXml(QByteArray fileData)
     return true;
 }
 
-bool qbrformatfb2::loadFile(QString fileName, QByteArray fileData)
+bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData)
 {
     (void)fileName; // Remove "unused parameter" warning
     try
@@ -243,7 +248,7 @@ bool qbrformatfb2::loadFile(QString fileName, QByteArray fileData)
     return false;
 }
 
-QString qbrformatfb2::getHtml()
+QString QBRFormatFB2::getHtml()
 {
     return htmlData;
 }

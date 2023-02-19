@@ -12,12 +12,17 @@
 #include <QDebug>
 #include <QFile>
 
-qbrformatcbz::qbrformatcbz()
+QBRFormatCBZ::QBRFormatCBZ()
 {
 
 }
 
-bool qbrformatcbz::loadFile(QString fileName, QByteArray fileData)
+QStringList QBRFormatCBZ::getExtensions()
+{
+    return QStringList("cbz");
+}
+
+bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData)
 {
     QRegExp rx("\\.cbz$", Qt::CaseInsensitive);
     if (rx.indexIn(fileName) < 0)
@@ -74,7 +79,7 @@ bool qbrformatcbz::loadFile(QString fileName, QByteArray fileData)
     return true;
 }
 
-QString qbrformatcbz::getHtml()
+QString QBRFormatCBZ::getHtml()
 {
     return htmlData;
 }

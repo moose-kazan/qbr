@@ -7,11 +7,12 @@
 #include <QDomNode>
 
 
-class qbrformatfb2 : public qbrformat
+class QBRFormatFB2 : public QBRFormat
 {
 public:
-    qbrformatfb2();
+    QBRFormatFB2();
     bool loadFile(QString fileName, QByteArray fileData) override;
+    QStringList getExtensions() override;
     QString getHtml() override;
 
 private:

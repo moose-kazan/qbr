@@ -6,11 +6,12 @@
 #include <QString>
 
 
-class qbrformatcbz : public qbrformat
+class QBRFormatCBZ : public QBRFormat
 {
 public:
-    qbrformatcbz();
+    QBRFormatCBZ();
     bool loadFile(QString fileName, QByteArray fileData) override;
+    QStringList getExtensions() override;
     QString getHtml() override;
 private:
     QString htmlData;

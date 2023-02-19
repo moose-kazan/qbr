@@ -20,12 +20,17 @@
  * Many ideas found at: https://github.com/gribuser/FB3
  */
 
-qbrformatfb3::qbrformatfb3() : unZip(false)
+QBRFormatFB3::QBRFormatFB3() : unZip(false)
 {
 
 }
 
-bool qbrformatfb3::loadFile(QString fileName, QByteArray fileData)
+QStringList QBRFormatFB3::getExtensions()
+{
+    return QStringList("fb3");
+}
+
+bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData)
 {
     QRegExp rx("\\.fb3$", Qt::CaseInsensitive);
     if (rx.indexIn(fileName) < 0)
@@ -41,7 +46,7 @@ bool qbrformatfb3::loadFile(QString fileName, QByteArray fileData)
     return parseFile(fileData);
 }
 
-QString qbrformatfb3::parseFB3TextFromNode(QDomNode xmlNode)
+QString QBRFormatFB3::parseFB3TextFromNode(QDomNode xmlNode)
 {
     if (xmlNode.isText())
     {
@@ -56,7 +61,7 @@ QString qbrformatfb3::parseFB3TextFromNode(QDomNode xmlNode)
     return rv;
 }
 
-QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
+QString QBRFormatFB3::parseFB3Node(QDomNode xmlNode)
 {
     QHash<QString, QString> base_tags;
     base_tags.insert("strong", "strong");
@@ -184,7 +189,7 @@ QString qbrformatfb3::parseFB3Node(QDomNode xmlNode)
 }
 
 
-bool qbrformatfb3::parseFile(QByteArray fileData)
+bool QBRFormatFB3::parseFile(QByteArray fileData)
 {
     if (!unZip.setData(fileData))
     {
@@ -379,7 +384,7 @@ bool qbrformatfb3::parseFile(QByteArray fileData)
     return true;
 }
 
-QString qbrformatfb3::getHtml()
+QString QBRFormatFB3::getHtml()
 {
     return htmlData;
 }

@@ -6,11 +6,12 @@
 #include <QString>
 #include <QHash>
 
-class qbrformatamb : public qbrformat
+class QBRFormatAMB : public QBRFormat
 {
 public:
-    qbrformatamb();
+    QBRFormatAMB();
     bool loadFile(QString fileName, QByteArray fileData) override;
+    QStringList getExtensions() override;
     QString getHtml() override;
 private:
     bool parseAmb(QByteArray fileData);

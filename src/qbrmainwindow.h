@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include "qbrformat.h"
 
 namespace Ui {
 class QBRMainWindow;
@@ -38,6 +39,7 @@ private:
     void positionRestore();
 
     Ui::QBRMainWindow *ui;
+    QList<QBRFormat*> bookParsers;
 };
 
 #endif // QBRMAINWINDOW_H

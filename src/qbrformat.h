@@ -3,13 +3,15 @@
 
 #include <QString>
 #include <QByteArray>
+#include <QStringList>
 
-class qbrformat
+class QBRFormat
 {
 public:
-    qbrformat();
+    QBRFormat();
     virtual bool loadFile(QString fileName, QByteArray fileData) { return fileName != "" && fileData.size() > 0 && false; };
     virtual QString getHtml() { return QString(""); };
+    virtual QStringList getExtensions() { return QStringList(); };
     bool isZipFile(QByteArray data);
 };
 

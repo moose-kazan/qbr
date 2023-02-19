@@ -10,11 +10,12 @@
 #include <QHash>
 
 
-class qbrformatfb3 : public qbrformat
+class QBRFormatFB3 : public QBRFormat
 {
 public:
-    qbrformatfb3();
+    QBRFormatFB3();
     bool loadFile(QString fileName, QByteArray fileData) override;
+    QStringList getExtensions() override;
     QString getHtml() override;
 
 private:

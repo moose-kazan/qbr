@@ -17,11 +17,18 @@
 #include <QLabel>
 #include <QTemporaryFile>
 #include <QWebEngineHistory>
+#include <QStandardPaths>
 
 QBRMainWindow::QBRMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::QBRMainWindow)
 {
+
+    bookParsers.append(new QBRFormatAMB());
+    bookParsers.append(new QBRFormatCBZ());
+    bookParsers.append(new QBRFormatFB2());
+    bookParsers.append(new QBRFormatFB3());
+
     ui->setupUi(this);
 
     findChild<QWidget*>("findWidget")->setVisible(false);
@@ -43,7 +50,26 @@ QBRMainWindow::QBRMainWindow(QWidget *parent) :
 
 void QBRMainWindow::openFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), tr(""), tr("Books (*.amb *.fb2 *.fb3 *.cbz)"));
+    // Start path: by default - $HOME, but if exists - xdg-documents
+    QString filterPath = QDir::homePath();
+    if (QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).count() > 0) {
+        filterPath = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).at(0);
+    }
+
+    // All extensiosn from parsers
+    QStringList allExt;
+    for (int i = 0; i < bookParsers.count(); i++) {
+        allExt.append(bookParsers.at(i)->getExtensions());
+    }
+    allExt.replaceInStrings(QRegExp("^"), "*.");
+
+    // Filter line
+    QString filterLine = QString(tr("Books (%1)")).arg(allExt.join(" "));
+    QString fileName = QFileDialog::getOpenFileName(
+                this,
+                tr("Open File"),
+                filterPath,
+                filterLine);
     if (fileName != "")
     {
         loadBook(fileName);
@@ -57,7 +83,21 @@ void QBRMainWindow::saveFileAs()
     {
         return;
     }
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."), tr(""), tr("Html pages (*.html *.html)"));
+
+    // Start path: by default - $HOME, but if exists - xdg-documents
+    QString filterPath = QDir::homePath();
+    if (QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).count() > 0) {
+        filterPath = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).at(0);
+    }
+
+    // Filter line
+    QString filterLine = QString(tr("Html pages (%1)")).arg("*.htm *.html");
+
+    QString fileName = QFileDialog::getSaveFileName(
+                this,
+                tr("Save file as..."),
+                filterPath,
+                filterLine);
     if (fileName != "")
     {
         findChild<QWebEngineView*>("browser")->page()->toHtml([fileName](QString htmlData){
@@ -198,19 +238,14 @@ void QBRMainWindow::loadBook(QString fileName)
         QMessageBox::critical(this, tr("Can't load book"), tr("I/O error!"));
         return;
     }
-    QList<qbrformat*> parsers;
-    parsers.append(new qbrformatamb());
-    parsers.append(new qbrformatcbz());
-    parsers.append(new qbrformatfb2());
-    parsers.append(new qbrformatfb3());
 
-    for (int i = 0; i < parsers.count(); i++) {
-        if (parsers.at(i)->loadFile(fileName, fileData)) {
+    for (int i = 0; i < bookParsers.count(); i++) {
+        if (bookParsers.at(i)->loadFile(fileName, fileData)) {
             QTemporaryFile f(QDir::tempPath() + "/QBR.XXXXXXX.html");
             f.setAutoRemove(false);
             if(f.open())
             {
-                f.write(parsers.at(i)->getHtml().toUtf8());
+                f.write(bookParsers.at(i)->getHtml().toUtf8());
                 f.close();
 
                 findChild<QWebEngineView*>("browser")->load(QUrl::fromLocalFile(f.fileName()));
