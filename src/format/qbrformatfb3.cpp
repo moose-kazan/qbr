@@ -12,8 +12,7 @@
 #include <QHash>
 #include <QStringList>
 #include <QFileInfo>
-#include <QUrl>;
-
+#include <QUrl>
 #include <QDebug>
 
 /*
