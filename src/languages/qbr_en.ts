@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../aboutdialog.cpp" line="49"/>
+        <source>About Qt Book Reader</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QBRMainWindow</name>
     <message>
         <location filename="../qbrmainwindow.ui" line="20"/>

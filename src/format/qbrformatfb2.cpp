@@ -235,6 +235,7 @@ bool QBRFormatFB2::parseXml(QByteArray fileData)
 
 bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData)
 {
+    htmlData = ""; // reset data from previous file
     (void)fileName; // Remove "unused parameter" warning
     try
     {

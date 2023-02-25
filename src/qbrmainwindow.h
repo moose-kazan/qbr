@@ -35,6 +35,7 @@ private slots:
     void settingsShow();
 
 private:
+    void readState();
     void positionSave();
     void positionRestore();
 

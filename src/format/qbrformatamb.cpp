@@ -245,6 +245,7 @@ QString QBRFormatAMB::amaToHtml(QString fileName)
 
 bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData)
 {
+    htmlData = ""; // reset data from previous file
     /*
      * AMB file have hard-defined signature. We use it to detect
      *

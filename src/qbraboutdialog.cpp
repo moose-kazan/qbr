@@ -1,4 +1,4 @@
-#include "aboutdialog.h"
+#include "qbraboutdialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QPixmap>
 
-AboutDialog::AboutDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f)
+QBRAboutDialog::QBRAboutDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f)
 {
     QVBoxLayout *rootVLayout = new QVBoxLayout();
     QHBoxLayout *mainLayout = new QHBoxLayout();
@@ -46,5 +46,5 @@ AboutDialog::AboutDialog(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f
     setModal(true);
     setFixedSize(sizeHint());
 
-    setWindowTitle("About Qt Book Reader");
+    setWindowTitle(tr("About Qt Book Reader"));
 }

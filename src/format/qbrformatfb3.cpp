@@ -32,6 +32,7 @@ QStringList QBRFormatFB3::getExtensions()
 
 bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData)
 {
+    htmlData = ""; // reset data from previous file
     QRegExp rx("\\.fb3$", Qt::CaseInsensitive);
     if (rx.indexIn(fileName) < 0)
     {

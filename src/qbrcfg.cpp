@@ -51,9 +51,13 @@ QPointF qbrcfg::getFilePosition(QString fileName)
     return QPointF(0, 0);
 }
 
-QByteArray qbrcfg::getMainWindowState()
+QByteArray qbrcfg::getMainWindowState(QByteArray state)
 {
-    return getInstance()->value("mainWindowState").toByteArray();
+    QSettings* cfg = getInstance();
+    if (cfg->contains("mainWindowState")) {
+        return cfg->value("mainWindowState").toByteArray();
+    }
+    return state;
 }
 
 void qbrcfg::setMainWindowState(QByteArray state)
@@ -61,9 +65,13 @@ void qbrcfg::setMainWindowState(QByteArray state)
     getInstance()->setValue("mainWindowState", state);
 }
 
-QByteArray qbrcfg::getMainWindowGeometry()
+QByteArray qbrcfg::getMainWindowGeometry(QByteArray geometry)
 {
-    return getInstance()->value("mainWindowGeometry").toByteArray();
+    QSettings* cfg = getInstance();
+    if (cfg->contains("mainWindowGeometry")) {
+        return cfg->value("mainWindowGeometry").toByteArray();
+    }
+    return geometry;
 }
 
 void qbrcfg::setMainWindowGeometry(QByteArray geometry)

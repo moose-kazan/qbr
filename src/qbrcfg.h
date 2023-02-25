@@ -24,10 +24,10 @@ public:
     static void setFilePosition(QString fileName, QPointF pos);
     static QPointF getFilePosition(QString fileName);
 
-    static QByteArray getMainWindowState();
+    static QByteArray getMainWindowState(QByteArray state);
     static void setMainWindowState(QByteArray state);
 
-    static QByteArray getMainWindowGeometry();
+    static QByteArray getMainWindowGeometry(QByteArray geometry);
     static void setMainWindowGeometry(QByteArray geometry);
 
     static QString getLastOpenedFile();

@@ -24,6 +24,7 @@ QStringList QBRFormatCBZ::getExtensions()
 
 bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData)
 {
+    htmlData = ""; // reset data from previous file
     QRegExp rx("\\.cbz$", Qt::CaseInsensitive);
     if (rx.indexIn(fileName) < 0)
     {

@@ -1,6 +1,6 @@
 #include "qbrmainwindow.h"
 #include "ui_qbrmainwindow.h"
-#include "aboutdialog.h"
+#include "qbraboutdialog.h"
 #include "qbrsettingsdialog.h"
 #include "qbrtemplate.h"
 #include "qbrwebenginepage.h"
@@ -43,7 +43,8 @@ QBRMainWindow::QBRMainWindow(QWidget *parent) :
     statusBar()->addWidget(statusBarFileName);
 
     setWindowTitle(tr("Qt Book Reader"));
-    setGeometry(300, 300, 480, 320);
+    setGeometry(300, 300, 720, 600);
+    readState();
     readSettings();
 
 }
@@ -115,7 +116,7 @@ void QBRMainWindow::saveFileAs()
 
 void QBRMainWindow::helpAbout()
 {
-    AboutDialog *aboutDlg = new AboutDialog(this, Qt::Dialog);
+    QBRAboutDialog *aboutDlg = new QBRAboutDialog(this, Qt::Dialog);
     aboutDlg->show();
 }
 
@@ -185,11 +186,13 @@ void QBRMainWindow::closeEvent(QCloseEvent *event)
 
 }
 
+void QBRMainWindow::readState()
+{
+    restoreGeometry(qbrcfg::getMainWindowGeometry(saveGeometry()));
+    restoreState(qbrcfg::getMainWindowState(saveState()));
+}
 void QBRMainWindow::readSettings()
 {
-    restoreGeometry(qbrcfg::getMainWindowGeometry());
-    restoreState(qbrcfg::getMainWindowState());
-
     statusBar()->setVisible(qbrcfg::getStatusBarEnabled());
 
     switch(qbrcfg::getUiVariant())
