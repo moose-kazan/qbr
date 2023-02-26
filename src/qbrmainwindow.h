@@ -36,6 +36,7 @@ private slots:
 
 private:
     void readState();
+    void readBookSettings();
     void positionSave();
     void positionRestore();
 

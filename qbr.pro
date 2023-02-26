@@ -16,12 +16,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    src/aboutdialog.cpp \
     src/format/qbrformatamb.cpp \
     src/format/qbrformatcbz.cpp \
     src/format/qbrformatfb2.cpp \
     src/format/qbrformatfb3.cpp \
     src/main.cpp \
+    src/qbraboutdialog.cpp \
     src/qbrcfg.cpp \
     src/qbrcommon.cpp \
     src/qbrformat.cpp \
@@ -32,11 +32,11 @@ SOURCES += \
     src/qbrzip.cpp
 
 HEADERS += \
-    src/aboutdialog.h \
     src/format/qbrformatamb.h \
     src/format/qbrformatcbz.h \
     src/format/qbrformatfb2.h \
     src/format/qbrformatfb3.h \
+    src/qbraboutdialog.h \
     src/qbrcfg.h \
     src/qbrcommon.h \
     src/qbrformat.h \
@@ -47,6 +47,7 @@ HEADERS += \
     src/qbrzip.h
 
 FORMS += \
+    src/qbraboutdialog.ui \
     src/qbrmainwindow.ui \
     src/qbrsettingsdialog.ui
 

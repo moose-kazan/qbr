@@ -2,6 +2,8 @@
 #include "ui_qbrsettingsdialog.h"
 #include "qbrcfg.h"
 
+#include <QColorDialog>
+
 QBRSettingsDialog::QBRSettingsDialog(QWidget *parent, Qt::WindowFlags f) :
     QDialog(parent, f),
     ui(new Ui::QBRSettingsDialog)
@@ -34,6 +36,8 @@ void QBRSettingsDialog::settingsLoad()
             findChild<QRadioButton*>("uiMenuAndToolbar")->setChecked(true);
     }
 
+    bookBgColor = qbrcfg::getBookBgColor();
+    findChild<QPushButton*>("bgColorButton")->setStyleSheet(QString("background-color: %1").arg(bookBgColor));
 }
 void QBRSettingsDialog::settingsSave()
 {
@@ -52,9 +56,20 @@ void QBRSettingsDialog::settingsSave()
     {
         qbrcfg::setUiVariant(0);
     }
+    qbrcfg::setBookBgColor(bookBgColor);
+}
+
+void QBRSettingsDialog::bgColorChoose()
+{
+    QColor color = QColorDialog::getColor(QColor(bookBgColor), this );
+    if (color.isValid()) {
+        bookBgColor = color.name();
+        findChild<QPushButton*>("bgColorButton")->setStyleSheet(QString("background-color: %1").arg(bookBgColor));
+    }
 }
 
 QBRSettingsDialog::~QBRSettingsDialog()
 {
     delete ui;
 }
+

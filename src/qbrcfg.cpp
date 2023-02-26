@@ -95,4 +95,12 @@ void qbrcfg::setLastOpenedFileEnable(bool enable) {
     getInstance()->setValue("LastOpenedFileNameEnable", enable);
 }
 
+QString qbrcfg::getBookBgColor()
+{
+    return getInstance()->value("BookDesignBgColor", "#ffeeaa").toString();
+}
+void qbrcfg::setBookBgColor(QString color)
+{
+    getInstance()->setValue("BookDesignBgColor", color);
+}
 

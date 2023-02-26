@@ -66,7 +66,8 @@ SOURCES       = src/format/qbrformatamb.cpp \
 		src/qbrtemplate.cpp \
 		src/qbrwebenginepage.cpp \
 		src/qbrzip.cpp qrc_qbr.cpp \
-		moc_qbrmainwindow.cpp
+		moc_qbrmainwindow.cpp \
+		moc_qbrsettingsdialog.cpp
 OBJECTS       = qbrformatamb.o \
 		qbrformatcbz.o \
 		qbrformatfb2.o \
@@ -82,7 +83,8 @@ OBJECTS       = qbrformatamb.o \
 		qbrwebenginepage.o \
 		qbrzip.o \
 		qrc_qbr.o \
-		moc_qbrmainwindow.o
+		moc_qbrmainwindow.o \
+		moc_qbrsettingsdialog.o
 DIST          = qbr.desktop \
 		debian/source/format \
 		debian/control \
@@ -619,14 +621,19 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_qbrmainwindow.cpp
+compiler_moc_header_make_all: moc_qbrmainwindow.cpp moc_qbrsettingsdialog.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_qbrmainwindow.cpp
+	-$(DEL_FILE) moc_qbrmainwindow.cpp moc_qbrsettingsdialog.cpp
 moc_qbrmainwindow.cpp: src/qbrmainwindow.h \
 		src/qbrformat.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/moose/projects/QBR/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/moose/projects/QBR -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineCore -I/usr/include/x86_64-linux-gnu/qt5/QtQuick -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtQmlModels -I/usr/include/x86_64-linux-gnu/qt5/QtWebChannel -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtPositioning -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/qbrmainwindow.h -o moc_qbrmainwindow.cpp
+
+moc_qbrsettingsdialog.cpp: src/qbrsettingsdialog.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/moose/projects/QBR/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/moose/projects/QBR -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWebEngineCore -I/usr/include/x86_64-linux-gnu/qt5/QtQuick -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtQmlModels -I/usr/include/x86_64-linux-gnu/qt5/QtWebChannel -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtPositioning -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/qbrsettingsdialog.h -o moc_qbrsettingsdialog.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -733,6 +740,9 @@ qrc_qbr.o: qrc_qbr.cpp
 
 moc_qbrmainwindow.o: moc_qbrmainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qbrmainwindow.o moc_qbrmainwindow.cpp
+
+moc_qbrsettingsdialog.o: moc_qbrsettingsdialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qbrsettingsdialog.o moc_qbrsettingsdialog.cpp
 
 ####### Install
 

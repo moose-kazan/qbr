@@ -17,7 +17,7 @@ QString qbrtemplate::header()
                 "<meta charset=\"utf-8\">\n"
                 "<style type=\"text/css\">\n"
                 "    body {\n"
-                "        background: #ffeeaa;\n"
+                "        background: transparent;\n"
                 "        color: #000000;\n"
                 "        font-size: " + qbrcommon::getDesktopScaledIntAsQString(16) + "px;\n"
                 "        font-family: Verdana, Arial, Helvetica, sans-serif;\n"

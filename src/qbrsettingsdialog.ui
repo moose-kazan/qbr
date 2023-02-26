@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>325</height>
+    <width>555</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,8 +25,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>280</y>
+     <x>210</x>
+     <y>400</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -43,7 +43,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>381</width>
+     <width>541</width>
      <height>181</height>
     </rect>
    </property>
@@ -55,7 +55,7 @@
      <rect>
       <x>20</x>
       <y>40</y>
-      <width>351</width>
+      <width>511</width>
       <height>34</height>
      </rect>
     </property>
@@ -68,7 +68,7 @@
      <rect>
       <x>20</x>
       <y>80</y>
-      <width>351</width>
+      <width>511</width>
       <height>34</height>
      </rect>
     </property>
@@ -81,7 +81,7 @@
      <rect>
       <x>20</x>
       <y>120</y>
-      <width>351</width>
+      <width>511</width>
       <height>34</height>
      </rect>
     </property>
@@ -94,8 +94,8 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>200</y>
-     <width>371</width>
+     <y>320</y>
+     <width>521</width>
      <height>34</height>
     </rect>
    </property>
@@ -107,14 +107,53 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>240</y>
-     <width>371</width>
+     <y>360</y>
+     <width>521</width>
      <height>34</height>
     </rect>
    </property>
    <property name="text">
     <string>Load last file on start</string>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>541</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Book Design</string>
+   </property>
+   <widget class="QPushButton" name="bgColorButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>61</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="bgColorLabel">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>50</y>
+      <width>421</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Background color</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
@@ -127,7 +166,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>248</x>
-     <y>254</y>
+     <y>400</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -143,7 +182,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>316</x>
-     <y>260</y>
+     <y>400</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -151,8 +190,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>bgColorButton</sender>
+   <signal>clicked()</signal>
+   <receiver>QBRSettingsDialog</receiver>
+   <slot>bgColorChoose()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>265</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>277</x>
+     <y>221</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
-  <slot>saveSettings()</slot>
+  <slot>bgColorChoose()</slot>
  </slots>
 </ui>

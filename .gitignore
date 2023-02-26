@@ -1,3 +1,5 @@
 scripts/
 tests
 icons-src/
+qbr
+.qmake.stash

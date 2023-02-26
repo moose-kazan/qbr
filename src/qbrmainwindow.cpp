@@ -170,6 +170,7 @@ void QBRMainWindow::settingsShow()
     {
         settingsDlg->settingsSave();
         readSettings();
+        readBookSettings();
     }
 }
 
@@ -184,6 +185,11 @@ void QBRMainWindow::closeEvent(QCloseEvent *event)
 
     QMainWindow::closeEvent(event);
 
+}
+
+void QBRMainWindow::readBookSettings()
+{
+    findChild<QWebEngineView*>("browser")->page()->setBackgroundColor(QColor(qbrcfg::getBookBgColor()));
 }
 
 void QBRMainWindow::readState()
@@ -270,6 +276,7 @@ void QBRMainWindow::bookLoadFinished(bool ok)
         QFile::remove(findChild<QWebEngineView*>("browser")->url().toLocalFile());
     }
 
+    readBookSettings();
     positionRestore();
 }
 

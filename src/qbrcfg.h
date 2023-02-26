@@ -36,6 +36,9 @@ public:
     static bool getLastOpenedFileEnable();
     static void setLastOpenedFileEnable(bool enable);
 
+    static QString getBookBgColor();
+    static void setBookBgColor(QString color);
+
 protected:
     static QSettings* cfg;
 };

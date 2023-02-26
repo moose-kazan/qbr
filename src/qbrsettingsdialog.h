@@ -9,7 +9,7 @@ class QBRSettingsDialog;
 
 class QBRSettingsDialog : public QDialog
 {
-    //Q_OBJECT
+    Q_OBJECT
 public:
     QBRSettingsDialog(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     ~QBRSettingsDialog();
@@ -18,6 +18,10 @@ public:
 
 private:
     Ui::QBRSettingsDialog *ui;
+    QString bookBgColor;
+
+private slots:
+    void bgColorChoose();
 };
 
 #endif // QBRSETTINGSDIALOG_H
