@@ -9,7 +9,7 @@ QBRSettingsDialog::QBRSettingsDialog(QWidget *parent, Qt::WindowFlags f) :
     ui(new Ui::QBRSettingsDialog)
 {
     ui->setupUi(this);
-    setWindowTitle("Settings");
+    setWindowTitle(tr("Settings"));
     setModal(true);
     setFixedSize(size());
 }

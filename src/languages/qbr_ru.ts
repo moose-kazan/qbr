@@ -2,18 +2,42 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
-    <name>AboutDialog</name>
+    <name>QBRAboutDialog</name>
     <message>
-        <location filename="../aboutdialog.cpp" line="49"/>
         <source>About Qt Book Reader</source>
+        <translation type="vanished">О программе Qt Book Reader</translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.ui" line="14"/>
+        <source>Dialog</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.ui" line="54"/>
+        <source>&lt;h1&gt;Qt Book Reader&lt;/h1&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.ui" line="67"/>
+        <source>Simple e-Book reader written on C++ with Qt library.</source>
+        <translation>Простая читалка электронных книг, написанная на C++ с использованием библиотеки Qt</translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.ui" line="84"/>
+        <source>OK</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.cpp" line="15"/>
+        <source>About</source>
+        <translation>О программе</translation>
     </message>
 </context>
 <context>
     <name>QBRMainWindow</name>
     <message>
         <location filename="../qbrmainwindow.ui" line="20"/>
-        <location filename="../qbrmainwindow.cpp" line="45"/>
+        <location filename="../qbrmainwindow.cpp" line="44"/>
         <location filename="../qbrmainwindow.cpp" line="124"/>
         <source>Qt Book Reader</source>
         <translation type="unfinished"></translation>
@@ -130,18 +154,18 @@
         <translation>HTML-страницы (%1)</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="238"/>
-        <location filename="../qbrmainwindow.cpp" line="257"/>
+        <location filename="../qbrmainwindow.cpp" line="246"/>
+        <location filename="../qbrmainwindow.cpp" line="265"/>
         <source>Can&apos;t load book</source>
         <translation>Не удалось открыть книгу</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="238"/>
+        <location filename="../qbrmainwindow.cpp" line="246"/>
         <source>I/O error!</source>
         <translation>Ошибка ввода/вывода!</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="257"/>
+        <location filename="../qbrmainwindow.cpp" line="265"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Формат файла не поддерживается или файл испорчен!</translation>
     </message>
@@ -178,6 +202,29 @@
         <location filename="../qbrsettingsdialog.ui" line="116"/>
         <source>Load last file on start</source>
         <translation>Открывать последний файл при запуске</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.ui" line="129"/>
+        <source>Book Design</source>
+        <translation>Оформление книги</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.ui" line="154"/>
+        <source>Background color</source>
+        <translation>Цвет фона</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.cpp" line="12"/>
+        <source>Settings</source>
+        <translation>Настройки</translation>
+    </message>
+</context>
+<context>
+    <name>main.cpp</name>
+    <message>
+        <location filename="../main.cpp" line="31"/>
+        <source>:/res/default_fb2.xml</source>
+        <translation>:/res/default_ru_fb2.xml</translation>
     </message>
 </context>
 </TS>

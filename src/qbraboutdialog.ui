@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>QBRAboutDialog</class>
+ <widget class="QDialog" name="QBRAboutDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>371</height>
+    <width>597</width>
+    <height>389</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,48 +16,76 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>0</y>
-     <width>401</width>
-     <height>311</height>
+     <width>581</width>
+     <height>381</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="rootVLayout">
     <item>
-     <layout class="QHBoxLayout" name="mainLayout">
-      <item>
-       <widget class="QLabel" name="appLogo">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="qbr.qrc">:/icon/128x128/qbr.png</pixmap>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="appTitle">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string/>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>541</width>
+         <height>291</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="appLogo">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="qbr.qrc">:/icon/128x128/qbr.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="appTitle">
+          <property name="text">
+           <string>&lt;h1&gt;Qt Book Reader&lt;/h1&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="appDesc">
+          <property name="text">
+           <string>Simple e-Book reader written on C++ with Qt library.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="okButton">
+      <property name="text">
+       <string>OK</string>
+      </property>
+     </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QPushButton" name="okButton">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>320</y>
-     <width>399</width>
-     <height>46</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>OK</string>
-   </property>
   </widget>
  </widget>
  <resources>

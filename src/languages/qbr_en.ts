@@ -2,10 +2,30 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>AboutDialog</name>
+    <name>QBRAboutDialog</name>
     <message>
-        <location filename="../aboutdialog.cpp" line="49"/>
-        <source>About Qt Book Reader</source>
+        <location filename="../qbraboutdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.ui" line="54"/>
+        <source>&lt;h1&gt;Qt Book Reader&lt;/h1&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.ui" line="67"/>
+        <source>Simple e-Book reader written on C++ with Qt library.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.ui" line="84"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbraboutdialog.cpp" line="15"/>
+        <source>About</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13,7 +33,7 @@
     <name>QBRMainWindow</name>
     <message>
         <location filename="../qbrmainwindow.ui" line="20"/>
-        <location filename="../qbrmainwindow.cpp" line="45"/>
+        <location filename="../qbrmainwindow.cpp" line="44"/>
         <location filename="../qbrmainwindow.cpp" line="124"/>
         <source>Qt Book Reader</source>
         <translation type="unfinished"></translation>
@@ -130,18 +150,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="238"/>
-        <location filename="../qbrmainwindow.cpp" line="257"/>
+        <location filename="../qbrmainwindow.cpp" line="246"/>
+        <location filename="../qbrmainwindow.cpp" line="265"/>
         <source>Can&apos;t load book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="238"/>
+        <location filename="../qbrmainwindow.cpp" line="246"/>
         <source>I/O error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="257"/>
+        <location filename="../qbrmainwindow.cpp" line="265"/>
         <source>Unsupported file format or broken file!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -177,6 +197,29 @@
     <message>
         <location filename="../qbrsettingsdialog.ui" line="116"/>
         <source>Load last file on start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.ui" line="129"/>
+        <source>Book Design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.ui" line="154"/>
+        <source>Background color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.cpp" line="12"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main.cpp</name>
+    <message>
+        <location filename="../main.cpp" line="31"/>
+        <source>:/res/default_fb2.xml</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
