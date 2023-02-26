@@ -105,4 +105,6 @@ DISTFILES += \
     src/icon/96x96/qbr.png \
     src/icon/128x128/qbr.png \
     src/icon/256x256/qbr.png \
-    src/icon/512x512/qbr.png
+    src/icon/512x512/qbr.png \
+    src/res/default_fb2.xml \
+    src/res/default_ru_fb2.xml

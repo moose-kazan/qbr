@@ -11,5 +11,7 @@
         <file>icon/512x512/qbr.png</file>
         <file>languages/qbr_en.qm</file>
         <file>languages/qbr_ru.qm</file>
+        <file>res/default_fb2.xml</file>
+        <file>res/default_ru_fb2.xml</file>
     </qresource>
 </RCC>

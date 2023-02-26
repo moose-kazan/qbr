@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:l="http://www.w3.org/1999/xlink">
+    <description>
+        <title-info>
+	    <author>
+	        <first-name>Вадим</first-name>
+		<middle-name>Валерьевич</middle-name>
+		<last-name>Калинников</last-name>
+	    </author>
+	    <book-title>О программе Qt Book Reader</book-title>
+	    <lang>ru</lang>
+	</title-info>
+    </description>
+    <body>
+        <section>
+	    <title>
+	        <p>Добро пожаловать в Qt Book Reader!</p>
+	    </title>
+	    <p>Подробная информация о приложении и исходный код доступны по ссылке:
+	        <a l:href="https://github.com/moose-kazan/qbr">https://github.com/moose-kazan/qbr</a>
+	    </p>
+	</section>
+    </body>
+</FictionBook>

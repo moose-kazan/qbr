@@ -23,6 +23,12 @@ int main(int argc, char *argv[])
     a.setWindowIcon(QIcon(":/icon/64x64/qbr.png"));
     QBRMainWindow w;
     w.show();
+
+    /*
+     * Default file from resources
+     * Will be displayed if not file loaded
+     */
+    w.loadBook(a.tr(":/res/default_fb2.xml"));
     if (argc > 1)
     {
         w.loadBook(argv[1]);

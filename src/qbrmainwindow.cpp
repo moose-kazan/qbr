@@ -36,7 +36,6 @@ QBRMainWindow::QBRMainWindow(QWidget *parent) :
     QWebEngineView *browser = findChild<QWebEngineView*>("browser");
     browser->setPage(new qbrWebEnginePage);
     browser->setContextMenuPolicy(Qt::NoContextMenu);
-    browser->load(QUrl(qbrtemplate::emptyAsDataUri()));
     connect(findChild<QWebEngineView*>("browser"), &QWebEngineView::loadFinished, this, &QBRMainWindow::bookLoadFinished);
 
     statusBarFileName = new QLabel(this);

@@ -101,6 +101,8 @@ DIST          = qbr.desktop \
 		src/icon/128x128/qbr.png \
 		src/icon/256x256/qbr.png \
 		src/icon/512x512/qbr.png \
+		src/res/default_fb2.xml \
+		src/res/default_ru_fb2.xml \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -611,6 +613,8 @@ qrc_qbr.cpp: src/qbr.qrc \
 		src/icon/48x48/qbr.png \
 		src/icon/24x24/qbr.png \
 		src/icon/32x32/qbr.png \
+		src/res/default_fb2.xml \
+		src/res/default_ru_fb2.xml \
 		src/languages/qbr_ru.qm \
 		src/languages/qbr_en.qm
 	/usr/lib/qt5/bin/rcc -name qbr src/qbr.qrc -o qrc_qbr.cpp
