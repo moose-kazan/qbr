@@ -107,4 +107,5 @@ DISTFILES += \
     src/icon/256x256/qbr.png \
     src/icon/512x512/qbr.png \
     src/res/default_fb2.xml \
-    src/res/default_ru_fb2.xml
+    src/res/default_ru_fb2.xml \
+    NEWS.md
