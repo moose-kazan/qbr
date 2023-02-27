@@ -182,8 +182,8 @@ void QBRMainWindow::closeEvent(QCloseEvent *event)
         qbrcfg::setLastOpenedFile(statusBarFileName->text());
     }
 
-    QMainWindow::closeEvent(event);
 
+    QMainWindow::closeEvent(event);
 }
 
 void QBRMainWindow::readBookSettings()
