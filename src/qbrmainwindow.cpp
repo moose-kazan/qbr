@@ -79,7 +79,7 @@ void QBRMainWindow::openFile()
 void QBRMainWindow::saveFileAs()
 {
     // If file no loaded
-    if (statusBarFileName->text().length() < 1)
+    if (getCurrentFileName().length() < 1)
     {
         return;
     }
@@ -143,7 +143,7 @@ void QBRMainWindow::naviFindGo()
 
 void QBRMainWindow::naviFind()
 {
-    if (statusBarFileName->text().length() < 1)
+    if (getCurrentFileName().length() < 1)
     {
         return;
     }
@@ -178,8 +178,8 @@ void QBRMainWindow::closeEvent(QCloseEvent *event)
     positionSave();
     qbrcfg::setMainWindowState(saveState());
     qbrcfg::setMainWindowGeometry(saveGeometry());
-    if (statusBarFileName->text().length() > 0) {
-        qbrcfg::setLastOpenedFile(statusBarFileName->text());
+    if (getCurrentFileName().length() > 0) {
+        qbrcfg::setLastOpenedFile(getCurrentFileName());
     }
 
 
@@ -257,7 +257,7 @@ void QBRMainWindow::loadBook(QString fileName)
                 f.close();
 
                 findChild<QWebEngineView*>("browser")->load(QUrl::fromLocalFile(f.fileName()));
-                statusBarFileName->setText(fileName);
+                setCurrentFileName(fileName);
             }
             return;
         }
@@ -282,25 +282,37 @@ void QBRMainWindow::bookLoadFinished(bool ok)
 void QBRMainWindow::positionSave()
 {
     // If no file loaded
-    if (statusBarFileName->text().length() < 1)
+    if (getCurrentFileName().length() < 1)
     {
         return;
     }
     // Save position
     qbrWebEnginePage* wp = (qbrWebEnginePage*)findChild<QWebEngineView*>("browser")->page();
-    wp->positionSave(statusBarFileName->text());
+    wp->positionSave(getCurrentFileName());
 }
 
 void QBRMainWindow::positionRestore()
 {
     // If no file loaded
-    if (statusBarFileName->text().length() < 1)
+    if (getCurrentFileName().length() < 1)
     {
         return;
     }
     // Restore position
     qbrWebEnginePage* wp = (qbrWebEnginePage*)findChild<QWebEngineView*>("browser")->page();
-    wp->positionRestore(statusBarFileName->text());
+    wp->positionRestore(getCurrentFileName());
+}
+
+void QBRMainWindow::setCurrentFileName(QString fileName)
+{
+    QFileInfo fi(fileName);
+    setWindowTitle(tr("Qt Book Reader - %1").arg(fi.fileName()));
+    statusBarFileName->setText(fi.fileName());
+    currentFileName = fileName;
+}
+QString QBRMainWindow::getCurrentFileName()
+{
+    return currentFileName;
 }
 
 

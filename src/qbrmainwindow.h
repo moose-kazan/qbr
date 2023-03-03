@@ -20,6 +20,8 @@ public:
     void loadBook(QString fileName);
     void bookLoadFinished(bool ok);
     ~QBRMainWindow();
+    void setCurrentFileName(QString fileName);
+    QString getCurrentFileName();
 
     QLabel* statusBarFileName;
 
@@ -39,6 +41,7 @@ private:
     void readBookSettings();
     void positionSave();
     void positionRestore();
+    QString currentFileName;
 
     Ui::QBRMainWindow *ui;
     QList<QBRFormat*> bookParsers;
