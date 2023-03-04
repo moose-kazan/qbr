@@ -16,6 +16,7 @@ public:
     bool setData(QByteArray zipData);
     QStringList getFileNameList();
     QByteArray getFileData(QString fileName);
+    void clear();
 
 private:
     bool entry_names_cs;

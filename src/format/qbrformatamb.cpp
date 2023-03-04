@@ -245,7 +245,11 @@ QString QBRFormatAMB::amaToHtml(QString fileName)
 
 bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData)
 {
-    htmlData = ""; // reset data from previous file
+    // reset data from previous file
+    htmlData = "";
+    ambEntries.clear();
+    for (int i = 0; i < 128; i ++) unicodeMap[i] = defaultUnicodeMap[i];
+
     /*
      * AMB file have hard-defined signature. We use it to detect
      *

@@ -74,3 +74,8 @@ QByteArray qbrzip::getFileData(QString fileName)
     }
     return zipEntries.value(fileName, NULL);
 }
+
+void qbrzip::clear()
+{
+    zipEntries.clear();
+}
