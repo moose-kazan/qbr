@@ -2,7 +2,7 @@
  
  * Support for translations for UI
  * Added russian language
- * Fix some memory leaks
+ * Fix some memory leaks and bugs
  * Add settings option: book background color
 
 # Version 0.0.4 #
