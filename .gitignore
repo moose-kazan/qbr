@@ -4,3 +4,4 @@ icons-src/
 qbr
 .qmake.stash
 Makefile
+*.o
