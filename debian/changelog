@@ -1,3 +1,9 @@
+qbr (0.0.6-ppa1) jammy; urgency=medium
+  * Try to fix bug with resize windows on Ctrl+F
+
+-- Vadim Kalinnikov <moose@ylsoftware.com>  Sep, 02 Mar 2023 01:08:00 +0300
+
+
 qbr (0.0.5-ppa1) jammy; urgency=medium
   * Support for translations for UI
   * Added russian language

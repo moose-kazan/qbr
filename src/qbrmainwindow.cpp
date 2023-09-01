@@ -148,6 +148,11 @@ void QBRMainWindow::naviFind()
         return;
     }
     bool visible = findChild<QWidget*>("findWidget")->isVisible();
+
+    QSize sizeMin = minimumSize();
+    QSize sizeMax = maximumSize();
+    setFixedSize(size());
+
     if (visible)
     {
         findChild<QWebEngineView*>("browser")->findText("");
@@ -159,6 +164,8 @@ void QBRMainWindow::naviFind()
         findChild<QWidget*>("findWidget")->show();
         findChild<QLineEdit*>("findText")->setFocus();
     }
+    setMinimumSize(sizeMin);
+    setMaximumSize(sizeMax);
 }
 
 void QBRMainWindow::settingsShow()
