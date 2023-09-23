@@ -13,5 +13,6 @@
         <file>languages/qbr_ru.qm</file>
         <file>res/default_fb2.xml</file>
         <file>res/default_ru_fb2.xml</file>
+        <file>res/style.css</file>
     </qresource>
 </RCC>

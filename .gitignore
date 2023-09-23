@@ -5,3 +5,4 @@ qbr
 .qmake.stash
 Makefile
 *.o
+package/

@@ -5,10 +5,16 @@
 #include <QDebug>
 #include <QUrl>
 #include <QDesktopServices>
+#include <QDesktopWidget>
 
 qbrWebEnginePage::qbrWebEnginePage() : QWebEnginePage()
 {
     //qDebug() << "WebEnginePage created";
+    QDesktopWidget desktop;
+
+    int desktopDpi = desktop.logicalDpiY();
+
+    setZoomFactor(desktopDpi > 72 ? desktopDpi/72 : 1);
 }
 
 

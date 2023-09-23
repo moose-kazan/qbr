@@ -1,0 +1,70 @@
+body {
+    background: transparent;
+    color: #000000;
+    font-size: 16px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    word-wrap: break-word;
+}
+.doc_title {
+    font-size: 22px;
+    color: #222222;
+    font-weight: bold;
+    text-align: center;
+}
+.doc_subtitle {
+    font-size: 18px;
+    color: #444444;
+    font-weight: bold;
+    text-align: center;
+}
+.doc_poem {
+    color: #666666;
+    font-style: italic;
+}
+.doc_section {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.doc_note_link {
+    vertical-align: super;
+    font-size: 12px;
+}
+.doc_note_body {
+    font-size: 75%;
+}
+.doc_notes {
+}
+.doc_notes .doc_title {
+    text-align: left;
+}
+.doc_epigraph {
+    text-align: right;
+}
+.doc_annotation {
+    font-size: 75%;
+}
+img {
+    max-width: 90%;
+}
+.comics_image {
+    width: 100%;
+    text-align: center;
+}
+.amb_body {
+   font-family: 'Roboto Mono', monospace;
+}
+span.amb_notice {
+   color: #333300;
+}
+span.amb_boring {
+   color: 888888;
+}
+.amb_part_header {
+   display: block;
+   background-color: #666666;
+   color: #ffeeaa;
+   padding: 3px;
+}
+.amb_part_header a {
+   color: #ffffff;
+}
