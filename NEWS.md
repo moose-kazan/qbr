@@ -1,4 +1,10 @@
-# Version 0.0.5-dev #
+# Version 0.0.6 #
+
+ * Fixed bug with search bar
+ * Refactoring code around HTML template
+ * Fixed "settings" icon
+
+# Version 0.0.5 #
  
  * Support for translations for UI
  * Added russian language
