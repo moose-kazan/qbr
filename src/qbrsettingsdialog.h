@@ -22,6 +22,8 @@ private:
 
 private slots:
     void bgColorChoose();
+    void customCssSelect();
+    void customCssEnable(int state);
 };
 
 #endif // QBRSETTINGSDIALOG_H

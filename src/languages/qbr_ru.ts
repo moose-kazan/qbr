@@ -81,7 +81,7 @@
     <message>
         <location filename="../qbrmainwindow.ui" line="177"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../qbrmainwindow.ui" line="186"/>
@@ -91,7 +91,7 @@
     <message>
         <location filename="../qbrmainwindow.ui" line="189"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../qbrmainwindow.ui" line="198"/>
@@ -101,7 +101,7 @@
     <message>
         <location filename="../qbrmainwindow.ui" line="201"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../qbrmainwindow.ui" line="210"/>
@@ -131,10 +131,10 @@
     <message>
         <location filename="../qbrmainwindow.ui" line="249"/>
         <source>Ctrl+F</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="258"/>
+        <location filename="../qbrmainwindow.ui" line="257"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -154,20 +154,25 @@
         <translation>HTML-страницы (%1)</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="246"/>
-        <location filename="../qbrmainwindow.cpp" line="265"/>
+        <location filename="../qbrmainwindow.cpp" line="253"/>
+        <location filename="../qbrmainwindow.cpp" line="272"/>
         <source>Can&apos;t load book</source>
         <translation>Не удалось открыть книгу</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="246"/>
+        <location filename="../qbrmainwindow.cpp" line="253"/>
         <source>I/O error!</source>
         <translation>Ошибка ввода/вывода!</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="265"/>
+        <location filename="../qbrmainwindow.cpp" line="272"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Формат файла не поддерживается или файл испорчен!</translation>
+    </message>
+    <message>
+        <location filename="../qbrmainwindow.cpp" line="316"/>
+        <source>Qt Book Reader - %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -214,9 +219,33 @@
         <translation>Цвет фона</translation>
     </message>
     <message>
-        <location filename="../qbrsettingsdialog.cpp" line="12"/>
+        <location filename="../qbrsettingsdialog.ui" line="168"/>
+        <source>Custom CSS</source>
+        <translation>Своя таблица стилей</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.ui" line="180"/>
+        <source>Enable custom (additional) CSS</source>
+        <translation>Добавить свою таблицу стилей</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.cpp" line="15"/>
         <source>Settings</source>
         <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.cpp" line="86"/>
+        <source>Select File</source>
+        <translation>Выбрать файл</translation>
+    </message>
+    <message>
+        <source>Open File</source>
+        <translation type="obsolete">Открыть файл</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.cpp" line="88"/>
+        <source>Stylesheets (%1)</source>
+        <translation>Таблицы стилей (%1)</translation>
     </message>
 </context>
 <context>

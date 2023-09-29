@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>555</width>
-    <height>444</height>
+    <height>631</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,7 +26,7 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>400</y>
+     <y>580</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -94,7 +94,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>320</y>
+     <y>490</y>
      <width>521</width>
      <height>34</height>
     </rect>
@@ -107,7 +107,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>360</y>
+     <y>540</y>
      <width>521</width>
      <height>34</height>
     </rect>
@@ -122,7 +122,7 @@
      <x>10</x>
      <y>200</y>
      <width>541</width>
-     <height>111</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="title">
@@ -155,7 +155,74 @@
     </property>
    </widget>
   </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>541</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Custom CSS</string>
+   </property>
+   <widget class="QCheckBox" name="customCssEnable">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>511</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enable custom (additional) CSS</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="customCssSelect">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>90</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset theme="document-open">
+      <normaloff>.</normaloff>.</iconset>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="customCssUrl">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>441</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>customCssUrl</zorder>
+   <zorder>customCssEnable</zorder>
+   <zorder>customCssSelect</zorder>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>uiMenuAndToolbar</tabstop>
+  <tabstop>uiMenuOnly</tabstop>
+  <tabstop>uiToolbarOnly</tabstop>
+  <tabstop>bgColorButton</tabstop>
+  <tabstop>customCssEnable</tabstop>
+  <tabstop>customCssUrl</tabstop>
+  <tabstop>customCssSelect</tabstop>
+  <tabstop>statusBarEnable</tabstop>
+  <tabstop>enableLoadLast</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -206,8 +273,42 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>customCssSelect</sender>
+   <signal>clicked()</signal>
+   <receiver>QBRSettingsDialog</receiver>
+   <slot>customCssSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>505</x>
+     <y>440</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>277</x>
+     <y>315</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>customCssEnable</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>QBRSettingsDialog</receiver>
+   <slot>customCssEnable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>285</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>277</x>
+     <y>315</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>bgColorChoose()</slot>
+  <slot>customCssSelect()</slot>
+  <slot>customCssEnable(int)</slot>
  </slots>
 </ui>

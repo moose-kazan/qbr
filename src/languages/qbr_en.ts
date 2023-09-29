@@ -130,7 +130,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="258"/>
+        <location filename="../qbrmainwindow.ui" line="257"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -150,19 +150,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="246"/>
-        <location filename="../qbrmainwindow.cpp" line="265"/>
+        <location filename="../qbrmainwindow.cpp" line="253"/>
+        <location filename="../qbrmainwindow.cpp" line="272"/>
         <source>Can&apos;t load book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="246"/>
+        <location filename="../qbrmainwindow.cpp" line="253"/>
         <source>I/O error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="265"/>
+        <location filename="../qbrmainwindow.cpp" line="272"/>
         <source>Unsupported file format or broken file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrmainwindow.cpp" line="316"/>
+        <source>Qt Book Reader - %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -210,9 +215,29 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrsettingsdialog.cpp" line="12"/>
+        <location filename="../qbrsettingsdialog.ui" line="168"/>
+        <source>Custom CSS</source>
+        <translation type="unfinished">Custom CSS</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.ui" line="180"/>
+        <source>Enable custom (additional) CSS</source>
+        <translation type="unfinished">Enable custom (additional) CSS</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.cpp" line="15"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.cpp" line="86"/>
+        <source>Select File</source>
+        <translation type="unfinished">Select File</translation>
+    </message>
+    <message>
+        <location filename="../qbrsettingsdialog.cpp" line="88"/>
+        <source>Stylesheets (%1)</source>
+        <translation type="unfinished">Stylesheets (%1)</translation>
     </message>
 </context>
 <context>

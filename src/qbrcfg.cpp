@@ -104,3 +104,22 @@ void qbrcfg::setBookBgColor(QString color)
     getInstance()->setValue("BookDesignBgColor", color);
 }
 
+bool qbrcfg::getCustomStyleEnabled()
+{
+    return getInstance()->value("CustomStyleEnabled", false).toBool();
+}
+void qbrcfg::setCustomStaticEnabled(bool enable)
+{
+    getInstance()->setValue("CustomStyleEnabled", enable);
+}
+
+QString qbrcfg::getCustomStyleUrl()
+{
+    return getInstance()->value("CustomStyleUrl").toString();
+}
+void qbrcfg::setCustomStyleUrl(QString url)
+{
+    getInstance()->setValue("CustomStyleUrl", url);
+}
+
+

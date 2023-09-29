@@ -1,3 +1,4 @@
+/* Default style */
 body {
     background: transparent;
     color: #000000;
@@ -5,66 +6,101 @@ body {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     word-wrap: break-word;
 }
+
+/* Document header (like "h1" in html) */
 .doc_title {
     font-size: 22px;
     color: #222222;
     font-weight: bold;
     text-align: center;
 }
+
+/* Document subheader (like "h2" in html) */
 .doc_subtitle {
     font-size: 18px;
     color: #444444;
     font-weight: bold;
     text-align: center;
 }
+
+/* POEM tag in FB2/FB3 */
 .doc_poem {
     color: #666666;
     font-style: italic;
 }
+
+/* Style for document section in FB2/FB3 */
 .doc_section {
     margin-left: 20px;
     margin-right: 20px;
 }
+
+/* Style for link to note in FB2/FB3 */
 .doc_note_link {
     vertical-align: super;
     font-size: 12px;
 }
+
+/* Style for note in FB2/FB3 */
 .doc_note_body {
     font-size: 75%;
 }
+
+/* "notes" section in FB3 */
 .doc_notes {
 }
+
+/* Note title in FB2/Fb3 */
 .doc_notes .doc_title {
     text-align: left;
 }
+
+/* "epigraph" in FB3 */
 .doc_epigraph {
     text-align: right;
 }
+
+
+/* Document annotation in FB3 */
 .doc_annotation {
     font-size: 75%;
 }
+
+/* Image style for all formats */
 img {
     max-width: 90%;
 }
+
+/* Image style for CBZ */
 .comics_image {
     width: 100%;
     text-align: center;
 }
+
+/* Body of article in AMB */
 .amb_body {
    font-family: 'Roboto Mono', monospace;
 }
+
+/* Notice in AMB */
 span.amb_notice {
    color: #333300;
 }
+
+/* Boring in AMB */
 span.amb_boring {
    color: 888888;
 }
+
+/* Part header in AMB */
 .amb_part_header {
    display: block;
    background-color: #666666;
    color: #ffeeaa;
    padding: 3px;
 }
+
+/* Link in part header. AMB */
 .amb_part_header a {
    color: #ffffff;
 }

@@ -39,6 +39,12 @@ public:
     static QString getBookBgColor();
     static void setBookBgColor(QString color);
 
+    static bool getCustomStyleEnabled();
+    static void setCustomStaticEnabled(bool enable);
+
+    static QString getCustomStyleUrl();
+    static void setCustomStyleUrl(QString url);
+
 protected:
     static QSettings* cfg;
 };

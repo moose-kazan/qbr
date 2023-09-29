@@ -1,5 +1,6 @@
 # Version 0.0.6 #
 
+ * New feature: custom (additional) CSS
  * Fixed bug with search bar
  * Refactoring code around HTML template
  * Fixed "settings" icon
