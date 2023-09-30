@@ -4,6 +4,9 @@
 #include "qbrcfg.h"
 
 #include <QString>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 qbrtemplate::qbrtemplate()
 {
@@ -12,11 +15,20 @@ qbrtemplate::qbrtemplate()
 
 QString qbrtemplate::header()
 {
+    // Load CSS from resource
+    QFile styleSheetFile(":/res/style.css");
+    styleSheetFile.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream styleSheetStream(&styleSheetFile);
+    QString styleSheet = styleSheetStream.readAll();
+    styleSheetFile.close();
+
     QString rv = (
                 "<html>\n"
                 "<head>\n"
                 "<meta charset=\"utf-8\">\n"
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/res/style.css\">"
+                "<style type=\"text/css\">\n"
+                + styleSheet +
+                "</style>\n"
                 );
     if (qbrcfg::getCustomStyleEnabled() && qbrcfg::getCustomStyleUrl() != "") {
         rv += "<link rel=\"stylesheet\" type=\"text/css\" href=\"" +

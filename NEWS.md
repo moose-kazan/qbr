@@ -1,3 +1,6 @@
+# Version 0.0.7 #
+ * Fixed: insert default stylesheet into exported file instead load it from resource
+
 # Version 0.0.6 #
 
  * New feature: custom (additional) CSS
