@@ -74,10 +74,10 @@ unix: {
 
     target.path = $${BINDIR}
 
-    desktop.files = $${SRCDIR}/QBR.desktop
+    desktop.files = $${SRCDIR}/qbr.desktop
     desktop.path = $${DATADIR}/applications
 
-    icon.files = $${SRCDIR}/icon/512x512/qbr.png
+    icon.files = $${SRCDIR}/src/icon/512x512/qbr.png
     icon.path = $${DATADIR}/icons
 
     INSTALLS += target desktop icon
