@@ -3,7 +3,7 @@
 
 #include "../qbrtemplate.h"
 #include "../qbrformat.h"
-#include "../qbrzip.h"
+#include "../libs/qbrzip.h"
 #include <QString>
 #include <QByteArray>
 #include <QDomNode>

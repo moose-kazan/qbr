@@ -1,6 +1,5 @@
 #include "qbrformatfb3.h"
 #include "../qbrtemplate.h"
-#include "../qbrzip.h"
 
 #include <QString>
 #include <QFile>

@@ -1,5 +1,6 @@
 # Version 0.0.7 #
- * Fixed: insert default stylesheet into exported file instead load it from resource
+ * Fixed: "Save as HTML" now saved file with default stylesheet
+ * Use libzip instead of libquazip. Less dependency list.
 
 # Version 0.0.6 #
 

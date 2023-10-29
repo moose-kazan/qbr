@@ -15,11 +15,11 @@
 
 #### Сборка на Ubuntu 22.04: ####
 1. Склонировать репозиторий
-2. sudo apt install qt5-qmake qtwebengine5-dev libquazip5-dev libquazip5-dev build-essential
+2. sudo apt install qt5-qmake qtwebengine5-dev build-essential pkg-config libzip-dev
 3. mkdir -p build && cd build && qmake .. && make
 
 #### Сборка на AltLinux p10 ####
-1. sudo apt-get install git qt5-base-devel qt5-webengine-devel libquazip-qt5-devel
+1. sudo apt-get install git qt5-base-devel qt5-webengine-devel pkg-config libzip-devel
 2. Склонировать репозиторий
 3. mkdir -p build && cd build && qmake-qt5 .. && make
 

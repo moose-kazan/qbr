@@ -1,9 +1,6 @@
 #ifndef QBRZIP_H
 #define QBRZIP_H
 
-#include <quazip5/quazip.h>
-#include <quazip5/quazipfile.h>
-
 #include <QByteArray>
 #include <QStringList>
 #include <QString>
@@ -18,9 +15,10 @@ public:
     QByteArray getFileData(QString fileName);
     void clear();
 
+    const int MAX_FILE_NAME_LENGTH=256;
+
 private:
     bool entry_names_cs;
-    QuaZip zipArchive;
     QHash<QString, QByteArray> zipEntries;
 };
 

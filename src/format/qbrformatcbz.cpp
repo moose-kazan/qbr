@@ -1,6 +1,5 @@
 #include "qbrformatcbz.h"
 #include "../qbrtemplate.h"
-#include "../qbrzip.h"
 
 #include <QString>
 #include <QByteArray>
