@@ -80,7 +80,10 @@ unix: {
     icon.files = $${SRCDIR}/src/icon/512x512/qbr.png
     icon.path = $${DATADIR}/icons
 
-    INSTALLS += target desktop icon
+    examples.files = $${SRCDIR}/src/res/style.css
+    examples.path = $${DATADIR}/doc/examples
+
+    INSTALLS += target desktop icon examples
 }
 
 #unix: CONFIG += link_pkgconfig
@@ -99,6 +102,7 @@ DISTFILES += \
     debian/compat \
     debian/changelog \
     debian/copyright \
+    src/res/style.css \
     src/icon/16x16/qbr.png \
     src/icon/24x24/qbr.png \
     src/icon/32x32/qbr.png \
