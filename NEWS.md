@@ -1,6 +1,7 @@
 # Version 0.0.7 #
  * Fixed: "Save as HTML" now saved file with default stylesheet
- * Use libzip instead of libquazip. Less dependency list.
+ * Use libzip instead of libquazip. Less dependency list
+ * Small UI improvements
 
 # Version 0.0.6 #
 
