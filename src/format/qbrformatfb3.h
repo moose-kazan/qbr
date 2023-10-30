@@ -2,7 +2,7 @@
 #define QBRFORMATFB3_H
 
 #include "../qbrtemplate.h"
-#include "../qbrformat.h"
+#include "qbrformat.h"
 #include "../libs/qbrzip.h"
 #include <QString>
 #include <QByteArray>

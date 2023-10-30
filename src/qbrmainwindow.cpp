@@ -6,7 +6,7 @@
 #include "qbrwebenginepage.h"
 #include "qbrcfg.h"
 
-#include "qbrformat.h"
+#include "format/qbrformat.h"
 #include "format/qbrformatamb.h"
 #include "format/qbrformatcbz.h"
 #include "format/qbrformatfb2.h"

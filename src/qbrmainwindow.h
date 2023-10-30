@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
-#include "qbrformat.h"
+#include "format/qbrformat.h"
 
 namespace Ui {
 class QBRMainWindow;

@@ -1,7 +1,7 @@
 #ifndef QBRFORMATCBZ_H
 #define QBRFORMATCBZ_H
 
-#include "../qbrformat.h"
+#include "qbrformat.h"
 #include "../libs/qbrzip.h"
 #include <QByteArray>
 #include <QString>

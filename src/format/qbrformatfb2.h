@@ -1,7 +1,7 @@
 #ifndef QBRFORMATFB2_H
 #define QBRFORMATFB2_H
 
-#include "../qbrformat.h"
+#include "qbrformat.h"
 #include <QString>
 #include <QByteArray>
 #include <QDomNode>

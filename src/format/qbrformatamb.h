@@ -1,7 +1,7 @@
 #ifndef QBRFORMATAMB_H
 #define QBRFORMATAMB_H
 
-#include "../qbrformat.h"
+#include "qbrformat.h"
 #include <QByteArray>
 #include <QString>
 #include <QHash>
