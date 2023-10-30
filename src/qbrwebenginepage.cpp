@@ -36,9 +36,9 @@ void qbrWebEnginePage::positionSave(QString fileName)
     QPointF sPos = scrollPosition();
     QSizeF sSize = contentsSize();
     QPointF pos = QPointF(
-                    sPos.x()/sSize.height(),
-                    sPos.y()/sSize.width()
-                );
+                      sPos.x()/sSize.height(),
+                      sPos.y()/sSize.width()
+                  );
     qbrcfg::setFilePosition(fileName, pos);
 }
 

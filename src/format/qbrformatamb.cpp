@@ -65,8 +65,8 @@ bool QBRFormatAMB::parseAmb(QByteArray fileData)
     htmlData.append(qbrtemplate::header());
 
     htmlData.append(
-                amaToHtml("index.ama")
-            );
+        amaToHtml("index.ama")
+    );
 
     // Sort entry names with QCollator. It's fix some issues fith numbers
     QStringList entryNames = ambEntries.keys();
@@ -92,8 +92,8 @@ bool QBRFormatAMB::parseAmb(QByteArray fileData)
         if (entryNames.at(i) != "index.ama" && entryNames.at(i).endsWith(".ama"))
         {
             htmlData.append(
-                        amaToHtml(entryNames.at(i))
-                    );
+                amaToHtml(entryNames.at(i))
+            );
         }
     }
 

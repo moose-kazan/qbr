@@ -27,16 +27,16 @@ void QBRSettingsDialog::settingsLoad()
 
     switch(qbrcfg::getUiVariant())
     {
-        case qbrcfg::uiMenuOnly:
-            findChild<QRadioButton*>("uiMenuOnly")->setChecked(true);
+    case qbrcfg::uiMenuOnly:
+        findChild<QRadioButton*>("uiMenuOnly")->setChecked(true);
         break;
 
-        case qbrcfg::uiToolbarOnly:
-            findChild<QRadioButton*>("uiToolbarOnly")->setChecked(true);
+    case qbrcfg::uiToolbarOnly:
+        findChild<QRadioButton*>("uiToolbarOnly")->setChecked(true);
         break;
 
-        default:
-            findChild<QRadioButton*>("uiMenuAndToolbar")->setChecked(true);
+    default:
+        findChild<QRadioButton*>("uiMenuAndToolbar")->setChecked(true);
     }
 
     bookBgColor = qbrcfg::getBookBgColor();
@@ -82,11 +82,11 @@ void QBRSettingsDialog::bgColorChoose()
 void QBRSettingsDialog::customCssSelect()
 {
     QString fileName = QFileDialog::getOpenFileName(
-        this,
-        tr("Select File"),
-        QDir::homePath(),
-        tr("Stylesheets (%1)").arg("*.css")
-    );
+                           this,
+                           tr("Select File"),
+                           QDir::homePath(),
+                           tr("Stylesheets (%1)").arg("*.css")
+                       );
     if (fileName != "")
     {
         findChild<QLineEdit*>("customCssUrl")->setText(QUrl::fromLocalFile(fileName).toString());

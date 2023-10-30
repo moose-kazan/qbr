@@ -27,7 +27,7 @@ void qbrcfg::setStatusBarEnabled(bool enabled)
 
 int qbrcfg::getUiVariant()
 {
-     return getInstance()->value("uiVariant", 0).toInt();
+    return getInstance()->value("uiVariant", 0).toInt();
 }
 
 void qbrcfg::setUiVariant(int uiVaraint)

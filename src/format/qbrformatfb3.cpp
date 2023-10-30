@@ -237,9 +237,9 @@ bool QBRFormatFB3::parseFile(QByteArray fileData)
         if (default_node.attributes().contains("Extension") && default_node.attributes().contains("ContentType"))
         {
             fb3_ext_types.insert(
-                    default_node.attributes().namedItem("Extension").toAttr().value(),
-                    default_node.attributes().namedItem("ContentType").toAttr().value()
-                );
+                default_node.attributes().namedItem("Extension").toAttr().value(),
+                default_node.attributes().namedItem("ContentType").toAttr().value()
+            );
         }
     }
 
@@ -365,9 +365,9 @@ bool QBRFormatFB3::parseFile(QByteArray fileData)
             }
 
             fb3_binaries.insert(
-                    node_id,
-                    "data:" + node_content_type + ";base64," + node_entry_data.toBase64()
-                );
+                node_id,
+                "data:" + node_content_type + ";base64," + node_entry_data.toBase64()
+            );
 
             //qDebug() << "Id: " << node_id << " Target: " << node_target << " Type: " << node_content_type;
         }

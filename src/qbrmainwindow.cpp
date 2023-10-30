@@ -66,10 +66,10 @@ void QBRMainWindow::openFile()
     // Filter line
     QString filterLine = QString(tr("Books (%1)")).arg(allExt.join(" "));
     QString fileName = QFileDialog::getOpenFileName(
-                this,
-                tr("Open File"),
-                filterPath,
-                filterLine);
+                           this,
+                           tr("Open File"),
+                           filterPath,
+                           filterLine);
     if (fileName != "")
     {
         loadBook(fileName);
@@ -94,13 +94,13 @@ void QBRMainWindow::saveFileAs()
     QString filterLine = QString(tr("Html pages (%1)")).arg("*.htm *.html");
 
     QString fileName = QFileDialog::getSaveFileName(
-                this,
-                tr("Save file as..."),
-                filterPath,
-                filterLine);
+                           this,
+                           tr("Save file as..."),
+                           filterPath,
+                           filterLine);
     if (fileName != "")
     {
-        findChild<QWebEngineView*>("browser")->page()->toHtml([fileName](QString htmlData){
+        findChild<QWebEngineView*>("browser")->page()->toHtml([fileName](QString htmlData) {
             QFile f(fileName);
             if(f.open(QIODevice::WriteOnly))
             {
@@ -137,8 +137,8 @@ void QBRMainWindow::naviGoForward()
 void QBRMainWindow::naviFindGo()
 {
     findChild<QWebEngineView*>("browser")->findText(
-            findChild<QLineEdit*>("findText")->text()
-        );
+        findChild<QLineEdit*>("findText")->text()
+    );
 }
 
 void QBRMainWindow::naviFind()
@@ -209,20 +209,20 @@ void QBRMainWindow::readSettings()
 
     switch(qbrcfg::getUiVariant())
     {
-        case qbrcfg::uiMenuOnly:
-            menuBar()->setVisible(true);
-            findChild<QToolBar*>("toolBar")->setVisible(false);
+    case qbrcfg::uiMenuOnly:
+        menuBar()->setVisible(true);
+        findChild<QToolBar*>("toolBar")->setVisible(false);
 
         break;
 
-        case qbrcfg::uiToolbarOnly:
-            menuBar()->setVisible(false);
-            findChild<QToolBar*>("toolBar")->setVisible(true);
+    case qbrcfg::uiToolbarOnly:
+        menuBar()->setVisible(false);
+        findChild<QToolBar*>("toolBar")->setVisible(true);
         break;
 
-        default:
-            menuBar()->setVisible(true);
-            findChild<QToolBar*>("toolBar")->setVisible(true);
+    default:
+        menuBar()->setVisible(true);
+        findChild<QToolBar*>("toolBar")->setVisible(true);
     }
 }
 

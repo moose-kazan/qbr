@@ -23,22 +23,22 @@ QString qbrtemplate::header()
     styleSheetFile.close();
 
     QString rv = (
-                "<html>\n"
-                "<head>\n"
-                "<meta charset=\"utf-8\">\n"
-                "<style type=\"text/css\">\n"
-                + styleSheet +
-                "</style>\n"
-                );
+                     "<html>\n"
+                     "<head>\n"
+                     "<meta charset=\"utf-8\">\n"
+                     "<style type=\"text/css\">\n"
+                     + styleSheet +
+                     "</style>\n"
+                 );
     if (qbrcfg::getCustomStyleEnabled() && qbrcfg::getCustomStyleUrl() != "") {
         rv += "<link rel=\"stylesheet\" type=\"text/css\" href=\"" +
-                qbrcfg::getCustomStyleUrl().toHtmlEscaped() +
-                "\">";
+              qbrcfg::getCustomStyleUrl().toHtmlEscaped() +
+              "\">";
     }
     rv += (
-                "</head>\n"
-                "<body>\n"
-                );
+              "</head>\n"
+              "<body>\n"
+          );
     return rv;
 }
 
