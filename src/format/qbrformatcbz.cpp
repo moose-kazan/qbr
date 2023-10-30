@@ -11,7 +11,7 @@
 #include <QDebug>
 #include <QFile>
 
-QBRFormatCBZ::QBRFormatCBZ()
+QBRFormatCBZ::QBRFormatCBZ() : unZip(false)
 {
 
 }
@@ -35,7 +35,6 @@ bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData)
         return false;
     }
 
-    qbrzip unZip;
     if (!unZip.setData(fileData))
     {
         return false;

@@ -24,7 +24,15 @@ bool qbrzip::setData(QByteArray zipData)
 
     zip_source_t *src = zip_source_buffer_create(zipData.data(), zipData.size(), 1, &zipError);
 
+    if (src == NULL) {
+        return false;
+    }
+
     zip *zf = zip_open_from_source(src, 0, &zipError);
+
+    if (zf == NULL) {
+        return false;
+    }
 
     zip_int64_t filesCount = zip_get_num_entries(zf, 0);
 
@@ -32,7 +40,7 @@ bool qbrzip::setData(QByteArray zipData)
     {
         QString zipEntryName = zip_get_name(zf, i, 0);
 
-        qDebug() << "Filename: " << zipEntryName;
+        //qDebug() << "Filename: " << zipEntryName;
 
         if (zipEntryName.at(zipEntryName.length() - 1) == "/")
         {

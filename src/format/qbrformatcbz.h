@@ -16,6 +16,7 @@ public:
     QString getHtml() override;
 private:
     QString htmlData;
+    qbrzip unZip;
 };
 
 #endif // QBRFORMATCBZ_H
