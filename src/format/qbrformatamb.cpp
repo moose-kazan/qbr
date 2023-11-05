@@ -93,10 +93,10 @@ QString QBRFormatAMB::convertToUtf8(QByteArray fileData) {
     unsigned char cur_char = fileData[i];
     unsigned short new_char = 0;
     if (cur_char < 128) {
-      rv.append(cur_char);
+      rv.append(QChar(cur_char));
     } else {
       new_char = unicodeMap[cur_char - 128];
-      rv.append(new_char);
+      rv.append(QChar(new_char));
     }
   }
   return rv;
@@ -123,12 +123,12 @@ QString QBRFormatAMB::amaToHtml(QString fileName) {
 
   for (int i = 0; i < fileData.length(); i++) {
     QChar c = fileData.at(i);
-    if (c == "\r") {
+    if (c == QChar(0x0d)) {
       continue;
     }
 
     if (readlink) {
-      if (c == "\n" || c == ":") {
+      if (c == QChar(0x0a) || c == ':') {
         rv.append("\">");
         opentag = "a";
         readlink = false;
@@ -140,18 +140,18 @@ QString QBRFormatAMB::amaToHtml(QString fileName) {
     }
 
     if (escnow) {
-      if (c == "%") {
+      if (c == '%') {
         rv.append("%");
-      } else if (c == "l") {
+      } else if (c == 'l') {
         rv.append("<a href=\"#");
         readlink = true;
-      } else if (c == "h") {
+      } else if (c == 'h') {
         rv.append("<h1>");
         opentag = "h1";
-      } else if (c == "!") {
+      } else if (c == '!') {
         rv.append("<span class=\"amb_notice\">");
         opentag = "span";
-      } else if (c == "b") {
+      } else if (c == 'b') {
         rv.append("<span class=\"amb_boring\">");
         opentag = "span";
       }
@@ -160,10 +160,10 @@ QString QBRFormatAMB::amaToHtml(QString fileName) {
       continue;
     }
 
-    if (opentag.length() > 0 && (c == "\n" || c == "%")) {
+    if (opentag.length() > 0 && (c == QChar(0x0a) || c == '%')) {
       // if it end with spaces
       for (int j = rv.length() - 1; j >= 0; j--) {
-        if (rv.at(j) != " ") {
+        if (rv.at(j) != ' ') {
           rv.insert(j + 1, "</" + opentag + ">");
           break;
         }
@@ -171,9 +171,9 @@ QString QBRFormatAMB::amaToHtml(QString fileName) {
       opentag = "";
     }
 
-    if (c == "%") {
+    if (c == '%') {
       escnow = true;
-    } else if (c == "\n") {
+    } else if (c == QChar(0x0a)) {
       rv.append("<br />\n");
     } else {
       rv.append(QString(c).toHtmlEscaped());

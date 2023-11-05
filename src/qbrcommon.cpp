@@ -1,8 +1,9 @@
 #include "qbrcommon.h"
 
 #include <QDebug>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QString>
+#include <QApplication>
 #include <math.h>
 
 qbrcommon::qbrcommon() {}
@@ -10,9 +11,9 @@ qbrcommon::qbrcommon() {}
 float qbrcommon::getDesktopScale() {
   // Fix for HiDpi screens
   // By default X.Org have 72 dpi
-  QDesktopWidget desktop;
+  QScreen *desktop = QApplication::screens().at(0);
 
-  int desktopDpi = desktop.logicalDpiY();
+  int desktopDpi = desktop->physicalDotsPerInch();
   return desktopDpi > 72 ? desktopDpi / 72 : 1;
 }
 

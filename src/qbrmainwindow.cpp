@@ -18,6 +18,7 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QWebEngineHistory>
+#include <QRegularExpression>
 
 QBRMainWindow::QBRMainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::QBRMainWindow) {
@@ -61,7 +62,7 @@ void QBRMainWindow::openFile() {
   for (int i = 0; i < bookParsers.count(); i++) {
     allExt.append(bookParsers.at(i)->getExtensions());
   }
-  allExt.replaceInStrings(QRegExp("^"), "*.");
+  allExt.replaceInStrings(QRegularExpression("^"), "*.");
 
   // Filter line
   QString filterLine = QString(tr("Books (%1)")).arg(allExt.join(" "));

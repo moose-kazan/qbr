@@ -37,7 +37,7 @@ bool qbrzip::setData(QByteArray zipData) {
 
     // qDebug() << "Filename: " << zipEntryName;
 
-    if (zipEntryName.at(zipEntryName.length() - 1) == "/") {
+    if (zipEntryName.at(zipEntryName.length() - 1) == '/') {
       continue;
     }
 

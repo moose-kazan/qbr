@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QString>
 #include <QStringList>
 #include <QtCore>
@@ -17,8 +17,8 @@ QStringList QBRFormatCBZ::getExtensions() { return QStringList("cbz"); }
 
 bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
   htmlData = ""; // reset data from previous file
-  QRegExp rx("\\.cbz$", Qt::CaseInsensitive);
-  if (rx.indexIn(fileName) < 0) {
+  QRegularExpression rx("\\.cbz$", QRegularExpression::CaseInsensitiveOption);
+  if (!rx.match(fileName).hasMatch()) {
     return false;
   }
 
@@ -39,12 +39,12 @@ bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
   for (int i = 0; i < zipEntryNames.count(); i++) {
     QString zipEntryName = zipEntryNames.at(i);
     QString mimeType = "";
-    if (QRegExp("\\.png$", Qt::CaseInsensitive).indexIn(zipEntryName)) {
+    if (QRegularExpression("\\.png$", QRegularExpression::CaseInsensitiveOption).match(zipEntryName).hasMatch()) {
       mimeType = "image/png";
-    } else if (QRegExp("\\.gif$", Qt::CaseInsensitive).indexIn(zipEntryName)) {
+    } else if (QRegularExpression("\\.gif$", QRegularExpression::CaseInsensitiveOption).match(zipEntryName).hasMatch()) {
       mimeType = "image/gif";
-    } else if (QRegExp("\\.jpe?g$", Qt::CaseInsensitive)
-                   .indexIn(zipEntryName)) {
+    } else if (QRegularExpression("\\.jpe?g$", QRegularExpression::CaseInsensitiveOption)
+                   .match(zipEntryName).hasMatch()) {
       mimeType = "image/jpeg";
     }
 

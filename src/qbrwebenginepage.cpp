@@ -1,19 +1,15 @@
 #include "qbrwebenginepage.h"
 #include "qbrcfg.h"
+#include "qbrcommon.h"
 
 #include <QDebug>
 #include <QDesktopServices>
-#include <QDesktopWidget>
 #include <QUrl>
-#include <QWebEnginePage>
 
 qbrWebEnginePage::qbrWebEnginePage() : QWebEnginePage() {
   // qDebug() << "WebEnginePage created";
-  QDesktopWidget desktop;
 
-  int desktopDpi = desktop.logicalDpiY();
-
-  setZoomFactor(desktopDpi > 72 ? desktopDpi / 72 : 1);
+  setZoomFactor(qbrcommon::getDesktopScale());
 }
 
 bool qbrWebEnginePage::acceptNavigationRequest(

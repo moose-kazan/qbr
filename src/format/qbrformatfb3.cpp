@@ -13,6 +13,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QRegularExpression>
 
 /*
  * Format description:
@@ -30,8 +31,8 @@ bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData) {
   unZip.clear();
   fb3_binaries.clear();
 
-  QRegExp rx("\\.fb3$", Qt::CaseInsensitive);
-  if (rx.indexIn(fileName) < 0) {
+  QRegularExpression rx("\\.fb3$", QRegularExpression::CaseInsensitiveOption);
+  if (!rx.match(fileName).hasMatch()) {
     return false;
   }
 
@@ -228,7 +229,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
 
   // Try to load body
   QByteArray fb3_body_data = unZip.getFileData(body_entry_name);
-  if (fb3_body_data == NULL) {
+  if (fb3_body_data.isNull()) {
     return false;
   }
 
@@ -244,10 +245,10 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
 
   body_entry_base_path = body_entry_name_info.path();
 
-  if (body_entry_base_path == ".") {
+  if (body_entry_base_path == '.') {
     body_entry_base_path = "";
-  } else if (!body_entry_base_path.endsWith("/")) {
-    body_entry_base_path.append("/");
+  } else if (!body_entry_base_path.endsWith('/')) {
+    body_entry_base_path.append('/');
   }
   body_rels_entry_name = body_entry_base_path;
   body_rels_entry_name.append("_rels/");
@@ -256,7 +257,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
 
   // Try to load body rels file
   QByteArray body_rels_data = unZip.getFileData(body_rels_entry_name);
-  if (body_rels_data == NULL) {
+  if (body_rels_data.isNull()) {
     return false;
   }
 
@@ -304,7 +305,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
       }
 
       QByteArray node_entry_data = unZip.getFileData(node_target);
-      if (node_entry_data == NULL) {
+      if (node_entry_data.isNull()) {
         return false;
       }
 
