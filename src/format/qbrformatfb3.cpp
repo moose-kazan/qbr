@@ -228,7 +228,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
   }
 
   // Try to load body
-  QByteArray fb3_body_data = unZip.getFileData(body_entry_name);
+  QByteArray fb3_body_data(unZip.getFileData(body_entry_name));
   if (fb3_body_data.isNull()) {
     return false;
   }
@@ -256,7 +256,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
   body_rels_entry_name.append(".rels");
 
   // Try to load body rels file
-  QByteArray body_rels_data = unZip.getFileData(body_rels_entry_name);
+  QByteArray body_rels_data(unZip.getFileData(body_rels_entry_name));
   if (body_rels_data.isNull()) {
     return false;
   }
@@ -304,7 +304,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
         }
       }
 
-      QByteArray node_entry_data = unZip.getFileData(node_target);
+      QByteArray node_entry_data(unZip.getFileData(node_target));
       if (node_entry_data.isNull()) {
         return false;
       }
