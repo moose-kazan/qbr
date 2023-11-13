@@ -112,6 +112,14 @@ DISTFILES += \
     src/icon/128x128/qbr.png \
     src/icon/256x256/qbr.png \
     src/icon/512x512/qbr.png \
+    src/icon/qbr/actions/go-next.png \
+    src/icon/qbr/actions/document-save-as.png \
+    src/icon/qbr/actions/edit-find.png \
+    src/icon/qbr/actions/go-previous.png \
+    src/icon/qbr/actions/help-about.png \
+    src/icon/qbr/actions/document-open.png \
+    src/icon/qbr/actions/preferences-system.png \
+    src/icon/qbr/actions/application-exit.png \
     src/res/default_fb2.xml \
     src/res/default_ru_fb2.xml \
     NEWS.md \

@@ -167,8 +167,8 @@
   </widget>
   <action name="actionOpen_File">
    <property name="icon">
-    <iconset theme="document-open">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/document-open.png</normaloff>:/icon/qbr/actions/document-open.png</iconset>
    </property>
    <property name="text">
     <string>Open File</string>
@@ -179,8 +179,8 @@
   </action>
   <action name="actionSave_as">
    <property name="icon">
-    <iconset theme="document-save-as">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/document-save-as.png</normaloff>:/icon/qbr/actions/document-save-as.png</iconset>
    </property>
    <property name="text">
     <string>Save as</string>
@@ -191,8 +191,8 @@
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset theme="application-exit">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/application-exit.png</normaloff>:/icon/qbr/actions/application-exit.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -203,8 +203,8 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset theme="help-about">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/help-about.png</normaloff>:/icon/qbr/actions/help-about.png</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -212,8 +212,8 @@
   </action>
   <action name="actionAbout_Qt">
    <property name="icon">
-    <iconset theme="help-about">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/help-about.png</normaloff>:/icon/qbr/actions/help-about.png</iconset>
    </property>
    <property name="text">
     <string>About Qt</string>
@@ -221,8 +221,8 @@
   </action>
   <action name="actionGo_back">
    <property name="icon">
-    <iconset theme="go-previous">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/go-previous.png</normaloff>:/icon/qbr/actions/go-previous.png</iconset>
    </property>
    <property name="text">
     <string>Go back</string>
@@ -230,8 +230,8 @@
   </action>
   <action name="actionGo_forward">
    <property name="icon">
-    <iconset theme="go-next">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/go-next.png</normaloff>:/icon/qbr/actions/go-next.png</iconset>
    </property>
    <property name="text">
     <string>Go forward</string>
@@ -239,8 +239,8 @@
   </action>
   <action name="actionFind_text">
    <property name="icon">
-    <iconset theme="edit-find">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/edit-find.png</normaloff>:/icon/qbr/actions/edit-find.png</iconset>
    </property>
    <property name="text">
     <string>Find text</string>
@@ -251,7 +251,8 @@
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset theme="preferences-system"/>
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/preferences-system.png</normaloff>:/icon/qbr/actions/preferences-system.png</iconset>
    </property>
    <property name="text">
     <string>Settings</string>
@@ -265,7 +266,9 @@
    <header location="global">QtWebEngineWidgets/QWebEngineView</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="qbr.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionExit</sender>

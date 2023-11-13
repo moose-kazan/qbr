@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QIcon>
 #include <QTranslator>
+#include <QDebug>
 
 int main(int argc, char *argv[]) {
   QString currentLocale = QLocale::system().name();
@@ -11,6 +12,9 @@ int main(int argc, char *argv[]) {
   QString langFilePath = ":/languages/qbr_";
   langFilePath.append(currentLocale);
   langFilePath.append(".qm");
+
+  //QIcon::setThemeSearchPaths(QStringList(":/icon"));
+  //QIcon::setThemeName("qbr");
 
   QApplication a(argc, argv);
 

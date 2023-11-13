@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
-  <rect style="paint-order: stroke; fill: rgb(129, 131, 133); stroke: rgb(6, 6, 6); stroke-width: 10px;" x="20.429" y="25.115" width="456.578" height="455.298" rx="20" ry="20" transform="matrix(1, 0, 0, 1, -5.684341886080802e-14, 5.684341886080802e-14)"/>
-  <rect style="stroke: rgb(0, 0, 0); stroke-width: 6px; fill: rgb(47, 77, 165);" x="65.065" y="63.792" width="372.163" height="386.909" rx="10" ry="10" transform="matrix(1, 0, 0, 1, -5.684341886080802e-14, 5.684341886080802e-14)"/>
-  <rect style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 6px;" x="153.886" y="55.379" width="190.452" height="160.644" rx="10" ry="10" transform="matrix(1, 0, 0, 1, -5.684341886080802e-14, 5.684341886080802e-14)"/>
-  <rect style="stroke: rgb(0, 0, 0); stroke-width: 6px; fill: rgb(47, 77, 165);" x="170.658" y="72.149" width="65.212" height="124.646" rx="10" ry="10" transform="matrix(1, 0, 0, 1, -5.684341886080802e-14, 5.684341886080802e-14)"/>
-  <rect style="stroke: rgb(0, 0, 0); stroke-width: 6px; fill: rgb(188, 0, 13);" x="154.578" y="125.449" width="189.155" height="155.13" rx="10" ry="10" transform="matrix(1, 0, 0, 1, -5.684341886080802e-14, 5.684341886080802e-14)"/>
-  <path d="M 251.479 -392 L 409.584 -264.087 L 93.374 -264.087 L 251.479 -392 Z" style="stroke: rgb(0, 0, 0); stroke-width: 6px; fill: rgb(188, 0, 13);" transform="matrix(1, 0, 0, -1, -5.684341886080802e-14, 5.684341886080802e-14)" bx:shape="triangle 93.374 -392 316.21 127.913 0.5 0 1@b72a3562"/>
-</svg>

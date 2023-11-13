@@ -14,5 +14,13 @@
         <file>res/default_fb2.xml</file>
         <file>res/default_ru_fb2.xml</file>
         <file>res/style.css</file>
+        <file>icon/qbr/actions/application-exit.png</file>
+        <file>icon/qbr/actions/document-open.png</file>
+        <file>icon/qbr/actions/document-save-as.png</file>
+        <file>icon/qbr/actions/edit-find.png</file>
+        <file>icon/qbr/actions/go-next.png</file>
+        <file>icon/qbr/actions/go-previous.png</file>
+        <file>icon/qbr/actions/help-about.png</file>
+        <file>icon/qbr/actions/preferences-system.png</file>
     </qresource>
 </RCC>

@@ -1,7 +1,7 @@
 scripts/
 tests
 icons-src/
-qbr
+./qbr
 .qmake.stash
 Makefile
 *.o

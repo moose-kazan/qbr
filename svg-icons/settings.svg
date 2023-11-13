@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-  <rect style="paint-order: stroke; fill: rgb(129, 131, 133); stroke: rgb(6, 6, 6); stroke-width: 10px;" x="20.429" y="25.115" width="456.578" height="455.298" rx="20" ry="20" transform="matrix(1, 0, 0, 1, 0, -2.842170943040401e-14)"/>
-  <rect style="stroke: rgb(0, 0, 0); stroke-width: 6px; fill: rgb(6, 222, 27);" x="46.115" y="88.69" width="409.7" height="119.444" rx="20" ry="20" transform="matrix(1, 0, 0, 1, 0, -2.842170943040401e-14)"/>
-  <rect style="stroke: rgb(0, 0, 0); stroke-width: 6px; fill: rgb(217, 5, 0);" x="46.116" y="289.814" width="409.7" height="119.444" rx="20" ry="20" transform="matrix(1, 0, 0, 1, 0, -2.842170943040401e-14)"/>
-  <rect style="stroke: rgb(0, 0, 0); stroke-width: 6px; fill: rgb(218, 218, 218);" x="292.064" y="73.278" width="147.055" height="148.983" rx="20" ry="20" transform="matrix(1, 0, 0, 1, 0, -2.842170943040401e-14)"/>
-  <rect style="stroke: rgb(0, 0, 0); stroke-width: 6px; fill: rgb(218, 218, 218);" x="61.206" y="274.277" width="147.055" height="148.983" rx="20" ry="20" transform="matrix(1, 0, 0, 1, 0, -2.842170943040401e-14)"/>
-</svg>
