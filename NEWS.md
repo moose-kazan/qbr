@@ -3,6 +3,7 @@
  * Use libzip instead of libquazip. Less dependency list
  * Small UI improvements
  * Initial Qt6 support
+ * Internal icons. Need for Non-Linux builds and solve some issues in Qt6 build
 
 # Version 0.0.6 #
 
