@@ -41,6 +41,8 @@ QBRMainWindow::QBRMainWindow(QWidget *parent)
   statusBarFileName = new QLabel(this);
   statusBar()->addWidget(statusBarFileName);
 
+  setContextMenuPolicy(Qt::NoContextMenu);
+
   setWindowTitle(tr("Qt Book Reader"));
   setGeometry(300, 300, 720, 600);
   readState();
