@@ -4,4 +4,4 @@ tests
 .qmake.stash
 Makefile
 *.o
-package/
+release/
