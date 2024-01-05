@@ -14,9 +14,10 @@ echo "qbr (${PKG_VERSION}-${PKG_DISTR}${PKG_PPAVER}) ${PKG_DISTR}; urgency=mediu
 
  -- Vadim Kalinnikov <moose@ylsoftware.com>  $(date --rfc-email)" > debian/changelog
 
-#dpkg-buildpackage --root-command=fakeroot --build=source
-dpkg-buildpackage --root-command=fakeroot --build=full
+dpkg-buildpackage --root-command=fakeroot --build=source
+#dpkg-buildpackage --root-command=fakeroot --build=full
 
 ls ..
 
 mv -v ../qbr_${PKG_VERSION}* /release/
+mv -v ../qbr-dbgsym_${PKG_VERSION}* /release/
