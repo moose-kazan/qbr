@@ -2,7 +2,7 @@ Source: qbr
 Section: text
 Priority: optional
 Maintainer: Vadim Kalinnikov <moose@ylsoftware.com>
-Build-Depends: debhelper (>= 7), qt5-qmake, qtwebengine5-dev, libzip-dev pkg-config
+Build-Depends: debhelper (>= 7), qt5-qmake, qtwebengine5-dev, libzip-dev, pkg-config
 Standards-Version: 4.5.0
 Homepage: https://github.com/moose-kazan/qbr
 Vcs-Git: https://github.com/moose-kazan/qbr.git
