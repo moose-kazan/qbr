@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>597</width>
-    <height>389</height>
+    <width>450</width>
+    <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,31 +16,43 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>0</y>
-     <width>581</width>
-     <height>381</height>
+     <width>450</width>
+     <height>260</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="rootVLayout">
     <item>
      <widget class="QGroupBox" name="groupBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+	<height>233</height>
+       </size>
+      </property>
       <property name="title">
        <string/>
       </property>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>20</y>
-         <width>541</width>
-         <height>291</height>
+	 <x>0</x>
+	 <y>0</y>
+	 <width>450</width>
+	 <height>233</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QLabel" name="appLogo">
-          <property name="text">
+	  <property name="minimumSize">
+	   <size>
+	    <width>128</width>
+	    <height>128</height>
+	   </size>
+	  </property>
+	  <property name="text">
            <string/>
           </property>
           <property name="pixmap">
@@ -50,6 +62,12 @@
         </item>
         <item>
          <widget class="QLabel" name="appTitle">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+	    <height>45</height>
+           </size>
+          </property>
           <property name="text">
            <string>&lt;h1&gt;Qt Book Reader&lt;/h1&gt;</string>
           </property>
@@ -57,12 +75,18 @@
            <set>Qt::AlignCenter</set>
           </property>
           <property name="wordWrap">
-           <bool>true</bool>
+	   <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="appDesc">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+	    <height>60</height>
+           </size>
+          </property>
           <property name="text">
            <string>Simple e-Book reader written on C++ with Qt library.</string>
           </property>
@@ -70,7 +94,7 @@
            <set>Qt::AlignCenter</set>
           </property>
           <property name="wordWrap">
-           <bool>true</bool>
+	   <bool>true</bool>
           </property>
          </widget>
         </item>
