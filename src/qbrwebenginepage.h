@@ -3,7 +3,6 @@
 
 #include <QWebEnginePage>
 #include <QUrl>
-#include <QPointF>
 
 class qbrWebEnginePage : public QWebEnginePage
 {
