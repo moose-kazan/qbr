@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>560</width>
-    <height>651</height>
+    <height>492</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,9 +26,9 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>590</y>
+     <y>450</y>
      <width>341</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="orientation">
@@ -44,7 +44,7 @@
      <x>10</x>
      <y>10</y>
      <width>541</width>
-     <height>181</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="title">
@@ -54,9 +54,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>40</y>
+      <y>30</y>
       <width>511</width>
-      <height>34</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -67,9 +67,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>80</y>
+      <y>60</y>
       <width>511</width>
-      <height>34</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -80,9 +80,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>120</y>
+      <y>90</y>
       <width>511</width>
-      <height>34</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -93,10 +93,10 @@
   <widget class="QCheckBox" name="statusBarEnable">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>500</y>
+     <x>10</x>
+     <y>370</y>
      <width>521</width>
-     <height>34</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
@@ -106,10 +106,10 @@
   <widget class="QCheckBox" name="enableLoadLast">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>550</y>
+     <x>10</x>
+     <y>410</y>
      <width>521</width>
-     <height>34</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
@@ -120,9 +120,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>200</y>
+     <y>150</y>
      <width>541</width>
-     <height>121</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="title">
@@ -132,9 +132,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>40</y>
+      <y>30</y>
       <width>61</width>
-      <height>51</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -144,8 +144,8 @@
    <widget class="QLabel" name="bgColorLabel">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>50</y>
+      <x>90</x>
+      <y>30</y>
       <width>421</width>
       <height>31</height>
      </rect>
@@ -159,9 +159,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>330</y>
+     <y>240</y>
      <width>541</width>
-     <height>161</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
@@ -171,9 +171,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>40</y>
+      <y>30</y>
       <width>511</width>
-      <height>41</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -184,9 +184,9 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>90</y>
+      <y>60</y>
       <width>51</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -201,9 +201,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>60</y>
       <width>441</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="clearButtonEnabled">
