@@ -1,3 +1,6 @@
+# Version 0.0.8 devel #
+ * Moved to Qt6
+
 # Version 0.0.7 #
  * Fixed: "Save as HTML" now saved file with default stylesheet
  * Use libzip instead of libquazip. Less dependency list

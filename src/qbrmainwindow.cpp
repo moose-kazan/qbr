@@ -2,7 +2,6 @@
 #include "qbraboutdialog.h"
 #include "qbrcfg.h"
 #include "qbrsettingsdialog.h"
-#include "qbrtemplate.h"
 #include "qbrwebenginepage.h"
 #include "ui_qbrmainwindow.h"
 
@@ -44,7 +43,8 @@ QBRMainWindow::QBRMainWindow(QWidget *parent)
   setContextMenuPolicy(Qt::NoContextMenu);
 
   setWindowTitle(tr("Qt Book Reader"));
-  setGeometry(300, 300, 720, 600);
+  //setGeometry(150, 150, 640, 480);
+  setMinimumSize(600, 400);
   readState();
   readSettings();
 }
@@ -76,7 +76,7 @@ void QBRMainWindow::openFile() {
 }
 
 void QBRMainWindow::saveFileAs() {
-  // If file no loaded
+  // If no file loaded
   if (getCurrentFileName().length() < 1) {
     return;
   }

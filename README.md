@@ -15,13 +15,13 @@
 
 #### Сборка на Ubuntu 22.04: ####
 1. Склонировать репозиторий
-2. sudo apt install qt5-qmake qtwebengine5-dev build-essential pkg-config libzip-dev
-3. mkdir -p build && cd build && qmake .. && make
+2. sudo apt install qmake6 qt6-webengine-dev build-essential pkg-config libzip-dev
+3. mkdir -p build && cd build && qmake6 .. && make
 
 #### Сборка на AltLinux p10 ####
-1. sudo apt-get install git qt5-base-devel qt5-webengine-devel pkg-config libzip-devel
+1. sudo apt-get install git qt6-base-devel qt6-webengine-devel pkg-config libzip-devel
 2. Склонировать репозиторий
-3. mkdir -p build && cd build && qmake-qt5 .. && make
+3. mkdir -p build && cd build && qmake-qt6 .. && make
 
 #### Установка из PPA (на Ubuntu 22.04): ####
 1. sudo add-apt-repository ppa:bulvinkl/ppa
@@ -41,13 +41,13 @@ For now it support the next file formats:
 
 #### Build on Ubuntu 22.04: ####
 1. Clone this repository
-2. sudo apt install qt5-qmake qtwebengine5-dev libquazip5-dev pkg-config libzip-dev
-3. mkdir -p build && cd build && qmake .. && make
+2. sudo apt install qmake6 qt6-webengine-dev build-essential pkg-config libzip-dev
+3. mkdir -p build && cd build && qmake6 .. && make
 
 #### Build on AltLinux p10 ####
-1. sudo apt-get install git qt5-base-devel qt5-webengine-devel pkg-config libzip-devel
+1. sudo apt-get install git qt6-base-devel qt6-webengine-devel pkg-config libzip-devel
 2. Clone this repository
-3. mkdir -p build && cd build && qmake-qt5 .. && make
+3. mkdir -p build && cd build && qmake-qt6 .. && make
 
 #### Install from PPA (Ubuntu 22.04): ####
 1. sudo add-apt-repository ppa:bulvinkl/ppa

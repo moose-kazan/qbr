@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>260</height>
+    <height>311</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>0</x>
      <y>0</y>
      <width>450</width>
-     <height>260</height>
+     <height>266</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="rootVLayout">
@@ -28,7 +28,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-	<height>233</height>
+        <height>233</height>
        </size>
       </property>
       <property name="title">
@@ -37,22 +37,22 @@
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-	 <x>0</x>
-	 <y>0</y>
-	 <width>450</width>
-	 <height>233</height>
+         <x>0</x>
+         <y>0</y>
+         <width>450</width>
+         <height>261</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QLabel" name="appLogo">
-	  <property name="minimumSize">
-	   <size>
-	    <width>128</width>
-	    <height>128</height>
-	   </size>
-	  </property>
-	  <property name="text">
+          <property name="minimumSize">
+           <size>
+            <width>128</width>
+            <height>128</height>
+           </size>
+          </property>
+          <property name="text">
            <string/>
           </property>
           <property name="pixmap">
@@ -65,7 +65,7 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-	    <height>45</height>
+            <height>45</height>
            </size>
           </property>
           <property name="text">
@@ -75,7 +75,7 @@
            <set>Qt::AlignCenter</set>
           </property>
           <property name="wordWrap">
-	   <bool>false</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -84,7 +84,7 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-	    <height>60</height>
+            <height>60</height>
            </size>
           </property>
           <property name="text">
@@ -94,7 +94,7 @@
            <set>Qt::AlignCenter</set>
           </property>
           <property name="wordWrap">
-	   <bool>true</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -102,14 +102,20 @@
       </widget>
      </widget>
     </item>
-    <item>
-     <widget class="QPushButton" name="okButton">
-      <property name="text">
-       <string>OK</string>
-      </property>
-     </widget>
-    </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="okButton">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>270</y>
+     <width>271</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
   </widget>
  </widget>
  <resources>
