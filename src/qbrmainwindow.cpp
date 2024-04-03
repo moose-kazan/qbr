@@ -18,6 +18,8 @@
 #include <QTemporaryFile>
 #include <QWebEngineHistory>
 #include <QRegularExpression>
+#include <QLineEdit>
+#include <QCheckBox>
 
 QBRMainWindow::QBRMainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::QBRMainWindow) {
@@ -28,8 +30,6 @@ QBRMainWindow::QBRMainWindow(QWidget *parent)
   bookParsers.append(new QBRFormatFB3());
 
   ui->setupUi(this);
-
-  findChild<QWidget *>("findWidget")->setVisible(false);
 
   QWebEngineView *browser = findChild<QWebEngineView *>("browser");
   browser->setPage(new qbrWebEnginePage);
@@ -47,6 +47,10 @@ QBRMainWindow::QBRMainWindow(QWidget *parent)
   setMinimumSize(600, 400);
   readState();
   readSettings();
+
+  aboutDlg = new QBRAboutDialog(this, Qt::Dialog);
+  findDlg = new QBRFindDialog(this, Qt::Dialog);
+  settingsDlg = new QBRSettingsDialog(this, Qt::Dialog);
 }
 
 void QBRMainWindow::openFile() {
@@ -109,7 +113,6 @@ void QBRMainWindow::saveFileAs() {
 }
 
 void QBRMainWindow::helpAbout() {
-  QBRAboutDialog *aboutDlg = new QBRAboutDialog(this, Qt::Dialog);
   aboutDlg->show();
 }
 
@@ -125,35 +128,28 @@ void QBRMainWindow::naviGoForward() {
   findChild<QWebEngineView *>("browser")->forward();
 }
 
-void QBRMainWindow::naviFindGo() {
-  findChild<QWebEngineView *>("browser")->findText(
-      findChild<QLineEdit *>("findText")->text());
-}
-
 void QBRMainWindow::naviFind() {
   if (getCurrentFileName().length() < 1) {
     return;
   }
-  bool visible = findChild<QWidget *>("findWidget")->isVisible();
 
-  QSize sizeMin = minimumSize();
-  QSize sizeMax = maximumSize();
-  setFixedSize(size());
+  if (findDlg->exec() == QDialog::Accepted) {
+    QString findText = findDlg->findChild<QLineEdit *>("findText")->text();
+    bool optionFindBackward = findDlg->findChild<QCheckBox *>("findBackward")->isChecked();
+    bool optionCaseSentive = findDlg->findChild<QCheckBox *>("CaseSensitive")->isChecked();
 
-  if (visible) {
-    findChild<QWebEngineView *>("browser")->findText("");
-    findChild<QLineEdit *>("findText")->setText("");
-    findChild<QWidget *>("findWidget")->hide();
-  } else {
-    findChild<QWidget *>("findWidget")->show();
-    findChild<QLineEdit *>("findText")->setFocus();
+    QWebEnginePage::FindFlags findFlags;
+    if (optionFindBackward) findFlags.setFlag(QWebEnginePage::FindBackward, true);
+    if (optionCaseSentive) findFlags.setFlag(QWebEnginePage::FindCaseSensitively, true);
+
+    findChild<QWebEngineView *>("browser")->findText(findText, findFlags);
   }
-  setMinimumSize(sizeMin);
-  setMaximumSize(sizeMax);
+  else {
+    findChild<QWebEngineView *>("browser")->findText("");
+  }
 }
 
 void QBRMainWindow::settingsShow() {
-  QBRSettingsDialog *settingsDlg = new QBRSettingsDialog(this, Qt::Dialog);
   settingsDlg->settingsLoad();
   if (settingsDlg->exec() == QDialog::Accepted) {
     settingsDlg->settingsSave();
