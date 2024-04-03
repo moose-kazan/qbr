@@ -14,6 +14,7 @@ QBRFindDialog::QBRFindDialog(QWidget *parent, Qt::WindowFlags f)
 
 void QBRFindDialog::showEvent(QShowEvent *event)
 {
+    (void)event;
     findChild<QLineEdit *>("findText")->setFocus();
 }
 
