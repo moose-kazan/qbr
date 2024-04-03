@@ -13,164 +13,186 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbraboutdialog.ui" line="54"/>
+        <location filename="../qbraboutdialog.ui" line="72"/>
         <source>&lt;h1&gt;Qt Book Reader&lt;/h1&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qbraboutdialog.ui" line="67"/>
+        <location filename="../qbraboutdialog.ui" line="91"/>
         <source>Simple e-Book reader written on C++ with Qt library.</source>
         <translation>Простая читалка электронных книг, написанная на C++ с использованием библиотеки Qt</translation>
     </message>
     <message>
-        <location filename="../qbraboutdialog.ui" line="84"/>
+        <location filename="../qbraboutdialog.ui" line="117"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qbraboutdialog.cpp" line="15"/>
+        <location filename="../qbraboutdialog.cpp" line="13"/>
         <source>About</source>
         <translation>О программе</translation>
+    </message>
+</context>
+<context>
+    <name>QBRFindDialog</name>
+    <message>
+        <location filename="../qbrfinddialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrfinddialog.ui" line="52"/>
+        <source>Find backward</source>
+        <translation>Искать назад</translation>
+    </message>
+    <message>
+        <location filename="../qbrfinddialog.ui" line="65"/>
+        <source>Case sensitive</source>
+        <translation>Учитывать регистр</translation>
+    </message>
+    <message>
+        <location filename="../qbrfinddialog.cpp" line="9"/>
+        <source>Find Text</source>
+        <translation>Найти текст</translation>
     </message>
 </context>
 <context>
     <name>QBRMainWindow</name>
     <message>
         <location filename="../qbrmainwindow.ui" line="20"/>
-        <location filename="../qbrmainwindow.cpp" line="44"/>
-        <location filename="../qbrmainwindow.cpp" line="124"/>
+        <location filename="../qbrmainwindow.cpp" line="45"/>
+        <location filename="../qbrmainwindow.cpp" line="120"/>
         <source>Qt Book Reader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="54"/>
+        <location filename="../qbrmainwindow.ui" line="72"/>
         <source>about:blank</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="89"/>
         <source>Find</source>
-        <translation>Найти</translation>
+        <translation type="vanished">Найти</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="111"/>
+        <location filename="../qbrmainwindow.ui" line="92"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="122"/>
+        <location filename="../qbrmainwindow.ui" line="103"/>
         <source>Navigation</source>
         <translation>Навигация</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="130"/>
+        <location filename="../qbrmainwindow.ui" line="111"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="142"/>
+        <location filename="../qbrmainwindow.ui" line="123"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="174"/>
-        <location filename="../qbrmainwindow.cpp" line="70"/>
+        <location filename="../qbrmainwindow.ui" line="155"/>
+        <location filename="../qbrmainwindow.cpp" line="75"/>
         <source>Open File</source>
         <translation>Открыть файл</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="177"/>
+        <location filename="../qbrmainwindow.ui" line="158"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="186"/>
+        <location filename="../qbrmainwindow.ui" line="167"/>
         <source>Save as</source>
         <translation>Сохранить как</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="189"/>
+        <location filename="../qbrmainwindow.ui" line="170"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="198"/>
+        <location filename="../qbrmainwindow.ui" line="179"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="201"/>
+        <location filename="../qbrmainwindow.ui" line="182"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="210"/>
+        <location filename="../qbrmainwindow.ui" line="191"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="219"/>
+        <location filename="../qbrmainwindow.ui" line="200"/>
         <source>About Qt</source>
         <translation>О Qt</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="228"/>
+        <location filename="../qbrmainwindow.ui" line="209"/>
         <source>Go back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="237"/>
+        <location filename="../qbrmainwindow.ui" line="218"/>
         <source>Go forward</source>
         <translation>Вперёд</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="246"/>
+        <location filename="../qbrmainwindow.ui" line="227"/>
         <source>Find text</source>
         <translation>Найти текст</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="249"/>
+        <location filename="../qbrmainwindow.ui" line="230"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="257"/>
+        <location filename="../qbrmainwindow.ui" line="239"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="98"/>
+        <location filename="../qbrmainwindow.cpp" line="100"/>
         <source>Save file as...</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="67"/>
+        <location filename="../qbrmainwindow.cpp" line="74"/>
         <source>Books (%1)</source>
         <translation>Книги (%1)</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="94"/>
+        <location filename="../qbrmainwindow.cpp" line="98"/>
         <source>Html pages (%1)</source>
         <translation>HTML-страницы (%1)</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="253"/>
-        <location filename="../qbrmainwindow.cpp" line="272"/>
+        <location filename="../qbrmainwindow.cpp" line="220"/>
+        <location filename="../qbrmainwindow.cpp" line="239"/>
         <source>Can&apos;t load book</source>
         <translation>Не удалось открыть книгу</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="253"/>
+        <location filename="../qbrmainwindow.cpp" line="220"/>
         <source>I/O error!</source>
         <translation>Ошибка ввода/вывода!</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="272"/>
+        <location filename="../qbrmainwindow.cpp" line="240"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Формат файла не поддерживается или файл испорчен!</translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="316"/>
+        <location filename="../qbrmainwindow.cpp" line="280"/>
         <source>Qt Book Reader - %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -229,12 +251,12 @@
         <translation>Добавить свою таблицу стилей</translation>
     </message>
     <message>
-        <location filename="../qbrsettingsdialog.cpp" line="15"/>
+        <location filename="../qbrsettingsdialog.cpp" line="13"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../qbrsettingsdialog.cpp" line="86"/>
+        <location filename="../qbrsettingsdialog.cpp" line="81"/>
         <source>Select File</source>
         <translation>Выбрать файл</translation>
     </message>
@@ -243,7 +265,7 @@
         <translation type="obsolete">Открыть файл</translation>
     </message>
     <message>
-        <location filename="../qbrsettingsdialog.cpp" line="88"/>
+        <location filename="../qbrsettingsdialog.cpp" line="82"/>
         <source>Stylesheets (%1)</source>
         <translation>Таблицы стилей (%1)</translation>
     </message>
@@ -251,7 +273,7 @@
 <context>
     <name>main.cpp</name>
     <message>
-        <location filename="../main.cpp" line="31"/>
+        <location filename="../main.cpp" line="34"/>
         <source>:/res/default_fb2.xml</source>
         <translation>:/res/default_ru_fb2.xml</translation>
     </message>
