@@ -1,6 +1,7 @@
 # Version 0.0.8 devel #
  * Moved to Qt6
  * Fixed some memory leaks
+ * New "Find text" dialog with some new options
 
 # Version 0.0.7 #
  * Fixed: "Save as HTML" now saved file with default stylesheet

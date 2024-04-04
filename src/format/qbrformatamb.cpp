@@ -10,7 +10,7 @@
 /*
  * AMB support
  *
- * Based on: http://amb.osdn.io/phpamb.php?fname=archiwum/format-20201216.amb
+ * Based on: https://ambook.sourceforge.net/phpamb.php?fname=archiwum/format-20201216.amb
  *
  * Some ideas found here:
  * https://sourceforge.net/p/utf8tocp/code/HEAD/tree/trunk/utf8tocp.c And here:
