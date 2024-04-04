@@ -21,11 +21,17 @@ QBRFormatAMB::QBRFormatAMB() {}
 
 QStringList QBRFormatAMB::getExtensions() { return QStringList("amb"); }
 
+QBRBookInfo QBRFormatAMB::getBookInfo()
+{
+    return bookInfo;
+}
+
 bool QBRFormatAMB::parseAmb(QByteArray fileData) {
   // Check file signature
   if (!fileData.startsWith("AMB1")) {
     return false;
   }
+
   int filesCount = qFromLittleEndian<qint16>(fileData.mid(4, 2).data());
 
   for (int i = 0; i < filesCount; i++) {
@@ -52,6 +58,11 @@ bool QBRFormatAMB::parseAmb(QByteArray fileData) {
       unicodeMap[i] = qFromLittleEndian<qint16>(
           ambEntries.value("unicode.map").mid(i * 2, 2).data());
     }
+  }
+
+  // If it have title
+  if (ambEntries.contains("title")) {
+    bookInfo.Title = convertToUtf8(ambEntries.value("title")).replace("\n", "").replace("\r", "");
   }
 
   htmlData.append(qbrtemplate::header());
@@ -197,6 +208,9 @@ QString QBRFormatAMB::amaToHtml(QString fileName) {
 bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData) {
   // reset data from previous file
   htmlData = "";
+  bookInfo = {};
+  bookInfo.FileFormat = "Ancient Machine's Book";
+
   ambEntries.clear();
   for (int i = 0; i < 128; i++)
     unicodeMap[i] = defaultUnicodeMap[i];

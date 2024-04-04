@@ -13,7 +13,9 @@ public:
     bool loadFile(QString fileName, QByteArray fileData) override;
     QStringList getExtensions() override;
     QString getHtml() override;
+    QBRBookInfo getBookInfo() override;
 private:
+    QBRBookInfo bookInfo;
     bool parseAmb(QByteArray fileData);
     QString convertToUtf8(QByteArray fileData);
     QString amaToHtml(QString fileName);

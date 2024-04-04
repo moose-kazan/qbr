@@ -94,6 +94,8 @@
     <addaction name="actionOpen_File"/>
     <addaction name="actionSave_as"/>
     <addaction name="separator"/>
+    <addaction name="actionBook_Info"/>
+    <addaction name="separator"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
@@ -144,7 +146,7 @@
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
-   <addaction name="actionAbout"/>
+   <addaction name="actionBook_Info"/>
   </widget>
   <action name="actionOpen_File">
    <property name="icon">
@@ -237,6 +239,15 @@
    </property>
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionBook_Info">
+   <property name="icon">
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/help-about.png</normaloff>:/icon/qbr/actions/help-about.png</iconset>
+   </property>
+   <property name="text">
+    <string>Book Info</string>
    </property>
   </action>
  </widget>
@@ -395,6 +406,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionBook_Info</sender>
+   <signal>triggered()</signal>
+   <receiver>QBRMainWindow</receiver>
+   <slot>fileBookInfo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>helpAbout()</slot>
@@ -405,5 +432,6 @@
   <slot>naviGoForward()</slot>
   <slot>saveFileAs()</slot>
   <slot>settingsShow()</slot>
+  <slot>fileBookInfo()</slot>
  </slots>
 </ui>

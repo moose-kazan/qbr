@@ -15,9 +15,19 @@
 
 QBRFormatFB2::QBRFormatFB2() {}
 
+QBRBookInfo QBRFormatFB2::getBookInfo()
+{
+    return bookInfo;
+}
+
+
 QStringList QBRFormatFB2::getExtensions() { return QStringList("fb2"); }
 
 QString QBRFormatFB2::parseXmlTextFromNode(QDomNode xmlNode) {
+  if (xmlNode.isNull()) {
+    return "";
+  }
+
   if (xmlNode.isText()) {
     return xmlNode.nodeValue();
   }
@@ -189,11 +199,58 @@ bool QBRFormatFB2::parseXml(QByteArray fileData) {
   }
   htmlData.append(qbrtemplate::footer());
 
+  parseBookInfo(parserXml);
+
   return true;
+}
+
+void QBRFormatFB2::parseBookInfo(QDomDocument *parserXml)
+{
+    QDomElement nodeTitleInfo = parserXml->firstChildElement("FictionBook")
+            .firstChildElement("description")
+            .firstChildElement("title-info");
+    if (nodeTitleInfo.isNull()) {
+        //qDebug() << "Book description is null";
+        return;
+    }
+
+    QDomElement nodeBookTitle = nodeTitleInfo.firstChildElement("book-title");
+    if (!nodeBookTitle.isNull()) {
+        bookInfo.Title = parseXmlTextFromNode(nodeBookTitle);
+    }
+
+    QDomNodeList nodeAuthors = nodeTitleInfo.elementsByTagName("author");
+    for (int i = 0; i < nodeAuthors.count(); i++) {
+        QString firstName = parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("first-name"));
+        QString lastName = parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("last-name"));
+        if (firstName == "" && lastName == "") {
+            continue;
+        }
+        QString middleName = parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("middle-name"));
+
+        QString authorName = firstName;
+        if (middleName != "") {
+            authorName += " " + middleName;
+        }
+        authorName += " " + lastName;
+
+        if (bookInfo.Author == "") {
+            bookInfo.Author = authorName;
+        }
+        else {
+            bookInfo.Author += ", " + authorName;
+        }
+    }
+
+    //qDebug() << "Book title" << bookInfo.Title;
+    //qDebug() << "Book author" << bookInfo.Author;
 }
 
 bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData) {
   htmlData = "";  // reset data from previous file
+  bookInfo = {};
+  bookInfo.FileFormat = "FictionBook 2";
+
   (void)fileName; // Remove "unused parameter" warning
   try {
     return parseXml(fileData);

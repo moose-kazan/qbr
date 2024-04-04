@@ -27,6 +27,7 @@ SOURCES += \
     src/qbraboutdialog.cpp \
     src/qbrcfg.cpp \
     src/qbrcommon.cpp \
+    src/qbrfileinfodialog.cpp \
     src/qbrfinddialog.cpp \
     src/qbrmainwindow.cpp \
     src/qbrsettingsdialog.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     src/qbraboutdialog.h \
     src/qbrcfg.h \
     src/qbrcommon.h \
+    src/qbrfileinfodialog.h \
     src/qbrfinddialog.h \
     src/qbrmainwindow.h \
     src/qbrsettingsdialog.h \
@@ -52,6 +54,7 @@ HEADERS += \
 
 FORMS += \
     src/qbraboutdialog.ui \
+    src/qbrfileinfodialog.ui \
     src/qbrfinddialog.ui \
     src/qbrmainwindow.ui \
     src/qbrsettingsdialog.ui

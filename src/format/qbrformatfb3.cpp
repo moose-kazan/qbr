@@ -23,11 +23,20 @@
 
 QBRFormatFB3::QBRFormatFB3() : unZip(false) {}
 
+QBRBookInfo QBRFormatFB3::getBookInfo()
+{
+    return bookInfo;
+}
+
+
 QStringList QBRFormatFB3::getExtensions() { return QStringList("fb3"); }
 
 bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData) {
   // reset data from previous file
   htmlData = "";
+  bookInfo = {};
+  bookInfo.FileFormat = "FictionBook 3";
+
   unZip.clear();
   fb3_binaries.clear();
 

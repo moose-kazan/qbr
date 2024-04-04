@@ -30,6 +30,34 @@
     </message>
 </context>
 <context>
+    <name>QBRFileInfoDialog</name>
+    <message>
+        <location filename="../qbrfileinfodialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrfileinfodialog.cpp" line="9"/>
+        <source>Book Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrfileinfodialog.cpp" line="31"/>
+        <source>File type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrfileinfodialog.cpp" line="35"/>
+        <source>Book author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrfileinfodialog.cpp" line="39"/>
+        <source>Book title</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QBRFindDialog</name>
     <message>
         <location filename="../qbrfinddialog.ui" line="14"/>
@@ -57,7 +85,7 @@
     <message>
         <location filename="../qbrmainwindow.ui" line="20"/>
         <location filename="../qbrmainwindow.cpp" line="45"/>
-        <location filename="../qbrmainwindow.cpp" line="120"/>
+        <location filename="../qbrmainwindow.cpp" line="121"/>
         <source>Qt Book Reader</source>
         <translation type="unfinished"></translation>
     </message>
@@ -72,119 +100,124 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="103"/>
+        <location filename="../qbrmainwindow.ui" line="105"/>
         <source>Navigation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="111"/>
+        <location filename="../qbrmainwindow.ui" line="113"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="123"/>
+        <location filename="../qbrmainwindow.ui" line="125"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="155"/>
-        <location filename="../qbrmainwindow.cpp" line="75"/>
+        <location filename="../qbrmainwindow.ui" line="157"/>
+        <location filename="../qbrmainwindow.cpp" line="76"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="158"/>
+        <location filename="../qbrmainwindow.ui" line="160"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="167"/>
+        <location filename="../qbrmainwindow.ui" line="169"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="170"/>
+        <location filename="../qbrmainwindow.ui" line="172"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="179"/>
+        <location filename="../qbrmainwindow.ui" line="181"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="182"/>
+        <location filename="../qbrmainwindow.ui" line="184"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="191"/>
+        <location filename="../qbrmainwindow.ui" line="193"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="200"/>
+        <location filename="../qbrmainwindow.ui" line="202"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="209"/>
+        <location filename="../qbrmainwindow.ui" line="211"/>
         <source>Go back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="218"/>
+        <location filename="../qbrmainwindow.ui" line="220"/>
         <source>Go forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="227"/>
+        <location filename="../qbrmainwindow.ui" line="229"/>
         <source>Find text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="230"/>
+        <location filename="../qbrmainwindow.ui" line="232"/>
         <source>Ctrl+F</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.ui" line="239"/>
+        <location filename="../qbrmainwindow.ui" line="241"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="100"/>
+        <location filename="../qbrmainwindow.ui" line="250"/>
+        <source>Book Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qbrmainwindow.cpp" line="101"/>
         <source>Save file as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="74"/>
+        <location filename="../qbrmainwindow.cpp" line="75"/>
         <source>Books (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="98"/>
+        <location filename="../qbrmainwindow.cpp" line="99"/>
         <source>Html pages (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="220"/>
-        <location filename="../qbrmainwindow.cpp" line="239"/>
+        <location filename="../qbrmainwindow.cpp" line="229"/>
+        <location filename="../qbrmainwindow.cpp" line="249"/>
         <source>Can&apos;t load book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="220"/>
+        <location filename="../qbrmainwindow.cpp" line="229"/>
         <source>I/O error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="240"/>
+        <location filename="../qbrmainwindow.cpp" line="250"/>
         <source>Unsupported file format or broken file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qbrmainwindow.cpp" line="280"/>
+        <location filename="../qbrmainwindow.cpp" line="290"/>
         <source>Qt Book Reader - %1</source>
         <translation type="unfinished"></translation>
     </message>

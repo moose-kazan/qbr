@@ -14,12 +14,14 @@ public:
     bool loadFile(QString fileName, QByteArray fileData) override;
     QStringList getExtensions() override;
     QString getHtml() override;
-
+    QBRBookInfo getBookInfo() override;
 private:
+    QBRBookInfo bookInfo;
     QString htmlData;
     bool parseXml(QByteArray fileData);
     QString parseXmlTextFromNode(QDomNode xmlNode);
     QString parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xmlImages);
+    void parseBookInfo(QDomDocument *parserXml);
 };
 
 #endif // QBRFORMATFB2_H

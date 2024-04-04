@@ -14,7 +14,9 @@ public:
     bool loadFile(QString fileName, QByteArray fileData) override;
     QStringList getExtensions() override;
     QString getHtml() override;
+    QBRBookInfo getBookInfo() override;
 private:
+    QBRBookInfo bookInfo;
     QString htmlData;
     qbrzip unZip;
 };

@@ -50,6 +50,7 @@ QBRMainWindow::QBRMainWindow(QWidget *parent)
 
   aboutDlg = new QBRAboutDialog(this, Qt::Dialog);
   findDlg = new QBRFindDialog(this, Qt::Dialog);
+  fileInfoDlg = new QBRFileInfoDialog(this, Qt::Dialog);
   settingsDlg = new QBRSettingsDialog(this, Qt::Dialog);
 }
 
@@ -158,6 +159,14 @@ void QBRMainWindow::settingsShow() {
   }
 }
 
+void QBRMainWindow::fileBookInfo() {
+    if (getCurrentFileName().length() < 1) {
+      return;
+    }
+    fileInfoDlg->setBookInfo(bookInfo);
+    fileInfoDlg->exec();
+}
+
 void QBRMainWindow::closeEvent(QCloseEvent *event) {
   positionSave();
   qbrcfg::setMainWindowState(saveState());
@@ -232,6 +241,7 @@ void QBRMainWindow::loadBook(QString fileName) {
         findChild<QWebEngineView *>("browser")->load(
             QUrl::fromLocalFile(f.fileName()));
         setCurrentFileName(fileName);
+        bookInfo = bookParsers.at(i)->getBookInfo();
       }
       return;
     }

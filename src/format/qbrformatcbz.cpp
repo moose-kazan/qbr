@@ -13,10 +13,18 @@
 
 QBRFormatCBZ::QBRFormatCBZ() : unZip(false) {}
 
+QBRBookInfo QBRFormatCBZ::getBookInfo()
+{
+    return bookInfo;
+}
+
 QStringList QBRFormatCBZ::getExtensions() { return QStringList("cbz"); }
 
 bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
   htmlData = ""; // reset data from previous file
+  bookInfo = {};
+  bookInfo.FileFormat = "Comics Book Zip";
+
   QRegularExpression rx("\\.cbz$", QRegularExpression::CaseInsensitiveOption);
   if (!rx.match(fileName).hasMatch()) {
     return false;

@@ -6,6 +6,7 @@
 #include "format/qbrformat.h"
 #include "qbraboutdialog.h"
 #include "qbrfinddialog.h"
+#include "qbrfileinfodialog.h"
 #include "qbrsettingsdialog.h"
 
 namespace Ui {
@@ -37,6 +38,7 @@ private slots:
     void naviGoForward();
     void naviFind();
     void settingsShow();
+    void fileBookInfo();
 
 private:
     void readState();
@@ -47,10 +49,13 @@ private:
 
     QBRAboutDialog *aboutDlg;
     QBRFindDialog *findDlg;
+    QBRFileInfoDialog *fileInfoDlg;
     QBRSettingsDialog *settingsDlg;
 
     Ui::QBRMainWindow *ui;
     QList<QBRFormat*> bookParsers;
+
+    QBRBookInfo bookInfo;
 };
 
 #endif // QBRMAINWINDOW_H
