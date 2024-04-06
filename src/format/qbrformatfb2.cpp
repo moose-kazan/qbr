@@ -13,7 +13,9 @@
 
 #include <QDebug>
 
-QBRFormatFB2::QBRFormatFB2() {}
+QBRFormatFB2::QBRFormatFB2() {
+    parserXml = new QDomDocument();
+}
 
 QBRBookInfo QBRFormatFB2::getBookInfo()
 {
@@ -143,7 +145,6 @@ QString QBRFormatFB2::parseXmlBody(QDomNode xmlNode,
 
 bool QBRFormatFB2::parseXml(QByteArray fileData) {
 
-  QDomDocument *parserXml = new QDomDocument();
   QString paserXmlErrorMsg;
   int parserXmlErrorLine;
   int parserXmlErrorColumn;
