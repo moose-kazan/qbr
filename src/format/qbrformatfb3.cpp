@@ -10,10 +10,10 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QHash>
+#include <QRegularExpression>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QRegularExpression>
 
 /*
  * Format description:
@@ -47,6 +47,10 @@ bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData) {
 }
 
 QString QBRFormatFB3::parseFB3TextFromNode(QDomNode xmlNode) {
+  if (xmlNode.isNull()) {
+    return "";
+  }
+
   if (xmlNode.isText()) {
     return xmlNode.nodeValue();
   }
@@ -157,6 +161,61 @@ QString QBRFormatFB3::parseFB3Node(QDomNode xmlNode) {
   return rv;
 }
 
+void QBRFormatFB3::parseFB3Metadata(QString entryName) {
+  QByteArray fb3_description_data(unZip.getFileData(entryName));
+  if (fb3_description_data.isNull()) {
+    return;
+  }
+
+  QDomDocument descriptionXml;
+  if (!descriptionXml.setContent(fb3_description_data)) {
+    return;
+  }
+
+  QDomElement nodeBookTitle =
+      descriptionXml.firstChildElement("fb3-description")
+          .firstChildElement("title")
+          .firstChildElement("main");
+  if (!nodeBookTitle.isNull()) {
+    bookInfo.Title = parseFB3TextFromNode(nodeBookTitle);
+  }
+
+  QDomNodeList nodeAuthors = descriptionXml.firstChildElement("fb3-description")
+                                 .elementsByTagName("subject");
+
+  for (int i = 0; i < nodeAuthors.length(); i++) {
+    QDomNode nodeAuthor = nodeAuthors.at(i);
+    if (!nodeAuthor.attributes().contains("link")) {
+      continue;
+    }
+    if (nodeAuthor.attributes().namedItem("link").toAttr().value() !=
+        "author") {
+      continue;
+    }
+    QString firstName =
+        parseFB3TextFromNode(nodeAuthor.firstChildElement("first-name"));
+    QString lastName =
+        parseFB3TextFromNode(nodeAuthor.firstChildElement("last-name"));
+    if (firstName == "" && lastName == "") {
+      continue;
+    }
+    QString middleName =
+        parseFB3TextFromNode(nodeAuthor.firstChildElement("middle-name"));
+
+    QString authorName = firstName;
+    if (middleName != "") {
+      authorName += " " + middleName;
+    }
+    authorName += " " + lastName;
+
+    if (bookInfo.Author == "") {
+      bookInfo.Author = authorName;
+    } else {
+      bookInfo.Author += ", " + authorName;
+    }
+  }
+}
+
 bool QBRFormatFB3::parseFile(QByteArray fileData) {
   if (!unZip.setData(fileData)) {
     return false;
@@ -170,19 +229,31 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
 
   for (int i = 0; i < requiredFiles.count(); i++) {
     if (!zipEntryNames.contains(requiredFiles.at(i), Qt::CaseInsensitive)) {
+      // qDebug() << "can't find file: " << requiredFiles.at(i);
       return false;
     }
   }
 
-  QDomDocument *docContentType = new QDomDocument();
-  if (!docContentType->setContent(unZip.getFileData(
-          zipEntryNames.filter("[Content_Types].xml", Qt::CaseInsensitive)
-              .at(0)))) {
+  QByteArray docContentTypeData = unZip.getFileData(
+      zipEntryNames.filter("[Content_Types].xml", Qt::CaseInsensitive).at(0));
+  if (docContentTypeData.isNull()) {
+    // qDebug() << "can't extract [Content_Types].xml";
+    return false;
+  }
+
+  QDomDocument docContentType;
+  QString docContentTypeErrorMsg;
+  if (!docContentType.setContent(docContentTypeData, true,
+                                 &docContentTypeErrorMsg)) {
+    qDebug() << "can't parse [Content_Types].xml" << docContentTypeErrorMsg;
     return false;
   }
 
   // Default file name of body entry
   QString body_entry_name = "fb3/body.xml";
+
+  // Default file name of description entry
+  QString description_entry_name = "fb3/description.xml";
 
   // Extensions -> Content-TYpe
   QHash<QString, QString> fb3_ext_types;
@@ -191,7 +262,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
   QHash<QString, QDomNode> fb3_overrides;
 
   // Load content-types for extensions
-  QDomNodeList fb3_default_nodes = docContentType->elementsByTagName("Default");
+  QDomNodeList fb3_default_nodes = docContentType.elementsByTagName("Default");
   for (int i = 0; i < fb3_default_nodes.count(); i++) {
     QDomNode default_node = fb3_default_nodes.at(i);
     if (default_node.attributes().contains("Extension") &&
@@ -204,7 +275,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
 
   // Try to find bodies and load overrides
   QDomNodeList fb3_overrides_nodes =
-      docContentType->elementsByTagName("Override");
+      docContentType.elementsByTagName("Override");
   for (int i = 0; i < fb3_overrides_nodes.count(); i++) {
     QDomNode override_node = fb3_overrides_nodes.at(i);
     if (override_node.attributes().contains("PartName") &&
@@ -224,20 +295,30 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
               .toAttr()
               .value() == "application/fb3-body+xml") {
         body_entry_name = overridePartName;
+      } else if (override_node.attributes()
+                     .namedItem("ContentType")
+                     .toAttr()
+                     .value() == "application/fb3-description+xml") {
+        description_entry_name = overridePartName;
       } else {
         fb3_overrides.insert(overridePartName, override_node);
       }
     }
   }
 
+  // Process metadata
+  parseFB3Metadata(description_entry_name);
+
   // Try to load body
   QByteArray fb3_body_data(unZip.getFileData(body_entry_name));
   if (fb3_body_data.isNull()) {
+    // qDebug() << "can't extract fb3 body";
     return false;
   }
 
-  QDomDocument *bodyXml = new QDomDocument();
-  if (!bodyXml->setContent(fb3_body_data)) {
+  QDomDocument bodyXml;
+  if (!bodyXml.setContent(fb3_body_data)) {
+    // qDebug() << "can't parse fb3 body";
     return false;
   }
 
@@ -264,13 +345,13 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
     return false;
   }
 
-  QDomDocument *bodyRelsXml = new QDomDocument();
-  if (!bodyRelsXml->setContent(body_rels_data)) {
+  QDomDocument bodyRelsXml;
+  if (!bodyRelsXml.setContent(body_rels_data)) {
     return false;
   }
 
   // Load binaries
-  QDomNodeList relation_nodes = bodyRelsXml->elementsByTagName("Relationship");
+  QDomNodeList relation_nodes = bodyRelsXml.elementsByTagName("Relationship");
   for (int i = 0; i < relation_nodes.count(); i++) {
     QDomNode relation_node = relation_nodes.at(i);
     if (relation_node.attributes().contains("Id") &&
@@ -323,9 +404,9 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
   // Process body
   htmlData.append(qbrtemplate::header());
   htmlData.append("<div class=\"document_body\">\n");
-  for (int i = 0; i < bodyXml->childNodes().count(); i++) {
+  for (int i = 0; i < bodyXml.childNodes().count(); i++) {
 
-    htmlData.append(parseFB3Node(bodyXml->childNodes().at(i)));
+    htmlData.append(parseFB3Node(bodyXml.childNodes().at(i)));
   }
   htmlData.append("</div>\n");
   htmlData.append(qbrtemplate::footer());
@@ -333,7 +414,4 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
   return true;
 }
 
-QBRBook QBRFormatFB3::getBook()
-{
-    return QBRBook{bookInfo, htmlData};
-}
+QBRBook QBRFormatFB3::getBook() { return QBRBook{bookInfo, htmlData}; }

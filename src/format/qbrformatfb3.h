@@ -25,6 +25,7 @@ private:
     QString parseFB3TextFromNode(QDomNode xmlNode);
     qbrzip unZip;
     QHash<QString, QString> fb3_binaries;
+    void parseFB3Metadata(QString entryName);
 };
 
 #endif // QBRFORMATFB3_H
