@@ -17,12 +17,6 @@ QBRFormatFB2::QBRFormatFB2() {
     parserXml = new QDomDocument();
 }
 
-QBRBookInfo QBRFormatFB2::getBookInfo()
-{
-    return bookInfo;
-}
-
-
 QStringList QBRFormatFB2::getExtensions() { return QStringList("fb2"); }
 
 QString QBRFormatFB2::parseXmlTextFromNode(QDomNode xmlNode) {
@@ -262,4 +256,7 @@ bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData) {
   return false;
 }
 
-QString QBRFormatFB2::getHtml() { return htmlData; }
+QBRBook QBRFormatFB2::getBook()
+{
+    return QBRBook{bookInfo, htmlData};
+}

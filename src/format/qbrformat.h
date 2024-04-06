@@ -11,14 +11,18 @@ struct QBRBookInfo {
     QString FileFormat;
 };
 
+struct QBRBook {
+    QBRBookInfo metadata;
+    QString html;
+};
+
 class QBRFormat
 {
 public:
     QBRFormat();
     virtual bool loadFile(QString fileName, QByteArray fileData) { return fileName != "" && fileData.size() > 0 && false; };
-    virtual QString getHtml() { return QString(""); };
+    virtual QBRBook getBook() { return QBRBook{}; };
     virtual QStringList getExtensions() { return QStringList(); };
-    virtual QBRBookInfo getBookInfo() { return QBRBookInfo{}; };
     bool isZipFile(QByteArray data);
 };
 

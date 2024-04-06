@@ -12,8 +12,7 @@ public:
     QBRFormatAMB();
     bool loadFile(QString fileName, QByteArray fileData) override;
     QStringList getExtensions() override;
-    QString getHtml() override;
-    QBRBookInfo getBookInfo() override;
+    QBRBook getBook() override;
 private:
     QBRBookInfo bookInfo;
     bool parseAmb(QByteArray fileData);

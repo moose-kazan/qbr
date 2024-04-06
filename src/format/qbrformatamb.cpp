@@ -21,11 +21,6 @@ QBRFormatAMB::QBRFormatAMB() {}
 
 QStringList QBRFormatAMB::getExtensions() { return QStringList("amb"); }
 
-QBRBookInfo QBRFormatAMB::getBookInfo()
-{
-    return bookInfo;
-}
-
 bool QBRFormatAMB::parseAmb(QByteArray fileData) {
   // Check file signature
   if (!fileData.startsWith("AMB1")) {
@@ -44,7 +39,6 @@ bool QBRFormatAMB::parseAmb(QByteArray fileData) {
         qFromLittleEndian<qint32>(fileData.mid(entryOffset + 12, 4).data());
     int entryFileLength =
         qFromLittleEndian<qint16>(fileData.mid(entryOffset + 16, 2).data());
-
     ambEntries.insert(entryName.toLower(),
                       fileData.mid(entryFileOffset, entryFileLength));
 
@@ -234,4 +228,7 @@ bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData) {
   return false;
 }
 
-QString QBRFormatAMB::getHtml() { return htmlData; }
+QBRBook QBRFormatAMB::getBook()
+{
+    return QBRBook{bookInfo, htmlData};
+}

@@ -235,13 +235,14 @@ void QBRMainWindow::loadBook(QString fileName) {
       QTemporaryFile f(QDir::tempPath() + "/QBR.XXXXXXX.html");
       f.setAutoRemove(false);
       if (f.open()) {
-        f.write(bookParsers.at(i)->getHtml().toUtf8());
+        QBRBook fullBook = bookParsers.at(i)->getBook();
+        f.write(fullBook.html.toUtf8());
         f.close();
 
         findChild<QWebEngineView *>("browser")->load(
             QUrl::fromLocalFile(f.fileName()));
         setCurrentFileName(fileName);
-        bookInfo = bookParsers.at(i)->getBookInfo();
+        bookInfo = fullBook.metadata;
       }
       return;
     }

@@ -13,11 +13,6 @@
 
 QBRFormatCBZ::QBRFormatCBZ() : unZip(false) {}
 
-QBRBookInfo QBRFormatCBZ::getBookInfo()
-{
-    return bookInfo;
-}
-
 QStringList QBRFormatCBZ::getExtensions() { return QStringList("cbz"); }
 
 bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
@@ -70,4 +65,7 @@ bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
   return true;
 }
 
-QString QBRFormatCBZ::getHtml() { return htmlData; }
+QBRBook QBRFormatCBZ::getBook()
+{
+    return QBRBook{bookInfo, htmlData};
+}

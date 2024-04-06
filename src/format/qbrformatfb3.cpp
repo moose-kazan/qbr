@@ -23,12 +23,6 @@
 
 QBRFormatFB3::QBRFormatFB3() : unZip(false) {}
 
-QBRBookInfo QBRFormatFB3::getBookInfo()
-{
-    return bookInfo;
-}
-
-
 QStringList QBRFormatFB3::getExtensions() { return QStringList("fb3"); }
 
 bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData) {
@@ -339,4 +333,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
   return true;
 }
 
-QString QBRFormatFB3::getHtml() { return htmlData; }
+QBRBook QBRFormatFB3::getBook()
+{
+    return QBRBook{bookInfo, htmlData};
+}

@@ -16,8 +16,7 @@ public:
     QBRFormatFB3();
     bool loadFile(QString fileName, QByteArray fileData) override;
     QStringList getExtensions() override;
-    QString getHtml() override;
-    QBRBookInfo getBookInfo() override;
+    QBRBook getBook() override;
 private:
     QBRBookInfo bookInfo;
     QString htmlData;
