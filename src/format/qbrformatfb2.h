@@ -16,6 +16,7 @@ public:
     QString getHtml() override;
     QBRBookInfo getBookInfo() override;
 private:
+    QDomDocument *parserXml;
     QBRBookInfo bookInfo;
     QString htmlData;
     bool parseXml(QByteArray fileData);
