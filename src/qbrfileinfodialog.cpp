@@ -23,6 +23,7 @@ void QBRFileInfoDialog::showEvent(QShowEvent *event)
     QTableWidget *tw = findChild<QTableWidget *>("bookInfo");
 
     tw->clear();
+    tw->setRowCount(0); // Workaround for some bugly systems
 
     tw->setColumnCount(1);
     tw->horizontalHeader()->hide();
