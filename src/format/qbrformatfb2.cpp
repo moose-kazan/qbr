@@ -13,9 +13,7 @@
 
 #include <QDebug>
 
-QBRFormatFB2::QBRFormatFB2() {
-    parserXml = new QDomDocument();
-}
+QBRFormatFB2::QBRFormatFB2() { parserXml = new QDomDocument(); }
 
 QStringList QBRFormatFB2::getExtensions() { return QStringList("fb2"); }
 
@@ -199,50 +197,51 @@ bool QBRFormatFB2::parseXml(QByteArray fileData) {
   return true;
 }
 
-void QBRFormatFB2::parseBookInfo(QDomDocument *parserXml)
-{
-    QDomElement nodeTitleInfo = parserXml->firstChildElement("FictionBook")
-            .firstChildElement("description")
-            .firstChildElement("title-info");
-    if (nodeTitleInfo.isNull()) {
-        //qDebug() << "Book description is null";
-        return;
+void QBRFormatFB2::parseBookInfo(QDomDocument *parserXml) {
+  QDomElement nodeTitleInfo = parserXml->firstChildElement("FictionBook")
+                                  .firstChildElement("description")
+                                  .firstChildElement("title-info");
+  if (nodeTitleInfo.isNull()) {
+    // qDebug() << "Book description is null";
+    return;
+  }
+
+  QDomElement nodeBookTitle = nodeTitleInfo.firstChildElement("book-title");
+  if (!nodeBookTitle.isNull()) {
+    bookInfo.Title = parseXmlTextFromNode(nodeBookTitle);
+  }
+
+  QDomNodeList nodeAuthors = nodeTitleInfo.elementsByTagName("author");
+  for (int i = 0; i < nodeAuthors.count(); i++) {
+    QString firstName =
+        parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("first-name"));
+    QString lastName =
+        parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("last-name"));
+    if (firstName == "" && lastName == "") {
+      continue;
     }
+    QString middleName = parseXmlTextFromNode(
+        nodeAuthors.at(i).firstChildElement("middle-name"));
 
-    QDomElement nodeBookTitle = nodeTitleInfo.firstChildElement("book-title");
-    if (!nodeBookTitle.isNull()) {
-        bookInfo.Title = parseXmlTextFromNode(nodeBookTitle);
+    QString authorName = firstName;
+    if (middleName != "") {
+      authorName += " " + middleName;
     }
+    authorName += " " + lastName;
 
-    QDomNodeList nodeAuthors = nodeTitleInfo.elementsByTagName("author");
-    for (int i = 0; i < nodeAuthors.count(); i++) {
-        QString firstName = parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("first-name"));
-        QString lastName = parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("last-name"));
-        if (firstName == "" && lastName == "") {
-            continue;
-        }
-        QString middleName = parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("middle-name"));
-
-        QString authorName = firstName;
-        if (middleName != "") {
-            authorName += " " + middleName;
-        }
-        authorName += " " + lastName;
-
-        if (bookInfo.Author == "") {
-            bookInfo.Author = authorName;
-        }
-        else {
-            bookInfo.Author += ", " + authorName;
-        }
+    if (bookInfo.Author == "") {
+      bookInfo.Author = authorName;
+    } else {
+      bookInfo.Author += ", " + authorName;
     }
+  }
 
-    //qDebug() << "Book title" << bookInfo.Title;
-    //qDebug() << "Book author" << bookInfo.Author;
+  // qDebug() << "Book title" << bookInfo.Title;
+  // qDebug() << "Book author" << bookInfo.Author;
 }
 
 bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData) {
-  htmlData = "";  // reset data from previous file
+  htmlData = ""; // reset data from previous file
   bookInfo = {};
   bookInfo.FileFormat = "FictionBook 2";
 
@@ -256,7 +255,4 @@ bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData) {
   return false;
 }
 
-QBRBook QBRFormatFB2::getBook()
-{
-    return QBRBook{bookInfo, htmlData};
-}
+QBRBook QBRFormatFB2::getBook() { return QBRBook{bookInfo, htmlData}; }

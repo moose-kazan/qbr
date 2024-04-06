@@ -10,7 +10,8 @@
 /*
  * AMB support
  *
- * Based on: https://ambook.sourceforge.net/phpamb.php?fname=archiwum/format-20201216.amb
+ * Based on:
+ * https://ambook.sourceforge.net/phpamb.php?fname=archiwum/format-20201216.amb
  *
  * Some ideas found here:
  * https://sourceforge.net/p/utf8tocp/code/HEAD/tree/trunk/utf8tocp.c And here:
@@ -56,7 +57,9 @@ bool QBRFormatAMB::parseAmb(QByteArray fileData) {
 
   // If it have title
   if (ambEntries.contains("title")) {
-    bookInfo.Title = convertToUtf8(ambEntries.value("title")).replace("\n", "").replace("\r", "");
+    bookInfo.Title = convertToUtf8(ambEntries.value("title"))
+                         .replace("\n", "")
+                         .replace("\r", "");
   }
 
   htmlData.append(qbrtemplate::header());
@@ -228,7 +231,4 @@ bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData) {
   return false;
 }
 
-QBRBook QBRFormatAMB::getBook()
-{
-    return QBRBook{bookInfo, htmlData};
-}
+QBRBook QBRFormatAMB::getBook() { return QBRBook{bookInfo, htmlData}; }

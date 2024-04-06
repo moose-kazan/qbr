@@ -4,9 +4,9 @@
 
 #include <QDebug>
 #include <QDesktopServices>
-#include <QUrl>
 #include <QPointF>
 #include <QSizeF>
+#include <QUrl>
 
 qbrWebEnginePage::qbrWebEnginePage() : QWebEnginePage() {
   // qDebug() << "WebEnginePage created";

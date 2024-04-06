@@ -11,15 +11,15 @@
 #include "format/qbrformatfb2.h"
 #include "format/qbrformatfb3.h"
 
+#include <QCheckBox>
 #include <QFileDialog>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMessageBox>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QWebEngineHistory>
-#include <QRegularExpression>
-#include <QLineEdit>
-#include <QCheckBox>
 
 QBRMainWindow::QBRMainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::QBRMainWindow) {
@@ -43,7 +43,7 @@ QBRMainWindow::QBRMainWindow(QWidget *parent)
   setContextMenuPolicy(Qt::NoContextMenu);
 
   setWindowTitle(tr("Qt Book Reader"));
-  //setGeometry(150, 150, 640, 480);
+  // setGeometry(150, 150, 640, 480);
   setMinimumSize(600, 400);
   readState();
   readSettings();
@@ -113,9 +113,7 @@ void QBRMainWindow::saveFileAs() {
   }
 }
 
-void QBRMainWindow::helpAbout() {
-  aboutDlg->show();
-}
+void QBRMainWindow::helpAbout() { aboutDlg->show(); }
 
 void QBRMainWindow::helpAboutQt() {
   QMessageBox::aboutQt(this, tr("Qt Book Reader"));
@@ -136,16 +134,19 @@ void QBRMainWindow::naviFind() {
 
   if (findDlg->exec() == QDialog::Accepted) {
     QString findText = findDlg->findChild<QLineEdit *>("findText")->text();
-    bool optionFindBackward = findDlg->findChild<QCheckBox *>("findBackward")->isChecked();
-    bool optionCaseSentive = findDlg->findChild<QCheckBox *>("CaseSensitive")->isChecked();
+    bool optionFindBackward =
+        findDlg->findChild<QCheckBox *>("findBackward")->isChecked();
+    bool optionCaseSentive =
+        findDlg->findChild<QCheckBox *>("CaseSensitive")->isChecked();
 
     QWebEnginePage::FindFlags findFlags;
-    if (optionFindBackward) findFlags.setFlag(QWebEnginePage::FindBackward, true);
-    if (optionCaseSentive) findFlags.setFlag(QWebEnginePage::FindCaseSensitively, true);
+    if (optionFindBackward)
+      findFlags.setFlag(QWebEnginePage::FindBackward, true);
+    if (optionCaseSentive)
+      findFlags.setFlag(QWebEnginePage::FindCaseSensitively, true);
 
     findChild<QWebEngineView *>("browser")->findText(findText, findFlags);
-  }
-  else {
+  } else {
     findChild<QWebEngineView *>("browser")->findText("");
   }
 }
@@ -160,11 +161,11 @@ void QBRMainWindow::settingsShow() {
 }
 
 void QBRMainWindow::fileBookInfo() {
-    if (getCurrentFileName().length() < 1) {
-      return;
-    }
-    fileInfoDlg->setBookInfo(bookInfo);
-    fileInfoDlg->exec();
+  if (getCurrentFileName().length() < 1) {
+    return;
+  }
+  fileInfoDlg->setBookInfo(bookInfo);
+  fileInfoDlg->exec();
 }
 
 void QBRMainWindow::closeEvent(QCloseEvent *event) {

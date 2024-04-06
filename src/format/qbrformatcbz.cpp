@@ -42,12 +42,19 @@ bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
   for (int i = 0; i < zipEntryNames.count(); i++) {
     QString zipEntryName = zipEntryNames.at(i);
     QString mimeType = "";
-    if (QRegularExpression("\\.png$", QRegularExpression::CaseInsensitiveOption).match(zipEntryName).hasMatch()) {
+    if (QRegularExpression("\\.png$", QRegularExpression::CaseInsensitiveOption)
+            .match(zipEntryName)
+            .hasMatch()) {
       mimeType = "image/png";
-    } else if (QRegularExpression("\\.gif$", QRegularExpression::CaseInsensitiveOption).match(zipEntryName).hasMatch()) {
+    } else if (QRegularExpression("\\.gif$",
+                                  QRegularExpression::CaseInsensitiveOption)
+                   .match(zipEntryName)
+                   .hasMatch()) {
       mimeType = "image/gif";
-    } else if (QRegularExpression("\\.jpe?g$", QRegularExpression::CaseInsensitiveOption)
-                   .match(zipEntryName).hasMatch()) {
+    } else if (QRegularExpression("\\.jpe?g$",
+                                  QRegularExpression::CaseInsensitiveOption)
+                   .match(zipEntryName)
+                   .hasMatch()) {
       mimeType = "image/jpeg";
     }
 
@@ -65,7 +72,4 @@ bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
   return true;
 }
 
-QBRBook QBRFormatCBZ::getBook()
-{
-    return QBRBook{bookInfo, htmlData};
-}
+QBRBook QBRFormatCBZ::getBook() { return QBRBook{bookInfo, htmlData}; }

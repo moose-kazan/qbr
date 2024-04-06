@@ -1,9 +1,9 @@
 #include "qbrcommon.h"
 
+#include <QApplication>
 #include <QDebug>
 #include <QScreen>
 #include <QString>
-#include <QApplication>
 #include <math.h>
 
 qbrcommon::qbrcommon() {}
