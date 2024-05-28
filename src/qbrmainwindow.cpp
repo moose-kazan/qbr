@@ -52,9 +52,9 @@ QBRMainWindow::QBRMainWindow(QWidget *parent)
   findDlg = new QBRFindDialog(this, Qt::Dialog);
   fileInfoDlg = new QBRFileInfoDialog(this, Qt::Dialog);
   settingsDlg = new QBRSettingsDialog(this, Qt::Dialog);
-}
 
-void QBRMainWindow::openFile() {
+  openFileDlg = new QFileDialog();
+
   // Start path: by default - $HOME, but if exists - xdg-documents
   QString filterPath = QDir::homePath();
   if (QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)
@@ -63,6 +63,7 @@ void QBRMainWindow::openFile() {
         QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)
             .at(0);
   }
+  openFileDlg->setDirectory(filterPath);
 
   // All extensiosn from parsers
   QStringList allExt;
@@ -73,10 +74,19 @@ void QBRMainWindow::openFile() {
 
   // Filter line
   QString filterLine = QString(tr("Books (%1)")).arg(allExt.join(" "));
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                  filterPath, filterLine);
-  if (fileName != "") {
-    loadBook(fileName);
+  openFileDlg->setNameFilters(QStringList(filterLine));
+
+  // Other FileSave DIalog options
+  openFileDlg->setWindowTitle(tr("Open File"));
+  openFileDlg->setAcceptMode(QFileDialog::AcceptOpen);
+}
+
+void QBRMainWindow::openFile() {
+  if (openFileDlg->exec() == QDialog::Accepted) {
+    QString fileName = openFileDlg->selectedFiles().at(0);
+    if (fileName != "") {
+      loadBook(fileName);
+    }
   }
 }
 

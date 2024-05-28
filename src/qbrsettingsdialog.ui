@@ -190,10 +190,10 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>...</string>
     </property>
     <property name="icon">
-     <iconset theme="document-open">
+     <iconset>
       <normaloff>.</normaloff>.</iconset>
     </property>
    </widget>

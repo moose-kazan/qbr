@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QFileDialog>
+
 #include "format/qbrformat.h"
 #include "qbraboutdialog.h"
 #include "qbrfinddialog.h"
@@ -51,6 +53,7 @@ private:
     QBRFindDialog *findDlg;
     QBRFileInfoDialog *fileInfoDlg;
     QBRSettingsDialog *settingsDlg;
+    QFileDialog *openFileDlg;
 
     Ui::QBRMainWindow *ui;
     QList<QBRFormat*> bookParsers;
