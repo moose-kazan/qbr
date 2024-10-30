@@ -1,5 +1,6 @@
 # Version 0.0.8 devel #
  * Moved to Qt6
+ * Build system now CMake instead of QMake
  * Fixed some memory leaks
  * New "Find text" dialog with some new options
  * New "Book info" dialog. More info in plan

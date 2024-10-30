@@ -5,3 +5,4 @@ tests
 Makefile
 *.o
 release/
+CMakeLists.txt.user
