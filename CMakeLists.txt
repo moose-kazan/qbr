@@ -120,3 +120,6 @@ install(FILES src/res/style.css DESTINATION share/qbr)
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(qbr)
 endif()
+
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(Packing)
