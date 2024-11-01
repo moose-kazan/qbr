@@ -6,7 +6,7 @@ cd /source
 chown -R root:root /source
 git checkout v$PKG_VERSION
 
-PKG_DISTR=$(lsb_release -c | grep Codename | awk '{print $2;}')
+PKG_DISTR=$(lsb_release -cs)
 
 echo "qbr (${PKG_VERSION}-${PKG_DISTR}${PKG_PPAVER}) ${PKG_DISTR}; urgency=medium
 
@@ -14,8 +14,8 @@ echo "qbr (${PKG_VERSION}-${PKG_DISTR}${PKG_PPAVER}) ${PKG_DISTR}; urgency=mediu
 
  -- Vadim Kalinnikov <moose@ylsoftware.com>  $(date --rfc-email)" > debian/changelog
 
-dpkg-buildpackage --root-command=fakeroot --build=source
-#dpkg-buildpackage --root-command=fakeroot --build=full
+#dpkg-buildpackage --root-command=fakeroot --build=source
+dpkg-buildpackage --root-command=fakeroot --build=full
 
 ls ..
 

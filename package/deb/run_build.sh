@@ -25,12 +25,14 @@ fi
 rm -rf $OUTPUTDIR
 mkdir -p $OUTPUTDIR
 
+mkdir -p $ROOTPATH/.cache/apt
+
 for dockerfile in `ls dockerfiles/*.Dockerfile`; do
 	IMGNAME=$(echo $(basename $dockerfile) | sed 's/.Dockerfile//')
 	echo $IMGNAME
 
 	docker build -f $dockerfile -t $IMGNAME $ROOTPATH
-	docker run --rm \
+	docker run --rm -it \
 		-e PKG_VERSION=${PKG_VER} \
 		-e PKG_PPAVER=${PPA_VER} \
 		-v $OUTPUTDIR:/release \
