@@ -1,4 +1,4 @@
-# Version 0.0.8 devel #
+# Version 0.0.8 #
  * Moved to Qt6
  * Build system now CMake instead of QMake
  * Fixed some memory leaks
