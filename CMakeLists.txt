@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Xml LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets WebEngineWidgets Network Xml LinguistTools)
-#find_package(libzip)
+find_package(libzip::zip)
 
 set(TS_FILES
     src/languages/qbr_en.ts
