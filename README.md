@@ -13,15 +13,18 @@
 
 ### Установка ###
 
-#### Сборка на Ubuntu 22.04: ####
+#### Сборка на Ubuntu 22.04 или 22.04: ####
 1. Склонировать репозиторий
-2. sudo apt install qmake6 qt6-webengine-dev build-essential pkg-config libzip-dev
-3. mkdir -p build && cd build && qmake6 .. && make
+2. sudo apt install cmake qt6-webengine-dev libzip-dev qt6-tools-dev \
+    qt6-webengine-dev-tools libgl1-mesa-dev libvulkan-dev qt6-l10n-tools \
+    qt6-tools-dev-tools libqt6opengl6-dev
+3. mkdir -p build && cd build && cmake .. && make
 
 #### Сборка на AltLinux p10 ####
-1. sudo apt-get install git qt6-base-devel qt6-webengine-devel pkg-config libzip-devel
+1. sudo apt-get install git cmake qt6-base-devel qt6-webengine-devel \
+    libzip-devel qt6-tools-devel
 2. Склонировать репозиторий
-3. mkdir -p build && cd build && qmake-qt6 .. && make
+3. mkdir -p build && cd build && cmake .. && make
 
 #### Установка из PPA (на Ubuntu 22.04): ####
 1. sudo add-apt-repository ppa:bulvinkl/ppa
@@ -39,17 +42,20 @@ For now it support the next file formats:
 
 ### Installation ###
 
-#### Build on Ubuntu 22.04: ####
+#### Build on Ubuntu 22.04 or 24.04: ####
 1. Clone this repository
-2. sudo apt install qmake6 qt6-webengine-dev build-essential pkg-config libzip-dev
-3. mkdir -p build && cd build && qmake6 .. && make
+2. sudo apt install cmake qt6-webengine-dev libzip-dev qt6-tools-dev \
+    qt6-webengine-dev-tools libgl1-mesa-dev libvulkan-dev qt6-l10n-tools \
+    qt6-tools-dev-tools libqt6opengl6-dev
+3. mkdir -p build && cd build && cmake .. && make
 
 #### Build on AltLinux p10 ####
-1. sudo apt-get install git qt6-base-devel qt6-webengine-devel pkg-config libzip-devel
+1. sudo apt-get install git cmake qt6-base-devel qt6-webengine-devel \
+    libzip-devel qt6-tools-devel
 2. Clone this repository
-3. mkdir -p build && cd build && qmake-qt6 .. && make
+3. mkdir -p build && cd build && cmake .. && make
 
-#### Install from PPA (Ubuntu 22.04): ####
+#### Install from PPA (Ubuntu 22.04 or 24.04): ####
 1. sudo add-apt-repository ppa:bulvinkl/ppa
 2. sudo apt update
 3. sudo apt install qbr
