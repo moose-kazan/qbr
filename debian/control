@@ -10,6 +10,6 @@ Vcs-Browser: https://github.com/moose-kazan/qbr.git
 
 Package: qbr
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, qt6-qpa-plugins, libqt6webenginecore6-bin
 Description: Simple book reader, written on C++ with Qt6 toolkit.
 
