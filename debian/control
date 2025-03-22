@@ -2,7 +2,7 @@ Source: qbr
 Section: text
 Priority: optional
 Maintainer: Vadim Kalinnikov <moose@ylsoftware.com>
-Build-Depends: debhelper (>= 7), cmake, qt6-webengine-dev, libzip-dev, qt6-tools-dev, qt6-webengine-dev-tools, libgl1-mesa-dev, libvulkan-dev, qt6-l10n-tools, qt6-tools-dev-tools, libqt6opengl6-dev
+Build-Depends: debhelper (>= 7), cmake, qt6-webengine-dev, libzip-dev, zipmerge, zipcmp, ziptool, qt6-tools-dev, qt6-webengine-dev-tools, libgl1-mesa-dev, libvulkan-dev, qt6-l10n-tools, qt6-tools-dev-tools, libqt6opengl6-dev
 Standards-Version: 4.5.0
 Homepage: https://github.com/moose-kazan/qbr
 Vcs-Git: https://github.com/moose-kazan/qbr.git

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.18)
 
 project(QBR LANGUAGES CXX)
 
@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Xml LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets WebEngineWidgets Network Xml LinguistTools)
-find_package(libzip::zip)
+find_package(libzip REQUIRED)
 
 set(TS_FILES
     src/languages/qbr_en.ts
@@ -96,15 +96,14 @@ qt_add_executable(qbr
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
-qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+qt6_create_translation(QM_FILES ${TS_FILES})
 
 target_link_libraries(qbr PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(qbr PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(qbr PRIVATE Qt${QT_VERSION_MAJOR}::Network)
 target_link_libraries(qbr PRIVATE Qt${QT_VERSION_MAJOR}::Xml)
 target_link_libraries(qbr PRIVATE Qt${QT_VERSION_MAJOR}::WebEngineWidgets)
-target_link_libraries(qbr PRIVATE zip)
+target_link_libraries(qbr PRIVATE libzip::zip)
 
 set_target_properties(qbr PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER com.ylsoftware.qbr
@@ -118,12 +117,13 @@ install(TARGETS qbr
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(FILES qbr.desktop DESTINATION share/applications)
-install(FILES src/icon/512x512/qbr.png DESTINATION share/icons)
 install(FILES src/res/style.css DESTINATION share/qbr)
+install(FILES src/icon/512x512/qbr.png DESTINATION share/icons)
+foreach(SIZE 16x16 24x24 32x32 48x48 64x64 96x96 128x128 256x256 512x512)
+    install(FILES src/icon/${SIZE}/qbr.png DESTINATION share/icons/hicolor/${SIZE}/apps)
+endforeach()
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(qbr)
-endif()
+qt_finalize_executable(qbr)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(Packing)

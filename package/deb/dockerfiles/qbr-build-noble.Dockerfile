@@ -1,8 +1,8 @@
 FROM ubuntu:noble
 RUN ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime && echo Etc/UTC > /etc/timezone
 RUN apt update && apt install -y git debhelper dpkg-dev lsb-release cmake qt6-webengine-dev \
-    libzip-dev qt6-tools-dev qt6-webengine-dev-tools libgl1-mesa-dev libvulkan-dev \
-    qt6-l10n-tools qt6-tools-dev-tools libqt6opengl6-dev
+    libzip-dev zipmerge zipcmp ziptool qt6-tools-dev qt6-webengine-dev-tools \
+    libgl1-mesa-dev libvulkan-dev qt6-l10n-tools qt6-tools-dev-tools libqt6opengl6-dev
 COPY ./package/deb/helpers/build.sh /
 RUN mkdir -p /release/
 ENV PKG_VERSION=0.0.8
