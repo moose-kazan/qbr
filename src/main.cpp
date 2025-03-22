@@ -1,5 +1,5 @@
-#include "qbrcfg.h"
-#include "qbrmainwindow.h"
+#include "libs/settings.h"
+#include "mainwindow.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
   }
 
   a.setWindowIcon(QIcon(":/icon/64x64/qbr.png"));
-  QBRMainWindow w;
+  MainWindow w;
   w.show();
 
   /*
@@ -34,9 +34,9 @@ int main(int argc, char *argv[]) {
   w.loadBook(a.translate("main.cpp", ":/res/default_fb2.xml"));
   if (argc > 1) {
     w.loadBook(argv[1]);
-  } else if (qbrcfg::getLastOpenedFileEnable() &&
-             qbrcfg::getLastOpenedFile().length() > 0) {
-    w.loadBook(qbrcfg::getLastOpenedFile());
+  } else if (Settings::getLastOpenedFileEnable() &&
+             Settings::getLastOpenedFile().length() > 0) {
+    w.loadBook(Settings::getLastOpenedFile());
   }
   return a.exec();
 }

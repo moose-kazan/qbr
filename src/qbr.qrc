@@ -9,8 +9,6 @@
         <file>icon/128x128/qbr.png</file>
         <file>icon/256x256/qbr.png</file>
         <file>icon/512x512/qbr.png</file>
-        <file>languages/qbr_en.qm</file>
-        <file>languages/qbr_ru.qm</file>
         <file>res/default_fb2.xml</file>
         <file>res/default_ru_fb2.xml</file>
         <file>res/style.css</file>

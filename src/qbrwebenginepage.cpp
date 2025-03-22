@@ -1,6 +1,6 @@
 #include "qbrwebenginepage.h"
-#include "qbrcfg.h"
-#include "qbrcommon.h"
+#include "libs/settings.h"
+#include "libs/helpers.h"
 
 #include <QDebug>
 #include <QDesktopServices>
@@ -11,7 +11,7 @@
 qbrWebEnginePage::qbrWebEnginePage() : QWebEnginePage() {
   // qDebug() << "WebEnginePage created";
 
-  setZoomFactor(qbrcommon::getDesktopScale());
+  setZoomFactor(Helpers::getDesktopScale());
 }
 
 bool qbrWebEnginePage::acceptNavigationRequest(
@@ -31,12 +31,12 @@ void qbrWebEnginePage::positionSave(QString fileName) {
   QPointF sPos = scrollPosition();
   QSizeF sSize = contentsSize();
   QPointF pos = QPointF(sPos.x() / sSize.height(), sPos.y() / sSize.width());
-  qbrcfg::setFilePosition(fileName, pos);
+  Settings::setFilePosition(fileName, pos);
 }
 
 void qbrWebEnginePage::positionRestore(QString fileName) {
   qDebug() << "Restoring position for file: " << fileName;
-  QPointF pos = qbrcfg::getFilePosition(fileName);
+  QPointF pos = Settings::getFilePosition(fileName);
   runJavaScript(QString("window.scrollTo(%1*document.body.scrollHeight, "
                         "%2*document.body.scrollWidth);")
                     .arg(pos.x())

@@ -45,44 +45,44 @@ set (RES_DATA
 )
 
 set(PROJECT_SOURCES
-    src/qbrcfg.cpp
-    src/qbrcfg.h
-    src/qbrcommon.cpp
-    src/qbrcommon.h
-    src/qbrmainwindow.cpp
-    src/qbrmainwindow.h
-    src/qbrmainwindow.ui
+    src/mainwindow.cpp
+    src/mainwindow.h
+    src/mainwindow.ui
+    src/libs/helpers.cpp
+    src/libs/helpers.h
     src/libs/qbrzip.h
     src/libs/qbrzip.cpp
-    src/format/qbrformat.h
-    src/format/qbrformat.cpp
-    src/format/qbrformatamb.h
-    src/format/qbrformatamb.cpp
-    src/format/qbrformatcbz.h
-    src/format/qbrformatcbz.cpp
-    src/format/qbrformatfb2.h
-    src/format/qbrformatfb2.cpp
-    src/format/qbrformatfb2zip.h
-    src/format/qbrformatfb2zip.cpp
-    src/format/qbrformatfb3.h
-    src/format/qbrformatfb3.cpp
+    src/libs/settings.cpp
+    src/libs/settings.h
+    src/format/format.h
+    src/format/format.cpp
+    src/format/formatamb.h
+    src/format/formatamb.cpp
+    src/format/formatcbz.h
+    src/format/formatcbz.cpp
+    src/format/formatfb2.h
+    src/format/formatfb2.cpp
+    src/format/formatfb2zip.h
+    src/format/formatfb2zip.cpp
+    src/format/formatfb3.h
+    src/format/formatfb3.cpp
     src/main.cpp
-    src/qbraboutdialog.cpp
-    src/qbraboutdialog.h
-    src/qbraboutdialog.ui
-    src/qbrfileinfodialog.cpp
-    src/qbrfileinfodialog.h
-    src/qbrfileinfodialog.ui
-    src/qbrfinddialog.cpp
-    src/qbrfinddialog.h
-    src/qbrfinddialog.ui
-    src/qbrsettingsdialog.cpp
-    src/qbrsettingsdialog.h
-    src/qbrsettingsdialog.ui
-    src/qbrtemplate.cpp
-    src/qbrtemplate.h
-    src/qbrbookloader.h
-    src/qbrbookloader.cpp
+    src/aboutdialog.cpp
+    src/aboutdialog.h
+    src/aboutdialog.ui
+    src/fileinfodialog.cpp
+    src/fileinfodialog.h
+    src/fileinfodialog.ui
+    src/finddialog.cpp
+    src/finddialog.h
+    src/finddialog.ui
+    src/settingsdialog.cpp
+    src/settingsdialog.h
+    src/settingsdialog.ui
+    src/template.cpp
+    src/template.h
+    src/bookloader.h
+    src/bookloader.cpp
     src/qbrwebenginepage.cpp
     src/qbrwebenginepage.h
     src/qbr.qrc
@@ -96,7 +96,15 @@ qt_add_executable(qbr
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
-qt6_create_translation(QM_FILES ${TS_FILES})
+
+qt6_standard_project_setup()
+
+qt_add_translations(
+    qbr
+    TS_FILES ${TS_FILES}
+    RESOURCE_PREFIX "languages"
+)
+
 
 target_link_libraries(qbr PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(qbr PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
