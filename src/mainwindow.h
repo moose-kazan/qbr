@@ -11,6 +11,7 @@
 #include "fileinfodialog.h"
 #include "settingsdialog.h"
 #include "bookloader.h"
+#include "booksaver.h"
 
 namespace Ui {
 class MainWindow;
@@ -57,7 +58,9 @@ private:
     QFileDialog *openFileDlg;
 
     Ui::MainWindow *ui;
+
     BookLoader *bookLoader;
+    BookSaver *bookSaver;
 
     QBRBookInfo bookInfo;
 };

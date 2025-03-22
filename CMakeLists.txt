@@ -85,6 +85,16 @@ set(PROJECT_SOURCES
     src/bookloader.cpp
     src/qbrwebenginepage.cpp
     src/qbrwebenginepage.h
+    src/booksaver.h
+    src/booksaver.cpp
+    src/export/export.h
+    src/export/export.cpp
+    src/export/exporthtml.h
+    src/export/exporthtml.cpp
+    src/export/exporttext.h
+    src/export/exporttext.cpp
+    src/export/exportmarkdown.h
+    src/export/exportmarkdown.cpp
     src/qbr.qrc
     qbr.desktop
     ${RES_DATA}

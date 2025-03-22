@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   bookLoader = new BookLoader();
+  bookSaver = new BookSaver();
 
   ui->setupUi(this);
 
@@ -94,14 +95,16 @@ void MainWindow::saveFileAs() {
   // Filter line
   QString filterLine = QString(tr("Html pages (%1)")).arg("*.htm *.html");
 
+  QString selectedFilter;
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."),
-                                                  filterPath, filterLine);
+                                                  filterPath, bookSaver->getFilter().join(";;"), &selectedFilter);
+  Export *exporter = bookSaver->exporterByFilter(selectedFilter);
   if (fileName != "") {
     findChild<QWebEngineView *>("browser")->page()->toHtml(
-        [fileName](QString htmlData) {
+        [fileName, exporter](QString htmlData) {
           QFile f(fileName);
           if (f.open(QIODevice::WriteOnly)) {
-            f.write(htmlData.toUtf8());
+              f.write(exporter->fromHtml(htmlData).toUtf8());
             f.close();
           }
         });

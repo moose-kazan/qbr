@@ -1,5 +1,7 @@
 # Version 0.0.9 #
- * Added support for fb2.zip
+ * Support for reading fb2.zip
+ * Export to markdown
+ * Export to plain text
  * Refactoring
 
 # Version 0.0.8 #
