@@ -1,3 +1,7 @@
+# Version 0.0.9 #
+ * Added support for fb2.zip
+ * Refactoring
+
 # Version 0.0.8 #
  * Moved to Qt6
  * Build system now CMake instead of QMake

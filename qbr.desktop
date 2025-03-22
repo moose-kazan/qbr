@@ -6,5 +6,4 @@ Icon=qbr
 Categories=Qt;Office;Viewer;Literature
 GenericName=Simple book reader
 GenericName[ru]=Простая читалка книг
-MimeType=application/x-fictionbook+xml;application/vnd.comicbook+zip
-
+MimeType=application/x-fictionbook+xml;application/vnd.comicbook+zip;application/fb2;application/fb2.zip;application/fb2+zip;application/x-zip-compressed-fb2;application/fb3;
