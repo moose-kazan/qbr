@@ -16,7 +16,6 @@ public:
     QBRBook getBook() override;
     bool needUnzip() override;
 private:
-    QDomDocument *parserXml;
     QBRBookInfo bookInfo;
     QString htmlData;
     bool parseXml(QByteArray fileData);

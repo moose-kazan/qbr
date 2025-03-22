@@ -13,7 +13,7 @@
 
 #include <QDebug>
 
-QBRFormatFB2::QBRFormatFB2() { parserXml = new QDomDocument(); }
+QBRFormatFB2::QBRFormatFB2() {}
 
 QStringList QBRFormatFB2::getExtensions() { return QStringList("fb2"); }
 
@@ -140,7 +140,8 @@ bool QBRFormatFB2::parseXml(QByteArray fileData) {
   QString paserXmlErrorMsg;
   int parserXmlErrorLine;
   int parserXmlErrorColumn;
-  if (!parserXml->setContent(fileData, true, &paserXmlErrorMsg,
+  QDomDocument parserXml;
+  if (!parserXml.setContent(fileData, true, &paserXmlErrorMsg,
                              &parserXmlErrorLine, &parserXmlErrorColumn)) {
     // qDebug() << "Error message: " << paserXmlErrorMsg << " at line " <<
     // parserXmlErrorLine << ", column: " << parserXmlErrorColumn;
@@ -148,7 +149,7 @@ bool QBRFormatFB2::parseXml(QByteArray fileData) {
   }
 
   QHash<QString, QString> fb2_images;
-  QDomNodeList fb2_binaries = parserXml->elementsByTagName("binary");
+  QDomNodeList fb2_binaries = parserXml.elementsByTagName("binary");
   for (int i = 0; i < fb2_binaries.count(); i++) {
     QDomNode fb2_binary = fb2_binaries.at(i);
     if (fb2_binary.attributes().contains("id") &&
@@ -168,7 +169,7 @@ bool QBRFormatFB2::parseXml(QByteArray fileData) {
   }
 
   htmlData.append(qbrtemplate::header());
-  QDomNodeList fb2_bodies = parserXml->elementsByTagName("body");
+  QDomNodeList fb2_bodies = parserXml.elementsByTagName("body");
   if (fb2_bodies.count() < 1) {
     return false;
   }
@@ -192,7 +193,7 @@ bool QBRFormatFB2::parseXml(QByteArray fileData) {
   }
   htmlData.append(qbrtemplate::footer());
 
-  parseBookInfo(parserXml);
+  parseBookInfo(&parserXml);
 
   return true;
 }

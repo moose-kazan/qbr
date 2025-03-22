@@ -6,6 +6,7 @@
 #include "format/qbrformatamb.h"
 #include "format/qbrformatcbz.h"
 #include "format/qbrformatfb2.h"
+#include "format/qbrformatfb2zip.h"
 #include "format/qbrformatfb3.h"
 
 class QBRBookLoader
@@ -20,6 +21,7 @@ private:
         new QBRFormatAMB(),
         new QBRFormatCBZ(),
         new QBRFormatFB2(),
+        new QBRFormatFB2Zip(),
         new QBRFormatFB3()
     };
 

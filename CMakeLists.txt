@@ -62,6 +62,8 @@ set(PROJECT_SOURCES
     src/format/qbrformatcbz.cpp
     src/format/qbrformatfb2.h
     src/format/qbrformatfb2.cpp
+    src/format/qbrformatfb2zip.h
+    src/format/qbrformatfb2zip.cpp
     src/format/qbrformatfb3.h
     src/format/qbrformatfb3.cpp
     src/main.cpp
@@ -93,7 +95,6 @@ set(PROJECT_SOURCES
 qt_add_executable(qbr
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
-
 )
 qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
