@@ -21,17 +21,16 @@
  * Many ideas found at: https://github.com/gribuser/FB3
  */
 
-QBRFormatFB3::QBRFormatFB3() : unZip(false) {}
+QBRFormatFB3::QBRFormatFB3() {}
 
 QStringList QBRFormatFB3::getExtensions() { return QStringList("fb3"); }
 
-bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData) {
+bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
   // reset data from previous file
   htmlData = "";
   bookInfo = {};
   bookInfo.FileFormat = "FictionBook 3";
 
-  unZip.clear();
   fb3_binaries.clear();
 
   QRegularExpression rx("\\.fb3$", QRegularExpression::CaseInsensitiveOption);
@@ -41,6 +40,12 @@ bool QBRFormatFB3::loadFile(QString fileName, QByteArray fileData) {
 
   if (!isZipFile(fileData)) {
     return false;
+  }
+
+  unZip = zipData;
+
+  if (!unZip->isLoaded()) {
+      return false;
   }
 
   return parseFile(fileData);
@@ -162,7 +167,7 @@ QString QBRFormatFB3::parseFB3Node(QDomNode xmlNode) {
 }
 
 void QBRFormatFB3::parseFB3Metadata(QString entryName) {
-  QByteArray fb3_description_data(unZip.getFileData(entryName));
+    QByteArray fb3_description_data(unZip->getFileData(entryName));
   if (fb3_description_data.isNull()) {
     return;
   }
@@ -217,29 +222,24 @@ void QBRFormatFB3::parseFB3Metadata(QString entryName) {
 }
 
 bool QBRFormatFB3::parseFile(QByteArray fileData) {
-  if (!unZip.setData(fileData)) {
-    return false;
-  }
+    QStringList zipEntryNames = unZip->getFileNameList();
+    QStringList requiredFiles = {
+        "[Content_Types].xml",
+        "_rels/.rels",
+    };
 
-  QStringList zipEntryNames = unZip.getFileNameList();
-  QStringList requiredFiles = {
-      "[Content_Types].xml",
-      "_rels/.rels",
-  };
-
-  for (int i = 0; i < requiredFiles.count(); i++) {
-    if (!zipEntryNames.contains(requiredFiles.at(i), Qt::CaseInsensitive)) {
-      // qDebug() << "can't find file: " << requiredFiles.at(i);
-      return false;
+    for (int i = 0; i < requiredFiles.count(); i++) {
+        if (!zipEntryNames.contains(requiredFiles.at(i), Qt::CaseInsensitive)) {
+            // qDebug() << "can't find file: " << requiredFiles.at(i);
+            return false;
+        }
     }
-  }
 
-  QByteArray docContentTypeData = unZip.getFileData(
-      zipEntryNames.filter("[Content_Types].xml", Qt::CaseInsensitive).at(0));
-  if (docContentTypeData.isNull()) {
-    // qDebug() << "can't extract [Content_Types].xml";
-    return false;
-  }
+    QByteArray docContentTypeData = unZip->getFileData(zipEntryNames.filter("[Content_Types].xml", Qt::CaseInsensitive).at(0));
+    if (docContentTypeData.isNull()) {
+        // qDebug() << "can't extract [Content_Types].xml";
+        return false;
+    }
 
   QDomDocument docContentType;
   QString docContentTypeErrorMsg;
@@ -310,7 +310,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
   parseFB3Metadata(description_entry_name);
 
   // Try to load body
-  QByteArray fb3_body_data(unZip.getFileData(body_entry_name));
+  QByteArray fb3_body_data(unZip->getFileData(body_entry_name));
   if (fb3_body_data.isNull()) {
     // qDebug() << "can't extract fb3 body";
     return false;
@@ -340,7 +340,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
   body_rels_entry_name.append(".rels");
 
   // Try to load body rels file
-  QByteArray body_rels_data(unZip.getFileData(body_rels_entry_name));
+  QByteArray body_rels_data(unZip->getFileData(body_rels_entry_name));
   if (body_rels_data.isNull()) {
     return false;
   }
@@ -388,7 +388,7 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
         }
       }
 
-      QByteArray node_entry_data(unZip.getFileData(node_target));
+      QByteArray node_entry_data(unZip->getFileData(node_target));
       if (node_entry_data.isNull()) {
         return false;
       }
@@ -415,3 +415,5 @@ bool QBRFormatFB3::parseFile(QByteArray fileData) {
 }
 
 QBRBook QBRFormatFB3::getBook() { return QBRBook{bookInfo, htmlData}; }
+
+bool QBRFormatFB3::needUnzip() { return true; }

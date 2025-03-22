@@ -202,7 +202,8 @@ QString QBRFormatAMB::amaToHtml(QString fileName) {
   return rv;
 }
 
-bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData) {
+bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
+  (void)zipData;
   // reset data from previous file
   htmlData = "";
   bookInfo = {};
@@ -232,3 +233,5 @@ bool QBRFormatAMB::loadFile(QString fileName, QByteArray fileData) {
 }
 
 QBRBook QBRFormatAMB::getBook() { return QBRBook{bookInfo, htmlData}; }
+
+bool QBRFormatAMB::needUnzip() { return false; }

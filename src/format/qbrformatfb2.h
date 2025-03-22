@@ -11,9 +11,10 @@ class QBRFormatFB2 : public QBRFormat
 {
 public:
     QBRFormatFB2();
-    bool loadFile(QString fileName, QByteArray fileData) override;
+    bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
     QStringList getExtensions() override;
     QBRBook getBook() override;
+    bool needUnzip() override;
 private:
     QDomDocument *parserXml;
     QBRBookInfo bookInfo;

@@ -6,10 +6,6 @@
 #include "ui_qbrmainwindow.h"
 
 #include "format/qbrformat.h"
-#include "format/qbrformatamb.h"
-#include "format/qbrformatcbz.h"
-#include "format/qbrformatfb2.h"
-#include "format/qbrformatfb3.h"
 
 #include <QCheckBox>
 #include <QFileDialog>
@@ -24,10 +20,7 @@
 QBRMainWindow::QBRMainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::QBRMainWindow) {
 
-  bookParsers.append(new QBRFormatAMB());
-  bookParsers.append(new QBRFormatCBZ());
-  bookParsers.append(new QBRFormatFB2());
-  bookParsers.append(new QBRFormatFB3());
+  bookLoader = new QBRBookLoader();
 
   ui->setupUi(this);
 
@@ -66,10 +59,7 @@ QBRMainWindow::QBRMainWindow(QWidget *parent)
   openFileDlg->setDirectory(filterPath);
 
   // All extensiosn from parsers
-  QStringList allExt;
-  for (int i = 0; i < bookParsers.count(); i++) {
-    allExt.append(bookParsers.at(i)->getExtensions());
-  }
+  QStringList allExt = bookLoader->getExtensions();
   allExt.replaceInStrings(QRegularExpression("^"), "*.");
 
   // Filter line
@@ -224,40 +214,26 @@ void QBRMainWindow::loadBook(QString fileName) {
 
   QByteArray fileData;
   try {
-    QFile f(fileName);
-    f.open(QIODevice::ReadOnly);
-    QDataStream in(&f);
-    int buff_size = 4096;
-    char buff[buff_size];
-    while (!in.atEnd()) {
-      int readed = in.readRawData(buff, buff_size);
-      if (readed > 0) {
-        fileData.append(buff, readed);
+      if (bookLoader->loadFile(fileName)) {
+          QTemporaryFile f(QDir::tempPath() + "/QBR.XXXXXXX.html");
+          f.setAutoRemove(false);
+          if (f.open()) {
+              QBRBook fullBook = bookLoader->getBook();
+              f.write(fullBook.html.toUtf8());
+              f.close();
+
+              findChild<QWebEngineView *>("browser")->load(
+                  QUrl::fromLocalFile(f.fileName()));
+              setCurrentFileName(fileName);
+              bookInfo = fullBook.metadata;
+          }
+          return;
       }
-    }
-    f.close();
   } catch (...) {
     QMessageBox::critical(this, tr("Can't load book"), tr("I/O error!"));
     return;
   }
 
-  for (int i = 0; i < bookParsers.count(); i++) {
-    if (bookParsers.at(i)->loadFile(fileName, fileData)) {
-      QTemporaryFile f(QDir::tempPath() + "/QBR.XXXXXXX.html");
-      f.setAutoRemove(false);
-      if (f.open()) {
-        QBRBook fullBook = bookParsers.at(i)->getBook();
-        f.write(fullBook.html.toUtf8());
-        f.close();
-
-        findChild<QWebEngineView *>("browser")->load(
-            QUrl::fromLocalFile(f.fileName()));
-        setCurrentFileName(fileName);
-        bookInfo = fullBook.metadata;
-      }
-      return;
-    }
-  }
   QMessageBox::critical(this, tr("Can't load book"),
                         tr("Unsupported file format or broken file!"));
 }

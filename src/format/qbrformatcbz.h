@@ -11,13 +11,14 @@ class QBRFormatCBZ : public QBRFormat
 {
 public:
     QBRFormatCBZ();
-    bool loadFile(QString fileName, QByteArray fileData) override;
+    bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
     QStringList getExtensions() override;
     QBRBook getBook() override;
+    bool needUnzip() override;
 private:
     QBRBookInfo bookInfo;
     QString htmlData;
-    qbrzip unZip;
+    qbrzip *unZip;
 };
 
 #endif // QBRFORMATCBZ_H

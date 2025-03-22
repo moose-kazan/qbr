@@ -10,6 +10,7 @@
 #include "qbrfinddialog.h"
 #include "qbrfileinfodialog.h"
 #include "qbrsettingsdialog.h"
+#include "qbrbookloader.h"
 
 namespace Ui {
 class QBRMainWindow;
@@ -56,7 +57,7 @@ private:
     QFileDialog *openFileDlg;
 
     Ui::QBRMainWindow *ui;
-    QList<QBRFormat*> bookParsers;
+    QBRBookLoader *bookLoader;
 
     QBRBookInfo bookInfo;
 };

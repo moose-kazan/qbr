@@ -11,11 +11,11 @@
 #include <QStringList>
 #include <QtCore>
 
-QBRFormatCBZ::QBRFormatCBZ() : unZip(false) {}
+QBRFormatCBZ::QBRFormatCBZ() {}
 
 QStringList QBRFormatCBZ::getExtensions() { return QStringList("cbz"); }
 
-bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
+bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
   htmlData = ""; // reset data from previous file
   bookInfo = {};
   bookInfo.FileFormat = "Comics Book Zip";
@@ -29,11 +29,13 @@ bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
     return false;
   }
 
-  if (!unZip.setData(fileData)) {
+  unZip = zipData;
+
+  if (!unZip->isLoaded()) {
     return false;
   }
 
-  QStringList zipEntryNames = unZip.getFileNameList();
+  QStringList zipEntryNames = unZip->getFileNameList();
 
   zipEntryNames.sort(Qt::CaseInsensitive);
 
@@ -62,7 +64,7 @@ bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
       htmlData.append("<div class=\"comics_image\"><img src=\"data:");
       htmlData.append(mimeType);
       htmlData.append(";base64,");
-      htmlData.append(unZip.getFileData(zipEntryName).toBase64());
+      htmlData.append(unZip->getFileData(zipEntryName).toBase64());
       htmlData.append("\"><br /></div>\n");
     }
   }
@@ -73,3 +75,5 @@ bool QBRFormatCBZ::loadFile(QString fileName, QByteArray fileData) {
 }
 
 QBRBook QBRFormatCBZ::getBook() { return QBRBook{bookInfo, htmlData}; }
+
+bool QBRFormatCBZ::needUnzip() { return true; }

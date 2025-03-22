@@ -1,6 +1,8 @@
 #ifndef QBRFORMAT_H
 #define QBRFORMAT_H
 
+#include "../libs/qbrzip.h"
+
 #include <QString>
 #include <QByteArray>
 #include <QStringList>
@@ -20,10 +22,11 @@ class QBRFormat
 {
 public:
     QBRFormat();
-    virtual bool loadFile(QString fileName, QByteArray fileData) { return fileName != "" && fileData.size() > 0 && false; };
-    virtual QBRBook getBook() { return QBRBook{}; };
-    virtual QStringList getExtensions() { return QStringList(); };
-    bool isZipFile(QByteArray data);
+    virtual bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData);
+    virtual QBRBook getBook();
+    virtual QStringList getExtensions();
+    virtual bool needUnzip();
+    static bool isZipFile(QByteArray data);
 };
 
 #endif // QBRFORMAT_H

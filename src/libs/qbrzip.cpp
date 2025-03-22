@@ -10,12 +10,16 @@
 // Based on https://gist.github.com/mobius/1759816
 // Some ideas found here: https://github.com/ctabin/libzippp/blob/master/src/
 
-qbrzip::qbrzip(bool CS) { entry_names_cs = CS; }
+qbrzip::qbrzip(bool CS) {
+    entry_names_cs = CS;
+    loaded = false;
+}
 
 bool qbrzip::setData(QByteArray zipData) {
   zip_error_t zipError;
   int buff_size = 4096;
   char buff[buff_size];
+  loaded = false;
 
   zip_source_t *src =
       zip_source_buffer_create(zipData.data(), zipData.size(), 1, &zipError);
@@ -63,6 +67,7 @@ bool qbrzip::setData(QByteArray zipData) {
     zipEntries.insert(zipEntryName, zipEntryData);
   }
 
+  loaded = true;
   return true;
 }
 
@@ -78,4 +83,12 @@ QByteArray qbrzip::getFileData(QString fileName) {
   return zipEntries.value(fileName, NULL);
 }
 
-void qbrzip::clear() { zipEntries.clear(); }
+void qbrzip::clear() {
+    zipEntries.clear();
+    loaded = false;
+}
+
+bool qbrzip::isLoaded()
+{
+    return loaded;
+}

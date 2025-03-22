@@ -14,16 +14,17 @@ class QBRFormatFB3 : public QBRFormat
 {
 public:
     QBRFormatFB3();
-    bool loadFile(QString fileName, QByteArray fileData) override;
+    bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
     QStringList getExtensions() override;
     QBRBook getBook() override;
+    bool needUnzip() override;
 private:
     QBRBookInfo bookInfo;
     QString htmlData;
     bool parseFile(QByteArray fileData);
     QString parseFB3Node(QDomNode xmlNode);
     QString parseFB3TextFromNode(QDomNode xmlNode);
-    qbrzip unZip;
+    qbrzip *unZip;
     QHash<QString, QString> fb3_binaries;
     void parseFB3Metadata(QString entryName);
 };

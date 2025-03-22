@@ -240,7 +240,8 @@ void QBRFormatFB2::parseBookInfo(QDomDocument *parserXml) {
   // qDebug() << "Book author" << bookInfo.Author;
 }
 
-bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData) {
+bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
+  (void)zipData;
   htmlData = ""; // reset data from previous file
   bookInfo = {};
   bookInfo.FileFormat = "FictionBook 2";
@@ -256,3 +257,5 @@ bool QBRFormatFB2::loadFile(QString fileName, QByteArray fileData) {
 }
 
 QBRBook QBRFormatFB2::getBook() { return QBRBook{bookInfo, htmlData}; }
+
+bool QBRFormatFB2::needUnzip() { return false; }

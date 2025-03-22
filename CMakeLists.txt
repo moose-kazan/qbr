@@ -52,18 +52,18 @@ set(PROJECT_SOURCES
     src/qbrmainwindow.cpp
     src/qbrmainwindow.h
     src/qbrmainwindow.ui
-    src/format/qbrformatamb.cpp
-    src/format/qbrformatamb.h
-    src/format/qbrformatcbz.cpp
-    src/format/qbrformatcbz.h
-    src/format/qbrformat.cpp
-    src/format/qbrformatfb2.cpp
-    src/format/qbrformatfb2.h
-    src/format/qbrformatfb3.cpp
-    src/format/qbrformatfb3.h
-    src/format/qbrformat.h
-    src/libs/qbrzip.cpp
     src/libs/qbrzip.h
+    src/libs/qbrzip.cpp
+    src/format/qbrformat.h
+    src/format/qbrformat.cpp
+    src/format/qbrformatamb.h
+    src/format/qbrformatamb.cpp
+    src/format/qbrformatcbz.h
+    src/format/qbrformatcbz.cpp
+    src/format/qbrformatfb2.h
+    src/format/qbrformatfb2.cpp
+    src/format/qbrformatfb3.h
+    src/format/qbrformatfb3.cpp
     src/main.cpp
     src/qbraboutdialog.cpp
     src/qbraboutdialog.h
@@ -79,6 +79,8 @@ set(PROJECT_SOURCES
     src/qbrsettingsdialog.ui
     src/qbrtemplate.cpp
     src/qbrtemplate.h
+    src/qbrbookloader.h
+    src/qbrbookloader.cpp
     src/qbrwebenginepage.cpp
     src/qbrwebenginepage.h
     src/qbr.qrc
@@ -91,6 +93,7 @@ set(PROJECT_SOURCES
 qt_add_executable(qbr
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+
 )
 qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
@@ -123,3 +126,4 @@ endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(Packing)
+

@@ -14,11 +14,13 @@ public:
     QStringList getFileNameList();
     QByteArray getFileData(QString fileName);
     void clear();
+    bool isLoaded();
 
     const int MAX_FILE_NAME_LENGTH=256;
 
 private:
     bool entry_names_cs;
+    bool loaded;
     QHash<QString, QByteArray> zipEntries;
 };
 
