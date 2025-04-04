@@ -30,6 +30,30 @@
     </message>
 </context>
 <context>
+    <name>ExportHTML</name>
+    <message>
+        <location filename="../export/exporthtml.cpp" line="6"/>
+        <source>HTML pages (%1)</source>
+        <translation>HTML pages (%1)</translation>
+    </message>
+</context>
+<context>
+    <name>ExportMarkdown</name>
+    <message>
+        <location filename="../export/exportmarkdown.cpp" line="8"/>
+        <source>Markdown documents (%1)</source>
+        <translation>Markdown documents (%1)</translation>
+    </message>
+</context>
+<context>
+    <name>ExportText</name>
+    <message>
+        <location filename="../export/exporttext.cpp" line="8"/>
+        <source>Plain text files (%1)</source>
+        <translation>Plain text files (%1)</translation>
+    </message>
+</context>
+<context>
     <name>FileInfoDialog</name>
     <message>
         <location filename="../fileinfodialog.ui" line="14"/>
@@ -84,8 +108,8 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="20"/>
-        <location filename="../mainwindow.cpp" line="33"/>
-        <location filename="../mainwindow.cpp" line="114"/>
+        <location filename="../mainwindow.cpp" line="35"/>
+        <location filename="../mainwindow.cpp" line="118"/>
         <source>Qt Book Reader</source>
         <translation>Qt Book Reader</translation>
     </message>
@@ -116,7 +140,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="157"/>
-        <location filename="../mainwindow.cpp" line="65"/>
+        <location filename="../mainwindow.cpp" line="67"/>
         <source>Open File</source>
         <translation>Open File</translation>
     </message>
@@ -186,38 +210,38 @@
         <translation>Book Info</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="99"/>
         <source>Save file as...</source>
         <translation>Save file as...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="61"/>
+        <location filename="../mainwindow.cpp" line="63"/>
         <source>Books (%1)</source>
         <translation>Books (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="94"/>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>Html pages (%1)</source>
         <translation>Html pages (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="228"/>
         <location filename="../mainwindow.cpp" line="232"/>
+        <location filename="../mainwindow.cpp" line="236"/>
         <source>Can&apos;t load book</source>
         <translation>Can&apos;t load book</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="228"/>
+        <location filename="../mainwindow.cpp" line="232"/>
         <source>I/O error!</source>
         <translation>I/O error!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="233"/>
+        <location filename="../mainwindow.cpp" line="237"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Unsupported file format or broken file</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="273"/>
+        <location filename="../mainwindow.cpp" line="277"/>
         <source>Qt Book Reader - %1</source>
         <translation>Qt Book Reader - %1</translation>
     </message>

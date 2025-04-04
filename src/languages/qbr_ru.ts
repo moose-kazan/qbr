@@ -20,7 +20,7 @@
     <message>
         <location filename="../aboutdialog.ui" line="91"/>
         <source>Simple e-Book reader written on C++ with Qt library.</source>
-        <translation>Простая читалка электронных книг, написанная на C++ с использованием библиотеки Qt</translation>
+        <translation>Простая читалка электронных книг, написанная на C++ с использованием библиотеки Qt.</translation>
     </message>
     <message>
         <location filename="../aboutdialog.ui" line="117"/>
@@ -31,6 +31,30 @@
         <location filename="../aboutdialog.cpp" line="13"/>
         <source>About</source>
         <translation>О программе</translation>
+    </message>
+</context>
+<context>
+    <name>ExportHTML</name>
+    <message>
+        <location filename="../export/exporthtml.cpp" line="6"/>
+        <source>HTML pages (%1)</source>
+        <translation>HTML страницы (%1)</translation>
+    </message>
+</context>
+<context>
+    <name>ExportMarkdown</name>
+    <message>
+        <location filename="../export/exportmarkdown.cpp" line="8"/>
+        <source>Markdown documents (%1)</source>
+        <translation>Разметка Markdown (%1)</translation>
+    </message>
+</context>
+<context>
+    <name>ExportText</name>
+    <message>
+        <location filename="../export/exporttext.cpp" line="8"/>
+        <source>Plain text files (%1)</source>
+        <translation>Простые текстовые файлы (%1)</translation>
     </message>
 </context>
 <context>
@@ -88,8 +112,8 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="20"/>
-        <location filename="../mainwindow.cpp" line="33"/>
-        <location filename="../mainwindow.cpp" line="114"/>
+        <location filename="../mainwindow.cpp" line="35"/>
+        <location filename="../mainwindow.cpp" line="118"/>
         <source>Qt Book Reader</source>
         <translation>Qt Book Reader</translation>
     </message>
@@ -124,7 +148,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="157"/>
-        <location filename="../mainwindow.cpp" line="65"/>
+        <location filename="../mainwindow.cpp" line="67"/>
         <source>Open File</source>
         <translation>Открыть файл</translation>
     </message>
@@ -194,38 +218,38 @@
         <translation>Информация о книге</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="99"/>
         <source>Save file as...</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="61"/>
+        <location filename="../mainwindow.cpp" line="63"/>
         <source>Books (%1)</source>
         <translation>Книги (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="94"/>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>Html pages (%1)</source>
         <translation>HTML-страницы (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="228"/>
         <location filename="../mainwindow.cpp" line="232"/>
+        <location filename="../mainwindow.cpp" line="236"/>
         <source>Can&apos;t load book</source>
         <translation>Не удалось открыть книгу</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="228"/>
+        <location filename="../mainwindow.cpp" line="232"/>
         <source>I/O error!</source>
         <translation>Ошибка ввода/вывода!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="233"/>
+        <location filename="../mainwindow.cpp" line="237"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Формат файла не поддерживается или файл испорчен!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="273"/>
+        <location filename="../mainwindow.cpp" line="277"/>
         <source>Qt Book Reader - %1</source>
         <translation>Qt Book Reader - %1</translation>
     </message>
