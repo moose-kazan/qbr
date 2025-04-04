@@ -147,7 +147,14 @@ QString FormatEPub::prepareDataLink(qbrzip *zipData, QString dataFileName) {
 QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QDomNode currentNode) {
     //qDebug() << "Type: " << currentNode.nodeType() << ", Name: " << currentNode.nodeName() << ", Value: " << currentNode.nodeValue();
 
-    QList<QString> allowedTags = {"ul", "li", "p", "b", "i", "u", "s", "strong", "br", "hr", "a", "img"};
+    QList<QString> allowedTags = {
+        "ul", "li",
+        "p", "b", "i", "u", "s", "span", "pre", "strong", "em",
+        "blockquote", "sub", "sup",
+        "br", "hr",
+        "a","img",
+        "table", "tr", "td","colgroup", "col", "thead", "tbody"
+    };
     QList<QString> allowedAttributes = {"id", "name"};
 
     switch (currentNode.nodeType()) {
@@ -176,7 +183,10 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
                 }
             }
 
-            if (currentNodeTag.compare("h1") == 0) {
+            if (currentNodeTag.compare("body") == 0) {
+                returnValue.setAttribute("class", "document_body");
+            }
+            else if (currentNodeTag.compare("h1") == 0) {
                 returnValue.setAttribute("class", "doc_title");
             }
             else if (currentNodeTag.compare("h2") == 0) {
@@ -193,23 +203,34 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
                 }
             }
 
-            for (int i = 0; i < currentNode.childNodes().length(); i++) {
-                QDomNode localNode = currentNode.childNodes().at(i);
-                QString nodeName = localNode.nodeName().toLower();
+            if (currentNode.hasChildNodes()) {
+                for (int i = 0; i < currentNode.childNodes().count(); i++) {
+                    QDomNode localNode = currentNode.childNodes().at(i);
 
-                returnValue.appendChild(processXHTMLNode(zipData, xHTMLFileName, localNode));
+                    returnValue.appendChild(processXHTMLNode(zipData, xHTMLFileName, localNode));
+                }
             }
+            // DIrty hack. But without it we have broken xHTML in some cases
+            else {
+                returnValue.appendChild(QDomDocument().createTextNode(""));
+            }
+
             return returnValue;
         }
         break;
     case QDomNode::TextNode:
-        return currentNode;
+        return currentNode.cloneNode();
+        break;
+
+    case QDomNode::EntityReferenceNode:
+        return currentNode.cloneNode();
         break;
     default:
+        //qDebug() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
         break;
     }
 
-    return QDomText();
+    return QDomDocument().createTextNode("");
 }
 
 QString FormatEPub::processXHTMLFile(qbrzip *zipData, QString xHTMLFileName) {

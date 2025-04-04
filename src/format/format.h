@@ -10,6 +10,7 @@
 struct QBRBookInfo {
     QString Author;
     QString Title;
+    QString Description;
     QString FileFormat;
 };
 

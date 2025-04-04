@@ -1,8 +1,10 @@
 # Version 0.0.9 #
  * Support for reading fb2.zip
+ * Initial support for epub
  * Export to markdown
  * Export to plain text
  * Refactoring
+ * Huge speedup for book-loading
 
 # Version 0.0.8 #
  * Moved to Qt6
@@ -14,7 +16,7 @@
  * Fixed all known bugs;-)
 
 # Version 0.0.7 #
- * Fixed: "Save as HTML" now saved file with default stylesheet
+ * Fixed: "Save as HTML" now saves file with default stylesheet
  * Use libzip instead of libquazip. Less dependency list
  * Small UI improvements
  * Initial Qt6 support
