@@ -17,8 +17,6 @@ FormatEPub::FormatEPub() {}
 
 bool FormatEPub::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
     (void)fileName;
-    (void)fileData;
-    (void)zipData;
 
     bookInfo = {{}, ""};
     bookInfo.metadata.FileFormat = "Electronic Publication (EPUB)";
@@ -167,13 +165,19 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
             if (allowedTags.contains(currentNodeTag)) {
                 returnTagName = currentNodeTag;
             }
+            /*
+            else {
+                qDebug() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
+            }
+            */
 
             QDomElement returnValue = QDomDocument().createElement(returnTagName);
 
             if (returnTagName.compare("a") == 0) {
                 if (currentNode.attributes().contains("href")) {
-                    QString aHref = currentNode.attributes().namedItem("href").nodeValue();
-                    returnValue.setAttribute("href", prepareLink(xHTMLFileName, aHref));
+                    QString aHref = prepareLink(xHTMLFileName, currentNode.attributes().namedItem("href").nodeValue());
+                    returnValue.setAttribute("href", aHref);
+                    returnValue.setAttribute("title", aHref);
                 }
             }
             else if (returnTagName.compare("img") == 0) {
