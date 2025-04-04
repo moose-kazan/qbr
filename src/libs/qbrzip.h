@@ -13,6 +13,7 @@ public:
     bool setData(QByteArray zipData);
     QStringList getFileNameList();
     QByteArray getFileData(QString fileName);
+    bool fileExists(QString fileName);
     void clear();
     bool isLoaded();
 

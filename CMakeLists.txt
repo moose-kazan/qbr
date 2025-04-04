@@ -105,6 +105,7 @@ set(PROJECT_SOURCES
 qt_add_executable(qbr
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+    src/format/formatepub.h src/format/formatepub.cpp
 )
 
 qt6_standard_project_setup()

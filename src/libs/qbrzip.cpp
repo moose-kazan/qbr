@@ -83,6 +83,13 @@ QByteArray qbrzip::getFileData(QString fileName) {
   return zipEntries.value(fileName, NULL);
 }
 
+bool qbrzip::fileExists(QString fileName) {
+    if (!entry_names_cs) {
+        fileName = fileName.toLower();
+    }
+    return zipEntries.contains(fileName);
+}
+
 void qbrzip::clear() {
     zipEntries.clear();
     loaded = false;

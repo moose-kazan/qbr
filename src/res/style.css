@@ -9,7 +9,7 @@ body {
 
 /* Document header (like "h1" in html) */
 .doc_title {
-    font-size: 22px;
+    font-size: 24px;
     color: #222222;
     font-weight: bold;
     text-align: center;
@@ -17,11 +17,20 @@ body {
 
 /* Document subheader (like "h2" in html) */
 .doc_subtitle {
+    font-size: 20px;
+    color: #444444;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Document subheader (like "h3" in html) */
+.doc_subsubtitle {
     font-size: 18px;
     color: #444444;
     font-weight: bold;
     text-align: center;
 }
+
 
 /* POEM tag in FB2/FB3 */
 .doc_poem {

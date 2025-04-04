@@ -8,6 +8,7 @@
 #include "format/formatfb2.h"
 #include "format/formatfb2zip.h"
 #include "format/formatfb3.h"
+#include "format/formatepub.h"
 
 class BookLoader
 {
@@ -20,6 +21,7 @@ private:
     QList<Format*> bookParsers = {
         new FormatAMB(),
         new FormatCBZ(),
+        new FormatEPub(),
         new FormatFB2(),
         new FormatFB2Zip(),
         new FormatFB3()

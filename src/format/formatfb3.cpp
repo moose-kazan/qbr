@@ -48,7 +48,7 @@ bool FormatFB3::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData)
       return false;
   }
 
-  return parseFile(fileData);
+  return parseFile();
 }
 
 QString FormatFB3::parseFB3TextFromNode(QDomNode xmlNode) {
@@ -221,7 +221,7 @@ void FormatFB3::parseFB3Metadata(QString entryName) {
   }
 }
 
-bool FormatFB3::parseFile(QByteArray fileData) {
+bool FormatFB3::parseFile() {
     QStringList zipEntryNames = unZip->getFileNameList();
     QStringList requiredFiles = {
         "[Content_Types].xml",
