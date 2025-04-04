@@ -151,7 +151,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
         "blockquote", "sub", "sup",
         "br", "hr",
         "a","img",
-        "table", "tr", "td","colgroup", "col", "thead", "tbody"
+        "table", "tr", "th", "td","colgroup", "col", "thead", "tbody"
     };
     QList<QString> allowedAttributes = {"id", "name"};
 

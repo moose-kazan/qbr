@@ -17,122 +17,113 @@ FormatFB2::FormatFB2() {}
 
 QStringList FormatFB2::getExtensions() { return QStringList("fb2"); }
 
-QString FormatFB2::parseXmlTextFromNode(QDomNode xmlNode) {
-  if (xmlNode.isNull()) {
-    return "";
-  }
+QDomNode FormatFB2::parseXmlNode(QDomNode currentNode, QHash<QString, QString> fb2Binaries) {
+    (void) fb2Binaries;
 
-  if (xmlNode.isText()) {
-    return xmlNode.nodeValue();
-  }
+    QHash<QString, QString> baseTags = {
+        {"strong",        "strong"},
+        {"p",             "p"},
+        {"emphasis",      "em"},
+        {"code",          "pre"},
+        {"sub",           "sub"},
+        {"sup",           "sup"},
+        {"strikethrough", "s"},
+        {"cite",          "blockquote"},
+        {"empty-line",    "br"},
+        {"image",         "img"},
+        {"a",             "a"},
+        {"table",         "table"},
+        {"tr",            "tr"},
+        {"th",            "th"},
+        {"td",            "td"},
+    };
 
-  QString rv = QString("");
-  for (int i = 0; xmlNode.hasChildNodes() && i < xmlNode.childNodes().count();
-       i++) {
-    rv.append(parseXmlTextFromNode(xmlNode.childNodes().at(i)));
-  }
-  return rv;
-}
+    QHash<QString, QString> tagToClass = {
+        {"body",     "document_body"},
+        {"title",    "doc_title"},
+        {"subtitle", "doc_subtitle"},
+        {"stanza",   "doc_poem"},
+        {"poem",     "doc_poem"},
+        {"section",  "doc_section"},
+    };
 
-QString FormatFB2::parseXmlBody(QDomNode xmlNode,
-                                   QHash<QString, QString> xmlImages) {
-  QHash<QString, QString> base_tags;
-  base_tags.insert("strong", "strong");
-  base_tags.insert("p", "p");
-  base_tags.insert("emphasis", "em");
-  base_tags.insert("code", "pre");
-  base_tags.insert("sub", "sub");
-  base_tags.insert("sup", "sup");
-  base_tags.insert("strikethrough", "s");
-  base_tags.insert("cite", "blockquote");
+    QList<QString> allowedAttributes = {"id", "name"};
 
-  QHash<QString, QString> tags_to_class;
-  tags_to_class.insert("title", "doc_title");
-  tags_to_class.insert("subtitle", "doc_subtitle");
-  tags_to_class.insert("stanza", "doc_poem");
-  tags_to_class.insert("section", "doc_section");
+    switch (currentNode.nodeType()) {
+    case QDomNode::ElementNode:
+        {
+            QString returnTagName = "div";
+            QString currentNodeTag = currentNode.nodeName().toLower();
 
-  QString rv = QString("");
-  for (int i = 0; i < xmlNode.childNodes().count(); i++) {
-    QDomNode curXmlNode = xmlNode.childNodes().at(i);
-    if (curXmlNode.childNodes().count() == 0) {
-      if (curXmlNode.nodeName() == "#text") {
-        rv.append(parseXmlTextFromNode(curXmlNode));
-      } else if (curXmlNode.nodeName() == "empty-line") {
-        rv.append("<br />\n<br />\n");
-      } else if (curXmlNode.nodeName() == "image") {
-        QString img_src_key = QString("");
-        if (curXmlNode.attributes().contains("xlink:href")) {
-          img_src_key =
-              curXmlNode.attributes().namedItem("xlink:href").toAttr().value();
-        } else if (curXmlNode.attributes().contains("l:href")) {
-          img_src_key =
-              curXmlNode.attributes().namedItem("l:href").toAttr().value();
-        } else if (curXmlNode.attributes().contains("href")) {
-          img_src_key =
-              curXmlNode.attributes().namedItem("href").toAttr().value();
-        }
+            if (baseTags.contains(currentNodeTag)) {
+                returnTagName = baseTags.value(currentNodeTag);
+            }
+            /*else {
+                qDebug() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
+            }*/
 
-        if (xmlImages.value(img_src_key, "") != "") {
-          rv.append("<img src=\"" + xmlImages.value(img_src_key, "") + "\" />");
-        }
-      }
-    } else {
-      if (base_tags.value(curXmlNode.nodeName(), "") != "") {
-        rv.append("<" + base_tags.value(curXmlNode.nodeName()) + ">");
-        rv.append(parseXmlBody(curXmlNode, xmlImages));
-        rv.append("</" + base_tags.value(curXmlNode.nodeName()) + ">\n");
-      } else if (tags_to_class.value(curXmlNode.nodeName(), "") != "") {
-        if (curXmlNode.attributes().contains("id")) {
-          rv.append("<div class=\"" +
-                    tags_to_class.value(curXmlNode.nodeName()) + "\" id=\"");
-          rv.append(curXmlNode.attributes().namedItem("id").toAttr().value());
-          rv.append("\">");
-        } else {
-          rv.append("<div class=\"" +
-                    tags_to_class.value(curXmlNode.nodeName()) + "\">");
-        }
-        rv.append(parseXmlBody(curXmlNode, xmlImages));
-        rv.append("</div>\n");
-      } else if (curXmlNode.nodeName() == "v") {
-        rv.append(parseXmlBody(curXmlNode, xmlImages) + "<br />\n");
-      } else if (curXmlNode.nodeName() == "a") {
-        QString a_type = "";
-        if (curXmlNode.attributes().contains("type")) {
-          a_type = curXmlNode.attributes().namedItem("type").toAttr().value();
-        }
-        QString a_href = "";
-        if (curXmlNode.attributes().contains("l:href")) {
-          a_href = curXmlNode.attributes().namedItem("l:href").toAttr().value();
-        } else if (curXmlNode.attributes().contains("xlink:href")) {
-          a_href =
-              curXmlNode.attributes().namedItem("xlink:href").toAttr().value();
-        } else if (curXmlNode.attributes().contains("href")) {
-          a_href = curXmlNode.attributes().namedItem("href").toAttr().value();
-        }
+            QDomElement returnValue = QDomDocument().createElement(returnTagName);
 
-        // Link to note
-        if (a_type == "note" && a_href != "") {
-          rv.append("<a class=\"doc_note_link\" href=\"" + a_href + "\">");
-          rv.append(parseXmlBody(curXmlNode, xmlImages));
-          rv.append("</a>\n");
+            if (tagToClass.contains(currentNodeTag)) {
+                returnValue.setAttribute("class", tagToClass.value(currentNodeTag));
+            }
+
+            if (returnTagName.compare("img") == 0) {
+                if (currentNode.attributes().contains("href")) {
+                    QString imgHref = currentNode.attributes().namedItem("href").nodeValue();
+                    returnValue.setAttribute("src", fb2Binaries.value(imgHref));
+                }
+            }
+            else if (returnTagName.compare("a") == 0) {
+                if (currentNode.attributes().contains("href")) {
+                    QString aHref = currentNode.attributes().namedItem("href").nodeValue();
+                    //qDebug() << "a.href" << aHref;
+                    returnValue.setAttribute("href", aHref);
+                    returnValue.setAttribute("title", aHref);
+                }
+                if (currentNode.attributes().contains("type")) {
+                    QString aType = currentNode.attributes().namedItem("type").nodeValue();
+                    if (aType.compare("note") == 0) {
+                        returnValue.setAttribute("class", "doc_note_link");
+                    }
+                }
+            }
+
+            for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
+                QString attrName = allowedAttributes.at(i);
+                if (currentNode.attributes().contains(attrName)) {
+                    returnValue.setAttribute(attrName, currentNode.attributes().namedItem(attrName).nodeValue());
+                }
+            }
+
+            if (currentNode.hasChildNodes()) {
+                for (int i = 0; i < currentNode.childNodes().count(); i++) {
+                    QDomNode localNode = currentNode.childNodes().at(i);
+
+                    returnValue.appendChild(parseXmlNode(localNode, fb2Binaries));
+                }
+            }
+            // DIrty hack. But without it we have broken xHTML in some cases
+            else {
+                returnValue.appendChild(QDomDocument().createTextNode(""));
+            }
+
+            return returnValue;
         }
-        // Link to all other urls
-        else if (a_href != "") {
-          rv.append("<a href=\"" + a_href + "\">");
-          rv.append(parseXmlBody(curXmlNode, xmlImages));
-          rv.append("</a>\n");
-        }
-        // All other cases
-        else {
-          rv.append(parseXmlBody(curXmlNode, xmlImages));
-        }
-      } else {
-        rv.append(parseXmlBody(curXmlNode, xmlImages));
-      }
+        break;
+    case QDomNode::TextNode:
+        return currentNode.cloneNode();
+        break;
+
+    case QDomNode::EntityReferenceNode:
+        return currentNode.cloneNode();
+        break;
+    default:
+        //qDebug() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
+        break;
     }
-  }
-  return rv;
+
+    return QDomDocument().createTextNode("");
 }
 
 bool FormatFB2::parseXml(QByteArray fileData) {
@@ -148,49 +139,36 @@ bool FormatFB2::parseXml(QByteArray fileData) {
     return false;
   }
 
-  QHash<QString, QString> fb2_images;
-  QDomNodeList fb2_binaries = parserXml.elementsByTagName("binary");
-  for (int i = 0; i < fb2_binaries.count(); i++) {
-    QDomNode fb2_binary = fb2_binaries.at(i);
-    if (fb2_binary.attributes().contains("id") &&
-        fb2_binary.attributes().contains("content-type")) {
-      QString img_key = QString("#");
-      img_key.append(fb2_binary.attributes().namedItem("id").toAttr().value());
+  QHash<QString, QString> fb2Binaries;
+  QDomElement fb2Binary = parserXml.firstChildElement("FictionBook").firstChildElement("binary");
+  while (!fb2Binary.isNull()) {
+      QString binaryId = QString("#").append(fb2Binary.attribute("id", ""));
+      QString binaryContentType = fb2Binary.attribute("content-type", "");
+      QString binaryValue = QString("data:%1;base64,%2").arg(binaryContentType).arg(fb2Binary.text());
 
-      QString img_val = QString("data:");
-      img_val.append(
-          fb2_binary.attributes().namedItem("content-type").toAttr().value());
-      img_val.append(";base64,");
-      img_val.append(
-          parseXmlTextFromNode(fb2_binary).replace("\n", "").replace("\r", ""));
+      fb2Binaries.insert(binaryId, binaryValue);
 
-      fb2_images.insert(img_key, img_val);
-    }
+      fb2Binary = fb2Binary.nextSiblingElement("binary");
   }
+
 
   htmlData.append(Template::header());
-  QDomNodeList fb2_bodies = parserXml.elementsByTagName("body");
-  if (fb2_bodies.count() < 1) {
-    return false;
+  QDomElement fb2Body = parserXml.firstChildElement("FictionBook").firstChildElement("body");
+
+  if (fb2Body.isNull()) {
+      return false;
   }
 
-  for (int i = 0; i < fb2_bodies.count(); i++) {
-    QDomNode fb2_body = fb2_bodies.at(i);
-    QString fb2_body_line = "";
-    if (fb2_body.attributes().contains("name")) {
-      fb2_body_line.append("<div class=\"document_body\" name=\"");
-      fb2_body_line.append(
-          fb2_body.attributes().namedItem("name").toAttr().value());
-      fb2_body_line.append("\">");
-      fb2_body_line.append(parseXmlBody(fb2_body, fb2_images));
-      fb2_body_line.append("</div>\n");
-    } else {
-      fb2_body_line.append("<div class=\"document_body\">");
-      fb2_body_line.append(parseXmlBody(fb2_body, fb2_images));
-      fb2_body_line.append("</div>\n");
-    }
-    htmlData.append(fb2_body_line);
+  while (!fb2Body.isNull()) {
+      QDomNode convertedNode = parseXmlNode(fb2Body, fb2Binaries);
+      QString nodeAsString;
+      QTextStream nodeStream(&nodeAsString);
+      convertedNode.save(nodeStream, 2);
+      htmlData.append(nodeAsString);
+
+      fb2Body = fb2Body.nextSiblingElement("body");
   }
+
   htmlData.append(Template::footer());
 
   parseBookInfo(&parserXml);
@@ -209,20 +187,17 @@ void FormatFB2::parseBookInfo(QDomDocument *parserXml) {
 
   QDomElement nodeBookTitle = nodeTitleInfo.firstChildElement("book-title");
   if (!nodeBookTitle.isNull()) {
-    bookInfo.Title = parseXmlTextFromNode(nodeBookTitle);
+      bookInfo.Title = nodeBookTitle.text();
   }
 
   QDomNodeList nodeAuthors = nodeTitleInfo.elementsByTagName("author");
   for (int i = 0; i < nodeAuthors.count(); i++) {
-    QString firstName =
-        parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("first-name"));
-    QString lastName =
-        parseXmlTextFromNode(nodeAuthors.at(i).firstChildElement("last-name"));
+    QString firstName = nodeAuthors.at(i).firstChildElement("first-name").text();
+    QString lastName = nodeAuthors.at(i).firstChildElement("last-name").text();
     if (firstName == "" && lastName == "") {
       continue;
     }
-    QString middleName = parseXmlTextFromNode(
-        nodeAuthors.at(i).firstChildElement("middle-name"));
+    QString middleName = nodeAuthors.at(i).firstChildElement("middle-name").text();
 
     QString authorName = firstName;
     if (middleName != "") {
@@ -236,6 +211,7 @@ void FormatFB2::parseBookInfo(QDomDocument *parserXml) {
       bookInfo.Author += ", " + authorName;
     }
   }
+
 
   // qDebug() << "Book title" << bookInfo.Title;
   // qDebug() << "Book author" << bookInfo.Author;

@@ -5,6 +5,7 @@
  * Export to plain text
  * Refactoring
  * Huge speedup for book-loading
+ * Fully rewritten FB2-parser
 
 # Version 0.0.8 #
  * Moved to Qt6

@@ -18,9 +18,8 @@ public:
 private:
     QBRBookInfo bookInfo;
     QString htmlData;
+    QDomNode parseXmlNode(QDomNode currentNode, QHash<QString, QString> fb2Binaries);
     bool parseXml(QByteArray fileData);
-    QString parseXmlTextFromNode(QDomNode xmlNode);
-    QString parseXmlBody(QDomNode xmlNode, QHash<QString, QString> xmlImages);
     void parseBookInfo(QDomDocument *parserXml);
 };
 
