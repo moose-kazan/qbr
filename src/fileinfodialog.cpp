@@ -41,6 +41,18 @@ void FileInfoDialog::showEvent(QShowEvent *event) {
   for (int i = 0; i < 3; i++) {
     tw->item(i, 0)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
   }
+
+  QLabel *cw = findChild<QLabel *>("bookCover");
+  QPixmap coverPixmap;
+  if (!bookInfo.Cover.isNull()) {
+      coverPixmap.convertFromImage(bookInfo.Cover);
+  }
+  else {
+      coverPixmap.load(":/icon/512x512/qbr.png");
+  }
+  cw->setPixmap(coverPixmap.scaled(cw->width(), cw->height(), Qt::KeepAspectRatio));
+  //cw->setScaledContents(true);
+  //qDebug() << cover.width() << "x" << cover.height() << cover.isNull();
 }
 
 FileInfoDialog::~FileInfoDialog() { delete ui; }

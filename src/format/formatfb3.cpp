@@ -28,7 +28,7 @@ QStringList FormatFB3::getExtensions() { return QStringList("fb3"); }
 bool FormatFB3::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
   // reset data from previous file
   htmlData = "";
-  bookInfo = {};
+  bookInfo.clear();
   bookInfo.FileFormat = "FictionBook 3";
 
   fb3_binaries.clear();

@@ -6,6 +6,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QDomNode>
+#include <QMap>
 
 class FormatEPub : public Format
 {
@@ -25,6 +26,7 @@ private:
     QString prepareDataLink(qbrzip *zipData, QString dataFileName);
     QDomNode processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QDomNode currentNode);
     QString processXHTMLFile(qbrzip *zipData, QString xHTMLFileName);
+    void processRootFileMetadata(qbrzip *zipData, QString rootFileName, QDomDocument *rootFileXml, QMap<QString,QDomElement> *manifestMap);
     QString processRootFile(qbrzip *zipData, QString rootFileName);
     bool parseFile(qbrzip *zipData);
 };

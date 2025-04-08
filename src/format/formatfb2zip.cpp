@@ -7,6 +7,8 @@ FormatFB2Zip::FormatFB2Zip() {}
 bool FormatFB2Zip::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
     (void)fileName;
 
+    bookInfo.metadata.clear();
+
     if (!isZipFile(fileData))  {
         return false;
     }

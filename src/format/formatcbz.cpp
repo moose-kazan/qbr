@@ -17,7 +17,7 @@ QStringList FormatCBZ::getExtensions() { return QStringList("cbz"); }
 
 bool FormatCBZ::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
   htmlData = ""; // reset data from previous file
-  bookInfo = {};
+  bookInfo.clear();
   bookInfo.FileFormat = "Comics Book Zip";
 
   QRegularExpression rx("\\.cbz$", QRegularExpression::CaseInsensitiveOption);
@@ -61,11 +61,15 @@ bool FormatCBZ::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData)
     }
 
     if (mimeType != "") {
+      QByteArray entryData = unZip->getFileData(zipEntryName);
       htmlData.append("<div class=\"comics_image\"><img src=\"data:");
       htmlData.append(mimeType);
       htmlData.append(";base64,");
-      htmlData.append(unZip->getFileData(zipEntryName).toBase64());
+      htmlData.append(entryData.toBase64());
       htmlData.append("\"><br /></div>\n");
+      if (i == 0) {
+          bookInfo.Cover.loadFromData(entryData);
+      }
     }
   }
 

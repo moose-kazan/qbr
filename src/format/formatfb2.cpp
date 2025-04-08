@@ -13,6 +13,12 @@
 
 #include <QDebug>
 
+/**
+ * FB2-Parser.
+ * XML-Schema: http://www.fictionbook.org/index.php/XML_%D1%81%D1%85%D0%B5%D0%BC%D0%B0_FictionBook2.2
+ * More info: http://www.fictionbook.org/index.php/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FB_%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B
+ */
+
 FormatFB2::FormatFB2() {}
 
 QStringList FormatFB2::getExtensions() { return QStringList("fb2"); }
@@ -212,6 +218,21 @@ void FormatFB2::parseBookInfo(QDomDocument *parserXml) {
     }
   }
 
+  QDomElement coverImageNode = nodeTitleInfo.firstChildElement("coverpage").firstChildElement("image");
+  if (!coverImageNode.isNull() && coverImageNode.hasAttribute("href")) {
+      QString coverImageName = coverImageNode.attribute("href");
+      QDomElement binaryItem = parserXml->firstChildElement("FictionBook").firstChildElement("binary");
+      while (!binaryItem.isNull()) {
+          if (binaryItem.hasAttribute("id")) {
+              if (coverImageName.compare(QString("#%1").arg(binaryItem.attribute("id"))) == 0) {
+                  bookInfo.Cover.loadFromData(QByteArray::fromBase64(binaryItem.text().toUtf8()));
+                  break;
+              }
+          }
+          binaryItem = binaryItem.nextSiblingElement("binary");
+      }
+  }
+
 
   // qDebug() << "Book title" << bookInfo.Title;
   // qDebug() << "Book author" << bookInfo.Author;
@@ -220,7 +241,7 @@ void FormatFB2::parseBookInfo(QDomDocument *parserXml) {
 bool FormatFB2::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
   (void)zipData;
   htmlData = ""; // reset data from previous file
-  bookInfo = {};
+  bookInfo.clear();
   bookInfo.FileFormat = "FictionBook 2";
 
   (void)fileName; // Remove "unused parameter" warning

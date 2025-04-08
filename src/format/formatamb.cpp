@@ -206,7 +206,7 @@ bool FormatAMB::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData)
   (void)zipData;
   // reset data from previous file
   htmlData = "";
-  bookInfo = {};
+  bookInfo.clear();
   bookInfo.FileFormat = "Ancient Machine's Book";
 
   ambEntries.clear();

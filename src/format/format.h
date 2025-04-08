@@ -6,12 +6,21 @@
 #include <QString>
 #include <QByteArray>
 #include <QStringList>
+#include <QImage>
 
 struct QBRBookInfo {
     QString Author;
     QString Title;
     QString Description;
     QString FileFormat;
+    QImage Cover;
+    void clear() {
+        Author = "";
+        Title = "";
+        Description = "";
+        FileFormat = "";
+        Cover = QImage();
+    }
 };
 
 struct QBRBook {

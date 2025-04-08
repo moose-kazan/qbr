@@ -18,7 +18,7 @@ FormatEPub::FormatEPub() {}
 bool FormatEPub::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
     (void)fileName;
 
-    bookInfo = {{}, ""};
+    bookInfo.metadata.clear();
     bookInfo.metadata.FileFormat = "Electronic Publication (EPUB)";
 
     if (!isZipFile(fileData)) {
@@ -153,7 +153,15 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
         "a","img",
         "table", "tr", "th", "td","colgroup", "col", "thead", "tbody"
     };
+
     QList<QString> allowedAttributes = {"id", "name"};
+
+    QHash<QString, QString> tagToClass = {
+        {"body",     "document_body"},
+        {"h1",       "doc_title"},
+        {"h2",       "doc_subtitle"},
+        {"h3",       "doc_subsubtitle"},
+    };
 
     switch (currentNode.nodeType()) {
     case QDomNode::ElementNode:
@@ -173,6 +181,10 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
 
             QDomElement returnValue = QDomDocument().createElement(returnTagName);
 
+            if (tagToClass.contains(currentNodeTag)) {
+                returnValue.setAttribute("class", tagToClass.value(currentNodeTag));
+            }
+
             if (returnTagName.compare("a") == 0) {
                 if (currentNode.attributes().contains("href")) {
                     QString aHref = prepareLink(xHTMLFileName, currentNode.attributes().namedItem("href").nodeValue());
@@ -185,19 +197,6 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
                     QString imgSrc = currentNode.attributes().namedItem("src").nodeValue();
                     returnValue.setAttribute("src", prepareDataLink(zipData, expandFileName(xHTMLFileName, imgSrc)));
                 }
-            }
-
-            if (currentNodeTag.compare("body") == 0) {
-                returnValue.setAttribute("class", "document_body");
-            }
-            else if (currentNodeTag.compare("h1") == 0) {
-                returnValue.setAttribute("class", "doc_title");
-            }
-            else if (currentNodeTag.compare("h2") == 0) {
-                returnValue.setAttribute("class", "doc_subtitle");
-            }
-            else if (currentNodeTag.compare("h3") == 0) {
-                returnValue.setAttribute("class", "doc_subsubtitle");
             }
 
             for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
@@ -259,6 +258,53 @@ QString FormatEPub::processXHTMLFile(qbrzip *zipData, QString xHTMLFileName) {
     return QString("<div id=\"#file_%1\">%2</div>\n").arg(xHTMLFileName.toHtmlEscaped()).arg(processResult);
 }
 
+void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, QDomDocument *rootFileXml, QMap<QString,QDomElement> *manifestMap) {
+
+    QDomElement metadataNode = rootFileXml->firstChildElement("package").firstChildElement("metadata");
+    if (metadataNode.isNull()) {
+        return;
+    }
+
+    QDomElement titleNode = metadataNode.firstChildElement("title");
+    if (bookInfo.metadata.Title.compare("") == 0 && !titleNode.isNull()) {
+        bookInfo.metadata.Title = titleNode.text();
+    }
+
+    QDomElement creatorNode = metadataNode.firstChildElement("creator");
+    if (bookInfo.metadata.Author.compare("") == 0 && !creatorNode.isNull()) {
+        bookInfo.metadata.Author = creatorNode.text();
+    }
+
+    // Cover imagw. Epub-2 Way
+    QDomElement metaNode = metadataNode.firstChildElement("meta");
+    QString coverItemId;
+    while (!metaNode.isNull()) {
+        qDebug() << metaNode.attribute("content");
+        if (metaNode.hasAttribute("name") && metaNode.attribute("name").compare("cover") == 0) {
+            if (metaNode.hasAttribute("content")) {
+                coverItemId = metaNode.attribute("content");
+                if (manifestMap->contains(coverItemId)) {
+                    QString coverImageName = expandFileName(rootFileName, manifestMap->value(coverItemId).attribute("href"));
+                    bookInfo.metadata.Cover.loadFromData(zipData->getFileData(coverImageName));
+                }
+                break;
+            }
+        }
+        metaNode = metaNode.nextSiblingElement("meta");
+    }
+
+    // Cover imagw. Epub-3 Way
+    if (bookInfo.metadata.Cover.isNull()) {
+        for (int i = 0; i < manifestMap->values().count(); i++) {
+            QDomElement manifestItem = manifestMap->values().at(i);
+            if (manifestItem.attribute("properties", "").compare("cover-image") == 0) {
+                QString coverImageName = expandFileName(rootFileName, manifestItem.attribute("href"));
+                bookInfo.metadata.Cover.loadFromData(zipData->getFileData(coverImageName));
+            }
+        }
+    }
+}
+
 QString FormatEPub::processRootFile(qbrzip *zipData, QString rootFileName) {
     QDomDocument rootFileXml;
     QString rootFileXmlErrorMsg;
@@ -293,6 +339,8 @@ QString FormatEPub::processRootFile(qbrzip *zipData, QString rootFileName) {
         }
         spineItem = spineItem.nextSiblingElement("itemref");
     }
+
+    processRootFileMetadata(zipData, rootFileName, &rootFileXml, &manifestMap);
 
     return returnValue;
 }
