@@ -9,5 +9,16 @@ QString ExportMarkdown::getFilter() {
 }
 
 QString ExportMarkdown::fromHtml(QString htmlLine) {
-    return QTextDocumentFragment::fromHtml(htmlLine).toMarkdown();
+    QStringList markdownLinesSrc = QTextDocumentFragment::fromHtml(htmlLine).toMarkdown(QTextDocument::MarkdownNoHTML).split("\n");
+    QStringList markdownDocument;
+
+    for (int i = 0; i < markdownLinesSrc.count(); i++) {
+        if (markdownLinesSrc.at(i).startsWith("![image](data:")) {
+            markdownDocument.append("[IMG]");
+            continue;
+        }
+        markdownDocument.append(markdownLinesSrc.at(i));
+    }
+
+    return markdownDocument.join("\n");
 }
