@@ -6,6 +6,8 @@
  * Refactoring
  * Huge speedup for book-loading
  * Fully rewritten FB2-parser
+ * Fully rewritten FB3-parser
+ * Support for book covers in fileinfo dialog
 
 # Version 0.0.8 #
  * Moved to Qt6

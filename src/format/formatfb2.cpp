@@ -24,8 +24,6 @@ FormatFB2::FormatFB2() {}
 QStringList FormatFB2::getExtensions() { return QStringList("fb2"); }
 
 QDomNode FormatFB2::parseXmlNode(QDomNode currentNode, QHash<QString, QString> fb2Binaries) {
-    (void) fb2Binaries;
-
     QHash<QString, QString> baseTags = {
         {"strong",        "strong"},
         {"p",             "p"},
