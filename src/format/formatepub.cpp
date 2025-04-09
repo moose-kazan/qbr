@@ -279,7 +279,6 @@ void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, 
     QDomElement metaNode = metadataNode.firstChildElement("meta");
     QString coverItemId;
     while (!metaNode.isNull()) {
-        qDebug() << metaNode.attribute("content");
         if (metaNode.hasAttribute("name") && metaNode.attribute("name").compare("cover") == 0) {
             if (metaNode.hasAttribute("content")) {
                 coverItemId = metaNode.attribute("content");
