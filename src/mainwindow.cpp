@@ -78,38 +78,35 @@ void MainWindow::openFile() {
 }
 
 void MainWindow::saveFileAs() {
-  // If no file loaded
-  if (getCurrentFileName().length() < 1) {
-    return;
-  }
+    // If no file loaded
+    if (getCurrentFileName().length() < 1) {
+        return;
+    }
 
-  // Start path: by default - $HOME, but if exists - xdg-documents
-  QString filterPath = QDir::homePath();
-  if (QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)
-          .count() > 0) {
-    filterPath =
-        QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)
-            .at(0);
-  }
+    // Start path: by default - $HOME, but if exists - xdg-documents
+    QString filterPath = QDir::homePath();
+    if (QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).count() > 0) {
+        filterPath = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).at(0);
+    }
 
-  // Filter line
-  QString filterLine = QString(tr("Html pages (%1)")).arg("*.htm *.html");
+    // Filter line
+    QString filterLine = QString(tr("Html pages (%1)")).arg("*.htm *.html");
 
-  QString selectedFilter;
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."),
-                                                  filterPath, bookSaver->getFilter().join(";;"), &selectedFilter);
-  Export *exporter = bookSaver->exporterByFilter(selectedFilter);
-  if (fileName != "") {
-    findChild<QWebEngineView *>("browser")->page()->toHtml(
-        [fileName, exporter](QString htmlData) {
-          QFile f(fileName);
-          if (f.open(QIODevice::WriteOnly)) {
-              f.write(exporter->fromHtml(htmlData).toUtf8());
-            f.close();
-          }
+    QString selectedFilter;
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."),
+        filterPath, bookSaver->getFilter().join(";;"), &selectedFilter);
+
+    if (fileName != "") {
+        Export *exporter = bookSaver->exporterByFilter(selectedFilter);
+        findChild<QWebEngineView *>("browser")->page()->toHtml([fileName, exporter](QString htmlData) {
+            QFile f(fileName);
+            if (f.open(QIODevice::WriteOnly)) {
+                f.write(exporter->fromHtml(htmlData).toUtf8());
+                f.close();
+            }
         });
-    // browser->toHtml();
-  }
+        // browser->toHtml();
+    }
 }
 
 void MainWindow::helpAbout() { aboutDlg->show(); }
