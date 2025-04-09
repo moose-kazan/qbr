@@ -281,7 +281,7 @@ QString FormatFB3::parseBody(qbrzip *zipData, QString bodyEntryName) {
         QString nodeContentType = fb3ExtTypes.value(nodeTargetExtension, "");
 
         bodyBinaries.insert(nodeId, QString("data:%1;base64,%2").arg(nodeContentType).arg(zipData->getFileData(nodeTarget).toBase64()));
-        qDebug() << nodeId << nodeTargetExtension << nodeContentType << nodeTarget << bodyBinaries.value(nodeId).length();
+        //qDebug() << nodeId << nodeTargetExtension << nodeContentType << nodeTarget << bodyBinaries.value(nodeId).length();
     }
 
     QDomDocument xmlFile;
