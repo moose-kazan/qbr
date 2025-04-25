@@ -1,3 +1,7 @@
+# Version 0.0.10 #
+ * Fixed build on Qt6 < 6.4
+ * Markdown export available only woth qt6 >= 6.4
+
 # Version 0.0.9 #
  * Support for reading fb2.zip
  * Initial support for epub

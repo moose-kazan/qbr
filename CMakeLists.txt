@@ -95,8 +95,6 @@ set(PROJECT_SOURCES
     src/export/exporthtml.cpp
     src/export/exporttext.h
     src/export/exporttext.cpp
-    src/export/exportmarkdown.h
-    src/export/exportmarkdown.cpp
     src/qbr.qrc
     qbr.desktop
     ${RES_DATA}
@@ -104,12 +102,20 @@ set(PROJECT_SOURCES
     ${TS_FILES}
 )
 
+if (Qt6Core_VERSION VERSION_GREATER_EQUAL 6.4.0)
+set(PROJECT_SOURCES
+    src/export/exportmarkdown.h
+    src/export/exportmarkdown.cpp
+	${PROJECT_SOURCES}
+)
+endif()
+
 qt_add_executable(qbr
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
 
-qt6_standard_project_setup()
+#qt6_standard_project_setup()
 
 qt_add_translations(
     qbr

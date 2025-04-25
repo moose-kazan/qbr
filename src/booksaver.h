@@ -4,7 +4,10 @@
 #include "export/export.h"
 #include "export/exporthtml.h"
 #include "export/exporttext.h"
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
 #include "export/exportmarkdown.h"
+#endif
 
 class BookSaver
 {
@@ -15,8 +18,10 @@ public:
 private:
     QList<Export*> exporters = {
         new ExportHTML(),
-        new ExportMarkdown(),
         new ExportText(),
+#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
+        new ExportMarkdown(),
+#endif
     };
     QStringList filters;
 };
