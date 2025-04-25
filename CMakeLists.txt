@@ -66,6 +66,8 @@ set(PROJECT_SOURCES
     src/format/formatfb2zip.cpp
     src/format/formatfb3.h
     src/format/formatfb3.cpp
+    src/format/formatepub.h
+    src/format/formatepub.cpp
     src/main.cpp
     src/aboutdialog.cpp
     src/aboutdialog.h
@@ -105,7 +107,6 @@ set(PROJECT_SOURCES
 qt_add_executable(qbr
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
-    src/format/formatepub.h src/format/formatepub.cpp
 )
 
 qt6_standard_project_setup()
