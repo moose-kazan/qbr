@@ -17,7 +17,7 @@
 1. Склонировать репозиторий
 2. sudo apt install cmake qt6-webengine-dev libzip-dev qt6-tools-dev \
     qt6-webengine-dev-tools libgl1-mesa-dev libvulkan-dev qt6-l10n-tools \
-    qt6-tools-dev-tools libqt6opengl6-dev
+    qt6-tools-dev-tools libqt6opengl6-dev zipcmp zipmerge ziptool
 3. mkdir -p build && cd build && cmake .. && make
 
 #### Сборка на AltLinux p10 ####
@@ -46,7 +46,7 @@ For now it support the next file formats:
 1. Clone this repository
 2. sudo apt install cmake qt6-webengine-dev libzip-dev qt6-tools-dev \
     qt6-webengine-dev-tools libgl1-mesa-dev libvulkan-dev qt6-l10n-tools \
-    qt6-tools-dev-tools libqt6opengl6-dev
+    qt6-tools-dev-tools libqt6opengl6-dev zipcmp zipmerge ziptool
 3. mkdir -p build && cd build && cmake .. && make
 
 #### Build on AltLinux p10 ####
