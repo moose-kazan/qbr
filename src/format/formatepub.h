@@ -17,17 +17,20 @@ public:
     QBRBook getBook() override;
     bool needUnzip() override;
 
+    const QString EMPTYGIF = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
 private:
     QBRBook bookInfo;
     bool isValidFile(qbrzip *zipData);
     QStringList getRootFiles(qbrzip *zipData);
+    QStringList getEncryptedFiles(qbrzip *zipData);
     QString expandFileName(QString baseFileName, QString expandableFileName);
     QString prepareLink(QString baseFileName, QString link);
-    QString prepareDataLink(qbrzip *zipData, QString dataFileName);
-    QDomNode processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QDomNode currentNode);
-    QString processXHTMLFile(qbrzip *zipData, QString xHTMLFileName);
-    void processRootFileMetadata(qbrzip *zipData, QString rootFileName, QDomDocument *rootFileXml, QMap<QString,QDomElement> *manifestMap);
-    QString processRootFile(qbrzip *zipData, QString rootFileName);
+    QString prepareDataLink(qbrzip *zipData, QString dataFileName, QStringList encryptedFiles);
+    QDomNode processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QDomNode currentNode, QStringList encryptedFiles);
+    bool processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, QString xHTMLFileName, QStringList encryptedFiles);
+    void processRootFileMetadata(qbrzip *zipData, QString rootFileName, QDomDocument *rootFileXml, QMap<QString,QDomElement> *manifestMap, QStringList encryptedFiles);
+    bool processRootFile(QString *returnValue, qbrzip *zipData, QString rootFileName, QStringList encryptedFiles);
     bool parseFile(qbrzip *zipData);
 };
 

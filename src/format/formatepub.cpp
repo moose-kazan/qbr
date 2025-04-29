@@ -53,10 +53,10 @@ bool FormatEPub::isValidFile(qbrzip *zipData) {
         return false;
     }
 
-    if (zipData->fileExists("META-INF/encryption.xml")) {
+    /*if (zipData->fileExists("META-INF/encryption.xml")) {
         qDebug() << "ePub files with encryption doesn't supported";
         return false;
-    }
+    }*/
 
 
     return true;
@@ -89,6 +89,38 @@ QStringList FormatEPub::getRootFiles(qbrzip *zipData) {
     return rootFiles;
 }
 
+QStringList FormatEPub::getEncryptedFiles(qbrzip *zipData) {
+    QStringList encryptedFiles;
+    if (!zipData->fileExists("META-INF/encryption.xml")) {
+        return encryptedFiles;
+    }
+
+    qDebug() << "File partialy or fully encrypted!";
+
+    QDomDocument containerXml;
+    QString containerXmlErrorMsg;
+
+    if (!containerXml.setContent(zipData->getFileData("META-INF/encryption.xml"), true, &containerXmlErrorMsg)) {
+        qDebug() << "Can't read META-INF/encryption.xml: " << containerXmlErrorMsg;
+    }
+    else {
+        QDomElement encryptedData = containerXml.firstChildElement("encryption").firstChildElement("EncryptedData");
+        while (!encryptedData.isNull()) {
+            QDomElement cipherReference = encryptedData.firstChildElement("CipherData").firstChildElement("CipherReference");
+            if (cipherReference.hasAttribute("URI")) {
+                QString encryptedFile = cipherReference.attribute("URI", "");
+                if (encryptedFile.length() > 0) {
+                    qDebug() << "Found encrypted object:" << encryptedFile;
+                    encryptedFiles.append(encryptedFile);
+                }
+            }
+            encryptedData = encryptedData.nextSiblingElement("EncryptedData");
+        }
+    }
+
+    return encryptedFiles;
+}
+
 /**
  * @TODO: Rewrite to correspond part 4.2.4 of epub specification.
  * More info: https://www.w3.org/TR/epub-33/#sec-file-names-to-path-names
@@ -110,9 +142,7 @@ QString FormatEPub::expandFileName(QString baseFileName, QString expandableFileN
 }
 
 QString FormatEPub::prepareLink(QString baseFileName, QString link) {
-    (void)baseFileName;
-
-    QUrl  linkUrl(link);
+    QUrl linkUrl(link);
     if (linkUrl.scheme().compare("") != 0) {
         return link;
     }
@@ -124,7 +154,25 @@ QString FormatEPub::prepareLink(QString baseFileName, QString link) {
 
 }
 
-QString FormatEPub::prepareDataLink(qbrzip *zipData, QString dataFileName) {
+QString FormatEPub::prepareDataLink(qbrzip *zipData, QString dataFileName, QStringList encryptedFiles) {
+    // Encrypted file
+    if (encryptedFiles.contains(dataFileName, Qt::CaseInsensitive)) {
+        return EMPTYGIF;
+    }
+
+    QUrl dataFileUrl(dataFileName);
+
+    // External web link
+    if (QStringList({"http", "https"}).contains(dataFileUrl.scheme(), Qt::CaseInsensitive)) {
+        return dataFileName;
+    }
+
+    // External non web link
+    if (dataFileUrl.scheme().compare("") != 0) {
+        return EMPTYGIF;
+    }
+
+    // Internal image
     QString contentType;
     if (dataFileName.endsWith(".png", Qt::CaseInsensitive)) {
         contentType = "image/png";
@@ -138,11 +186,14 @@ QString FormatEPub::prepareDataLink(qbrzip *zipData, QString dataFileName) {
     else if (dataFileName.endsWith(".jpg", Qt::CaseInsensitive) || dataFileName.endsWith(".jpeg", Qt::CaseInsensitive)) {
         contentType = "image/jpeg";
     }
+    else {
+        return EMPTYGIF;
+    }
 
-    return QString("data:%1;base64,%2").arg("").arg(zipData->getFileData(dataFileName).toBase64());
+    return QString("data:%1;base64,%2").arg(contentType).arg(zipData->getFileData(dataFileName).toBase64());
 }
 
-QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QDomNode currentNode) {
+QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QDomNode currentNode, QStringList encryptedFiles) {
     //qDebug() << "Type: " << currentNode.nodeType() << ", Name: " << currentNode.nodeName() << ", Value: " << currentNode.nodeValue();
 
     QList<QString> allowedTags = {
@@ -195,7 +246,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
             else if (returnTagName.compare("img") == 0) {
                 if (currentNode.attributes().contains("src")) {
                     QString imgSrc = currentNode.attributes().namedItem("src").nodeValue();
-                    returnValue.setAttribute("src", prepareDataLink(zipData, expandFileName(xHTMLFileName, imgSrc)));
+                    returnValue.setAttribute("src", prepareDataLink(zipData, expandFileName(xHTMLFileName, imgSrc), encryptedFiles));
                 }
             }
 
@@ -210,7 +261,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
                 for (int i = 0; i < currentNode.childNodes().count(); i++) {
                     QDomNode localNode = currentNode.childNodes().at(i);
 
-                    returnValue.appendChild(processXHTMLNode(zipData, xHTMLFileName, localNode));
+                    returnValue.appendChild(processXHTMLNode(zipData, xHTMLFileName, localNode, encryptedFiles));
                 }
             }
             // DIrty hack. But without it we have broken xHTML in some cases
@@ -236,29 +287,35 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
     return QDomDocument().createTextNode("");
 }
 
-QString FormatEPub::processXHTMLFile(qbrzip *zipData, QString xHTMLFileName) {
+bool FormatEPub::processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, QString xHTMLFileName, QStringList encryptedFiles) {
+    if (encryptedFiles.contains(xHTMLFileName), Qt::CaseInsensitive) {
+        return false;
+    }
+
     QDomDocument xHTMLFile;
     QString xHTMLErrorMsg;
     if (!xHTMLFile.setContent(zipData->getFileData(xHTMLFileName), true, &xHTMLErrorMsg)) {
         qDebug() << "Can't parse " << xHTMLFileName << ": " << xHTMLErrorMsg;
-        return "";
+        return false;
     }
 
     QString processResult;
     QDomNodeList docBodies = xHTMLFile.elementsByTagName("body");
 
     for (int i = 0; i < docBodies.length(); i++) {
-        QDomNode convertedNode = processXHTMLNode(zipData, xHTMLFileName, docBodies.at(i));
+        QDomNode convertedNode = processXHTMLNode(zipData, xHTMLFileName, docBodies.at(i), encryptedFiles);
         QString nodeAsString;
         QTextStream nodeStream(&nodeAsString);
         convertedNode.save(nodeStream, 2);
         processResult.append(nodeAsString);
     }
 
-    return QString("<div id=\"#file_%1\">%2</div>\n").arg(xHTMLFileName.toHtmlEscaped()).arg(processResult);
+    xHTMLFileData->append(QString("<div id=\"file_%1\">%2</div>\n").arg(xHTMLFileName.toHtmlEscaped()).arg(processResult));
+
+    return true;
 }
 
-void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, QDomDocument *rootFileXml, QMap<QString,QDomElement> *manifestMap) {
+void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, QDomDocument *rootFileXml, QMap<QString,QDomElement> *manifestMap, QStringList encryptedFiles) {
 
     QDomElement metadataNode = rootFileXml->firstChildElement("package").firstChildElement("metadata");
     if (metadataNode.isNull()) {
@@ -284,7 +341,9 @@ void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, 
                 coverItemId = metaNode.attribute("content");
                 if (manifestMap->contains(coverItemId)) {
                     QString coverImageName = expandFileName(rootFileName, manifestMap->value(coverItemId).attribute("href"));
-                    bookInfo.metadata.Cover.loadFromData(zipData->getFileData(coverImageName));
+                    if (!encryptedFiles.contains(coverImageName)) {
+                        bookInfo.metadata.Cover.loadFromData(zipData->getFileData(coverImageName));
+                    }
                 }
                 break;
             }
@@ -304,16 +363,19 @@ void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, 
     }
 }
 
-QString FormatEPub::processRootFile(qbrzip *zipData, QString rootFileName) {
+bool FormatEPub::processRootFile(QString *returnValue, qbrzip *zipData, QString rootFileName, QStringList encryptedFiles) {
     QDomDocument rootFileXml;
     QString rootFileXmlErrorMsg;
 
-    if (!rootFileXml.setContent(zipData->getFileData(rootFileName), true, &rootFileXmlErrorMsg)) {
-        qDebug() << "Can't read rootfile: " << rootFileName << "Error: " << rootFileXmlErrorMsg;
-        return "";
+    if (encryptedFiles.contains(rootFileName, Qt::CaseInsensitive)) {
+        return false;
     }
 
-    QString returnValue;
+    if (!rootFileXml.setContent(zipData->getFileData(rootFileName), true, &rootFileXmlErrorMsg)) {
+        qDebug() << "Can't read rootfile: " << rootFileName << "Error: " << rootFileXmlErrorMsg;
+        return false;
+    }
+
     QMap<QString,QDomElement> manifestMap;
 
     QDomElement manifestItem = rootFileXml.firstChildElement("package").firstChildElement("manifest").firstChildElement("item");
@@ -331,17 +393,17 @@ QString FormatEPub::processRootFile(qbrzip *zipData, QString rootFileName) {
             if (manifestMap.value(manifestItemFileId).attribute("media-type", "").compare("application/xhtml+xml") == 0) {
                 QString manifestItemFileName = manifestMap.value(manifestItemFileId).attribute("href", "");
 
-                QString xHTMLData = processXHTMLFile(zipData, expandFileName(rootFileName, manifestItemFileName));
-
-                returnValue.append(xHTMLData);
+                if (!processXHTMLFile(returnValue, zipData, expandFileName(rootFileName, manifestItemFileName), encryptedFiles)) {
+                    return false;
+                }
             }
         }
         spineItem = spineItem.nextSiblingElement("itemref");
     }
 
-    processRootFileMetadata(zipData, rootFileName, &rootFileXml, &manifestMap);
+    processRootFileMetadata(zipData, rootFileName, &rootFileXml, &manifestMap, encryptedFiles);
 
-    return returnValue;
+    return true;
 }
 
 bool FormatEPub::parseFile(qbrzip *zipData) {
@@ -352,11 +414,17 @@ bool FormatEPub::parseFile(qbrzip *zipData) {
         return false;
     }
 
+    QStringList encryptedFiles = getEncryptedFiles(zipData);
+
     bookInfo.html = Template::header();
 
     // Process rootfiles
     for (int i = 0; i < rootFiles.count(); i++) {
-        bookInfo.html += QString("<div id=\"rootfile_%1\">%2</div>\n").arg(i).arg(processRootFile(zipData, rootFiles.at(i)));
+        QString rootFileData;
+        if (!processRootFile(&rootFileData, zipData, rootFiles.at(i), encryptedFiles)) {
+            return false;
+        }
+        bookInfo.html += QString("<div id=\"rootfile_%1\">%2</div>\n").arg(i).arg(rootFileData);
     }
 
     bookInfo.html += Template::footer();

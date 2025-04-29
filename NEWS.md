@@ -1,3 +1,6 @@
+# Version 0.0.11 #
+ * Improved EPUB-parser
+
 # Version 0.0.10 #
  * Fixed build on Qt6 < 6.4
  * Markdown export available only woth qt6 >= 6.4
