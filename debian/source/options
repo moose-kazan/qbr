@@ -1,7 +1,14 @@
 tar-ignore=build
 tar-ignore=.git
 tar-ignore=tests
-tar-ignore=icon-src
+tar-ignore=icons-src
 tar-ignore=release
 tar-ignore=package
 tar-ignore=snap
+tar-ignore=.cache
+tar-ignore=.qmake.stash
+tar-ignore=.gitignore
+tar-ignore=.idea
+tar-ignore=cmake-build-debug
+tar-ignore=Makefile
+tar-ignore=CMakeLists.txt.user
