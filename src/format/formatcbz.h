@@ -4,6 +4,7 @@
 #include "format.h"
 #include "../libs/qbrzip.h"
 #include <QByteArray>
+#include <QRegularExpression>
 #include <QString>
 
 
@@ -13,12 +14,13 @@ public:
     FormatCBZ();
     bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
     QStringList getExtensions() override;
+    QString getFormatTitle() override;
     QBRBook getBook() override;
     bool needUnzip() override;
 private:
     QBRBookInfo bookInfo;
     QString htmlData;
-    qbrzip *unZip;
+    QRegularExpression fileNameRegexp = QRegularExpression("\\.cbz$", QRegularExpression::CaseInsensitiveOption);
 };
 
 #endif // QBRFORMATCBZ_H

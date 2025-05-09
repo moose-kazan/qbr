@@ -21,29 +21,29 @@ public:
     static int getUiVariant();
     static void setUiVariant(int setUiVariant);
 
-    static void setFilePosition(QString fileName, QPointF pos);
-    static QPointF getFilePosition(QString fileName);
+    static void setFilePosition(const QString& fileName, QPointF pos);
+    static QPointF getFilePosition(const QString& fileName);
 
     static QByteArray getMainWindowState(QByteArray state);
-    static void setMainWindowState(QByteArray state);
+    static void setMainWindowState(const QByteArray& state);
 
     static QByteArray getMainWindowGeometry(QByteArray geometry);
-    static void setMainWindowGeometry(QByteArray geometry);
+    static void setMainWindowGeometry(const QByteArray& geometry);
 
     static QString getLastOpenedFile();
-    static void setLastOpenedFile(QString fileName);
+    static void setLastOpenedFile(const QString& fileName);
 
     static bool getLastOpenedFileEnable();
     static void setLastOpenedFileEnable(bool enable);
 
     static QString getBookBgColor();
-    static void setBookBgColor(QString color);
+    static void setBookBgColor(const QString& color);
 
     static bool getCustomStyleEnabled();
     static void setCustomStaticEnabled(bool enable);
 
     static QString getCustomStyleUrl();
-    static void setCustomStyleUrl(QString url);
+    static void setCustomStyleUrl(const QString& url);
 
 protected:
     static QSettings* cfg;

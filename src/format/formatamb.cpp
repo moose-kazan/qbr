@@ -2,7 +2,6 @@
 #include "../template.h"
 
 #include <QCollator>
-#include <QDebug>
 #include <QString>
 #include <QUrl>
 #include <QtEndian>
@@ -18,11 +17,20 @@
  * https://osdn.net/projects/amb/scm/svn/tree/head/phpamb/
  */
 
-FormatAMB::FormatAMB() {}
+FormatAMB::FormatAMB()
+{
+  for (int i = 0; i < 128; i++)
+    unicodeMap[i] = defaultUnicodeMap[i];
+}
 
 QStringList FormatAMB::getExtensions() { return QStringList("amb"); }
 
-bool FormatAMB::parseAmb(QByteArray fileData) {
+QString FormatAMB::getFormatTitle()
+{
+  return "Ancient Machine's Book";
+}
+
+bool FormatAMB::parseAmb(const QByteArray& fileData) {
   // Check file signature
   if (!fileData.startsWith("AMB1")) {
     return false;
@@ -32,13 +40,13 @@ bool FormatAMB::parseAmb(QByteArray fileData) {
 
   for (int i = 0; i < filesCount; i++) {
     QString entryName = "";
-    int entryOffset = 6 + i * 20;
+    const int entryOffset = 6 + i * 20;
     for (int j = 0; j < 12 && fileData.at(entryOffset + j) != 0; j++) {
       entryName.append(fileData.at(entryOffset + j));
     }
-    int entryFileOffset =
+    const int entryFileOffset =
         qFromLittleEndian<qint32>(fileData.mid(entryOffset + 12, 4).data());
-    int entryFileLength =
+    const int entryFileLength =
         qFromLittleEndian<qint16>(fileData.mid(entryOffset + 16, 2).data());
     ambEntries.insert(entryName.toLower(),
                       fileData.mid(entryFileOffset, entryFileLength));
@@ -47,7 +55,7 @@ bool FormatAMB::parseAmb(QByteArray fileData) {
     // entryFileLength;
   }
 
-  // If it have charmap
+  // If file have character map
   if (ambEntries.contains("unicode.map")) {
     for (int i = 0; i < 128; i++) {
       unicodeMap[i] = qFromLittleEndian<qint16>(
@@ -55,7 +63,7 @@ bool FormatAMB::parseAmb(QByteArray fileData) {
     }
   }
 
-  // If it have title
+  // If file have title
   if (ambEntries.contains("title")) {
     bookInfo.Title = convertToUtf8(ambEntries.value("title"))
                          .replace("\n", "")
@@ -66,7 +74,7 @@ bool FormatAMB::parseAmb(QByteArray fileData) {
 
   htmlData.append(amaToHtml("index.ama"));
 
-  // Sort entry names with QCollator. It's fix some issues fith numbers
+  // Sort entry names with QCollator. It's fix some issues with numbers
   QStringList entryNames = ambEntries.keys();
   QCollator collator;
   collator.setNumericMode(true);
@@ -95,14 +103,15 @@ bool FormatAMB::parseAmb(QByteArray fileData) {
   return true;
 }
 
-QString FormatAMB::convertToUtf8(QByteArray fileData) {
+QString FormatAMB::convertToUtf8(QByteArray fileData) const
+{
   QString rv;
   for (int i = 0; i < fileData.size(); i++) {
     unsigned char cur_char = fileData[i];
-    unsigned short new_char = 0;
     if (cur_char < 128) {
       rv.append(QChar(cur_char));
     } else {
+      unsigned short new_char = 0;
       new_char = unicodeMap[cur_char - 128];
       rv.append(QChar(new_char));
     }
@@ -110,7 +119,8 @@ QString FormatAMB::convertToUtf8(QByteArray fileData) {
   return rv;
 }
 
-QString FormatAMB::amaToHtml(QString fileName) {
+QString FormatAMB::amaToHtml(const QString& fileName) const
+{
   QString rv;
 
   rv.append("<div class=\"amb_body\" id=\"");
@@ -126,8 +136,8 @@ QString FormatAMB::amaToHtml(QString fileName) {
   QString fileData = convertToUtf8(ambEntries.value(fileName, ""));
 
   bool readlink = false;
-  bool escnow = false;
-  QString opentag = "";
+  bool escNow = false;
+  QString openTag = "";
 
   for (int i = 0; i < fileData.length(); i++) {
     QChar c = fileData.at(i);
@@ -138,7 +148,7 @@ QString FormatAMB::amaToHtml(QString fileName) {
     if (readlink) {
       if (c == QChar(0x0a) || c == ':') {
         rv.append("\">");
-        opentag = "a";
+        openTag = "a";
         readlink = false;
 
       } else {
@@ -147,7 +157,7 @@ QString FormatAMB::amaToHtml(QString fileName) {
       continue;
     }
 
-    if (escnow) {
+    if (escNow) {
       if (c == '%') {
         rv.append("%");
       } else if (c == 'l') {
@@ -155,32 +165,32 @@ QString FormatAMB::amaToHtml(QString fileName) {
         readlink = true;
       } else if (c == 'h') {
         rv.append("<h1>");
-        opentag = "h1";
+        openTag = "h1";
       } else if (c == '!') {
         rv.append("<span class=\"amb_notice\">");
-        opentag = "span";
+        openTag = "span";
       } else if (c == 'b') {
         rv.append("<span class=\"amb_boring\">");
-        opentag = "span";
+        openTag = "span";
       }
 
-      escnow = false;
+      escNow = false;
       continue;
     }
 
-    if (opentag.length() > 0 && (c == QChar(0x0a) || c == '%')) {
-      // if it end with spaces
+    if (openTag.length() > 0 && (c == QChar(0x0a) || c == '%')) {
+      // if file end with spaces
       for (int j = rv.length() - 1; j >= 0; j--) {
         if (rv.at(j) != ' ') {
-          rv.insert(j + 1, "</" + opentag + ">");
+          rv.insert(j + 1, "</" + openTag + ">");
           break;
         }
       }
-      opentag = "";
+      openTag = "";
     }
 
     if (c == '%') {
-      escnow = true;
+      escNow = true;
     } else if (c == QChar(0x0a)) {
       rv.append("<br />\n");
     } else {
@@ -189,11 +199,10 @@ QString FormatAMB::amaToHtml(QString fileName) {
     }
   }
 
-  if (opentag.length() > 0) {
+  if (openTag.length() > 0) {
     rv.append("</");
-    rv.append(opentag);
+    rv.append(openTag);
     rv.append(">");
-    opentag = "";
   }
 
   rv.append("</div>\n");
@@ -202,12 +211,12 @@ QString FormatAMB::amaToHtml(QString fileName) {
   return rv;
 }
 
-bool FormatAMB::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
+bool FormatAMB::loadFile(const QString fileName, const QByteArray fileData, qbrzip *zipData) {
   (void)zipData;
   // reset data from previous file
   htmlData = "";
   bookInfo.clear();
-  bookInfo.FileFormat = "Ancient Machine's Book";
+  bookInfo.FileFormat = getFormatTitle();
 
   ambEntries.clear();
   for (int i = 0; i < 128; i++)
@@ -226,9 +235,8 @@ bool FormatAMB::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData)
   try {
     return parseAmb(fileData);
   } catch (...) {
-    return false;
+    //return false;
   }
-
   return false;
 }
 

@@ -14,6 +14,7 @@ public:
     FormatEPub();
     bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
     QStringList getExtensions() override;
+    QString getFormatTitle() override;
     QBRBook getBook() override;
     bool needUnzip() override;
 
@@ -21,16 +22,16 @@ public:
 
 private:
     QBRBook bookInfo;
-    bool isValidFile(qbrzip *zipData);
-    QStringList getRootFiles(qbrzip *zipData);
-    QStringList getEncryptedFiles(qbrzip *zipData);
-    QString expandFileName(QString baseFileName, QString expandableFileName);
-    QString prepareLink(QString baseFileName, QString link);
-    QString prepareDataLink(qbrzip *zipData, QString dataFileName, QStringList encryptedFiles);
-    QDomNode processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QDomNode currentNode, QStringList encryptedFiles);
-    bool processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, QString xHTMLFileName, QStringList encryptedFiles);
-    void processRootFileMetadata(qbrzip *zipData, QString rootFileName, QDomDocument *rootFileXml, QMap<QString,QDomElement> *manifestMap, QStringList encryptedFiles);
-    bool processRootFile(QString *returnValue, qbrzip *zipData, QString rootFileName, QStringList encryptedFiles);
+    static bool isValidFile(const qbrzip *zipData);
+    static QStringList getRootFiles(const qbrzip *zipData);
+    static QStringList getEncryptedFiles(const qbrzip *zipData);
+    static QString expandFileName(const QString& baseFileName, QString expandableFileName);
+    static QString prepareLink(const QString& baseFileName, QString link);
+    QString prepareDataLink(const qbrzip *zipData, QString dataFileName, const QStringList& encryptedFiles) const;
+    QDomNode processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles);
+    bool processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles);
+    void processRootFileMetadata(const qbrzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles);
+    bool processRootFile(QString *returnValue, qbrzip *zipData, const QString& rootFileName, const QStringList& encryptedFiles);
     bool parseFile(qbrzip *zipData);
 };
 

@@ -16,7 +16,7 @@ public:
     explicit FileInfoDialog(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     ~FileInfoDialog();
 
-    void setBookInfo(QBRBookInfo newBookInfo);
+    void setBookInfo(const QBRBookInfo& newBookInfo);
 
 private:
     QBRBookInfo bookInfo;

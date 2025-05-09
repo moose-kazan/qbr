@@ -2,9 +2,7 @@
 
 #include "../template.h"
 
-#include <QDebug>
 #include <QDomDocument>
-#include <QFileInfo>
 #include <QDir>
 #include <QUrl>
 
@@ -19,7 +17,7 @@ bool FormatEPub::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData
     (void)fileName;
 
     bookInfo.metadata.clear();
-    bookInfo.metadata.FileFormat = "Electronic Publication (EPUB)";
+    bookInfo.metadata.FileFormat = getFormatTitle();
 
     if (!isZipFile(fileData)) {
         return false;
@@ -38,13 +36,19 @@ bool FormatEPub::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData
 
 QStringList FormatEPub::getExtensions() { return QStringList("epub"); }
 
+QString FormatEPub::getFormatTitle()
+{
+    return "Electronic Publication (EPUB)";
+}
+
+
 QBRBook FormatEPub::getBook() {
     return bookInfo;
 }
 
 bool FormatEPub::needUnzip() { return true; }
 
-bool FormatEPub::isValidFile(qbrzip *zipData) {
+bool FormatEPub::isValidFile(const qbrzip *zipData) {
     if (!zipData->getFileData("mimetype").contains("application/epub+zip")) {
         return false;
     }
@@ -53,16 +57,10 @@ bool FormatEPub::isValidFile(qbrzip *zipData) {
         return false;
     }
 
-    /*if (zipData->fileExists("META-INF/encryption.xml")) {
-        qDebug() << "ePub files with encryption doesn't supported";
-        return false;
-    }*/
-
-
     return true;
 }
 
-QStringList FormatEPub::getRootFiles(qbrzip *zipData) {
+QStringList FormatEPub::getRootFiles(const qbrzip *zipData) {
     QStringList rootFiles;
 
     QDomDocument containerXml;
@@ -89,7 +87,7 @@ QStringList FormatEPub::getRootFiles(qbrzip *zipData) {
     return rootFiles;
 }
 
-QStringList FormatEPub::getEncryptedFiles(qbrzip *zipData) {
+QStringList FormatEPub::getEncryptedFiles(const qbrzip *zipData) {
     QStringList encryptedFiles;
     if (!zipData->fileExists("META-INF/encryption.xml")) {
         return encryptedFiles;
@@ -125,7 +123,7 @@ QStringList FormatEPub::getEncryptedFiles(qbrzip *zipData) {
  * @TODO: Rewrite to correspond part 4.2.4 of epub specification.
  * More info: https://www.w3.org/TR/epub-33/#sec-file-names-to-path-names
  */
-QString FormatEPub::expandFileName(QString baseFileName, QString expandableFileName) {
+QString FormatEPub::expandFileName(const QString& baseFileName, QString expandableFileName) {
     // If absolute path
     if (expandableFileName.startsWith("/")) {
         return expandableFileName.remove(0, 1);
@@ -141,7 +139,7 @@ QString FormatEPub::expandFileName(QString baseFileName, QString expandableFileN
     return expandedFileName;
 }
 
-QString FormatEPub::prepareLink(QString baseFileName, QString link) {
+QString FormatEPub::prepareLink(const QString& baseFileName, QString link) {
     QUrl linkUrl(link);
     if (linkUrl.scheme().compare("") != 0) {
         return link;
@@ -154,7 +152,8 @@ QString FormatEPub::prepareLink(QString baseFileName, QString link) {
 
 }
 
-QString FormatEPub::prepareDataLink(qbrzip *zipData, QString dataFileName, QStringList encryptedFiles) {
+QString FormatEPub::prepareDataLink(const qbrzip *zipData, QString dataFileName, const QStringList& encryptedFiles) const
+{
     // Encrypted file
     if (encryptedFiles.contains(dataFileName, Qt::CaseInsensitive)) {
         return EMPTYGIF;
@@ -193,10 +192,10 @@ QString FormatEPub::prepareDataLink(qbrzip *zipData, QString dataFileName, QStri
     return QString("data:%1;base64,%2").arg(contentType).arg(zipData->getFileData(dataFileName).toBase64());
 }
 
-QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QDomNode currentNode, QStringList encryptedFiles) {
+QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles) {
     //qDebug() << "Type: " << currentNode.nodeType() << ", Name: " << currentNode.nodeName() << ", Value: " << currentNode.nodeValue();
 
-    QList<QString> allowedTags = {
+    const QList<QString> allowedTags = {
         "ul", "li",
         "p", "b", "i", "u", "s", "span", "pre", "strong", "em",
         "blockquote", "sub", "sup",
@@ -205,9 +204,9 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
         "table", "tr", "th", "td","colgroup", "col", "thead", "tbody"
     };
 
-    QList<QString> allowedAttributes = {"id", "name"};
+    const QList<QString> allowedAttributes = {"id", "name"};
 
-    QHash<QString, QString> tagToClass = {
+    const QHash<QString, QString> tagToClass = {
         {"body",     "document_body"},
         {"h1",       "doc_title"},
         {"h2",       "doc_subtitle"},
@@ -271,14 +270,11 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
 
             return returnValue;
         }
-        break;
     case QDomNode::TextNode:
         return currentNode.cloneNode();
-        break;
 
     case QDomNode::EntityReferenceNode:
         return currentNode.cloneNode();
-        break;
     default:
         //qDebug() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
         break;
@@ -287,8 +283,8 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, QString xHTMLFileName, QD
     return QDomDocument().createTextNode("");
 }
 
-bool FormatEPub::processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, QString xHTMLFileName, QStringList encryptedFiles) {
-    if (encryptedFiles.contains(xHTMLFileName), Qt::CaseInsensitive) {
+bool FormatEPub::processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles) {
+    if (encryptedFiles.contains(xHTMLFileName, Qt::CaseInsensitive)) {
         return false;
     }
 
@@ -315,7 +311,7 @@ bool FormatEPub::processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, QStri
     return true;
 }
 
-void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, QDomDocument *rootFileXml, QMap<QString,QDomElement> *manifestMap, QStringList encryptedFiles) {
+void FormatEPub::processRootFileMetadata(const qbrzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles) {
 
     QDomElement metadataNode = rootFileXml->firstChildElement("package").firstChildElement("metadata");
     if (metadataNode.isNull()) {
@@ -334,11 +330,10 @@ void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, 
 
     // Cover imagw. Epub-2 Way
     QDomElement metaNode = metadataNode.firstChildElement("meta");
-    QString coverItemId;
     while (!metaNode.isNull()) {
         if (metaNode.hasAttribute("name") && metaNode.attribute("name").compare("cover") == 0) {
             if (metaNode.hasAttribute("content")) {
-                coverItemId = metaNode.attribute("content");
+                QString coverItemId = metaNode.attribute("content");
                 if (manifestMap->contains(coverItemId)) {
                     QString coverImageName = expandFileName(rootFileName, manifestMap->value(coverItemId).attribute("href"));
                     if (!encryptedFiles.contains(coverImageName)) {
@@ -363,7 +358,7 @@ void FormatEPub::processRootFileMetadata(qbrzip *zipData, QString rootFileName, 
     }
 }
 
-bool FormatEPub::processRootFile(QString *returnValue, qbrzip *zipData, QString rootFileName, QStringList encryptedFiles) {
+bool FormatEPub::processRootFile(QString *returnValue, qbrzip *zipData, const QString& rootFileName, const QStringList& encryptedFiles) {
     QDomDocument rootFileXml;
     QString rootFileXmlErrorMsg;
 

@@ -23,7 +23,7 @@ private:
 private slots:
     void bgColorChoose();
     void customCssSelect();
-    void customCssEnable(int state);
+    void customCssEnable(int state) const;
 };
 
 #endif // SETTINGSDIALOG_H

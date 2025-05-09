@@ -8,7 +8,7 @@ QString ExportMarkdown::getFilter() {
     return QString(tr("Markdown documents (%1)")).arg("*.md");
 }
 
-QString ExportMarkdown::fromHtml(QString htmlLine) {
+QString ExportMarkdown::fromHtml(const QString htmlLine) {
     QStringList markdownLinesSrc = QTextDocumentFragment::fromHtml(htmlLine).toMarkdown(QTextDocument::MarkdownNoHTML).split("\n");
     QStringList markdownDocument;
 

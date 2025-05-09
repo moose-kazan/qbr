@@ -3,9 +3,8 @@
 
 #include "../libs/qbrzip.h"
 
+#include <QObject>
 #include <QString>
-#include <QByteArray>
-#include <QStringList>
 #include <QImage>
 
 struct QBRBookInfo {
@@ -28,15 +27,17 @@ struct QBRBook {
     QString html;
 };
 
-class Format
+class Format : public QObject
 {
+    Q_OBJECT
 public:
     Format();
     virtual bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData);
     virtual QBRBook getBook();
     virtual QStringList getExtensions();
+    virtual QString getFormatTitle();
     virtual bool needUnzip();
-    static bool isZipFile(QByteArray data);
+    static bool isZipFile(const QByteArray& data);
 };
 
 #endif // FORMAT_H

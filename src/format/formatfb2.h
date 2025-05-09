@@ -13,14 +13,15 @@ public:
     FormatFB2();
     bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
     QStringList getExtensions() override;
+    QString getFormatTitle() override;
     QBRBook getBook() override;
     bool needUnzip() override;
 private:
     QBRBookInfo bookInfo;
     QString htmlData;
-    QDomNode parseXmlNode(QDomNode currentNode, QHash<QString, QString> fb2Binaries);
-    bool parseXml(QByteArray fileData);
-    void parseBookInfo(QDomDocument *parserXml);
+    static QDomNode parseXmlNode(const QDomNode& currentNode, const QHash<QString, QString>& fb2Binaries);
+    bool parseXml(const QByteArray& fileData);
+    void parseBookInfo(const QDomDocument *parserXml);
 };
 
 #endif // QBRFORMATFB2_H

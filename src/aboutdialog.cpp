@@ -1,11 +1,8 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
-#include <QHBoxLayout>
 #include <QLabel>
-#include <QPixmap>
 #include <QPushButton>
-#include <QVBoxLayout>
 
 AboutDialog::AboutDialog(QWidget *parent, Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::AboutDialog) {

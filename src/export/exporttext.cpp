@@ -8,6 +8,6 @@ QString ExportText::getFilter() {
     return QString(tr("Plain text files (%1)")).arg("*.txt");
 }
 
-QString ExportText::fromHtml(QString htmlLine) {
+QString ExportText::fromHtml(const QString htmlLine) {
     return QTextDocumentFragment::fromHtml(htmlLine).toPlainText();
 }

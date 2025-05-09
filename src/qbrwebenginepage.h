@@ -8,7 +8,7 @@ class qbrWebEnginePage : public QWebEnginePage
 {
 public:
     qbrWebEnginePage();
-    void positionSave(QString fileName);
+    void positionSave(const QString& fileName) const;
     void positionRestore(QString fileName);
 
 protected:

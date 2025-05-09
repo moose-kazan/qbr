@@ -3,24 +3,36 @@
 #include <QFile>
 
 BookLoader::BookLoader() {
+    QString filterLine;
+    QStringList allExts;
+
     unZip = new qbrzip(false);
+    for (int i = 0; i < bookParsers.count(); i++) {
+        QStringList formatExts = bookParsers.at(i)->getExtensions();
+
+        formatExts.replaceInStrings(re, "*.");
+        filterLine = QString("%1 (%2)").arg(bookParsers.at(i)->getFormatTitle()).arg(formatExts.join(" "));
+        filtersData.append(filterLine);
+
+        allExts.append(formatExts);
+    }
+
+    filterLine = QString(tr("Books (%1)")).arg(allExts.join(" "));
+    filtersData.append(filterLine);
 }
 
-QStringList BookLoader::getExtensions()
+QStringList BookLoader::getFilter()
 {
-    QStringList allExt;
-    for (int i = 0; i < bookParsers.count(); i++) {
-        allExt.append(bookParsers.at(i)->getExtensions());
-    }
-    return allExt;
-};
+    return filtersData;
+}
+
 
 QBRBook BookLoader::getBook()
 {
     return bookData;
 }
 
-bool BookLoader::loadFile(QString fileName)
+bool BookLoader::loadFile(const QString& fileName)
 {
     unZip->clear();
 

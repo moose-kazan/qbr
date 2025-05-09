@@ -28,9 +28,17 @@
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.cpp" line="13"/>
+        <location filename="../aboutdialog.cpp" line="10"/>
         <source>About</source>
         <translation>О программе</translation>
+    </message>
+</context>
+<context>
+    <name>BookLoader</name>
+    <message>
+        <location filename="../bookloader.cpp" line="20"/>
+        <source>Books (%1)</source>
+        <translation>Книги (%1)</translation>
     </message>
 </context>
 <context>
@@ -109,11 +117,19 @@
     </message>
 </context>
 <context>
+    <name>Format</name>
+    <message>
+        <location filename="../format/format.cpp" line="22"/>
+        <source>Unknown file format</source>
+        <translation>Неизвестный формат файл</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="20"/>
         <location filename="../mainwindow.cpp" line="35"/>
-        <location filename="../mainwindow.cpp" line="118"/>
+        <location filename="../mainwindow.cpp" line="107"/>
         <source>Qt Book Reader</source>
         <translation>Qt Book Reader</translation>
     </message>
@@ -148,7 +164,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="157"/>
-        <location filename="../mainwindow.cpp" line="67"/>
+        <location filename="../mainwindow.cpp" line="62"/>
         <source>Open File</source>
         <translation>Открыть файл</translation>
     </message>
@@ -218,38 +234,36 @@
         <translation>Информация о книге</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="99"/>
+        <location filename="../mainwindow.cpp" line="88"/>
         <source>Save file as...</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="63"/>
         <source>Books (%1)</source>
-        <translation>Книги (%1)</translation>
+        <translation type="vanished">Книги (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="96"/>
         <source>Html pages (%1)</source>
-        <translation>HTML-страницы (%1)</translation>
+        <translation type="vanished">HTML-страницы (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="232"/>
-        <location filename="../mainwindow.cpp" line="236"/>
+        <location filename="../mainwindow.cpp" line="226"/>
+        <location filename="../mainwindow.cpp" line="230"/>
         <source>Can&apos;t load book</source>
         <translation>Не удалось открыть книгу</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="232"/>
+        <location filename="../mainwindow.cpp" line="226"/>
         <source>I/O error!</source>
         <translation>Ошибка ввода/вывода!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="237"/>
+        <location filename="../mainwindow.cpp" line="231"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Формат файла не поддерживается или файл испорчен!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="277"/>
+        <location filename="../mainwindow.cpp" line="271"/>
         <source>Qt Book Reader - %1</source>
         <translation>Qt Book Reader - %1</translation>
     </message>

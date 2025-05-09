@@ -1,5 +1,7 @@
 # Version 0.0.11 #
  * Improved EPUB-parser
+ * Improved Open File Dialog
+ * Refactoring and clean-ups
 
 # Version 0.0.10 #
  * Fixed build on Qt6 < 6.4

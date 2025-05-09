@@ -10,7 +10,7 @@ FileInfoDialog::FileInfoDialog(QWidget *parent, Qt::WindowFlags f)
   setFixedSize(size());
 }
 
-void FileInfoDialog::setBookInfo(QBRBookInfo newBookInfo) {
+void FileInfoDialog::setBookInfo(const QBRBookInfo& newBookInfo) {
   bookInfo = newBookInfo;
 }
 

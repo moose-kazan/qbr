@@ -24,11 +24,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     void closeEvent(QCloseEvent *event);
-    void readSettings();
-    void loadBook(QString fileName);
+    void readSettings() const;
+    void loadBook(const QString& fileName);
     void bookLoadFinished(bool ok);
     ~MainWindow();
-    void setCurrentFileName(QString fileName);
+    void setCurrentFileName(const QString& fileName);
     QString getCurrentFileName();
 
     QLabel* statusBarFileName;
@@ -36,17 +36,17 @@ public:
 private slots:
     void openFile();
     void saveFileAs();
-    void helpAbout();
+    void helpAbout() const;
     void helpAboutQt();
-    void naviGoBack();
-    void naviGoForward();
+    void naviGoBack() const;
+    void naviGoForward() const;
     void naviFind();
-    void settingsShow();
+    void settingsShow() const;
     void fileBookInfo();
 
 private:
     void readState();
-    void readBookSettings();
+    void readBookSettings() const;
     void positionSave();
     void positionRestore();
     QString currentFileName;

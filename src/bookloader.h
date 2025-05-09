@@ -1,6 +1,8 @@
 #ifndef BOOKLOADER_H
 #define BOOKLOADER_H
 
+#include <QRegularExpression>
+
 #include "libs/qbrzip.h"
 #include "format/format.h"
 #include "format/formatamb.h"
@@ -10,13 +12,14 @@
 #include "format/formatfb3.h"
 #include "format/formatepub.h"
 
-class BookLoader
+class BookLoader : public QObject
 {
+    Q_OBJECT
 public:
     BookLoader();
     QBRBook getBook();
-    QStringList getExtensions();
-    bool loadFile(QString fileName);
+    QStringList getFilter();
+    bool loadFile(const QString& fileName);
 private:
     QList<Format*> bookParsers = {
         new FormatAMB(),
@@ -29,6 +32,8 @@ private:
 
     QBRBook bookData;
     qbrzip *unZip;
+    QStringList filtersData;
+    QRegularExpression re = QRegularExpression("^");
 };
 
 #endif // BOOKLOADER_H

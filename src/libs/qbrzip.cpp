@@ -10,7 +10,7 @@
 // Based on https://gist.github.com/mobius/1759816
 // Some ideas found here: https://github.com/ctabin/libzippp/blob/master/src/
 
-qbrzip::qbrzip(bool CS) {
+qbrzip::qbrzip(const bool CS) {
     entry_names_cs = CS;
     loaded = false;
 }
@@ -24,17 +24,17 @@ bool qbrzip::setData(QByteArray zipData) {
   zip_source_t *src =
       zip_source_buffer_create(zipData.data(), zipData.size(), 1, &zipError);
 
-  if (src == NULL) {
+  if (src == nullptr) {
     return false;
   }
 
   zip *zf = zip_open_from_source(src, 0, &zipError);
 
-  if (zf == NULL) {
+  if (zf == nullptr) {
     return false;
   }
 
-  zip_int64_t filesCount = zip_get_num_entries(zf, 0);
+  const zip_int64_t filesCount = zip_get_num_entries(zf, 0);
 
   for (int i = 0; i < filesCount; i++) {
     QString zipEntryName = zip_get_name(zf, i, 0);
@@ -54,7 +54,7 @@ bool qbrzip::setData(QByteArray zipData) {
         break;
       } else if (bytesRead > 0) {
         zipEntryData.append(buff, bytesRead);
-      } else if (bytesRead < 0) {
+      } else {
         return false;
       }
     }
@@ -71,19 +71,22 @@ bool qbrzip::setData(QByteArray zipData) {
   return true;
 }
 
-QStringList qbrzip::getFileNameList() {
+QStringList qbrzip::getFileNameList() const
+{
   QStringList rv(zipEntries.keys());
   return rv;
 }
 
-QByteArray qbrzip::getFileData(QString fileName) {
+QByteArray qbrzip::getFileData(QString fileName) const
+{
   if (!entry_names_cs) {
     fileName = fileName.toLower();
   }
-  return zipEntries.value(fileName, NULL);
+  return zipEntries.value(fileName, nullptr);
 }
 
-bool qbrzip::fileExists(QString fileName) {
+bool qbrzip::fileExists(QString fileName) const
+{
     if (!entry_names_cs) {
         fileName = fileName.toLower();
     }
@@ -95,7 +98,7 @@ void qbrzip::clear() {
     loaded = false;
 }
 
-bool qbrzip::isLoaded()
+bool qbrzip::isLoaded() const
 {
     return loaded;
 }

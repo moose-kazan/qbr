@@ -16,7 +16,7 @@ public:
     ~FindDialog();
 
 private:
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event) override;
     Ui::FindDialog *ui;
 };
 

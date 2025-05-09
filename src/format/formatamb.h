@@ -12,13 +12,14 @@ public:
     FormatAMB();
     bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
     QStringList getExtensions() override;
+    QString getFormatTitle() override;
     QBRBook getBook() override;
     bool needUnzip() override;
 private:
     QBRBookInfo bookInfo;
-    bool parseAmb(QByteArray fileData);
-    QString convertToUtf8(QByteArray fileData);
-    QString amaToHtml(QString fileName);
+    bool parseAmb(const QByteArray& fileData);
+    QString convertToUtf8(QByteArray fileData) const;
+    QString amaToHtml(const QString& fileName) const;
     QString htmlData;
     QHash<QString, QByteArray> ambEntries;
 

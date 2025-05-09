@@ -86,7 +86,8 @@ void SettingsDialog::customCssSelect() {
   }
 }
 
-void SettingsDialog::customCssEnable(int state) {
+void SettingsDialog::customCssEnable(int state) const
+{
   if (state == Qt::Checked) {
     findChild<QLineEdit *>("customCssUrl")->setEnabled(true);
     findChild<QPushButton *>("customCssSelect")->setEnabled(true);

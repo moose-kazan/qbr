@@ -10,7 +10,8 @@ QStringList BookSaver::getFilter() {
     return filters;
 }
 
-Export* BookSaver::exporterByFilter(QString filter) {
+Export* BookSaver::exporterByFilter(const QString& filter) const
+{
     int idx = filters.indexOf(filter);
     return exporters.at(idx);
 }

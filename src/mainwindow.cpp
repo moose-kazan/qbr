@@ -55,13 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
   }
   openFileDlg->setDirectory(filterPath);
 
-  // All extensiosn from parsers
-  QStringList allExt = bookLoader->getExtensions();
-  allExt.replaceInStrings(QRegularExpression("^"), "*.");
-
-  // Filter line
-  QString filterLine = QString(tr("Books (%1)")).arg(allExt.join(" "));
-  openFileDlg->setNameFilters(QStringList(filterLine));
+  openFileDlg->setNameFilters(bookLoader->getFilter());
+  openFileDlg->selectNameFilter(bookLoader->getFilter().last());
 
   // Other FileSave DIalog options
   openFileDlg->setWindowTitle(tr("Open File"));
@@ -89,16 +84,13 @@ void MainWindow::saveFileAs() {
         filterPath = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).at(0);
     }
 
-    // Filter line
-    QString filterLine = QString(tr("Html pages (%1)")).arg("*.htm *.html");
-
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."),
         filterPath, bookSaver->getFilter().join(";;"), &selectedFilter);
 
     if (fileName != "") {
         Export *exporter = bookSaver->exporterByFilter(selectedFilter);
-        findChild<QWebEngineView *>("browser")->page()->toHtml([fileName, exporter](QString htmlData) {
+        findChild<QWebEngineView *>("browser")->page()->toHtml([fileName, exporter](const QString&  htmlData) {
             QFile f(fileName);
             if (f.open(QIODevice::WriteOnly)) {
                 f.write(exporter->fromHtml(htmlData).toUtf8());
@@ -109,17 +101,19 @@ void MainWindow::saveFileAs() {
     }
 }
 
-void MainWindow::helpAbout() { aboutDlg->show(); }
+void MainWindow::helpAbout() const { aboutDlg->show(); }
 
 void MainWindow::helpAboutQt() {
   QMessageBox::aboutQt(this, tr("Qt Book Reader"));
 }
 
-void MainWindow::naviGoBack() {
+void MainWindow::naviGoBack() const
+{
   findChild<QWebEngineView *>("browser")->back();
 }
 
-void MainWindow::naviGoForward() {
+void MainWindow::naviGoForward() const
+{
   findChild<QWebEngineView *>("browser")->forward();
 }
 
@@ -132,13 +126,13 @@ void MainWindow::naviFind() {
     QString findText = findDlg->findChild<QLineEdit *>("findText")->text();
     bool optionFindBackward =
         findDlg->findChild<QCheckBox *>("findBackward")->isChecked();
-    bool optionCaseSentive =
+    bool optionCaseSensitive =
         findDlg->findChild<QCheckBox *>("CaseSensitive")->isChecked();
 
     QWebEnginePage::FindFlags findFlags;
     if (optionFindBackward)
       findFlags.setFlag(QWebEnginePage::FindBackward, true);
-    if (optionCaseSentive)
+    if (optionCaseSensitive)
       findFlags.setFlag(QWebEnginePage::FindCaseSensitively, true);
 
     findChild<QWebEngineView *>("browser")->findText(findText, findFlags);
@@ -147,7 +141,8 @@ void MainWindow::naviFind() {
   }
 }
 
-void MainWindow::settingsShow() {
+void MainWindow::settingsShow() const
+{
   settingsDlg->settingsLoad();
   if (settingsDlg->exec() == QDialog::Accepted) {
     settingsDlg->settingsSave();
@@ -175,7 +170,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
   QMainWindow::closeEvent(event);
 }
 
-void MainWindow::readBookSettings() {
+void MainWindow::readBookSettings() const
+{
   findChild<QWebEngineView *>("browser")->page()->setBackgroundColor(
       QColor(Settings::getBookBgColor()));
 }
@@ -184,7 +180,8 @@ void MainWindow::readState() {
   restoreGeometry(Settings::getMainWindowGeometry(saveGeometry()));
   restoreState(Settings::getMainWindowState(saveState()));
 }
-void MainWindow::readSettings() {
+void MainWindow::readSettings() const
+{
   statusBar()->setVisible(Settings::getStatusBarEnabled());
 
   switch (Settings::getUiVariant()) {
@@ -205,7 +202,7 @@ void MainWindow::readSettings() {
   }
 }
 
-void MainWindow::loadBook(QString fileName) {
+void MainWindow::loadBook(const QString& fileName) {
   positionSave();
 
   QByteArray fileData;
@@ -234,7 +231,7 @@ void MainWindow::loadBook(QString fileName) {
                         tr("Unsupported file format or broken file!"));
 }
 
-void MainWindow::bookLoadFinished(bool ok) {
+void MainWindow::bookLoadFinished(const bool ok) {
   if (!ok)
     return;
 
@@ -254,7 +251,7 @@ void MainWindow::positionSave() {
   }
   // Save position
   qbrWebEnginePage *wp =
-      (qbrWebEnginePage *)findChild<QWebEngineView *>("browser")->page();
+      static_cast<qbrWebEnginePage*>(findChild<QWebEngineView*>("browser")->page());
   wp->positionSave(getCurrentFileName());
 }
 
@@ -265,12 +262,12 @@ void MainWindow::positionRestore() {
   }
   // Restore position
   qbrWebEnginePage *wp =
-      (qbrWebEnginePage *)findChild<QWebEngineView *>("browser")->page();
+      static_cast<qbrWebEnginePage*>(findChild<QWebEngineView*>("browser")->page());
   wp->positionRestore(getCurrentFileName());
 }
 
-void MainWindow::setCurrentFileName(QString fileName) {
-  QFileInfo fi(fileName);
+void MainWindow::setCurrentFileName(const QString& fileName) {
+  const QFileInfo fi(fileName);
   setWindowTitle(tr("Qt Book Reader - %1").arg(fi.fileName()));
   statusBarFileName->setText(fi.fileName());
   currentFileName = fileName;

@@ -27,7 +27,8 @@ bool qbrWebEnginePage::acceptNavigationRequest(
   return true;
 }
 
-void qbrWebEnginePage::positionSave(QString fileName) {
+void qbrWebEnginePage::positionSave(const QString& fileName) const
+{
   QPointF sPos = scrollPosition();
   QSizeF sSize = contentsSize();
   QPointF pos = QPointF(sPos.x() / sSize.height(), sPos.y() / sSize.width());
@@ -36,7 +37,7 @@ void qbrWebEnginePage::positionSave(QString fileName) {
 
 void qbrWebEnginePage::positionRestore(QString fileName) {
   qDebug() << "Restoring position for file: " << fileName;
-  QPointF pos = Settings::getFilePosition(fileName);
+  const QPointF pos = Settings::getFilePosition(fileName);
   runJavaScript(QString("window.scrollTo(%1*document.body.scrollHeight, "
                         "%2*document.body.scrollWidth);")
                     .arg(pos.x())

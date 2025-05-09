@@ -11,11 +11,11 @@ class qbrzip
 public:
     qbrzip(bool CS = true);
     bool setData(QByteArray zipData);
-    QStringList getFileNameList();
-    QByteArray getFileData(QString fileName);
-    bool fileExists(QString fileName);
+    QStringList getFileNameList() const;
+    QByteArray getFileData(QString fileName) const;
+    bool fileExists(QString fileName) const;
     void clear();
-    bool isLoaded();
+    bool isLoaded() const;
 
     const int MAX_FILE_NAME_LENGTH=256;
 

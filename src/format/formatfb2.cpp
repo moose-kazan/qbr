@@ -2,10 +2,7 @@
 #include "../template.h"
 
 #include <QByteArray>
-#include <QDataStream>
 #include <QDomDocument>
-#include <QDomNode>
-#include <QDomNodeList>
 #include <QFile>
 #include <QHash>
 #include <QRegularExpression>
@@ -23,7 +20,13 @@ FormatFB2::FormatFB2() {}
 
 QStringList FormatFB2::getExtensions() { return QStringList("fb2"); }
 
-QDomNode FormatFB2::parseXmlNode(QDomNode currentNode, QHash<QString, QString> fb2Binaries) {
+QString FormatFB2::getFormatTitle()
+{
+    return "FictionBook 2";
+}
+
+
+QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QString, QString>& fb2Binaries) {
     QHash<QString, QString> baseTags = {
         {"strong",        "strong"},
         {"p",             "p"},
@@ -107,21 +110,19 @@ QDomNode FormatFB2::parseXmlNode(QDomNode currentNode, QHash<QString, QString> f
                     returnValue.appendChild(parseXmlNode(localNode, fb2Binaries));
                 }
             }
-            // DIrty hack. But without it we have broken xHTML in some cases
+            // Dirty hack. But without it, we have broken xHTML in some cases
             else {
                 returnValue.appendChild(QDomDocument().createTextNode(""));
             }
 
             return returnValue;
         }
-        break;
     case QDomNode::TextNode:
         return currentNode.cloneNode();
-        break;
 
     case QDomNode::EntityReferenceNode:
         return currentNode.cloneNode();
-        break;
+
     default:
         //qDebug() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
         break;
@@ -130,7 +131,7 @@ QDomNode FormatFB2::parseXmlNode(QDomNode currentNode, QHash<QString, QString> f
     return QDomDocument().createTextNode("");
 }
 
-bool FormatFB2::parseXml(QByteArray fileData) {
+bool FormatFB2::parseXml(const QByteArray& fileData) {
 
   QString paserXmlErrorMsg;
   int parserXmlErrorLine;
@@ -180,7 +181,7 @@ bool FormatFB2::parseXml(QByteArray fileData) {
   return true;
 }
 
-void FormatFB2::parseBookInfo(QDomDocument *parserXml) {
+void FormatFB2::parseBookInfo(const QDomDocument *parserXml) {
   QDomElement nodeTitleInfo = parserXml->firstChildElement("FictionBook")
                                   .firstChildElement("description")
                                   .firstChildElement("title-info");
@@ -236,17 +237,16 @@ void FormatFB2::parseBookInfo(QDomDocument *parserXml) {
   // qDebug() << "Book author" << bookInfo.Author;
 }
 
-bool FormatFB2::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
+bool FormatFB2::loadFile(const QString fileName, const QByteArray fileData, qbrzip *zipData) {
   (void)zipData;
   htmlData = ""; // reset data from previous file
   bookInfo.clear();
-  bookInfo.FileFormat = "FictionBook 2";
+  bookInfo.FileFormat = getFormatTitle();
 
   (void)fileName; // Remove "unused parameter" warning
   try {
     return parseXml(fileData);
   } catch (...) {
-    return false;
   }
 
   return false;

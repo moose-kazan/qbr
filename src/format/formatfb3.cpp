@@ -2,18 +2,12 @@
 #include "../template.h"
 
 #include <QByteArray>
-#include <QDataStream>
 #include <QDebug>
 #include <QDomDocument>
-#include <QDomNode>
-#include <QDomNodeList>
-#include <QFile>
-#include <QFileInfo>
 #include <QDir>
 #include <QHash>
 #include <QRegularExpression>
 #include <QString>
-#include <QStringList>
 #include <QUrl>
 
 /*
@@ -26,16 +20,21 @@ FormatFB3::FormatFB3() {}
 
 QStringList FormatFB3::getExtensions() { return QStringList("fb3"); }
 
+QString FormatFB3::getFormatTitle()
+{
+    return "FictionBook 3";
+}
+
+
 bool FormatFB3::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
     // reset data from previous file
     htmlData = "";
     bookInfo.clear();
-    bookInfo.FileFormat = "FictionBook 3";
+    bookInfo.FileFormat = getFormatTitle();
 
     fb3ExtTypes.clear();
 
-    QRegularExpression rx("\\.fb3$", QRegularExpression::CaseInsensitiveOption);
-    if (!rx.match(fileName).hasMatch()) {
+    if (!fileNameRegexp.match(fileName).hasMatch()) {
         return false;
     }
 
@@ -62,7 +61,7 @@ bool FormatFB3::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData)
     return parseFile(zipData);
 }
 
-QString FormatFB3::expandFileName(QString baseFileName, QString expandableFileName) {
+QString FormatFB3::expandFileName(const QString& baseFileName, QString expandableFileName) {
     // If absolute path
     if (expandableFileName.startsWith("/")) {
         return expandableFileName.remove(0, 1);
@@ -78,14 +77,14 @@ QString FormatFB3::expandFileName(QString baseFileName, QString expandableFileNa
     return expandedFileName;
 }
 
-QString FormatFB3::getRelsFileName(QString baseFileName) {
-    QFileInfo fi(baseFileName);
+QString FormatFB3::getRelsFileName(const QString& baseFileName) {
+    const QFileInfo fi(baseFileName);
     QString relsFileName = fi.dir().dirName().append("/_rels/").append(fi.fileName().append(".rels"));
 
     return QDir::cleanPath(relsFileName);
 }
 
-void FormatFB3::parseMetadata(qbrzip *ZipData, QString entryName) {
+void FormatFB3::parseMetadata(const qbrzip *ZipData, const QString& entryName) {
     QByteArray fb3_description_data(ZipData->getFileData(entryName));
     if (fb3_description_data.isNull()) {
         return;
@@ -133,7 +132,7 @@ void FormatFB3::parseMetadata(qbrzip *ZipData, QString entryName) {
     }
 }
 
-QList<QDomElement> FormatFB3::parseRels(qbrzip *ZipData, QString entryName) {
+QList<QDomElement> FormatFB3::parseRels(const qbrzip *ZipData, const QString& entryName) {
     QList<QDomElement> relsData;
 
     // Try to load body rels file
@@ -160,7 +159,7 @@ QList<QDomElement> FormatFB3::parseRels(qbrzip *ZipData, QString entryName) {
     return relsData;
 }
 
-QDomNode FormatFB3::parseBodyNode(QDomNode currentNode, QMap<QString,QString> bodyBinaries) {
+QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QString,QString>& bodyBinaries) {
     QHash<QString, QString> baseTags = {
         {"strong",        "strong"},
         {"p",             "p"},
@@ -247,21 +246,17 @@ QDomNode FormatFB3::parseBodyNode(QDomNode currentNode, QMap<QString,QString> bo
                 returnValue.appendChild(parseBodyNode(localNode, bodyBinaries));
             }
         }
-        // DIrty hack. But without it we have broken xHTML in some cases
+        // Dirty hack. But without it, we have broken xHTML in some cases
         else {
             returnValue.appendChild(QDomDocument().createTextNode(""));
         }
 
         return returnValue;
     }
-    break;
     case QDomNode::TextNode:
         return currentNode.cloneNode();
-        break;
-
     case QDomNode::EntityReferenceNode:
         return currentNode.cloneNode();
-        break;
     default:
         //qDebug() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
         break;
@@ -270,7 +265,8 @@ QDomNode FormatFB3::parseBodyNode(QDomNode currentNode, QMap<QString,QString> bo
     return QDomDocument().createTextNode("");
 }
 
-QString FormatFB3::parseBody(qbrzip *zipData, QString bodyEntryName) {
+QString FormatFB3::parseBody(const qbrzip *zipData, const QString& bodyEntryName) const
+{
     QList<QDomElement> relsData = parseRels(zipData, getRelsFileName(bodyEntryName));
     QMap<QString,QString> bodyBinaries;
 
@@ -306,7 +302,7 @@ QString FormatFB3::parseBody(qbrzip *zipData, QString bodyEntryName) {
     return processResult;
 }
 
-bool FormatFB3::parseFile(qbrzip *zipData) {
+bool FormatFB3::parseFile(const qbrzip *zipData) {
     QByteArray docContentTypeData = zipData->getFileData("[Content_Types].xml");
     if (docContentTypeData.isNull()) {
         // qDebug() << "can't extract [Content_Types].xml";

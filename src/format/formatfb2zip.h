@@ -11,6 +11,7 @@ public:
     bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
     QBRBook getBook() override;
     QStringList getExtensions() override;
+    QString getFormatTitle() override;
     bool needUnzip() override;
 
 private:

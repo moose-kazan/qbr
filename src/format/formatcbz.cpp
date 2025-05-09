@@ -1,27 +1,28 @@
 #include "formatcbz.h"
 #include "../template.h"
 
-#include <QBuffer>
 #include <QByteArray>
-#include <QDebug>
-#include <QFile>
 #include <QList>
 #include <QRegularExpression>
 #include <QString>
-#include <QStringList>
 #include <QtCore>
 
 FormatCBZ::FormatCBZ() {}
 
 QStringList FormatCBZ::getExtensions() { return QStringList("cbz"); }
 
-bool FormatCBZ::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
+QString FormatCBZ::getFormatTitle()
+{
+  return "Comics Book Zip";
+}
+
+
+bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbrzip *zipData) {
   htmlData = ""; // reset data from previous file
   bookInfo.clear();
-  bookInfo.FileFormat = "Comics Book Zip";
+  bookInfo.FileFormat = getFormatTitle();
 
-  QRegularExpression rx("\\.cbz$", QRegularExpression::CaseInsensitiveOption);
-  if (!rx.match(fileName).hasMatch()) {
+  if (!fileNameRegexp.match(fileName).hasMatch()) {
     return false;
   }
 
@@ -29,13 +30,11 @@ bool FormatCBZ::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData)
     return false;
   }
 
-  unZip = zipData;
-
-  if (!unZip->isLoaded()) {
+  if (!zipData->isLoaded()) {
     return false;
   }
 
-  QStringList zipEntryNames = unZip->getFileNameList();
+  QStringList zipEntryNames = zipData->getFileNameList();
 
   zipEntryNames.sort(Qt::CaseInsensitive);
 
@@ -44,24 +43,18 @@ bool FormatCBZ::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData)
   for (int i = 0; i < zipEntryNames.count(); i++) {
     QString zipEntryName = zipEntryNames.at(i);
     QString mimeType = "";
-    if (QRegularExpression("\\.png$", QRegularExpression::CaseInsensitiveOption)
-            .match(zipEntryName)
-            .hasMatch()) {
+    if (zipEntryName.endsWith(".png", Qt::CaseInsensitive)) {
       mimeType = "image/png";
-    } else if (QRegularExpression("\\.gif$",
-                                  QRegularExpression::CaseInsensitiveOption)
-                   .match(zipEntryName)
-                   .hasMatch()) {
+    } else if (zipEntryName.endsWith(".gif", Qt::CaseInsensitive)) {
       mimeType = "image/gif";
-    } else if (QRegularExpression("\\.jpe?g$",
-                                  QRegularExpression::CaseInsensitiveOption)
-                   .match(zipEntryName)
-                   .hasMatch()) {
+    } else if (zipEntryName.endsWith(".jpg", Qt::CaseInsensitive)) {
+      mimeType = "image/jpeg";
+    } else if (zipEntryName.endsWith(".jpeg", Qt::CaseInsensitive)) {
       mimeType = "image/jpeg";
     }
 
     if (mimeType != "") {
-      QByteArray entryData = unZip->getFileData(zipEntryName);
+      QByteArray entryData = zipData->getFileData(zipEntryName);
       htmlData.append("<div class=\"comics_image\"><img src=\"data:");
       htmlData.append(mimeType);
       htmlData.append(";base64,");
