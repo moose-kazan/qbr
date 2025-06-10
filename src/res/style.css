@@ -31,6 +31,21 @@ body {
     text-align: center;
 }
 
+/* Document subheader (like "h4" in html) */
+.doc_subsubtitle_h4 {
+    font-size: 16px;
+    color: #444444;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Document subheader (like "h5" in html) */
+.doc_subsubtitle_h5 {
+    font-size: 14px;
+    color: #444444;
+    font-weight: bold;
+    text-align: center;
+}
 
 /* POEM tag in FB2/FB3 */
 .doc_poem {

@@ -211,6 +211,8 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileN
         {"h1",       "doc_title"},
         {"h2",       "doc_subtitle"},
         {"h3",       "doc_subsubtitle"},
+        {"h4",       "doc_subsubtitle_h4"},
+        {"h5",       "doc_subsubtitle_h5"},
     };
 
     switch (currentNode.nodeType()) {
