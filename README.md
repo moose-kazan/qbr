@@ -7,7 +7,9 @@
 
 В настоящий момент поддерживаются следующие форматы:
 * FictionBook 2.0 (fb2)
+* Zipped FictionBook 2.0 (fb2.zip)
 * FictionBook 3.0 (fb3)
+* Electronic Publication (epub)
 * Comics Book Zip (cbz)
 * Ancient Machine Book (amb)
 
@@ -36,7 +38,9 @@ Simple book reader, written on C++ with Qt5 toolkit.
 
 For now it support the next file formats:
 * FictionBook 2.0 (fb2)
+* Zipped FictionBook 2.0 (fb2.zip)
 * FictionBook 3.0 (fb3)
+* Electronic Publication (epub)
 * Comics Book Zip (cbz)
 * Ancient Machine Book (amb)
 
