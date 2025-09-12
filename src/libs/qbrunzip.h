@@ -6,10 +6,10 @@
 #include <QString>
 #include <QHash>
 
-class qbrzip
+class qbrunzip
 {
 public:
-    qbrzip(bool CS = true);
+    qbrunzip(bool CS = true);
     bool setData(QByteArray zipData);
     QStringList getFileNameList() const;
     QByteArray getFileData(QString fileName) const;

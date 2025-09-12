@@ -8,7 +8,7 @@ class FormatFB2Zip : public Format
 {
 public:
     FormatFB2Zip();
-    bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
+    bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QBRBook getBook() override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;

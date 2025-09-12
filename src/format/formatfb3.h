@@ -2,7 +2,7 @@
 #define QBRFORMATFB3_H
 
 #include "format.h"
-#include "../libs/qbrzip.h"
+#include "../libs/qbrunzip.h"
 #include <QString>
 #include <QDomNode>
 #include <QHash>
@@ -13,7 +13,7 @@ class FormatFB3 : public Format
 {
 public:
     FormatFB3();
-    bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
+    bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
     QBRBook getBook() override;
@@ -28,11 +28,11 @@ private:
     QString htmlData;
     static QString expandFileName(const QString& baseFileName, QString expandableFileName);
     static QString getRelsFileName(const QString& baseFileName);
-    void parseMetadata(const qbrzip *ZipData, const QString& entryName);
-    static QList<QDomElement> parseRels(const qbrzip *ZipData, const QString& entryName);
+    void parseMetadata(const qbrunzip *ZipData, const QString& entryName);
+    static QList<QDomElement> parseRels(const qbrunzip *ZipData, const QString& entryName);
     static QDomNode parseBodyNode(const QDomNode& currentNode, const QMap<QString,QString>& bodyBinaries);
-    QList<QDomNode> parseBody(const qbrzip* zipData, const QString& bodyEntryName) const;
-    bool parseFile(const qbrzip *ZipData);
+    QList<QDomNode> parseBody(const qbrunzip* zipData, const QString& bodyEntryName) const;
+    bool parseFile(const qbrunzip *ZipData);
     QHash<QString, QString> fb3ExtTypes;
 
 };

@@ -6,7 +6,7 @@ BookLoader::BookLoader() {
     QString filterLine;
     QStringList allExts;
 
-    unZip = new qbrzip(false);
+    unZip = new qbrunzip(false);
     for (int i = 0; i < bookParsers.count(); i++) {
         QStringList formatExts = bookParsers.at(i)->getExtensions();
 

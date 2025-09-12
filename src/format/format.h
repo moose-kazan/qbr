@@ -1,7 +1,7 @@
 #ifndef FORMAT_H
 #define FORMAT_H
 
-#include "../libs/qbrzip.h"
+#include "../libs/qbrunzip.h"
 #include "../libs/qbrbookinfo.h"
 
 #include <QObject>
@@ -15,7 +15,7 @@ class Format : public QObject
     Q_OBJECT
 public:
     Format();
-    virtual bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData);
+    virtual bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData);
     virtual QBRBook getBook();
     virtual QStringList getExtensions();
     virtual QString getFormatTitle();

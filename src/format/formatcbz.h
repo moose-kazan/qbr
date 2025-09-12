@@ -2,7 +2,7 @@
 #define QBRFORMATCBZ_H
 
 #include "format.h"
-#include "../libs/qbrzip.h"
+#include "../libs/qbrunzip.h"
 #include <QRegularExpression>
 #include <QString>
 
@@ -11,7 +11,7 @@ class FormatCBZ : public Format
 {
 public:
     FormatCBZ();
-    bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
+    bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
     QBRBook getBook() override;

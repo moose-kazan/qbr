@@ -2,7 +2,7 @@
 #define FORMATEPUB_H
 
 #include "format.h"
-#include "../libs/qbrzip.h"
+#include "../libs/qbrunzip.h"
 #include <QString>
 #include <QDomNode>
 #include <QMap>
@@ -11,7 +11,7 @@ class FormatEPub : public Format
 {
 public:
     FormatEPub();
-    bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
+    bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
     QBRBook getBook() override;
@@ -21,17 +21,17 @@ public:
 
 private:
     QBRBook bookInfo;
-    static bool isValidFile(const qbrzip *zipData);
-    static QStringList getRootFiles(const qbrzip *zipData);
-    static QStringList getEncryptedFiles(const qbrzip *zipData);
+    static bool isValidFile(const qbrunzip *zipData);
+    static QStringList getRootFiles(const qbrunzip *zipData);
+    static QStringList getEncryptedFiles(const qbrunzip *zipData);
     static QString expandFileName(const QString& baseFileName, QString expandableFileName);
     static QString prepareLink(const QString& baseFileName, QString link);
-    QString prepareDataLink(const qbrzip *zipData, QString dataFileName, const QStringList& encryptedFiles) const;
-    QDomNode processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles);
-    bool processXHTMLFile(QDomNode* xHTMLFileData, qbrzip* zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles);
-    void processRootFileMetadata(const qbrzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles);
-    bool processRootFile(QDomNode* returnValue, qbrzip* zipData, const QString& rootFileName, const QStringList& encryptedFiles);
-    bool parseFile(qbrzip *zipData);
+    QString prepareDataLink(const qbrunzip *zipData, QString dataFileName, const QStringList& encryptedFiles) const;
+    QDomNode processXHTMLNode(qbrunzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles);
+    bool processXHTMLFile(QDomNode* xHTMLFileData, qbrunzip* zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles);
+    void processRootFileMetadata(const qbrunzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles);
+    bool processRootFile(QDomNode* returnValue, qbrunzip* zipData, const QString& rootFileName, const QStringList& encryptedFiles);
+    bool parseFile(qbrunzip *zipData);
 };
 
 #endif // FORMATEPUB_H

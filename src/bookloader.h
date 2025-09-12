@@ -3,7 +3,7 @@
 
 #include <QRegularExpression>
 
-#include "libs/qbrzip.h"
+#include "libs/qbrunzip.h"
 #include "format/format.h"
 #include "format/formatamb.h"
 #include "format/formatcbz.h"
@@ -31,7 +31,7 @@ private:
     };
 
     QBRBook bookData;
-    qbrzip *unZip;
+    qbrunzip *unZip;
     QStringList filtersData;
     QRegularExpression re = QRegularExpression("^");
 };

@@ -10,7 +10,7 @@ class FormatFB2 : public Format
 {
 public:
     FormatFB2();
-    bool loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) override;
+    bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
     QBRBook getBook() override;

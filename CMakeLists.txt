@@ -50,8 +50,8 @@ set(PROJECT_SOURCES
     src/mainwindow.ui
     src/libs/helpers.cpp
     src/libs/helpers.h
-    src/libs/qbrzip.h
-    src/libs/qbrzip.cpp
+        src/libs/qbrunzip.h
+        src/libs/qbrunzip.cpp
     src/libs/settings.cpp
     src/libs/settings.h
     src/libs/qbrbookinfo.cpp

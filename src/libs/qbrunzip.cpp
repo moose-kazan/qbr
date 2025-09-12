@@ -1,21 +1,20 @@
-#include "qbrzip.h"
+#include "qbrunzip.h"
 
 #include <QBuffer>
 #include <QByteArray>
 #include <QDebug>
-#include <QStringList>
 
 #include <zip.h>
 
 // Based on https://gist.github.com/mobius/1759816
 // Some ideas found here: https://github.com/ctabin/libzippp/blob/master/src/
 
-qbrzip::qbrzip(const bool CS) {
+qbrunzip::qbrunzip(const bool CS) {
     entry_names_cs = CS;
     loaded = false;
 }
 
-bool qbrzip::setData(QByteArray zipData) {
+bool qbrunzip::setData(QByteArray zipData) {
   zip_error_t zipError;
   int buff_size = 4096;
   char buff[buff_size];
@@ -71,13 +70,13 @@ bool qbrzip::setData(QByteArray zipData) {
   return true;
 }
 
-QStringList qbrzip::getFileNameList() const
+QStringList qbrunzip::getFileNameList() const
 {
   QStringList rv(zipEntries.keys());
   return rv;
 }
 
-QByteArray qbrzip::getFileData(QString fileName) const
+QByteArray qbrunzip::getFileData(QString fileName) const
 {
   if (!entry_names_cs) {
     fileName = fileName.toLower();
@@ -85,7 +84,7 @@ QByteArray qbrzip::getFileData(QString fileName) const
   return zipEntries.value(fileName, nullptr);
 }
 
-bool qbrzip::fileExists(QString fileName) const
+bool qbrunzip::fileExists(QString fileName) const
 {
     if (!entry_names_cs) {
         fileName = fileName.toLower();
@@ -93,12 +92,12 @@ bool qbrzip::fileExists(QString fileName) const
     return zipEntries.contains(fileName);
 }
 
-void qbrzip::clear() {
+void qbrunzip::clear() {
     zipEntries.clear();
     loaded = false;
 }
 
-bool qbrzip::isLoaded() const
+bool qbrunzip::isLoaded() const
 {
     return loaded;
 }

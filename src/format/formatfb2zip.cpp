@@ -2,7 +2,7 @@
 
 FormatFB2Zip::FormatFB2Zip() = default;
 
-bool FormatFB2Zip::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
+bool FormatFB2Zip::loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) {
     (void)fileName;
 
     bookInfo.metadata.clear();

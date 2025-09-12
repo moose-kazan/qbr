@@ -15,7 +15,7 @@ QString FormatCBZ::getFormatTitle()
 }
 
 
-bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbrzip *zipData) {
+bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
   htmlData = ""; // reset data from previous file
   bookInfo.clear();
   bookInfo.FileFormat = getFormatTitle();

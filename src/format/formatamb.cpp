@@ -211,7 +211,7 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
   return rv;
 }
 
-bool FormatAMB::loadFile(const QString fileName, const QByteArray fileData, qbrzip *zipData) {
+bool FormatAMB::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
   (void)zipData;
   // reset data from previous file
   htmlData = "";
