@@ -1,6 +1,6 @@
 #include "exporthtml.h"
 
-ExportHTML::ExportHTML() {}
+ExportHTML::ExportHTML() = default;
 
 QString ExportHTML::getFilter() {
     return QString(tr("HTML pages (%1)")).arg("*.htm *.html");

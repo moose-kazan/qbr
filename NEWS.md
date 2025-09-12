@@ -1,3 +1,6 @@
+# Version 0.0.12 dev #
+ * Big refactoring for all book parsers
+
 # Version 0.0.11 #
  * Improved EPUB-parser
  * Improved Open File Dialog

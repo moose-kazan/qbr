@@ -3,7 +3,6 @@
 
 #include "format.h"
 #include <QString>
-#include <QByteArray>
 #include <QDomNode>
 
 

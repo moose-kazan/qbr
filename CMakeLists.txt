@@ -81,8 +81,6 @@ set(PROJECT_SOURCES
     src/settingsdialog.cpp
     src/settingsdialog.h
     src/settingsdialog.ui
-    src/template.cpp
-    src/template.h
     src/bookloader.h
     src/bookloader.cpp
     src/qbrwebenginepage.cpp

@@ -1,6 +1,6 @@
 #include "formatfb2zip.h"
 
-FormatFB2Zip::FormatFB2Zip() {}
+FormatFB2Zip::FormatFB2Zip() = default;
 
 bool FormatFB2Zip::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
     (void)fileName;
@@ -17,8 +17,7 @@ bool FormatFB2Zip::loadFile(QString fileName, QByteArray fileData, qbrzip *zipDa
 
     QStringList zipEntryNames = zipData->getFileNameList();
     for (int i = 0; i < zipEntryNames.count(); i++) {
-        QString zipEntryName = zipEntryNames.at(i);
-        QString mimeType = "";
+        const QString& zipEntryName = zipEntryNames.at(i);
         if (zipEntryName.endsWith(".fb2", Qt::CaseInsensitive)) {
             if (parserFB2.loadFile(zipEntryName, zipData->getFileData(zipEntryName), nullptr)) {
                 bookInfo = parserFB2.getBook();

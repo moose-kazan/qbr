@@ -1,11 +1,9 @@
 #ifndef QBRFORMATFB3_H
 #define QBRFORMATFB3_H
 
-#include "../template.h"
 #include "format.h"
 #include "../libs/qbrzip.h"
 #include <QString>
-#include <QByteArray>
 #include <QDomNode>
 #include <QHash>
 #include <QRegularExpression>
@@ -33,7 +31,7 @@ private:
     void parseMetadata(const qbrzip *ZipData, const QString& entryName);
     static QList<QDomElement> parseRels(const qbrzip *ZipData, const QString& entryName);
     static QDomNode parseBodyNode(const QDomNode& currentNode, const QMap<QString,QString>& bodyBinaries);
-    QString parseBody(const qbrzip *zipData, const QString& bodyEntryName) const;
+    QList<QDomNode> parseBody(const qbrzip* zipData, const QString& bodyEntryName) const;
     bool parseFile(const qbrzip *ZipData);
     QHash<QString, QString> fb3ExtTypes;
 

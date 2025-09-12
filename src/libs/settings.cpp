@@ -1,7 +1,7 @@
 #include "settings.h"
 #include <QSettings>
 
-Settings::Settings() {}
+Settings::Settings() = default;
 
 QSettings *Settings::cfg = nullptr;
 
@@ -37,7 +37,7 @@ QPointF Settings::getFilePosition(const QString& fileName) {
   if (const QSettings *cfg = getInstance(); cfg->contains(cfgkey)) {
     return getInstance()->value(cfgkey).toPointF();
   }
-  return QPointF(0, 0);
+  return {0, 0};
 }
 
 QByteArray Settings::getMainWindowState(QByteArray state) {

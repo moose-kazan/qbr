@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QString>
 #include <QImage>
+#include <QDomNode>
 
 struct QBRBookInfo {
     QString Author;
@@ -38,6 +39,14 @@ public:
     virtual QString getFormatTitle();
     virtual bool needUnzip();
     static bool isZipFile(const QByteArray& data);
+    void templateInit();
+    void templateBodyAppend(const QDomNode& bodyNode) const;
+    QString templateAsString() const;
+    static QDomElement templateCreateElement(const QString& tagName) ;
+    static QString templateLoadCSS(const QString& fileName);
+
+private:
+    QDomDocument templateDoc;
 };
 
 #endif // FORMAT_H

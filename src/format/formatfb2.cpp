@@ -1,5 +1,4 @@
 #include "formatfb2.h"
-#include "../template.h"
 
 #include <QByteArray>
 #include <QDomDocument>
@@ -8,7 +7,6 @@
 #include <QRegularExpression>
 #include <QString>
 
-#include <QDebug>
 
 /**
  * FB2-Parser.
@@ -16,7 +14,7 @@
  * More info: http://www.fictionbook.org/index.php/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:FB_%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B
  */
 
-FormatFB2::FormatFB2() {}
+FormatFB2::FormatFB2() = default;
 
 QStringList FormatFB2::getExtensions() { return QStringList("fb2"); }
 
@@ -69,7 +67,7 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
                 qDebug() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
             }*/
 
-            QDomElement returnValue = QDomDocument().createElement(returnTagName);
+            QDomElement returnValue = templateCreateElement(returnTagName);
 
             if (tagToClass.contains(currentNodeTag)) {
                 returnValue.setAttribute("class", tagToClass.value(currentNodeTag));
@@ -78,6 +76,7 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
             if (returnTagName.compare("img") == 0) {
                 if (currentNode.attributes().contains("href")) {
                     QString imgHref = currentNode.attributes().namedItem("href").nodeValue();
+                    returnValue.setAttribute("id", imgHref);
                     returnValue.setAttribute("src", fb2Binaries.value(imgHref));
                 }
             }
@@ -97,7 +96,7 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
             }
 
             for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
-                QString attrName = allowedAttributes.at(i);
+                const QString& attrName = allowedAttributes.at(i);
                 if (currentNode.attributes().contains(attrName)) {
                     returnValue.setAttribute(attrName, currentNode.attributes().namedItem(attrName).nodeValue());
                 }
@@ -149,15 +148,15 @@ bool FormatFB2::parseXml(const QByteArray& fileData) {
   while (!fb2Binary.isNull()) {
       QString binaryId = QString("#").append(fb2Binary.attribute("id", ""));
       QString binaryContentType = fb2Binary.attribute("content-type", "");
-      QString binaryValue = QString("data:%1;base64,%2").arg(binaryContentType).arg(fb2Binary.text());
+      QString binaryValue = QString("data:%1;base64,%2").arg(binaryContentType, fb2Binary.text());
 
       fb2Binaries.insert(binaryId, binaryValue);
 
       fb2Binary = fb2Binary.nextSiblingElement("binary");
   }
 
+  templateInit();
 
-  htmlData.append(Template::header());
   QDomElement fb2Body = parserXml.firstChildElement("FictionBook").firstChildElement("body");
 
   if (fb2Body.isNull()) {
@@ -166,15 +165,12 @@ bool FormatFB2::parseXml(const QByteArray& fileData) {
 
   while (!fb2Body.isNull()) {
       QDomNode convertedNode = parseXmlNode(fb2Body, fb2Binaries);
-      QString nodeAsString;
-      QTextStream nodeStream(&nodeAsString);
-      convertedNode.save(nodeStream, 2);
-      htmlData.append(nodeAsString);
+      templateBodyAppend(convertedNode);
 
       fb2Body = fb2Body.nextSiblingElement("body");
   }
 
-  htmlData.append(Template::footer());
+  htmlData = templateAsString();
 
   parseBookInfo(&parserXml);
 

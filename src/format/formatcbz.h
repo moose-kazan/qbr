@@ -3,7 +3,6 @@
 
 #include "format.h"
 #include "../libs/qbrzip.h"
-#include <QByteArray>
 #include <QRegularExpression>
 #include <QString>
 

@@ -2,7 +2,7 @@
 
 #include <QTextDocumentFragment>
 
-ExportMarkdown::ExportMarkdown() {}
+ExportMarkdown::ExportMarkdown() = default;
 
 QString ExportMarkdown::getFilter() {
     return QString(tr("Markdown documents (%1)")).arg("*.md");

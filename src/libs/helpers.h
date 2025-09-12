@@ -8,7 +8,7 @@ class Helpers
 {
 public:
     Helpers();
-    static float getDesktopScale();
+    static qreal getDesktopScale();
     static int getDesktopScaledInt(int n);
     static QString getDesktopScaledIntAsQString(int n);
 };

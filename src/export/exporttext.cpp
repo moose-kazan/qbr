@@ -2,7 +2,7 @@
 
 #include <QTextDocumentFragment>
 
-ExportText::ExportText() {}
+ExportText::ExportText() = default;
 
 QString ExportText::getFilter() {
     return QString(tr("Plain text files (%1)")).arg("*.txt");

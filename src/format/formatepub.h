@@ -3,7 +3,6 @@
 
 #include "format.h"
 #include "../libs/qbrzip.h"
-#include <QByteArray>
 #include <QString>
 #include <QDomNode>
 #include <QMap>
@@ -29,9 +28,9 @@ private:
     static QString prepareLink(const QString& baseFileName, QString link);
     QString prepareDataLink(const qbrzip *zipData, QString dataFileName, const QStringList& encryptedFiles) const;
     QDomNode processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles);
-    bool processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles);
+    bool processXHTMLFile(QDomNode* xHTMLFileData, qbrzip* zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles);
     void processRootFileMetadata(const qbrzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles);
-    bool processRootFile(QString *returnValue, qbrzip *zipData, const QString& rootFileName, const QStringList& encryptedFiles);
+    bool processRootFile(QDomNode* returnValue, qbrzip* zipData, const QString& rootFileName, const QStringList& encryptedFiles);
     bool parseFile(qbrzip *zipData);
 };
 

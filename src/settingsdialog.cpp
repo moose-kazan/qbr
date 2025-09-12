@@ -3,7 +3,6 @@
 #include "ui_settingsdialog.h"
 
 #include <QColorDialog>
-#include <QDebug>
 #include <QFileDialog>
 #include <QUrl>
 

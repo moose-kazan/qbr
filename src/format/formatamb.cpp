@@ -1,6 +1,4 @@
 #include "formatamb.h"
-#include "../template.h"
-
 #include <QCollator>
 #include <QString>
 #include <QUrl>
@@ -70,9 +68,9 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
                          .replace("\r", "");
   }
 
-  htmlData.append(Template::header());
+  QString htmlBodyData;
 
-  htmlData.append(amaToHtml("index.ama"));
+  htmlBodyData.append(amaToHtml("index.ama"));
 
   // Sort entry names with QCollator. It's fix some issues with numbers
   QStringList entryNames = ambEntries.keys();
@@ -92,11 +90,13 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
 
   for (int i = 0; i < entryNames.length(); i++) {
     if (entryNames.at(i) != "index.ama" && entryNames.at(i).endsWith(".ama")) {
-      htmlData.append(amaToHtml(entryNames.at(i)));
+      htmlBodyData.append(amaToHtml(entryNames.at(i)));
     }
   }
 
-  htmlData.append(Template::footer());
+  templateInit();
+  htmlData = templateAsString();
+  htmlData.insert(htmlData.indexOf("</body>"), htmlBodyData);
 
   // htmlData = "Total files: " + QString::number(filesCount) + "!\n";
 

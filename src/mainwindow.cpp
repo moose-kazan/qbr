@@ -236,7 +236,6 @@ void MainWindow::loadBook(const QString& fileName)
 {
     positionSave();
 
-    QByteArray fileData;
     try
     {
         if (bookLoader->loadFile(fileName))

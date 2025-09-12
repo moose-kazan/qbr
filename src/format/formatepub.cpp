@@ -1,7 +1,5 @@
 #include "formatepub.h"
 
-#include "../template.h"
-
 #include <QDomDocument>
 #include <QDir>
 #include <QUrl>
@@ -11,7 +9,7 @@
  * EPub-parser. Based on https://www.w3.org/TR/epub-33
  */
 
-FormatEPub::FormatEPub() {}
+FormatEPub::FormatEPub() = default;
 
 bool FormatEPub::loadFile(QString fileName, QByteArray fileData, qbrzip *zipData) {
     (void)fileName;
@@ -189,7 +187,7 @@ QString FormatEPub::prepareDataLink(const qbrzip *zipData, QString dataFileName,
         return EMPTYGIF;
     }
 
-    return QString("data:%1;base64,%2").arg(contentType).arg(zipData->getFileData(dataFileName).toBase64());
+    return QString("data:%1;base64,%2").arg(contentType, zipData->getFileData(dataFileName).toBase64());
 }
 
 QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles) {
@@ -231,7 +229,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileN
             }
             */
 
-            QDomElement returnValue = QDomDocument().createElement(returnTagName);
+            QDomElement returnValue = templateCreateElement(returnTagName);
 
             if (tagToClass.contains(currentNodeTag)) {
                 returnValue.setAttribute("class", tagToClass.value(currentNodeTag));
@@ -252,7 +250,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileN
             }
 
             for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
-                QString attrName = allowedAttributes.at(i);
+                const QString& attrName = allowedAttributes.at(i);
                 if (currentNode.attributes().contains(attrName)) {
                     returnValue.setAttribute(attrName, currentNode.attributes().namedItem(attrName).nodeValue());
                 }
@@ -285,7 +283,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileN
     return QDomDocument().createTextNode("");
 }
 
-bool FormatEPub::processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles) {
+bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, qbrzip *zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles) {
     if (encryptedFiles.contains(xHTMLFileName, Qt::CaseInsensitive)) {
         return false;
     }
@@ -297,18 +295,16 @@ bool FormatEPub::processXHTMLFile(QString *xHTMLFileData, qbrzip *zipData, const
         return false;
     }
 
-    QString processResult;
     QDomNodeList docBodies = xHTMLFile.elementsByTagName("body");
 
+    QDomElement processResult = templateCreateElement("div");
+    processResult.setAttribute("id", QString("file_%1").arg(xHTMLFileName.toHtmlEscaped()));
     for (int i = 0; i < docBodies.length(); i++) {
         QDomNode convertedNode = processXHTMLNode(zipData, xHTMLFileName, docBodies.at(i), encryptedFiles);
-        QString nodeAsString;
-        QTextStream nodeStream(&nodeAsString);
-        convertedNode.save(nodeStream, 2);
-        processResult.append(nodeAsString);
+        processResult.appendChild(convertedNode);
     }
 
-    xHTMLFileData->append(QString("<div id=\"file_%1\">%2</div>\n").arg(xHTMLFileName.toHtmlEscaped()).arg(processResult));
+    xHTMLFileData->appendChild(processResult);
 
     return true;
 }
@@ -360,7 +356,7 @@ void FormatEPub::processRootFileMetadata(const qbrzip *zipData, const QString& r
     }
 }
 
-bool FormatEPub::processRootFile(QString *returnValue, qbrzip *zipData, const QString& rootFileName, const QStringList& encryptedFiles) {
+bool FormatEPub::processRootFile(QDomNode *returnValue, qbrzip *zipData, const QString& rootFileName, const QStringList& encryptedFiles) {
     QDomDocument rootFileXml;
     QString rootFileXmlErrorMsg;
 
@@ -413,18 +409,19 @@ bool FormatEPub::parseFile(qbrzip *zipData) {
 
     QStringList encryptedFiles = getEncryptedFiles(zipData);
 
-    bookInfo.html = Template::header();
+    templateInit();
 
     // Process rootfiles
     for (int i = 0; i < rootFiles.count(); i++) {
-        QString rootFileData;
+        QDomElement rootFileData = templateCreateElement("div");
+        rootFileData.setAttribute("id", QString("rootfile_%1").arg(i));
         if (!processRootFile(&rootFileData, zipData, rootFiles.at(i), encryptedFiles)) {
             return false;
         }
-        bookInfo.html += QString("<div id=\"rootfile_%1\">%2</div>\n").arg(i).arg(rootFileData);
+        templateBodyAppend(rootFileData);
     }
 
-    bookInfo.html += Template::footer();
+    bookInfo.html += templateAsString();
 
     return true;
 }

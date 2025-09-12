@@ -1,5 +1,4 @@
 #include "formatfb3.h"
-#include "../template.h"
 
 #include <QByteArray>
 #include <QDebug>
@@ -16,7 +15,7 @@
  * Many ideas found at: https://github.com/gribuser/FB3
  */
 
-FormatFB3::FormatFB3() {}
+FormatFB3::FormatFB3() = default;
 
 QStringList FormatFB3::getExtensions() { return QStringList("fb3"); }
 
@@ -205,7 +204,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
             qDebug() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
         }*/
 
-        QDomElement returnValue = QDomDocument().createElement(returnTagName);
+        QDomElement returnValue = templateCreateElement(returnTagName);
 
         if (tagToClass.contains(currentNodeTag)) {
             returnValue.setAttribute("class", tagToClass.value(currentNodeTag));
@@ -233,7 +232,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
         }
 
         for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
-            QString attrName = allowedAttributes.at(i);
+            const QString& attrName = allowedAttributes.at(i);
             if (currentNode.attributes().contains(attrName)) {
                 returnValue.setAttribute(attrName, currentNode.attributes().namedItem(attrName).nodeValue());
             }
@@ -265,7 +264,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
     return QDomDocument().createTextNode("");
 }
 
-QString FormatFB3::parseBody(const qbrzip *zipData, const QString& bodyEntryName) const
+QList<QDomNode> FormatFB3::parseBody(const qbrzip* zipData, const QString& bodyEntryName) const
 {
     QList<QDomElement> relsData = parseRels(zipData, getRelsFileName(bodyEntryName));
     QMap<QString,QString> bodyBinaries;
@@ -276,7 +275,7 @@ QString FormatFB3::parseBody(const qbrzip *zipData, const QString& bodyEntryName
         QString nodeTargetExtension = nodeTarget.section('.', -1).toLower();
         QString nodeContentType = fb3ExtTypes.value(nodeTargetExtension, "");
 
-        bodyBinaries.insert(nodeId, QString("data:%1;base64,%2").arg(nodeContentType).arg(zipData->getFileData(nodeTarget).toBase64()));
+        bodyBinaries.insert(nodeId, QString("data:%1;base64,%2").arg(nodeContentType, zipData->getFileData(nodeTarget).toBase64()));
         //qDebug() << nodeId << nodeTargetExtension << nodeContentType << nodeTarget << bodyBinaries.value(nodeId).length();
     }
 
@@ -284,18 +283,15 @@ QString FormatFB3::parseBody(const qbrzip *zipData, const QString& bodyEntryName
     QString xmlErrorMsg;
     if (!xmlFile.setContent(zipData->getFileData(bodyEntryName), true, &xmlErrorMsg)) {
         qDebug() << "Can't parse " << bodyEntryName << ": " << xmlErrorMsg;
-        return "";
+        return {};
     }
 
-    QString processResult;
+    QList<QDomNode> processResult;
     QDomNodeList docBodies = xmlFile.elementsByTagName("fb3-body");
 
     for (int i = 0; i < docBodies.length(); i++) {
         QDomNode convertedNode = parseBodyNode(docBodies.at(i), bodyBinaries);
-        QString nodeAsString;
-        QTextStream nodeStream(&nodeAsString);
-        convertedNode.save(nodeStream, 2);
-        processResult.append(nodeAsString);
+        processResult.append(convertedNode);
     }
 
 
@@ -360,11 +356,14 @@ bool FormatFB3::parseFile(const qbrzip *zipData) {
         }
     }
 
-    QString documentBody = parseBody(zipData, bodyEntryName);
+    QList<QDomNode> documentBody = parseBody(zipData, bodyEntryName);
+    templateInit();
+    for (int i = 0; i < documentBody.count(); i++)
+    {
+        templateBodyAppend(documentBody.at(i));
+    }
 
-    htmlData.append(Template::header());
-    htmlData.append(documentBody);
-    htmlData.append(Template::footer());
+    htmlData = templateAsString();
 
     parseMetadata(zipData, descriptionEntryName);
 

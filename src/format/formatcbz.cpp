@@ -1,13 +1,11 @@
 #include "formatcbz.h"
-#include "../template.h"
 
 #include <QByteArray>
 #include <QList>
 #include <QRegularExpression>
 #include <QString>
-#include <QtCore>
 
-FormatCBZ::FormatCBZ() {}
+FormatCBZ::FormatCBZ() = default;
 
 QStringList FormatCBZ::getExtensions() { return QStringList("cbz"); }
 
@@ -38,10 +36,10 @@ bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbrz
 
   zipEntryNames.sort(Qt::CaseInsensitive);
 
-  htmlData.append(Template::header());
+  templateInit();
 
   for (int i = 0; i < zipEntryNames.count(); i++) {
-    QString zipEntryName = zipEntryNames.at(i);
+    const QString& zipEntryName = zipEntryNames.at(i);
     QString mimeType = "";
     if (zipEntryName.endsWith(".png", Qt::CaseInsensitive)) {
       mimeType = "image/png";
@@ -54,20 +52,25 @@ bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbrz
     }
 
     if (mimeType != "") {
+      QDomElement nodeDiv = templateCreateElement("div");
+      nodeDiv.setAttribute("class", "comics_image");
+
       QByteArray entryData = zipData->getFileData(zipEntryName);
-      htmlData.append("<div class=\"comics_image\"><img src=\"data:");
-      htmlData.append(mimeType);
-      htmlData.append(";base64,");
-      htmlData.append(entryData.toBase64());
-      htmlData.append("\"><br /></div>\n");
+      QString imgData = "data:" + mimeType + ";base64," + entryData.toBase64();
+      QDomElement nodeImg = templateCreateElement("img");
+      nodeImg.setAttribute("src", imgData);
+
+      nodeDiv.appendChild(nodeImg);
+      nodeDiv.appendChild(templateCreateElement("br"));
+      templateBodyAppend(nodeDiv);
+
       if (i == 0) {
           bookInfo.Cover.loadFromData(entryData);
       }
     }
   }
 
-  htmlData.append(Template::footer());
-
+  htmlData = templateAsString();
   return true;
 }
 
