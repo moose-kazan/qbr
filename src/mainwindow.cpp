@@ -97,23 +97,19 @@ void MainWindow::saveFileAs()
 
     if (fileName != "")
     {
-        Export* exporter = bookSaver->exporterByFilter(selectedFilter);
-        findChild<QWebEngineView*>("browser")->page()->toHtml([fileName, exporter](const QString& htmlData)
+        try
         {
-            try
+            Export* exporter = bookSaver->exporterByFilter(selectedFilter);
+            QFile f(fileName);
+            if (f.open(QIODevice::WriteOnly))
             {
-                QFile f(fileName);
-                if (f.open(QIODevice::WriteOnly))
-                {
-                    f.write(exporter->fromHtml(htmlData).toUtf8());
-                    f.close();
-                }
+                f.write(exporter->fromHtml(bookInfo.html).toUtf8());
+                f.close();
             }
-            catch (...)
-            {
-            }
-        });
-        // browser->toHtml();
+        }
+        catch (...)
+        {
+        }// browser->toHtml();
     }
 }
 
@@ -180,7 +176,7 @@ void MainWindow::fileBookInfo()
     {
         return;
     }
-    fileInfoDlg->setBookInfo(bookInfo);
+    fileInfoDlg->setBookInfo(bookInfo.metadata);
     fileInfoDlg->exec();
 }
 
@@ -251,7 +247,7 @@ void MainWindow::loadBook(const QString& fileName)
                 findChild<QWebEngineView*>("browser")->load(
                     QUrl::fromLocalFile(f.fileName()));
                 setCurrentFileName(fileName);
-                bookInfo = fullBook.metadata;
+                bookInfo = fullBook;
             }
             return;
         }

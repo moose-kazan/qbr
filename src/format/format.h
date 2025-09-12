@@ -41,6 +41,7 @@ public:
     static bool isZipFile(const QByteArray& data);
     void templateInit();
     void templateBodyAppend(const QDomNode& bodyNode) const;
+    void templateSetMeta(const QBRBookInfo& metadata) const;
     QString templateAsString() const;
     static QDomElement templateCreateElement(const QString& tagName) ;
     static QString templateLoadCSS(const QString& fileName);

@@ -170,9 +170,10 @@ bool FormatFB2::parseXml(const QByteArray& fileData) {
       fb2Body = fb2Body.nextSiblingElement("body");
   }
 
-  htmlData = templateAsString();
 
   parseBookInfo(&parserXml);
+  templateSetMeta(bookInfo);
+  htmlData = templateAsString();
 
   return true;
 }

@@ -106,8 +106,7 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
 QString FormatAMB::convertToUtf8(QByteArray fileData) const
 {
   QString rv;
-  for (int i = 0; i < fileData.size(); i++) {
-    unsigned char cur_char = fileData[i];
+  for (unsigned char cur_char : fileData) {
     if (cur_char < 128) {
       rv.append(QChar(cur_char));
     } else {
@@ -123,14 +122,14 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
 {
   QString rv;
 
-  rv.append("<div class=\"amb_body\" id=\"");
+  rv.append(R"(<div class="amb_body" id=")");
   rv.append(fileName);
   rv.append("\">\n");
 
-  rv.append("<div class=\"amb_part_header\">");
+  rv.append(R"(<div class="amb_part_header">)");
   rv.append("Part name: ");
   rv.append(fileName);
-  rv.append(". <a href=\"#index.ama\">Go to index</a>.");
+  rv.append(R"(. <a href="#index.ama">Go to index</a>.)");
   rv.append("</div>\n");
 
   QString fileData = convertToUtf8(ambEntries.value(fileName, ""));

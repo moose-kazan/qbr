@@ -1,5 +1,6 @@
 # Version 0.0.12 dev #
  * Big refactoring for all book parsers
+ * Some improvements in "save as html"
 
 # Version 0.0.11 #
  * Improved EPUB-parser

@@ -91,6 +91,22 @@ void Format::templateBodyAppend(const QDomNode& bodyNode) const
         .appendChild(bodyNode);
 }
 
+void Format::templateSetMeta(const QBRBookInfo& metadata) const
+{
+    QString title;
+    if (!metadata.Author.isEmpty() && !metadata.Title.isEmpty()) {
+        title = QString("%1 - %2").arg(metadata.Author, metadata.Title);
+    } else if (!metadata.Author.isEmpty()){
+        title = metadata.Author;
+    } else if (!metadata.Title.isEmpty()) {
+        title = metadata.Title;
+    }
+    templateDoc.firstChildElement("html")
+        .firstChildElement("head")
+        .firstChildElement("title")
+        .appendChild(QDomDocument().createTextNode(title));
+}
+
 QString Format::templateAsString() const
 {
     if (!templateDoc.isNull())

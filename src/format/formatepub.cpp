@@ -421,6 +421,7 @@ bool FormatEPub::parseFile(qbrzip *zipData) {
         templateBodyAppend(rootFileData);
     }
 
+    templateSetMeta(bookInfo.metadata);
     bookInfo.html += templateAsString();
 
     return true;

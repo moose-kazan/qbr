@@ -62,7 +62,7 @@ private:
     BookLoader *bookLoader;
     BookSaver *bookSaver;
 
-    QBRBookInfo bookInfo;
+    QBRBook bookInfo;
 };
 
 #endif // MAINWINDOW_H
