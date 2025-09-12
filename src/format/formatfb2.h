@@ -16,7 +16,7 @@ public:
     QBRBook getBook() override;
     bool needUnzip() override;
 private:
-    QBRBookInfo bookInfo;
+    qbrbookinfo bookInfo;
     QString htmlData;
     static QDomNode parseXmlNode(const QDomNode& currentNode, const QHash<QString, QString>& fb2Binaries);
     bool parseXml(const QByteArray& fileData);

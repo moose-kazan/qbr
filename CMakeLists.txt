@@ -54,6 +54,8 @@ set(PROJECT_SOURCES
     src/libs/qbrzip.cpp
     src/libs/settings.cpp
     src/libs/settings.h
+    src/libs/qbrbookinfo.cpp
+    src/libs/qbrbookinfo.h
     src/format/format.h
     src/format/format.cpp
     src/format/formatamb.h
@@ -93,6 +95,8 @@ set(PROJECT_SOURCES
     src/export/exporthtml.cpp
     src/export/exporttext.h
     src/export/exporttext.cpp
+    src/export/exportmarkdown.h
+    src/export/exportmarkdown.cpp
     src/qbr.qrc
     qbr.desktop
     ${RES_DATA}
@@ -102,8 +106,6 @@ set(PROJECT_SOURCES
 
 if (Qt6Core_VERSION VERSION_GREATER_EQUAL 6.4.0)
 set(PROJECT_SOURCES
-    src/export/exportmarkdown.h
-    src/export/exportmarkdown.cpp
 	${PROJECT_SOURCES}
 )
 endif()

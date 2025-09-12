@@ -245,7 +245,8 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileN
             else if (returnTagName.compare("img") == 0) {
                 if (currentNode.attributes().contains("src")) {
                     QString imgSrc = currentNode.attributes().namedItem("src").nodeValue();
-                    returnValue.setAttribute("src", prepareDataLink(zipData, expandFileName(xHTMLFileName, imgSrc), encryptedFiles));
+                    QString imgSrcFull = expandFileName(xHTMLFileName, imgSrc);
+                    returnValue.setAttribute("src", prepareDataLink(zipData, imgSrcFull, encryptedFiles));
                 }
             }
 
@@ -263,7 +264,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrzip *zipData, const QString& xHTMLFileN
                     returnValue.appendChild(processXHTMLNode(zipData, xHTMLFileName, localNode, encryptedFiles));
                 }
             }
-            // DIrty hack. But without it we have broken xHTML in some cases
+            // Dirty hack. But without it we have broken xHTML in some cases
             else {
                 returnValue.appendChild(QDomDocument().createTextNode(""));
             }

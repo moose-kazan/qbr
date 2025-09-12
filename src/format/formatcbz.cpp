@@ -59,6 +59,7 @@ bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbrz
       QString imgData = "data:" + mimeType + ";base64," + entryData.toBase64();
       QDomElement nodeImg = templateCreateElement("img");
       nodeImg.setAttribute("src", imgData);
+      nodeImg.setAttribute("id", zipEntryName);
 
       nodeDiv.appendChild(nodeImg);
       nodeDiv.appendChild(templateCreateElement("br"));

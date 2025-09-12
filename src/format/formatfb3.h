@@ -24,7 +24,7 @@ private:
     const QString RELATION_BOOK           = "http://www.fictionbook.org/FictionBook3/relationships/Book";
 
     QRegularExpression fileNameRegexp = QRegularExpression("\\.fb3$", QRegularExpression::CaseInsensitiveOption);
-    QBRBookInfo bookInfo;
+    qbrbookinfo bookInfo;
     QString htmlData;
     static QString expandFileName(const QString& baseFileName, QString expandableFileName);
     static QString getRelsFileName(const QString& baseFileName);

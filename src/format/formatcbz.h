@@ -17,7 +17,7 @@ public:
     QBRBook getBook() override;
     bool needUnzip() override;
 private:
-    QBRBookInfo bookInfo;
+    qbrbookinfo bookInfo;
     QString htmlData;
     QRegularExpression fileNameRegexp = QRegularExpression("\\.cbz$", QRegularExpression::CaseInsensitiveOption);
 };

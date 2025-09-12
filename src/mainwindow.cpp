@@ -103,7 +103,7 @@ void MainWindow::saveFileAs()
             QFile f(fileName);
             if (f.open(QIODevice::WriteOnly))
             {
-                f.write(exporter->fromHtml(bookInfo.html).toUtf8());
+                f.write(exporter->fromBook(&bookInfo).toUtf8());
                 f.close();
             }
         }

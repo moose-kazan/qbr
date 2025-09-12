@@ -16,7 +16,7 @@ public:
     QBRBook getBook() override;
     bool needUnzip() override;
 private:
-    QBRBookInfo bookInfo;
+    qbrbookinfo bookInfo;
     bool parseAmb(const QByteArray& fileData);
     QString convertToUtf8(QByteArray fileData) const;
     QString amaToHtml(const QString& fileName) const;

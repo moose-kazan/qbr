@@ -9,7 +9,7 @@ public:
     ExportMarkdown();
 
     QString getFilter() override;
-    QString fromHtml(QString htmlLine) override;
+    QString fromBook(QBRBook *book)  override;
 };
 
 #endif // EXPORTMARKDOWN_H

@@ -95,6 +95,7 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
   }
 
   templateInit();
+  templateSetMeta(bookInfo);
   htmlData = templateAsString();
   htmlData.insert(htmlData.indexOf("</body>"), htmlBodyData);
 

@@ -1,6 +1,8 @@
 #ifndef EXPORT_H
 #define EXPORT_H
 
+#include "../libs/qbrbookinfo.h"
+
 #include <QObject>
 #include <QString>
 
@@ -11,7 +13,7 @@ public:
     Export();
 
     virtual QString getFilter();
-    virtual QString fromHtml(QString htmlLine);
+    virtual QString fromBook(QBRBook *book);
 };
 
 #endif // EXPORT_H

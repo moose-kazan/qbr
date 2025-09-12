@@ -91,7 +91,7 @@ void Format::templateBodyAppend(const QDomNode& bodyNode) const
         .appendChild(bodyNode);
 }
 
-void Format::templateSetMeta(const QBRBookInfo& metadata) const
+void Format::templateSetMeta(const qbrbookinfo& metadata) const
 {
     QString title;
     if (!metadata.Author.isEmpty() && !metadata.Title.isEmpty()) {

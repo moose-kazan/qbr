@@ -2,31 +2,13 @@
 #define FORMAT_H
 
 #include "../libs/qbrzip.h"
+#include "../libs/qbrbookinfo.h"
 
 #include <QObject>
 #include <QString>
 #include <QImage>
 #include <QDomNode>
 
-struct QBRBookInfo {
-    QString Author;
-    QString Title;
-    QString Description;
-    QString FileFormat;
-    QImage Cover;
-    void clear() {
-        Author = "";
-        Title = "";
-        Description = "";
-        FileFormat = "";
-        Cover = QImage();
-    }
-};
-
-struct QBRBook {
-    QBRBookInfo metadata;
-    QString html;
-};
 
 class Format : public QObject
 {
@@ -41,7 +23,7 @@ public:
     static bool isZipFile(const QByteArray& data);
     void templateInit();
     void templateBodyAppend(const QDomNode& bodyNode) const;
-    void templateSetMeta(const QBRBookInfo& metadata) const;
+    void templateSetMeta(const qbrbookinfo& metadata) const;
     QString templateAsString() const;
     static QDomElement templateCreateElement(const QString& tagName) ;
     static QString templateLoadCSS(const QString& fileName);
