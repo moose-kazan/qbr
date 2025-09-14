@@ -1,10 +1,11 @@
 # Version 0.0.12 dev #
+ * New option: export to EPUB
  * Big refactoring for all book parsers
  * Some improvements in "save as html"
+ * Fixed some bugs in AMB parser
 
 # Version 0.0.11 #
  * Improved EPUB-parser
- * Fixed some bugs in AMB parser
  * Improved Open File Dialog
  * Refactoring and clean-ups
 
