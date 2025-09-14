@@ -4,6 +4,7 @@
 
 # Version 0.0.11 #
  * Improved EPUB-parser
+ * Fixed some bugs in AMB parser
  * Improved Open File Dialog
  * Refactoring and clean-ups
 

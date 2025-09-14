@@ -50,8 +50,10 @@ set(PROJECT_SOURCES
     src/mainwindow.ui
     src/libs/helpers.cpp
     src/libs/helpers.h
-        src/libs/qbrunzip.h
-        src/libs/qbrunzip.cpp
+    src/libs/qbrzip.cpp
+    src/libs/qbrzip.h
+    src/libs/qbrunzip.h
+    src/libs/qbrunzip.cpp
     src/libs/settings.cpp
     src/libs/settings.h
     src/libs/qbrbookinfo.cpp
@@ -97,6 +99,8 @@ set(PROJECT_SOURCES
     src/export/exporttext.cpp
     src/export/exportmarkdown.h
     src/export/exportmarkdown.cpp
+    src/export/exportepub.cpp
+    src/export/exportepub.h
     src/qbr.qrc
     qbr.desktop
     ${RES_DATA}

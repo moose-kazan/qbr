@@ -1,9 +1,6 @@
-#ifndef QBRZIP_H
-#define QBRZIP_H
+#ifndef QBRUNZIP_H
+#define QBRUNZIP_H
 
-#include <QByteArray>
-#include <QStringList>
-#include <QString>
 #include <QHash>
 
 class qbrunzip
@@ -25,4 +22,4 @@ private:
     QHash<QString, QByteArray> zipEntries;
 };
 
-#endif // QBRZIP_H
+#endif // QBRUNZIP_H

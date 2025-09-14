@@ -13,7 +13,10 @@ public:
     Export();
 
     virtual QString getFilter();
-    virtual QString fromBook(QBRBook *book);
+    virtual void setData(QBRBook *book);
+    virtual bool save(QString fileName);
+protected:
+    static bool _save(const QString& fileName, const QByteArray& data);
 };
 
 #endif // EXPORT_H

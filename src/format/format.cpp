@@ -36,13 +36,13 @@ bool Format::needUnzip() {
 
 bool Format::isZipFile(const QByteArray& data) {
     char zipSignature[] = {0x50, 0x4B, 0x03, 0x04};
-    return data.startsWith(zipSignature);
+    return data.startsWith(QByteArrayView(zipSignature));
 }
 
 void Format::templateInit()
 {
     templateDoc.clear();
-    templateDoc = QDomDocument(R"(html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd")");
+    templateDoc = QDomDocument("html");
 
     QDomElement rootNode = templateCreateElement("html");
     rootNode.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");

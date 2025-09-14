@@ -97,19 +97,9 @@ void MainWindow::saveFileAs()
 
     if (fileName != "")
     {
-        try
-        {
-            Export* exporter = bookSaver->exporterByFilter(selectedFilter);
-            QFile f(fileName);
-            if (f.open(QIODevice::WriteOnly))
-            {
-                f.write(exporter->fromBook(&bookInfo).toUtf8());
-                f.close();
-            }
-        }
-        catch (...)
-        {
-        }// browser->toHtml();
+        Export* exporter = bookSaver->exporterByFilter(selectedFilter);
+        exporter->setData(&bookInfo);
+        exporter->save(fileName);
     }
 }
 

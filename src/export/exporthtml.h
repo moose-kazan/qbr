@@ -9,7 +9,10 @@ public:
     ExportHTML();
 
     QString getFilter() override;
-    QString fromBook(QBRBook *book)  override;
+    void setData(QBRBook *book)  override;
+    bool save(QString fileName) override;
+private:
+    QString htmlData;
 };
 
 #endif // EXPORTHTML_H

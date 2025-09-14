@@ -43,9 +43,9 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
       entryName.append(fileData.at(entryOffset + j));
     }
     const int entryFileOffset =
-        qFromLittleEndian<qint32>(fileData.mid(entryOffset + 12, 4).data());
+        qFromLittleEndian<quint32>(fileData.mid(entryOffset + 12, 4).data());
     const int entryFileLength =
-        qFromLittleEndian<qint16>(fileData.mid(entryOffset + 16, 2).data());
+        qFromLittleEndian<quint16>(fileData.mid(entryOffset + 16, 2).data());
     ambEntries.insert(entryName.toLower(),
                       fileData.mid(entryFileOffset, entryFileLength));
 

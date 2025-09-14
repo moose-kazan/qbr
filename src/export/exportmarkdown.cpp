@@ -8,7 +8,7 @@ QString ExportMarkdown::getFilter() {
     return QString(tr("Markdown documents (%1)")).arg("*.md");
 }
 
-QString ExportMarkdown::fromBook(QBRBook *book) {
+void ExportMarkdown::setData(QBRBook *book) {
     QStringList markdownLinesSrc = QTextDocumentFragment::fromHtml(book->html).toMarkdown(QTextDocument::MarkdownNoHTML).split("\n");
     QStringList markdownDocument;
 
@@ -20,5 +20,10 @@ QString ExportMarkdown::fromBook(QBRBook *book) {
         markdownDocument.append(markdownLinesSrc.at(i));
     }
 
-    return markdownDocument.join("\n");
+    htmlData = markdownDocument.join("\n");
+}
+
+bool ExportMarkdown::save(QString filename)
+{
+    return _save(filename, htmlData.toUtf8());
 }

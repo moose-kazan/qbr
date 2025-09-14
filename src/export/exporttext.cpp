@@ -8,6 +8,10 @@ QString ExportText::getFilter() {
     return QString(tr("Plain text files (%1)")).arg("*.txt");
 }
 
-QString ExportText::fromBook(QBRBook *book) {
-    return QTextDocumentFragment::fromHtml(book->html).toPlainText();
+void ExportText::setData(QBRBook *book) {
+    htmlData = QTextDocumentFragment::fromHtml(book->html).toPlainText();
+}
+bool ExportText::save(QString filename)
+{
+    return _save(filename, htmlData.toUtf8());
 }
