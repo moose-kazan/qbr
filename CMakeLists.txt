@@ -97,8 +97,6 @@ set(PROJECT_SOURCES
     src/export/exporthtml.cpp
     src/export/exporttext.h
     src/export/exporttext.cpp
-    src/export/exportmarkdown.h
-    src/export/exportmarkdown.cpp
     src/export/exportepub.cpp
     src/export/exportepub.h
     src/qbr.qrc
@@ -110,6 +108,8 @@ set(PROJECT_SOURCES
 
 if (Qt6Core_VERSION VERSION_GREATER_EQUAL 6.4.0)
 set(PROJECT_SOURCES
+    src/export/exportmarkdown.h
+    src/export/exportmarkdown.cpp
 	${PROJECT_SOURCES}
 )
 endif()
