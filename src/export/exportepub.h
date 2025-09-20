@@ -4,7 +4,7 @@
 #include "export.h"
 #include "../libs/qbrzip.h"
 
-class ExportEPub : public Export{
+class ExportEPub final : public Export{
 public:
     ExportEPub();
     QString getFilter() override;
@@ -12,7 +12,7 @@ public:
     bool save(QString fileName) override;
 private:
     static QByteArray prepareContainerXml();
-    QByteArray prepareContentOpf();
+    QByteArray prepareContentOpf() const;
     static QByteArray prepareNavXhtml();
     QBRBook *book;
     qbrzip *zipWriter;

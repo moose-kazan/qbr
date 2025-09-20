@@ -6,7 +6,7 @@
 #include <QDomNode>
 
 
-class FormatFB2 : public Format
+class FormatFB2 final : public Format
 {
 public:
     FormatFB2();

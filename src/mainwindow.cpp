@@ -8,7 +8,6 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
-#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QWebEngineHistory>
@@ -21,7 +20,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     ui->setupUi(this);
 
-    QWebEngineView* browser = findChild<QWebEngineView*>("browser");
+    auto* browser = findChild<QWebEngineView*>("browser");
     browser->setPage(new qbrWebEnginePage);
     browser->setContextMenuPolicy(Qt::NoContextMenu);
     connect(findChild<QWebEngineView*>("browser"), &QWebEngineView::loadFinished,
@@ -68,8 +67,7 @@ void MainWindow::openFile()
 {
     if (openFileDlg->exec() == QDialog::Accepted)
     {
-        QString fileName = openFileDlg->selectedFiles().at(0);
-        if (fileName != "")
+        if (const QString fileName = openFileDlg->selectedFiles().at(0); fileName != "")
         {
             loadBook(fileName);
         }
@@ -92,7 +90,7 @@ void MainWindow::saveFileAs()
     }
 
     QString selectedFilter;
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."),
+    const QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."),
                                                     filterPath, bookSaver->getFilter().join(";;"), &selectedFilter);
 
     if (fileName != "")
@@ -129,10 +127,10 @@ void MainWindow::naviFind()
 
     if (findDlg->exec() == QDialog::Accepted)
     {
-        QString findText = findDlg->findChild<QLineEdit*>("findText")->text();
-        bool optionFindBackward =
+        const QString findText = findDlg->findChild<QLineEdit*>("findText")->text();
+        const bool optionFindBackward =
             findDlg->findChild<QCheckBox*>("findBackward")->isChecked();
-        bool optionCaseSensitive =
+        const bool optionCaseSensitive =
             findDlg->findChild<QCheckBox*>("CaseSensitive")->isChecked();
 
         QWebEnginePage::FindFlags findFlags;
@@ -230,7 +228,7 @@ void MainWindow::loadBook(const QString& fileName)
             f.setAutoRemove(false);
             if (f.open())
             {
-                QBRBook fullBook = bookLoader->getBook();
+                const QBRBook fullBook = bookLoader->getBook();
                 f.write(fullBook.html.toUtf8());
                 f.close();
 
@@ -275,8 +273,8 @@ void MainWindow::positionSave()
         return;
     }
     // Save position
-    qbrWebEnginePage* wp =
-        static_cast<qbrWebEnginePage*>(findChild<QWebEngineView*>("browser")->page());
+    const auto wp =
+        dynamic_cast<qbrWebEnginePage*>(findChild<QWebEngineView*>("browser")->page());
     wp->positionSave(getCurrentFileName());
 }
 
@@ -288,8 +286,8 @@ void MainWindow::positionRestore()
         return;
     }
     // Restore position
-    qbrWebEnginePage* wp =
-        static_cast<qbrWebEnginePage*>(findChild<QWebEngineView*>("browser")->page());
+    const auto wp =
+        dynamic_cast<qbrWebEnginePage*>(findChild<QWebEngineView*>("browser")->page());
     wp->positionRestore(getCurrentFileName());
 }
 

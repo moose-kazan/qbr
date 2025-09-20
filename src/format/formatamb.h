@@ -6,7 +6,7 @@
 #include <QString>
 #include <QHash>
 
-class FormatAMB : public Format
+class FormatAMB final : public Format
 {
 public:
     FormatAMB();

@@ -3,7 +3,7 @@
 
 #include "export.h"
 
-class ExportMarkdown : public Export
+class ExportMarkdown final : public Export
 {
 public:
     ExportMarkdown();

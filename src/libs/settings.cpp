@@ -23,17 +23,17 @@ int Settings::getUiVariant() {
   return getInstance()->value("uiVariant", 0).toInt();
 }
 
-void Settings::setUiVariant(int uiVaraint) {
-  getInstance()->setValue("uiVariant", uiVaraint);
+void Settings::setUiVariant(const int setUiVariant) {
+  getInstance()->setValue("uiVariant", setUiVariant);
 }
 
 void Settings::setFilePosition(const QString& fileName, const QPointF pos) {
-  QString cfgkey = "filePos_" + fileName;
+  const QString cfgkey = "filePos_" + fileName;
   getInstance()->setValue(cfgkey, pos);
 }
 
 QPointF Settings::getFilePosition(const QString& fileName) {
-  QString cfgkey = "filePos_" + fileName;
+  const QString cfgkey = "filePos_" + fileName;
   if (const QSettings *cfg = getInstance(); cfg->contains(cfgkey)) {
     return getInstance()->value(cfgkey).toPointF();
   }

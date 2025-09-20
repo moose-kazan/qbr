@@ -16,7 +16,7 @@ qbrunzip::qbrunzip(const bool CS) {
 
 bool qbrunzip::setData(QByteArray zipData) {
   zip_error_t zipError;
-  int buff_size = 4096;
+  constexpr int buff_size = 4096;
   char buff[buff_size];
   loaded = false;
 
@@ -48,8 +48,7 @@ bool qbrunzip::setData(QByteArray zipData) {
 
     zip_file *f = zip_fopen_index(zf, i, 0);
     while (true) {
-      zip_int64_t bytesRead = zip_fread(f, &buff, buff_size);
-      if (bytesRead == 0) {
+      if (const zip_int64_t bytesRead = zip_fread(f, &buff, buff_size); bytesRead == 0) {
         break;
       } else if (bytesRead > 0) {
         zipEntryData.append(buff, bytesRead);

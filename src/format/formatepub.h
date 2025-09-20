@@ -7,7 +7,7 @@
 #include <QDomNode>
 #include <QMap>
 
-class FormatEPub : public Format
+class FormatEPub final : public Format
 {
 public:
     FormatEPub();

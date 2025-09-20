@@ -9,7 +9,7 @@ QString ExportMarkdown::getFilter() {
 }
 
 void ExportMarkdown::setData(QBRBook *book) {
-    QStringList markdownLinesSrc = QTextDocumentFragment::fromHtml(book->html).toMarkdown(QTextDocument::MarkdownNoHTML).split("\n");
+    const QStringList markdownLinesSrc = QTextDocumentFragment::fromHtml(book->html).toMarkdown(QTextDocument::MarkdownNoHTML).split("\n");
     QStringList markdownDocument;
 
     for (int i = 0; i < markdownLinesSrc.count(); i++) {
@@ -23,7 +23,7 @@ void ExportMarkdown::setData(QBRBook *book) {
     htmlData = markdownDocument.join("\n");
 }
 
-bool ExportMarkdown::save(QString filename)
+bool ExportMarkdown::save(const QString fileName)
 {
-    return _save(filename, htmlData.toUtf8());
+    return _save(fileName, htmlData.toUtf8());
 }

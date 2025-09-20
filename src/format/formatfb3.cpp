@@ -25,7 +25,7 @@ QString FormatFB3::getFormatTitle()
 }
 
 
-bool FormatFB3::loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) {
+bool FormatFB3::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
     // reset data from previous file
     htmlData = "";
     bookInfo.clear();
@@ -45,7 +45,7 @@ bool FormatFB3::loadFile(QString fileName, QByteArray fileData, qbrunzip *zipDat
         return false;
     }
 
-    QStringList requiredFiles = {
+    const QStringList requiredFiles = {
         "[Content_Types].xml",
         "_rels/.rels",
     };
@@ -78,13 +78,13 @@ QString FormatFB3::expandFileName(const QString& baseFileName, QString expandabl
 
 QString FormatFB3::getRelsFileName(const QString& baseFileName) {
     const QFileInfo fi(baseFileName);
-    QString relsFileName = fi.dir().dirName().append("/_rels/").append(fi.fileName().append(".rels"));
+    const QString relsFileName = fi.dir().dirName().append("/_rels/").append(fi.fileName().append(".rels"));
 
     return QDir::cleanPath(relsFileName);
 }
 
 void FormatFB3::parseMetadata(const qbrunzip *ZipData, const QString& entryName) {
-    QByteArray fb3_description_data(ZipData->getFileData(entryName));
+    const QByteArray fb3_description_data(ZipData->getFileData(entryName));
     if (fb3_description_data.isNull()) {
         return;
     }
@@ -94,15 +94,13 @@ void FormatFB3::parseMetadata(const qbrunzip *ZipData, const QString& entryName)
         return;
     }
 
-    QDomElement nodeBookTitle = descriptionXml.firstChildElement("fb3-description").firstChildElement("title").firstChildElement("main");
-    if (!nodeBookTitle.isNull()) {
+    if (const QDomElement nodeBookTitle = descriptionXml.firstChildElement("fb3-description").firstChildElement("title").firstChildElement("main"); !nodeBookTitle.isNull()) {
         bookInfo.Title = nodeBookTitle.text();
     }
 
     QDomNode relationsItem = descriptionXml.firstChildElement("fb3-description").firstChildElement("fb3-relations").firstChild();
     while (!relationsItem.isNull()) {
-        QDomElement authorElement = relationsItem.toElement();
-        if (!authorElement.isNull() && authorElement.attribute("link", "").compare("author") == 0) {
+        if (QDomElement authorElement = relationsItem.toElement(); !authorElement.isNull() && authorElement.attribute("link", "").compare("author") == 0) {
             QString firstName = authorElement.firstChildElement("first-name").text();
             QString lastName = authorElement.firstChildElement("last-name").text();
             QString middleName = authorElement.firstChildElement("middle-name").text();
@@ -135,7 +133,7 @@ QList<QDomElement> FormatFB3::parseRels(const qbrunzip *ZipData, const QString& 
     QList<QDomElement> relsData;
 
     // Try to load body rels file
-    QByteArray bodyRelsData(ZipData->getFileData(entryName));
+    const QByteArray bodyRelsData(ZipData->getFileData(entryName));
     if (bodyRelsData.isNull()) {
         return relsData;
     }
@@ -159,7 +157,7 @@ QList<QDomElement> FormatFB3::parseRels(const qbrunzip *ZipData, const QString& 
 }
 
 QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QString,QString>& bodyBinaries) {
-    QHash<QString, QString> baseTags = {
+    const QHash<QString, QString> baseTags = {
         {"strong",        "strong"},
         {"p",             "p"},
         {"em0",           "em"},
@@ -176,7 +174,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
         {"img",           "img"}
     };
 
-    QHash<QString, QString> tagToClass = {
+    const QHash<QString, QString> tagToClass = {
         {"fb3-body",   "document_body"},
         {"title",      "doc_title"},
         {"subtitle",   "doc_subtitle"},
@@ -189,13 +187,13 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
         {"annotation", "doc_annotation"},
     };
 
-    QList<QString> allowedAttributes = {"id", "name"};
+    const QList<QString> allowedAttributes = {"id", "name"};
 
     switch (currentNode.nodeType()) {
     case QDomNode::ElementNode:
     {
         QString returnTagName = "div";
-        QString currentNodeTag = currentNode.nodeName().toLower();
+        const QString currentNodeTag = currentNode.nodeName().toLower();
 
         if (baseTags.contains(currentNodeTag)) {
             returnTagName = baseTags.value(currentNodeTag);
@@ -212,28 +210,26 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
 
         if (returnTagName.compare("img") == 0) {
             if (currentNode.attributes().contains("src")) {
-                QString imgSrc = currentNode.attributes().namedItem("src").nodeValue();
+                const QString imgSrc = currentNode.attributes().namedItem("src").nodeValue();
                 returnValue.setAttribute("src", bodyBinaries.value(imgSrc));
             }
         }
         else if (returnTagName.compare("a") == 0) {
             if (currentNode.attributes().contains("href")) {
-                QString aHref = currentNode.attributes().namedItem("href").nodeValue();
+                const QString aHref = currentNode.attributes().namedItem("href").nodeValue();
                 //qDebug() << "a.href" << aHref;
                 returnValue.setAttribute("href", aHref);
                 returnValue.setAttribute("title", aHref);
             }
             if (currentNode.attributes().contains("type")) {
-                QString aType = currentNode.attributes().namedItem("type").nodeValue();
-                if (aType.compare("note") == 0) {
+                if (const QString aType = currentNode.attributes().namedItem("type").nodeValue(); aType.compare("note") == 0) {
                     returnValue.setAttribute("class", "doc_note_link");
                 }
             }
         }
 
         for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
-            const QString& attrName = allowedAttributes.at(i);
-            if (currentNode.attributes().contains(attrName)) {
+            if (const QString& attrName = allowedAttributes.at(i); currentNode.attributes().contains(attrName)) {
                 returnValue.setAttribute(attrName, currentNode.attributes().namedItem(attrName).nodeValue());
             }
         }
@@ -266,7 +262,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
 
 QList<QDomNode> FormatFB3::parseBody(const qbrunzip* zipData, const QString& bodyEntryName) const
 {
-    QList<QDomElement> relsData = parseRels(zipData, getRelsFileName(bodyEntryName));
+    const QList<QDomElement> relsData = parseRels(zipData, getRelsFileName(bodyEntryName));
     QMap<QString,QString> bodyBinaries;
 
     for (int i = 0; i < relsData.count(); i++) {
@@ -287,7 +283,7 @@ QList<QDomNode> FormatFB3::parseBody(const qbrunzip* zipData, const QString& bod
     }
 
     QList<QDomNode> processResult;
-    QDomNodeList docBodies = xmlFile.elementsByTagName("fb3-body");
+    const QDomNodeList docBodies = xmlFile.elementsByTagName("fb3-body");
 
     for (int i = 0; i < docBodies.length(); i++) {
         QDomNode convertedNode = parseBodyNode(docBodies.at(i), bodyBinaries);
@@ -298,8 +294,8 @@ QList<QDomNode> FormatFB3::parseBody(const qbrunzip* zipData, const QString& bod
     return processResult;
 }
 
-bool FormatFB3::parseFile(const qbrunzip *zipData) {
-    QByteArray docContentTypeData = zipData->getFileData("[Content_Types].xml");
+bool FormatFB3::parseFile(const qbrunzip *ZipData) {
+    const QByteArray docContentTypeData = ZipData->getFileData("[Content_Types].xml");
     if (docContentTypeData.isNull()) {
         // qDebug() << "can't extract [Content_Types].xml";
         return false;
@@ -334,7 +330,7 @@ bool FormatFB3::parseFile(const qbrunzip *zipData) {
     QDomElement overrideNode = docContentType.firstChildElement("Types").firstChildElement("Override");
     while (!overrideNode.isNull()) {
         if (overrideNode.hasAttribute("PartName") && overrideNode.hasAttribute("ContentType")) {
-            QString overridePartName = expandFileName("[Content_Types].xml", overrideNode.attribute("PartName"));
+            const QString overridePartName = expandFileName("[Content_Types].xml", overrideNode.attribute("PartName"));
             if (overrideNode.attribute("ContentType", "").compare("application/fb3-body+xml") == 0) {
                 bodyEntryName = overridePartName;
             }
@@ -346,17 +342,17 @@ bool FormatFB3::parseFile(const qbrunzip *zipData) {
         overrideNode = overrideNode.nextSiblingElement("Override");
     }
 
-    QList<QDomElement> relsData = parseRels(zipData, "_rels/.rels");
+    const QList<QDomElement> relsData = parseRels(ZipData, "_rels/.rels");
     for (int i = 0; i < relsData.count(); i++) {
         QString nodeType = relsData.at(i).attribute("Type", "");
-        QString nodeTarget = relsData.at(i).attribute("Target", "");
+        const QString nodeTarget = relsData.at(i).attribute("Target", "");
 
         if (nodeType.compare(RELATION_THUMBNAIL) == 0) {
-            bookInfo.Cover.loadFromData(zipData->getFileData(nodeTarget));
+            bookInfo.Cover.loadFromData(ZipData->getFileData(nodeTarget));
         }
     }
 
-    QList<QDomNode> documentBody = parseBody(zipData, bodyEntryName);
+    const QList<QDomNode> documentBody = parseBody(ZipData, bodyEntryName);
     templateInit();
     for (int i = 0; i < documentBody.count(); i++)
     {
@@ -365,7 +361,7 @@ bool FormatFB3::parseFile(const qbrunzip *zipData) {
 
     htmlData = templateAsString();
 
-    parseMetadata(zipData, descriptionEntryName);
+    parseMetadata(ZipData, descriptionEntryName);
 
     return true;
 }

@@ -8,14 +8,14 @@
 #include <QSizeF>
 #include <QUrl>
 
-qbrWebEnginePage::qbrWebEnginePage() : QWebEnginePage() {
+qbrWebEnginePage::qbrWebEnginePage() {
   // qDebug() << "WebEnginePage created";
 
   setZoomFactor(Helpers::getDesktopScale());
 }
 
 bool qbrWebEnginePage::acceptNavigationRequest(
-    const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame) {
+    const QUrl &url, const NavigationType type, const bool isMainFrame) {
   (void)type;
   (void)isMainFrame;
 
@@ -29,13 +29,13 @@ bool qbrWebEnginePage::acceptNavigationRequest(
 
 void qbrWebEnginePage::positionSave(const QString& fileName) const
 {
-  QPointF sPos = scrollPosition();
-  QSizeF sSize = contentsSize();
-  QPointF pos = QPointF(sPos.x() / sSize.height(), sPos.y() / sSize.width());
+  const QPointF sPos = scrollPosition();
+  const QSizeF sSize = contentsSize();
+  const auto pos = QPointF(sPos.x() / sSize.height(), sPos.y() / sSize.width());
   Settings::setFilePosition(fileName, pos);
 }
 
-void qbrWebEnginePage::positionRestore(QString fileName) {
+void qbrWebEnginePage::positionRestore(const QString& fileName) {
   qDebug() << "Restoring position for file: " << fileName;
   const QPointF pos = Settings::getFilePosition(fileName);
   runJavaScript(QString("window.scrollTo(%1*document.body.scrollHeight, "

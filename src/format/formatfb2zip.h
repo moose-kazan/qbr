@@ -4,7 +4,7 @@
 #include "format.h"
 #include "formatfb2.h"
 
-class FormatFB2Zip : public Format
+class FormatFB2Zip final : public Format
 {
 public:
     FormatFB2Zip();

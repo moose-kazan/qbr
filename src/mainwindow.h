@@ -17,17 +17,17 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow final : public QMainWindow
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event) override;
     void readSettings() const;
     void loadBook(const QString& fileName);
     void bookLoadFinished(bool ok);
-    ~MainWindow();
+    ~MainWindow() override;
     void setCurrentFileName(const QString& fileName);
     QString getCurrentFileName();
 

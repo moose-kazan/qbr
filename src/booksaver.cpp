@@ -12,6 +12,6 @@ QStringList BookSaver::getFilter() {
 
 Export* BookSaver::exporterByFilter(const QString& filter) const
 {
-    const int idx = filters.indexOf(filter);
+    const long idx = filters.indexOf(filter);
     return exporters.at(idx);
 }

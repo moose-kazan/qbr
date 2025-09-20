@@ -7,13 +7,13 @@ namespace Ui {
 class FindDialog;
 }
 
-class FindDialog : public QDialog
+class FindDialog final : public QDialog
 {
     Q_OBJECT
 
 public:
     explicit FindDialog(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
-    ~FindDialog();
+    ~FindDialog() override;
 
 private:
     void showEvent(QShowEvent *event) override;

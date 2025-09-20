@@ -1,8 +1,6 @@
 #ifndef BOOKLOADER_H
 #define BOOKLOADER_H
 
-#include <QRegularExpression>
-
 #include "libs/qbrunzip.h"
 #include "format/format.h"
 #include "format/formatamb.h"
@@ -12,7 +10,7 @@
 #include "format/formatfb3.h"
 #include "format/formatepub.h"
 
-class BookLoader : public QObject
+class BookLoader final : public QObject
 {
     Q_OBJECT
 public:

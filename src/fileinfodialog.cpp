@@ -1,7 +1,7 @@
 #include "fileinfodialog.h"
 #include "ui_fileinfodialog.h"
 
-FileInfoDialog::FileInfoDialog(QWidget *parent, Qt::WindowFlags f)
+FileInfoDialog::FileInfoDialog(QWidget *parent, const Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::FileInfoDialog) {
 
   ui->setupUi(this);
@@ -16,7 +16,7 @@ void FileInfoDialog::setBookInfo(const qbrbookinfo& newBookInfo) {
 
 void FileInfoDialog::showEvent(QShowEvent *event) {
   (void)event;
-  QTableWidget *tw = findChild<QTableWidget *>("bookInfo");
+  auto *tw = findChild<QTableWidget *>("bookInfo");
 
   tw->clear();
   tw->setRowCount(0); // Workaround for some bugly systems
@@ -42,7 +42,7 @@ void FileInfoDialog::showEvent(QShowEvent *event) {
     tw->item(i, 0)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
   }
 
-  QLabel *cw = findChild<QLabel *>("bookCover");
+  auto *cw = findChild<QLabel *>("bookCover");
   QPixmap coverPixmap;
   if (!bookInfo.Cover.isNull()) {
       coverPixmap.convertFromImage(bookInfo.Cover);

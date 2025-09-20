@@ -11,7 +11,7 @@ BookLoader::BookLoader() {
         QStringList formatExts = bookParsers.at(i)->getExtensions();
 
         formatExts.replaceInStrings(re, "*.");
-        filterLine = QString("%1 (%2)").arg(bookParsers.at(i)->getFormatTitle()).arg(formatExts.join(" "));
+        filterLine = QString("%1 (%2)").arg(bookParsers.at(i)->getFormatTitle(), formatExts.join(" "));
         filtersData.append(filterLine);
 
         allExts.append(formatExts);
@@ -40,17 +40,16 @@ bool BookLoader::loadFile(const QString& fileName)
     QFile f(fileName);
     f.open(QIODevice::ReadOnly);
     QDataStream in(&f);
-    int buff_size = 4096;
+    constexpr int buff_size = 4096;
     char buff[buff_size];
     while (!in.atEnd()) {
-        int readed = in.readRawData(buff, buff_size);
-        if (readed > 0) {
+        if (const int readed = in.readRawData(buff, buff_size); readed > 0) {
             fileData.append(buff, readed);
         }
     }
     f.close();
 
-    bool isZipFile = Format::isZipFile(fileData);
+    const bool isZipFile = Format::isZipFile(fileData);
 
     for (int i = 0; i < bookParsers.count(); i++) {
         if (bookParsers.at(i)->needUnzip()) {

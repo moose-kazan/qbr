@@ -34,7 +34,7 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
     return false;
   }
 
-  int filesCount = qFromLittleEndian<qint16>(fileData.mid(4, 2).data());
+  const int filesCount = qFromLittleEndian<qint16>(fileData.mid(4, 2).data());
 
   for (int i = 0; i < filesCount; i++) {
     QString entryName = "";
@@ -79,8 +79,7 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
 
   for (int i = 0; i < entryNames.length() - 1; i++) {
     for (int j = i + 1; j < entryNames.length(); j++) {
-      int r = collator.compare(entryNames.at(i), entryNames.at(j));
-      if (r > 0) {
+      if (const int r = collator.compare(entryNames.at(i), entryNames.at(j)); r > 0) {
         QString tmp = entryNames.at(i);
         entryNames.replace(i, entryNames.at(j));
         entryNames.replace(j, tmp);
@@ -107,7 +106,7 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
 QString FormatAMB::convertToUtf8(QByteArray fileData) const
 {
   QString rv;
-  for (unsigned char cur_char : fileData) {
+  for (const unsigned char cur_char : fileData) {
     if (cur_char < 128) {
       rv.append(QChar(cur_char));
     } else {
@@ -133,7 +132,7 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
   rv.append(R"(. <a href="#index.ama">Go to index</a>.)");
   rv.append("</div>\n");
 
-  QString fileData = convertToUtf8(ambEntries.value(fileName, ""));
+  const QString fileData = convertToUtf8(ambEntries.value(fileName, ""));
 
   bool readlink = false;
   bool escNow = false;

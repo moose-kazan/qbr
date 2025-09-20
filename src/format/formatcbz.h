@@ -7,7 +7,7 @@
 #include <QString>
 
 
-class FormatCBZ : public Format
+class FormatCBZ final : public Format
 {
 public:
     FormatCBZ();

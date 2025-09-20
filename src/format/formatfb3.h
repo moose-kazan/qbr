@@ -9,7 +9,7 @@
 #include <QRegularExpression>
 
 
-class FormatFB3 : public Format
+class FormatFB3 final : public Format
 {
 public:
     FormatFB3();

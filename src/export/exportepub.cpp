@@ -4,7 +4,6 @@
 
 #include "../libs/qbrzip.h"
 
-#include <QDebug>
 #include <QDomDocument>
 #include <QUuid>
 
@@ -21,7 +20,7 @@ void ExportEPub::setData(QBRBook *book) {
     this->book = book;;
 }
 
-bool ExportEPub::save(QString fileName)
+bool ExportEPub::save(const QString fileName)
 {
     zipWriter->newFile();
     zipWriter->addItem({"mimetype", "application/epub+zip", zipItem::METHOD_STORE});
@@ -43,9 +42,9 @@ QByteArray ExportEPub::prepareContainerXml()
 )").toUtf8();
 }
 
-QByteArray ExportEPub::prepareContentOpf()
+QByteArray ExportEPub::prepareContentOpf() const
 {
-    QString contentOpfTemplate = QString(R"(<?xml version="1.0" encoding="UTF-8"?>
+    const auto contentOpfTemplate = QString(R"(<?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id">
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/">
     <dc:title></dc:title>
@@ -61,7 +60,7 @@ QByteArray ExportEPub::prepareContentOpf()
     <itemref idref="index.xhtml" />
   </spine>
 </package>)");
-    QDomDocument contentOpf = QDomDocument();
+    auto contentOpf = QDomDocument();
     contentOpf.setContent(contentOpfTemplate);
     // Title
     contentOpf.firstChildElement("package")
@@ -69,7 +68,7 @@ QByteArray ExportEPub::prepareContentOpf()
         .firstChildElement("dc:title")
         .appendChild(QDomDocument().createTextNode(book->metadata.Title));
     // UUID
-    QString uuid = QUuid::createUuid().toString(QUuid::Id128);
+    const QString uuid = QUuid::createUuid().toString(QUuid::Id128);
     contentOpf.firstChildElement("package")
         .firstChildElement("metadata")
         .firstChildElement("dc:identifier")
@@ -84,7 +83,7 @@ QByteArray ExportEPub::prepareContentOpf()
 
 QByteArray ExportEPub::prepareNavXhtml()
 {
-    QString navXhtml = QString(R"(<html xmlns="http://www.w3.org/1999/xhtml">
+    const auto navXhtml = QString(R"(<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Table of Contents</title>
 </head>

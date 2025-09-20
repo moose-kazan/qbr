@@ -19,10 +19,10 @@ int main(int argc, char *argv[]) {
 
   QTranslator translator;
   if (translator.load(langFilePath)) {
-    a.installTranslator(&translator);
+    QApplication::installTranslator(&translator);
   }
 
-  a.setWindowIcon(QIcon(":/icon/64x64/qbr.png"));
+  QApplication::setWindowIcon(QIcon(":/icon/64x64/qbr.png"));
   MainWindow w;
   w.show();
 
@@ -30,12 +30,12 @@ int main(int argc, char *argv[]) {
    * Default file from resources
    * Will be displayed if not file loaded
    */
-  w.loadBook(a.translate("main.cpp", ":/res/default_fb2.xml"));
+  w.loadBook(QApplication::translate("main.cpp", ":/res/default_fb2.xml"));
   if (argc > 1) {
     w.loadBook(argv[1]);
   } else if (Settings::getLastOpenedFileEnable() &&
              Settings::getLastOpenedFile().length() > 0) {
     w.loadBook(Settings::getLastOpenedFile());
   }
-  return a.exec();
+  return QApplication::exec();
 }

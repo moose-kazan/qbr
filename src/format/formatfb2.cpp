@@ -25,7 +25,7 @@ QString FormatFB2::getFormatTitle()
 
 
 QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QString, QString>& fb2Binaries) {
-    QHash<QString, QString> baseTags = {
+    const QHash<QString, QString> baseTags = {
         {"strong",        "strong"},
         {"p",             "p"},
         {"emphasis",      "em"},
@@ -43,7 +43,7 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
         {"td",            "td"},
     };
 
-    QHash<QString, QString> tagToClass = {
+    const QHash<QString, QString> tagToClass = {
         {"body",     "document_body"},
         {"title",    "doc_title"},
         {"subtitle", "doc_subtitle"},
@@ -52,13 +52,13 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
         {"section",  "doc_section"},
     };
 
-    QList<QString> allowedAttributes = {"id", "name"};
+    const QList<QString> allowedAttributes = {"id", "name"};
 
     switch (currentNode.nodeType()) {
     case QDomNode::ElementNode:
         {
             QString returnTagName = "div";
-            QString currentNodeTag = currentNode.nodeName().toLower();
+            const QString currentNodeTag = currentNode.nodeName().toLower();
 
             if (baseTags.contains(currentNodeTag)) {
                 returnTagName = baseTags.value(currentNodeTag);
@@ -75,29 +75,27 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
 
             if (returnTagName.compare("img") == 0) {
                 if (currentNode.attributes().contains("href")) {
-                    QString imgHref = currentNode.attributes().namedItem("href").nodeValue();
+                    const QString imgHref = currentNode.attributes().namedItem("href").nodeValue();
                     returnValue.setAttribute("id", imgHref);
                     returnValue.setAttribute("src", fb2Binaries.value(imgHref));
                 }
             }
             else if (returnTagName.compare("a") == 0) {
                 if (currentNode.attributes().contains("href")) {
-                    QString aHref = currentNode.attributes().namedItem("href").nodeValue();
+                    const QString aHref = currentNode.attributes().namedItem("href").nodeValue();
                     //qDebug() << "a.href" << aHref;
                     returnValue.setAttribute("href", aHref);
                     returnValue.setAttribute("title", aHref);
                 }
                 if (currentNode.attributes().contains("type")) {
-                    QString aType = currentNode.attributes().namedItem("type").nodeValue();
-                    if (aType.compare("note") == 0) {
+                    if (const QString aType = currentNode.attributes().namedItem("type").nodeValue(); aType.compare("note") == 0) {
                         returnValue.setAttribute("class", "doc_note_link");
                     }
                 }
             }
 
             for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
-                const QString& attrName = allowedAttributes.at(i);
-                if (currentNode.attributes().contains(attrName)) {
+                if (const QString& attrName = allowedAttributes.at(i); currentNode.attributes().contains(attrName)) {
                     returnValue.setAttribute(attrName, currentNode.attributes().namedItem(attrName).nodeValue());
                 }
             }
@@ -179,7 +177,7 @@ bool FormatFB2::parseXml(const QByteArray& fileData) {
 }
 
 void FormatFB2::parseBookInfo(const QDomDocument *parserXml) {
-  QDomElement nodeTitleInfo = parserXml->firstChildElement("FictionBook")
+  const QDomElement nodeTitleInfo = parserXml->firstChildElement("FictionBook")
                                   .firstChildElement("description")
                                   .firstChildElement("title-info");
   if (nodeTitleInfo.isNull()) {
@@ -187,12 +185,11 @@ void FormatFB2::parseBookInfo(const QDomDocument *parserXml) {
     return;
   }
 
-  QDomElement nodeBookTitle = nodeTitleInfo.firstChildElement("book-title");
-  if (!nodeBookTitle.isNull()) {
+  if (const QDomElement nodeBookTitle = nodeTitleInfo.firstChildElement("book-title"); !nodeBookTitle.isNull()) {
       bookInfo.Title = nodeBookTitle.text();
   }
 
-  QDomNodeList nodeAuthors = nodeTitleInfo.elementsByTagName("author");
+  const QDomNodeList nodeAuthors = nodeTitleInfo.elementsByTagName("author");
   for (int i = 0; i < nodeAuthors.count(); i++) {
     QString firstName = nodeAuthors.at(i).firstChildElement("first-name").text();
     QString lastName = nodeAuthors.at(i).firstChildElement("last-name").text();
@@ -214,9 +211,8 @@ void FormatFB2::parseBookInfo(const QDomDocument *parserXml) {
     }
   }
 
-  QDomElement coverImageNode = nodeTitleInfo.firstChildElement("coverpage").firstChildElement("image");
-  if (!coverImageNode.isNull() && coverImageNode.hasAttribute("href")) {
-      QString coverImageName = coverImageNode.attribute("href");
+  if (const QDomElement coverImageNode = nodeTitleInfo.firstChildElement("coverpage").firstChildElement("image"); !coverImageNode.isNull() && coverImageNode.hasAttribute("href")) {
+      const QString coverImageName = coverImageNode.attribute("href");
       QDomElement binaryItem = parserXml->firstChildElement("FictionBook").firstChildElement("binary");
       while (!binaryItem.isNull()) {
           if (binaryItem.hasAttribute("id")) {

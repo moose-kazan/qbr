@@ -15,7 +15,7 @@ class BookSaver
 public:
     BookSaver();
     QStringList getFilter();
-    Export* exporterByFilter(const QString& filter) const;
+    [[nodiscard]] Export* exporterByFilter(const QString& filter) const;
 private:
     QList<Export*> exporters = {
         new ExportHTML(),

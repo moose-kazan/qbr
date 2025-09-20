@@ -6,13 +6,13 @@
 class qbrunzip
 {
 public:
-    qbrunzip(bool CS = true);
+    explicit qbrunzip(bool CS = true);
     bool setData(QByteArray zipData);
-    QStringList getFileNameList() const;
-    QByteArray getFileData(QString fileName) const;
-    bool fileExists(QString fileName) const;
+    [[nodiscard]] QStringList getFileNameList() const;
+    [[nodiscard]] QByteArray getFileData(QString fileName) const;
+    [[nodiscard]] bool fileExists(QString fileName) const;
     void clear();
-    bool isLoaded() const;
+    [[nodiscard]] bool isLoaded() const;
 
     const int MAX_FILE_NAME_LENGTH=256;
 

@@ -35,7 +35,7 @@ bool Format::needUnzip() {
 
 
 bool Format::isZipFile(const QByteArray& data) {
-    char zipSignature[] = {0x50, 0x4B, 0x03, 0x04};
+    constexpr char zipSignature[] = {0x50, 0x4B, 0x03, 0x04};
     return data.startsWith(QByteArrayView(zipSignature));
 }
 
@@ -77,7 +77,7 @@ void Format::templateInit()
     rootNode.appendChild(nodeHead);
 
     // <body></body>
-    QDomElement nodeBody = templateCreateElement("body");
+    const QDomElement nodeBody = templateCreateElement("body");
     rootNode.appendChild(nodeBody);
 
     templateDoc.appendChild(rootNode);

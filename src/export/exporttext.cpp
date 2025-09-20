@@ -11,7 +11,7 @@ QString ExportText::getFilter() {
 void ExportText::setData(QBRBook *book) {
     htmlData = QTextDocumentFragment::fromHtml(book->html).toPlainText();
 }
-bool ExportText::save(QString filename)
+bool ExportText::save(const QString fileName)
 {
-    return _save(filename, htmlData.toUtf8());
+    return _save(fileName, htmlData.toUtf8());
 }

@@ -3,7 +3,7 @@
 
 #include "export.h"
 
-class ExportText : public Export
+class ExportText final : public Export
 {
 public:
     ExportText();

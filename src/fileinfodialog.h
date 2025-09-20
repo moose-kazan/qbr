@@ -8,20 +8,20 @@ namespace Ui {
 class FileInfoDialog;
 }
 
-class FileInfoDialog : public QDialog
+class FileInfoDialog final : public QDialog
 {
     Q_OBJECT
 
 public:
     explicit FileInfoDialog(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
-    ~FileInfoDialog();
+    ~FileInfoDialog() override;
 
     void setBookInfo(const qbrbookinfo& newBookInfo);
 
 private:
     qbrbookinfo bookInfo;
 
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event) override;
     Ui::FileInfoDialog *ui;
 };
 

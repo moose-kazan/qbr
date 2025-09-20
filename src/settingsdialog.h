@@ -7,14 +7,14 @@ namespace Ui {
 class SettingsDialog;
 }
 
-class SettingsDialog : public QDialog
+class SettingsDialog final : public QDialog
 {
     Q_OBJECT
 public:
-    SettingsDialog(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
-    ~SettingsDialog();
+    explicit SettingsDialog(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
+    ~SettingsDialog() override;
     void settingsLoad();
-    void settingsSave();
+    void settingsSave() const;
 
 private:
     Ui::SettingsDialog *ui;

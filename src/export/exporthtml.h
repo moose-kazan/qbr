@@ -3,7 +3,7 @@
 
 #include "export.h"
 
-class ExportHTML : public Export
+class ExportHTML final : public Export
 {
 public:
     ExportHTML();

@@ -2,9 +2,9 @@
 
 cp -av /src /source
 
-cd /source
+cd /source || exit 1
 chown -R root:root /source
-git checkout v$PKG_VERSION
+git checkout "v$PKG_VERSION"
 
 PKG_DISTR=$(lsb_release -cs)
 
@@ -19,5 +19,5 @@ dpkg-buildpackage --root-command=fakeroot --build=source
 
 ls ..
 
-mv -v ../qbr_${PKG_VERSION}* /release/
+mv -v "../qbr_${PKG_VERSION}*" /release/
 #mv -v ../qbr-dbgsym_${PKG_VERSION}* /release/

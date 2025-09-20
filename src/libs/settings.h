@@ -9,9 +9,9 @@ class Settings
 public:
     Settings();
 
-    static const int uiToolbarAndMenu = 0;
-    static const int uiMenuOnly = 1;
-    static const int uiToolbarOnly = 2;
+    static constexpr int uiToolbarAndMenu = 0;
+    static constexpr int uiMenuOnly = 1;
+    static constexpr int uiToolbarOnly = 2;
 
     static QSettings* getInstance();
 

@@ -14,7 +14,7 @@ void Export::setData(QBRBook *book)
     (void)book;
 }
 
-bool Export::save(QString fileName)
+bool Export::save(const QString fileName)
 {
     (void)fileName;
     return false;
@@ -24,8 +24,7 @@ bool Export::_save(const QString& fileName, const QByteArray& data)
 {
     try
     {
-        QFile f(fileName);
-        if (f.open(QIODevice::WriteOnly))
+        if (QFile f(fileName); f.open(QIODevice::WriteOnly))
         {
             f.write(data);
             f.close();

@@ -13,16 +13,16 @@ qreal Helpers::getDesktopScale() {
   // By default X.Org have 72 dpi
   const QScreen *desktop = QApplication::screens().at(0);
 
-  qreal desktopDpi = desktop->physicalDotsPerInch();
+  const qreal desktopDpi = desktop->physicalDotsPerInch();
   return desktopDpi > 72 ? desktopDpi / 72 : 1;
 }
 
-int Helpers::getDesktopScaledInt(int n) {
-  int rv = round(getDesktopScale() * n);
+int Helpers::getDesktopScaledInt(const int n) {
+  const int rv = round(getDesktopScale() * n);
   return rv;
 }
 
-QString Helpers::getDesktopScaledIntAsQString(int n) {
+QString Helpers::getDesktopScaledIntAsQString(const int n) {
   QString rv;
   rv.setNum(getDesktopScaledInt(n));
   return rv;

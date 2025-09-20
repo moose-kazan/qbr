@@ -11,7 +11,7 @@
 
 FormatEPub::FormatEPub() = default;
 
-bool FormatEPub::loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) {
+bool FormatEPub::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
     (void)fileName;
 
     bookInfo.metadata.clear();
@@ -61,18 +61,16 @@ bool FormatEPub::isValidFile(const qbrunzip *zipData) {
 QStringList FormatEPub::getRootFiles(const qbrunzip *zipData) {
     QStringList rootFiles;
 
-    QDomDocument containerXml;
     QString containerXmlErrorMsg;
 
-    if (!containerXml.setContent(zipData->getFileData("META-INF/container.xml"), true, &containerXmlErrorMsg)) {
+    if (QDomDocument containerXml; !containerXml.setContent(zipData->getFileData("META-INF/container.xml"), true, &containerXmlErrorMsg)) {
         qDebug() << "Can't read META-INF/container.xml: " << containerXmlErrorMsg;
     }
     else {
         QDomElement rootFileNode = containerXml.firstChildElement("container").firstChildElement("rootfiles").firstChildElement("rootfile");
         while (!rootFileNode.isNull()) {
             if (rootFileNode.attribute("media-type", "").compare("application/oebps-package+xml") == 0) {
-                QString rootFilePath = rootFileNode.attribute("full-path", "");
-                if (rootFilePath.length() > 0) {
+                if (QString rootFilePath = rootFileNode.attribute("full-path", ""); rootFilePath.length() > 0) {
                     rootFiles.append(rootFilePath);
                 }
             }
@@ -93,19 +91,16 @@ QStringList FormatEPub::getEncryptedFiles(const qbrunzip *zipData) {
 
     qDebug() << "File partialy or fully encrypted!";
 
-    QDomDocument containerXml;
     QString containerXmlErrorMsg;
 
-    if (!containerXml.setContent(zipData->getFileData("META-INF/encryption.xml"), true, &containerXmlErrorMsg)) {
+    if (QDomDocument containerXml; !containerXml.setContent(zipData->getFileData("META-INF/encryption.xml"), true, &containerXmlErrorMsg)) {
         qDebug() << "Can't read META-INF/encryption.xml: " << containerXmlErrorMsg;
     }
     else {
         QDomElement encryptedData = containerXml.firstChildElement("encryption").firstChildElement("EncryptedData");
         while (!encryptedData.isNull()) {
-            QDomElement cipherReference = encryptedData.firstChildElement("CipherData").firstChildElement("CipherReference");
-            if (cipherReference.hasAttribute("URI")) {
-                QString encryptedFile = cipherReference.attribute("URI", "");
-                if (encryptedFile.length() > 0) {
+            if (QDomElement cipherReference = encryptedData.firstChildElement("CipherData").firstChildElement("CipherReference"); cipherReference.hasAttribute("URI")) {
+                if (QString encryptedFile = cipherReference.attribute("URI", ""); encryptedFile.length() > 0) {
                     qDebug() << "Found encrypted object:" << encryptedFile;
                     encryptedFiles.append(encryptedFile);
                 }
@@ -138,8 +133,7 @@ QString FormatEPub::expandFileName(const QString& baseFileName, QString expandab
 }
 
 QString FormatEPub::prepareLink(const QString& baseFileName, QString link) {
-    QUrl linkUrl(link);
-    if (linkUrl.scheme().compare("") != 0) {
+    if (const QUrl linkUrl(link); linkUrl.scheme().compare("") != 0) {
         return link;
     }
     else if (linkUrl.hasFragment()) {
@@ -157,7 +151,7 @@ QString FormatEPub::prepareDataLink(const qbrunzip *zipData, QString dataFileNam
         return EMPTYGIF;
     }
 
-    QUrl dataFileUrl(dataFileName);
+    const QUrl dataFileUrl(dataFileName);
 
     // External web link
     if (QStringList({"http", "https"}).contains(dataFileUrl.scheme(), Qt::CaseInsensitive)) {
@@ -218,7 +212,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrunzip *zipData, const QString& xHTMLFil
         {
 
             QString returnTagName = "div";
-            QString currentNodeTag = currentNode.nodeName().toLower();
+            const QString currentNodeTag = currentNode.nodeName().toLower();
 
             if (allowedTags.contains(currentNodeTag)) {
                 returnTagName = currentNodeTag;
@@ -237,22 +231,21 @@ QDomNode FormatEPub::processXHTMLNode(qbrunzip *zipData, const QString& xHTMLFil
 
             if (returnTagName.compare("a") == 0) {
                 if (currentNode.attributes().contains("href")) {
-                    QString aHref = prepareLink(xHTMLFileName, currentNode.attributes().namedItem("href").nodeValue());
+                    const QString aHref = prepareLink(xHTMLFileName, currentNode.attributes().namedItem("href").nodeValue());
                     returnValue.setAttribute("href", aHref);
                     returnValue.setAttribute("title", aHref);
                 }
             }
             else if (returnTagName.compare("img") == 0) {
                 if (currentNode.attributes().contains("src")) {
-                    QString imgSrc = currentNode.attributes().namedItem("src").nodeValue();
-                    QString imgSrcFull = expandFileName(xHTMLFileName, imgSrc);
+                    const QString imgSrc = currentNode.attributes().namedItem("src").nodeValue();
+                    const QString imgSrcFull = expandFileName(xHTMLFileName, imgSrc);
                     returnValue.setAttribute("src", prepareDataLink(zipData, imgSrcFull, encryptedFiles));
                 }
             }
 
             for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
-                const QString& attrName = allowedAttributes.at(i);
-                if (currentNode.attributes().contains(attrName)) {
+                if (const QString& attrName = allowedAttributes.at(i); currentNode.attributes().contains(attrName)) {
                     returnValue.setAttribute(attrName, currentNode.attributes().namedItem(attrName).nodeValue());
                 }
             }
@@ -296,7 +289,7 @@ bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, qbrunzip *zipData, co
         return false;
     }
 
-    QDomNodeList docBodies = xHTMLFile.elementsByTagName("body");
+    const QDomNodeList docBodies = xHTMLFile.elementsByTagName("body");
 
     QDomElement processResult = templateCreateElement("div");
     processResult.setAttribute("id", QString("file_%1").arg(xHTMLFileName.toHtmlEscaped()));
@@ -312,18 +305,16 @@ bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, qbrunzip *zipData, co
 
 void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles) {
 
-    QDomElement metadataNode = rootFileXml->firstChildElement("package").firstChildElement("metadata");
+    const QDomElement metadataNode = rootFileXml->firstChildElement("package").firstChildElement("metadata");
     if (metadataNode.isNull()) {
         return;
     }
 
-    QDomElement titleNode = metadataNode.firstChildElement("title");
-    if (bookInfo.metadata.Title.compare("") == 0 && !titleNode.isNull()) {
+    if (const QDomElement titleNode = metadataNode.firstChildElement("title"); bookInfo.metadata.Title.compare("") == 0 && !titleNode.isNull()) {
         bookInfo.metadata.Title = titleNode.text();
     }
 
-    QDomElement creatorNode = metadataNode.firstChildElement("creator");
-    if (bookInfo.metadata.Author.compare("") == 0 && !creatorNode.isNull()) {
+    if (const QDomElement creatorNode = metadataNode.firstChildElement("creator"); bookInfo.metadata.Author.compare("") == 0 && !creatorNode.isNull()) {
         bookInfo.metadata.Author = creatorNode.text();
     }
 
@@ -332,10 +323,8 @@ void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString&
     while (!metaNode.isNull()) {
         if (metaNode.hasAttribute("name") && metaNode.attribute("name").compare("cover") == 0) {
             if (metaNode.hasAttribute("content")) {
-                QString coverItemId = metaNode.attribute("content");
-                if (manifestMap->contains(coverItemId)) {
-                    QString coverImageName = expandFileName(rootFileName, manifestMap->value(coverItemId).attribute("href"));
-                    if (!encryptedFiles.contains(coverImageName)) {
+                if (const QString coverItemId = metaNode.attribute("content"); manifestMap->contains(coverItemId)) {
+                    if (const QString coverImageName = expandFileName(rootFileName, manifestMap->value(coverItemId).attribute("href")); !encryptedFiles.contains(coverImageName)) {
                         bookInfo.metadata.Cover.loadFromData(zipData->getFileData(coverImageName));
                     }
                 }
@@ -348,9 +337,8 @@ void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString&
     // Cover imagw. Epub-3 Way
     if (bookInfo.metadata.Cover.isNull()) {
         for (int i = 0; i < manifestMap->values().count(); i++) {
-            QDomElement manifestItem = manifestMap->values().at(i);
-            if (manifestItem.attribute("properties", "").compare("cover-image") == 0) {
-                QString coverImageName = expandFileName(rootFileName, manifestItem.attribute("href"));
+            if (QDomElement manifestItem = manifestMap->values().at(i); manifestItem.attribute("properties", "").compare("cover-image") == 0) {
+                const QString coverImageName = expandFileName(rootFileName, manifestItem.attribute("href"));
                 bookInfo.metadata.Cover.loadFromData(zipData->getFileData(coverImageName));
             }
         }
@@ -381,13 +369,9 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
 
     QDomElement spineItem = rootFileXml.firstChildElement("package").firstChildElement("spine").firstChildElement("itemref");
     while (!spineItem.isNull()) {
-        QString manifestItemFileId = spineItem.attribute("idref", "");
-
-        if (manifestMap.contains(manifestItemFileId)) {
+        if (QString manifestItemFileId = spineItem.attribute("idref", ""); manifestMap.contains(manifestItemFileId)) {
             if (manifestMap.value(manifestItemFileId).attribute("media-type", "").compare("application/xhtml+xml") == 0) {
-                QString manifestItemFileName = manifestMap.value(manifestItemFileId).attribute("href", "");
-
-                if (!processXHTMLFile(returnValue, zipData, expandFileName(rootFileName, manifestItemFileName), encryptedFiles)) {
+                if (const QString manifestItemFileName = manifestMap.value(manifestItemFileId).attribute("href", ""); !processXHTMLFile(returnValue, zipData, expandFileName(rootFileName, manifestItemFileName), encryptedFiles)) {
                     return false;
                 }
             }
@@ -402,13 +386,13 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
 
 bool FormatEPub::parseFile(qbrunzip *zipData) {
     // Load META-INF/container.xml and get list of rootfiles
-    QStringList rootFiles = getRootFiles(zipData);
+    const QStringList rootFiles = getRootFiles(zipData);
 
     if (rootFiles.count() == 0) {
         return false;
     }
 
-    QStringList encryptedFiles = getEncryptedFiles(zipData);
+    const QStringList encryptedFiles = getEncryptedFiles(zipData);
 
     templateInit();
 

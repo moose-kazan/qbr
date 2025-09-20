@@ -4,13 +4,13 @@
 #include <QLabel>
 #include <QPushButton>
 
-AboutDialog::AboutDialog(QWidget *parent, Qt::WindowFlags f)
+AboutDialog::AboutDialog(QWidget *parent, const Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::AboutDialog) {
   ui->setupUi(this);
   setWindowTitle(tr("About"));
   setModal(true);
   setFixedSize(size());
 
-  QPushButton *okButton = findChild<QPushButton *>("okButton");
+  const auto *okButton = findChild<QPushButton *>("okButton");
   connect(okButton, SIGNAL(clicked()), this, SLOT(close()));
 }

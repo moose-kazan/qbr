@@ -25,16 +25,16 @@ bool qbrzip::save(QString filename)
         qDebug() << "Error creating zip file";
         return false;
     }
-    for (int i = 0; i < items.size(); i++)
+    for (auto & [name, data, method] : items)
     {
-        zip_source *source = zip_source_buffer(zipFileHandle, items[i].data.data(), items[i].data.length(), 0);
+        zip_source *source = zip_source_buffer(zipFileHandle, data.data(), data.length(), 0);
         if (source == nullptr)
         {
             qDebug() << "Error creating zip source";
             zip_close(zipFileHandle);
             return false;
         }
-        long entryIndex = zip_file_add(zipFileHandle, items[i].name.toStdString().c_str(), source, ZIP_FL_OVERWRITE | ZIP_FL_ENC_UTF_8);
+        const long entryIndex = zip_file_add(zipFileHandle, name.toStdString().c_str(), source, ZIP_FL_OVERWRITE | ZIP_FL_ENC_UTF_8);
         if (entryIndex < 0)
         {
             qDebug() << "Error adding file to zip";
@@ -42,8 +42,7 @@ bool qbrzip::save(QString filename)
             zip_close(zipFileHandle);
             return false;
         }
-        int result = zip_set_file_compression(zipFileHandle, entryIndex, items[i].method, 0);
-        if (result < 0 )
+        if (const int result = zip_set_file_compression(zipFileHandle, entryIndex, method, 0); result < 0 )
         {
             qDebug() << "Error setting compression";
             zip_close(zipFileHandle);

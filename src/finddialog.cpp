@@ -1,7 +1,7 @@
 #include "finddialog.h"
 #include "ui_finddialog.h"
 
-FindDialog::FindDialog(QWidget *parent, Qt::WindowFlags f)
+FindDialog::FindDialog(QWidget *parent, const Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::FindDialog) {
 
   ui->setupUi(this);

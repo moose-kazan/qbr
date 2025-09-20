@@ -10,7 +10,7 @@ void ExportHTML::setData(QBRBook *book) {
     htmlData = book->html;
 }
 
-bool ExportHTML::save(QString filename)
+bool ExportHTML::save(const QString fileName)
 {
-    return _save(filename, htmlData.toUtf8());
+    return _save(fileName, htmlData.toUtf8());
 }

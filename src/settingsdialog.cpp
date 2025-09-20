@@ -6,7 +6,7 @@
 #include <QFileDialog>
 #include <QUrl>
 
-SettingsDialog::SettingsDialog(QWidget *parent, Qt::WindowFlags f)
+SettingsDialog::SettingsDialog(QWidget *parent, const Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::SettingsDialog) {
   ui->setupUi(this);
   setWindowTitle(tr("Settings"));
@@ -15,10 +15,10 @@ SettingsDialog::SettingsDialog(QWidget *parent, Qt::WindowFlags f)
 }
 
 void SettingsDialog::settingsLoad() {
-  QCheckBox *statusBarEnable = findChild<QCheckBox *>("statusBarEnable");
+  auto *statusBarEnable = findChild<QCheckBox *>("statusBarEnable");
   statusBarEnable->setChecked(Settings::getStatusBarEnabled());
 
-  QCheckBox *enableLoadLast = findChild<QCheckBox *>("enableLoadLast");
+  auto *enableLoadLast = findChild<QCheckBox *>("enableLoadLast");
   enableLoadLast->setChecked(Settings::getLastOpenedFileEnable());
 
   switch (Settings::getUiVariant()) {
@@ -46,7 +46,8 @@ void SettingsDialog::settingsLoad() {
   findChild<QPushButton *>("customCssSelect")
       ->setEnabled(Settings::getCustomStyleEnabled());
 }
-void SettingsDialog::settingsSave() {
+void SettingsDialog::settingsSave() const
+{
   Settings::setStatusBarEnabled(
       findChild<QCheckBox *>("statusBarEnable")->isChecked());
   Settings::setLastOpenedFileEnable(
@@ -67,8 +68,7 @@ void SettingsDialog::settingsSave() {
 }
 
 void SettingsDialog::bgColorChoose() {
-  QColor color = QColorDialog::getColor(QColor(bookBgColor), this);
-  if (color.isValid()) {
+  if (const QColor color = QColorDialog::getColor(QColor(bookBgColor), this); color.isValid()) {
     bookBgColor = color.name();
     findChild<QPushButton *>("bgColorButton")
         ->setStyleSheet(QString("background-color: %1").arg(bookBgColor));
@@ -76,7 +76,7 @@ void SettingsDialog::bgColorChoose() {
 }
 
 void SettingsDialog::customCssSelect() {
-  QString fileName =
+  const QString fileName =
       QFileDialog::getOpenFileName(this, tr("Select File"), QDir::homePath(),
                                    tr("Stylesheets (%1)").arg("*.css"));
   if (fileName != "") {
@@ -85,7 +85,7 @@ void SettingsDialog::customCssSelect() {
   }
 }
 
-void SettingsDialog::customCssEnable(int state) const
+void SettingsDialog::customCssEnable(const int state) const
 {
   if (state == Qt::Checked) {
     findChild<QLineEdit *>("customCssUrl")->setEnabled(true);
