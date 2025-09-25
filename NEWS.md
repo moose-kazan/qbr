@@ -1,6 +1,7 @@
 # Version 0.0.12 dev #
  * New option: export to EPUB
  * New hotkeys for navigation: Alt+Left, Alt+Right
+ * New: support for AMB with compression
  * Big refactoring for all book parsers
  * Some improvements in "save as html"
  * Fixed some bugs in AMB parser

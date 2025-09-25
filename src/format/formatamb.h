@@ -15,13 +15,16 @@ public:
     QString getFormatTitle() override;
     QBRBook getBook() override;
     bool needUnzip() override;
+    static unsigned short mvcomp_depack(unsigned char* dst, unsigned short buff16);
+
 private:
     qbrbookinfo bookInfo;
     bool parseAmb(const QByteArray& fileData);
-    QString convertToUtf8(QByteArray fileData) const;
+    QString convertToUtf8(const QByteArray& fileData) const;
     QString amaToHtml(const QString& fileName) const;
     QString htmlData;
     QHash<QString, QByteArray> ambEntries;
+    static QByteArray mvucomp(const QByteArray& inputData);
 
     // Default map for cp437 -> utf8
     const unsigned short defaultUnicodeMap[128] = {0x00C7,0x00FC,0x00E9,0x00E2,0x00E4,0x00E0,0x00E5,0x00E7,0x00EA,0x00EB,0x00E8,0x00EF,0x00EE,0x00EC,0x00C4,0x00C5,

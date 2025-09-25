@@ -1,4 +1,6 @@
 #include "formatamb.h"
+
+#include <QBuffer>
 #include <QCollator>
 #include <QString>
 #include <QUrl>
@@ -13,6 +15,8 @@
  * Some ideas found here:
  * https://sourceforge.net/p/utf8tocp/code/HEAD/tree/trunk/utf8tocp.c And here:
  * https://osdn.net/projects/amb/scm/svn/tree/head/phpamb/
+ *
+ * mvucomp-functions based on original code and created with help of GigaCode AI.
  */
 
 FormatAMB::FormatAMB()
@@ -46,8 +50,17 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
         qFromLittleEndian<quint32>(fileData.mid(entryOffset + 12, 4).data());
     const int entryFileLength =
         qFromLittleEndian<quint16>(fileData.mid(entryOffset + 16, 2).data());
-    ambEntries.insert(entryName.toLower(),
-                      fileData.mid(entryFileOffset, entryFileLength));
+    if (entryName.endsWith(".amc", Qt::CaseInsensitive))
+    {
+      ambEntries.insert(entryName.toLower(),
+                        mvucomp(fileData.mid(entryFileOffset, entryFileLength)));
+
+    }
+    else
+    {
+      ambEntries.insert(entryName.toLower(),
+                        fileData.mid(entryFileOffset, entryFileLength));
+    }
 
     // qDebug() << entryName << " " << entryFileOffset << " " <<
     // entryFileLength;
@@ -70,7 +83,18 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
 
   QString htmlBodyData;
 
-  htmlBodyData.append(amaToHtml("index.ama"));
+  if (ambEntries.contains("index.ama"))
+  {
+    htmlBodyData.append(amaToHtml("index.ama"));
+  }
+  else if (ambEntries.contains("index.amc"))
+  {
+    htmlBodyData.append(amaToHtml("index.amc"));
+  }
+  else
+  {
+    return false;
+  }
 
   // Sort entry names with QCollator. It's fix some issues with numbers
   QStringList entryNames = ambEntries.keys();
@@ -88,7 +112,10 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
   }
 
   for (int i = 0; i < entryNames.length(); i++) {
-    if (entryNames.at(i) != "index.ama" && entryNames.at(i).endsWith(".ama")) {
+    if (
+        entryNames.at(i) != "index.ama" &&
+        entryNames.at(i) != "index.amc" &&
+        (entryNames.at(i).endsWith(".ama") ||  entryNames.at(i).endsWith(".amc"))) {
       htmlBodyData.append(amaToHtml(entryNames.at(i)));
     }
   }
@@ -103,7 +130,7 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
   return true;
 }
 
-QString FormatAMB::convertToUtf8(QByteArray fileData) const
+QString FormatAMB::convertToUtf8(const QByteArray& fileData) const
 {
   QString rv;
   for (const unsigned char cur_char : fileData) {
@@ -122,14 +149,19 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
 {
   QString rv;
 
+  QString sectionId = fileName;
+  if (sectionId.endsWith(".ama") || sectionId.endsWith(".amc"))
+  {
+    sectionId.chop(4);
+  }
   rv.append(R"(<div class="amb_body" id=")");
-  rv.append(fileName);
+  rv.append(sectionId);
   rv.append("\">\n");
 
   rv.append(R"(<div class="amb_part_header">)");
   rv.append("Part name: ");
   rv.append(fileName);
-  rv.append(R"(. <a href="#index.ama">Go to index</a>.)");
+  rv.append(R"(. <a href="#index">Go to index</a>.)");
   rv.append("</div>\n");
 
   const QString fileData = convertToUtf8(ambEntries.value(fileName, ""));
@@ -146,6 +178,10 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
 
     if (readlink) {
       if (c == QChar(0x0a) || c == ':') {
+        if (rv.endsWith(".ama") || rv.endsWith(".amc"))
+        {
+          rv.chop(4);
+        }
         rv.append("\">");
         openTag = "a";
         readlink = false;
@@ -242,3 +278,82 @@ bool FormatAMB::loadFile(const QString fileName, const QByteArray fileData, qbru
 QBRBook FormatAMB::getBook() { return QBRBook{bookInfo, htmlData}; }
 
 bool FormatAMB::needUnzip() { return false; }
+
+unsigned short FormatAMB::mvcomp_depack(unsigned char *dst, unsigned short buff16) {
+  static unsigned char rawwords; // количество несжатых слов
+  unsigned char *dst_start = dst;
+
+  if (rawwords != 0) {
+    unsigned short *dst16 = reinterpret_cast<unsigned short*>(dst);
+    *dst16 = buff16;
+    dst += 2;
+    rawwords--;
+  } else if ((buff16 & 0xF000) == 0) {
+    *dst = buff16 & 0xFF;
+    dst++;
+    rawwords = buff16 >> 8;
+  } else {
+    unsigned char *src = dst - (buff16 & 0x0FFF) - 1;
+    buff16 >>= 12;
+    for (;;) {
+      *dst = *src;
+      dst++; src++;
+      if (buff16 == 0) break;
+      buff16--;
+    }
+  }
+
+  return static_cast<unsigned short>(dst - dst_start);
+}
+
+
+QByteArray FormatAMB::mvucomp(const QByteArray& inputData)
+{
+  if (inputData.size() < 2)
+  {
+    return {};
+  }
+
+  quint16 mvSignature;
+  std::memcpy(&mvSignature, inputData.constData(), sizeof(mvSignature));
+  if ((mvSignature & 0xF000) != 0) {
+    return {};
+  }
+
+  QVector<uchar> buffer(8192); // Буфер размером 8 КБ
+  uchar* buffptr = buffer.data();
+
+  unsigned long bytesIn = 0;
+  unsigned long bytesOut = 0;
+
+  QByteArray outData;
+  QBuffer outBuffer(&outData);
+  if (!outBuffer.open(QIODevice::WriteOnly))
+  {
+    return {};
+  }
+
+  for (int i = 0; i < inputData.size(); i += 2)
+  {
+    if (i + 1 >= inputData.size()) break;
+
+    quint16 token;
+    std::memcpy(&token, inputData.constData() + i, sizeof(token));
+    bytesIn += 2;
+
+    unsigned short len = mvcomp_depack(buffptr, token);
+    bytesOut += len;
+
+    outBuffer.write(reinterpret_cast<char*>(buffptr), len);
+    buffptr += len;
+
+    if (buffptr - buffer.data() > 6144) {
+      std::memmove(buffer.data(), buffptr - 2048, 6144);
+      buffptr = buffer.data() + 6144;
+    }
+
+  }
+
+  outBuffer.close();
+  return outData;
+};
