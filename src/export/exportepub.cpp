@@ -1,5 +1,6 @@
 #include "exportepub.h"
 
+#include <QBuffer>
 #include <qdatetime.h>
 
 #include "../libs/qbrzip.h"
@@ -28,6 +29,15 @@ bool ExportEPub::save(const QString fileName)
     zipWriter->addItem({"content.opf", prepareContentOpf(), zipItem::METHOD_STORE });
     zipWriter->addItem({"nav.xhtml", prepareNavXhtml(), zipItem::METHOD_DEFAULT });
     zipWriter->addItem({"index.xhtml", book->html.toUtf8(), zipItem::METHOD_DEFAULT });
+    if (!book->metadata.Cover.isNull())
+    {
+        QByteArray coverImage;
+        QBuffer coverImageBuffer(&coverImage);
+        coverImageBuffer.open(QIODevice::WriteOnly);
+        book->metadata.Cover.save(&coverImageBuffer, "PNG");
+        coverImageBuffer.close();
+        zipWriter->addItem({"cover.png", coverImage, zipItem::METHOD_DEFAULT});
+    }
     return zipWriter->save(fileName);
 }
 
@@ -78,6 +88,27 @@ QByteArray ExportEPub::prepareContentOpf() const
         .firstChildElement("metadata")
         .firstChildElement("meta")
         .appendChild(QDomDocument().createTextNode(QDateTime::currentDateTimeUtc().toString(Qt::ISODate)));
+
+    if (!book->metadata.Cover.isNull())
+    {
+        QDomElement metaCoverImageNode = QDomDocument().createElement("meta");
+        metaCoverImageNode.setAttribute("content", "cover");
+        metaCoverImageNode.setAttribute("name", "cover");
+
+        contentOpf.firstChildElement("package")
+        .firstChildElement("metadata")
+        .appendChild(metaCoverImageNode);
+
+        QDomElement manifestCoverImageNode = QDomDocument().createElement("item");
+        manifestCoverImageNode.setAttribute("href", "cover.png");
+        manifestCoverImageNode.setAttribute("id", "cover");
+        manifestCoverImageNode.setAttribute("media-type", "image/png");
+
+        contentOpf.firstChildElement("package")
+        .firstChildElement("manifest")
+        .appendChild(manifestCoverImageNode);
+    }
+
     return contentOpf.toByteArray();
 }
 
