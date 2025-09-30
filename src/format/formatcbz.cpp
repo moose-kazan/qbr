@@ -45,6 +45,10 @@ bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbru
       mimeType = "image/png";
     } else if (zipEntryName.endsWith(".gif", Qt::CaseInsensitive)) {
       mimeType = "image/gif";
+    } else if (zipEntryName.endsWith("svg", Qt::CaseInsensitive)) {
+      mimeType = "image/svg";
+    } else if (zipEntryName.endsWith(".webp", Qt::CaseInsensitive)) {
+      mimeType = "image/webp";
     } else if (zipEntryName.endsWith(".jpg", Qt::CaseInsensitive)) {
       mimeType = "image/jpeg";
     } else if (zipEntryName.endsWith(".jpeg", Qt::CaseInsensitive)) {
@@ -54,12 +58,13 @@ bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbru
     if (mimeType != "") {
       QDomElement nodeDiv = templateCreateElement("div");
       nodeDiv.setAttribute("class", "comics_image");
+      nodeDiv.setAttribute("id", QString("page%1").arg(i));
 
       QByteArray entryData = zipData->getFileData(zipEntryName);
       QString imgData = "data:" + mimeType + ";base64," + entryData.toBase64();
       QDomElement nodeImg = templateCreateElement("img");
       nodeImg.setAttribute("src", imgData);
-      nodeImg.setAttribute("id", zipEntryName);
+      nodeImg.setAttribute("id", QString("images%1").arg(i));
 
       nodeDiv.appendChild(nodeImg);
       nodeDiv.appendChild(templateCreateElement("br"));
