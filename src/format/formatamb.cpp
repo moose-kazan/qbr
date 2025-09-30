@@ -81,15 +81,23 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
                          .replace("\r", "");
   }
 
-  QString htmlBodyData;
+  templateInit();
 
   if (ambEntries.contains("index.ama"))
   {
-    htmlBodyData.append(amaToHtml("index.ama"));
+    //htmlBodyData.append(amaToHtml("index.ama"));
+    QString amaData = amaToHtml("index.ama");
+    QDomDocument docPart = QDomDocument();
+    docPart.setContent(amaData);
+    templateBodyAppend(docPart);
   }
   else if (ambEntries.contains("index.amc"))
   {
-    htmlBodyData.append(amaToHtml("index.amc"));
+    //htmlBodyData.append(amaToHtml("index.amc"));
+    QString amaData = amaToHtml("index.amc");
+    QDomDocument docPart = QDomDocument();
+    docPart.setContent(amaData);
+    templateBodyAppend(docPart);
   }
   else
   {
@@ -116,14 +124,17 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
         entryNames.at(i) != "index.ama" &&
         entryNames.at(i) != "index.amc" &&
         (entryNames.at(i).endsWith(".ama") ||  entryNames.at(i).endsWith(".amc"))) {
-      htmlBodyData.append(amaToHtml(entryNames.at(i)));
+      //htmlBodyData.append(amaToHtml(entryNames.at(i)));
+      QDomDocument docPart;
+      QString amaData = amaToHtml(entryNames.at(i));
+      docPart.setContent(amaData);
+      templateBodyAppend(docPart);
     }
   }
 
-  templateInit();
   templateSetMeta(bookInfo);
   htmlData = templateAsString();
-  htmlData.insert(htmlData.indexOf("</body>"), htmlBodyData);
+  //htmlData.insert(htmlData.indexOf("</body>"), htmlBodyData);
 
   // htmlData = "Total files: " + QString::number(filesCount) + "!\n";
 
