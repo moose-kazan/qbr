@@ -23,12 +23,35 @@ void ExportEPub::setData(QBRBook *book) {
 
 bool ExportEPub::save(const QString fileName)
 {
+    QMap<QString, QByteArray> images;
+    QDomDocument htmlDocument = QDomDocument();
+    htmlDocument.setContent(book->html.toUtf8());
+    const QDomNodeList imagesNodes = htmlDocument.elementsByTagName("img");
+    for (int i = 0; i < imagesNodes.length(); i++)
+    {
+        QString imageName;
+        QStringList imageExtensions = {"png", "gif", "svg", "jpeg", "webp"};
+        for (int j = 0; j < imageExtensions.length(); j++)
+        {
+            QString imgSrcTpl = QString("data:image/%1;base64,").arg(imageExtensions[j]);
+            if (imagesNodes.at(i).toElement().attribute("src").startsWith(imgSrcTpl))
+            {
+                imageName = QString("image%1.%2")
+                    .arg(i + 1, 4, 10, QChar('0'))
+                    .arg(imageExtensions[j]);
+                images[imageName] = QByteArray::fromBase64(imagesNodes.at(i).toElement().attribute("src").mid(imgSrcTpl.length()).toUtf8());
+                imagesNodes.at(i).toElement().setAttribute("src", imageName);
+                continue;
+            }
+        }
+    }
+
     zipWriter->newFile();
     zipWriter->addItem({"mimetype", "application/epub+zip", zipItem::METHOD_STORE});
     zipWriter->addItem({"META-INF/container.xml", prepareContainerXml(), zipItem::METHOD_STORE});
-    zipWriter->addItem({"content.opf", prepareContentOpf(), zipItem::METHOD_STORE });
+    zipWriter->addItem({"content.opf", prepareContentOpf(images.keys()), zipItem::METHOD_STORE });
     zipWriter->addItem({"nav.xhtml", prepareNavXhtml(), zipItem::METHOD_DEFAULT });
-    zipWriter->addItem({"index.xhtml", book->html.toUtf8(), zipItem::METHOD_DEFAULT });
+    zipWriter->addItem({"index.xhtml", htmlDocument.toString().toUtf8(), zipItem::METHOD_DEFAULT });
     if (!book->metadata.Cover.isNull())
     {
         QByteArray coverImage;
@@ -38,6 +61,14 @@ bool ExportEPub::save(const QString fileName)
         coverImageBuffer.close();
         zipWriter->addItem({"cover.png", coverImage, zipItem::METHOD_DEFAULT});
     }
+    for (int i = 0; i < images.size(); i++)
+    {
+        zipWriter->addItem({
+            images.keys().at(i),
+            images.values().at(i),
+            zipItem::METHOD_DEFAULT });
+    }
+
     return zipWriter->save(fileName);
 }
 
@@ -52,7 +83,7 @@ QByteArray ExportEPub::prepareContainerXml()
 )").toUtf8();
 }
 
-QByteArray ExportEPub::prepareContentOpf() const
+QByteArray ExportEPub::prepareContentOpf(const QStringList& images) const
 {
     const auto contentOpfTemplate = QString(R"(<?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id">
@@ -73,10 +104,15 @@ QByteArray ExportEPub::prepareContentOpf() const
     auto contentOpf = QDomDocument();
     contentOpf.setContent(contentOpfTemplate);
     // Title
+    QString title = book->metadata.Title;
+    if (title.isEmpty())
+    {
+        title = tr("Untitled");
+    }
     contentOpf.firstChildElement("package")
         .firstChildElement("metadata")
         .firstChildElement("dc:title")
-        .appendChild(QDomDocument().createTextNode(book->metadata.Title));
+        .appendChild(QDomDocument().createTextNode(title));
     // UUID
     const QString uuid = QUuid::createUuid().toString(QUuid::Id128);
     contentOpf.firstChildElement("package")
@@ -107,6 +143,18 @@ QByteArray ExportEPub::prepareContentOpf() const
         contentOpf.firstChildElement("package")
         .firstChildElement("manifest")
         .appendChild(manifestCoverImageNode);
+    }
+
+    for (const auto & image : images)
+    {
+        QDomElement itemNode = QDomDocument().createElement("item");
+        itemNode.setAttribute("href", image);
+        itemNode.setAttribute("id", image.mid(0,image.indexOf('.')));
+        itemNode.setAttribute("media-type", QString("image/%1").arg(image.mid(image.indexOf('.')+1)));
+
+        contentOpf.firstChildElement("package")
+        .firstChildElement("manifest")
+        .appendChild(itemNode);
     }
 
     return contentOpf.toByteArray();

@@ -12,7 +12,7 @@ public:
     bool save(QString fileName) override;
 private:
     static QByteArray prepareContainerXml();
-    QByteArray prepareContentOpf() const;
+    QByteArray prepareContentOpf(const QStringList& images) const;
     static QByteArray prepareNavXhtml();
     QBRBook *book;
     qbrzip *zipWriter;
