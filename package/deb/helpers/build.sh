@@ -19,5 +19,5 @@ dpkg-buildpackage --root-command=fakeroot --build=source
 
 ls ..
 
-mv -v "../qbr_${PKG_VERSION}*" /release/
+mv -v ../qbr_${PKG_VERSION}* /release/
 #mv -v ../qbr-dbgsym_${PKG_VERSION}* /release/
