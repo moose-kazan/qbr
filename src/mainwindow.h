@@ -43,6 +43,7 @@ private slots:
     void naviFind();
     void settingsShow() const;
     void fileBookInfo();
+    void toggleFullScreen();
 
 private:
     void readState();
@@ -63,6 +64,8 @@ private:
     BookSaver *bookSaver;
 
     QBRBook bookInfo;
+
+    bool returnToMaximized{};
 };
 
 #endif // MAINWINDOW_H

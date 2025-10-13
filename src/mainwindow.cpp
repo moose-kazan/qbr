@@ -61,6 +61,9 @@ MainWindow::MainWindow(QWidget* parent)
     // Other FileSave DIalog options
     openFileDlg->setWindowTitle(tr("Open File"));
     openFileDlg->setAcceptMode(QFileDialog::AcceptOpen);
+
+    returnToMaximized = isMaximized();
+    findChild<QAction *>("actionFullScreen")->setChecked(false);
 }
 
 void MainWindow::openFile()
@@ -166,6 +169,28 @@ void MainWindow::fileBookInfo()
     }
     fileInfoDlg->setBookInfo(bookInfo.metadata);
     fileInfoDlg->exec();
+}
+
+void MainWindow::toggleFullScreen()
+{
+    if (!isFullScreen())
+    {
+        findChild<QAction *>("actionFullScreen")->setChecked(true);;
+        returnToMaximized = isMaximized();
+        showFullScreen();
+    }
+    else
+    {
+        findChild<QAction *>("actionFullScreen")->setChecked(false);
+        if (returnToMaximized)
+        {
+            showMaximized();
+        }
+        else
+        {
+            showNormal();
+        }
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
