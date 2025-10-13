@@ -11,6 +11,7 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QWebEngineHistory>
+#include <QShortcut>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -63,7 +64,12 @@ MainWindow::MainWindow(QWidget* parent)
     openFileDlg->setAcceptMode(QFileDialog::AcceptOpen);
 
     returnToMaximized = isMaximized();
-    findChild<QAction *>("actionFullScreen")->setChecked(false);
+    findChild<QAction *>("actionFullScreen")->setChecked(isFullScreen());
+
+    const auto* shortcutFullscreen = new QShortcut(Qt::Key_F11, this);
+    //shortcutFullscreen->setEnabled(false);
+    connect(shortcutFullscreen, &QShortcut::activated, this, &MainWindow::toggleFullScreen);
+
 }
 
 void MainWindow::openFile()
@@ -191,6 +197,8 @@ void MainWindow::toggleFullScreen()
             showNormal();
         }
     }
+
+    readSettings();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -220,24 +228,28 @@ void MainWindow::readState()
 
 void MainWindow::readSettings() const
 {
-    statusBar()->setVisible(Settings::getStatusBarEnabled());
+    const bool isFS = isFullScreen();
+    const bool hideUI = Settings::getHideUIOnFullScreen();
+    const bool trueCalculated = !isFS || !hideUI;
+
+    statusBar()->setVisible(trueCalculated && Settings::getStatusBarEnabled());
 
     switch (Settings::getUiVariant())
     {
     case Settings::uiMenuOnly:
-        menuBar()->setVisible(true);
+        menuBar()->setVisible(trueCalculated);
         findChild<QToolBar*>("toolBar")->setVisible(false);
 
         break;
 
     case Settings::uiToolbarOnly:
         menuBar()->setVisible(false);
-        findChild<QToolBar*>("toolBar")->setVisible(true);
+        findChild<QToolBar*>("toolBar")->setVisible(trueCalculated);
         break;
 
     default:
-        menuBar()->setVisible(true);
-        findChild<QToolBar*>("toolBar")->setVisible(true);
+        menuBar()->setVisible(trueCalculated);
+        findChild<QToolBar*>("toolBar")->setVisible(trueCalculated);
     }
 }
 

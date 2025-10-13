@@ -42,6 +42,19 @@
     </message>
 </context>
 <context>
+    <name>ExportEPub</name>
+    <message>
+        <location filename="../export/exportepub.cpp" line="17"/>
+        <source>EPub files (%1)</source>
+        <translation>Файлы EPUB</translation>
+    </message>
+    <message>
+        <location filename="../export/exportepub.cpp" line="110"/>
+        <source>Untitled</source>
+        <translation>Без заголовка</translation>
+    </message>
+</context>
+<context>
     <name>ExportHTML</name>
     <message>
         <location filename="../export/exporthtml.cpp" line="6"/>
@@ -119,7 +132,7 @@
 <context>
     <name>Format</name>
     <message>
-        <location filename="../format/format.cpp" line="22"/>
+        <location filename="../format/format.cpp" line="28"/>
         <source>Unknown file format</source>
         <translation>Неизвестный формат файл</translation>
     </message>
@@ -128,8 +141,8 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="20"/>
-        <location filename="../mainwindow.cpp" line="35"/>
-        <location filename="../mainwindow.cpp" line="107"/>
+        <location filename="../mainwindow.cpp" line="34"/>
+        <location filename="../mainwindow.cpp" line="111"/>
         <source>Qt Book Reader</source>
         <translation>Qt Book Reader</translation>
     </message>
@@ -148,93 +161,123 @@
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="105"/>
+        <location filename="../mainwindow.ui" line="103"/>
         <source>Navigation</source>
         <translation>Навигация</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="113"/>
+        <location filename="../mainwindow.ui" line="111"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="125"/>
+        <location filename="../mainwindow.ui" line="118"/>
+        <source>View</source>
+        <translation>Вид</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="131"/>
         <source>toolBar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="157"/>
+        <location filename="../mainwindow.ui" line="164"/>
         <location filename="../mainwindow.cpp" line="62"/>
         <source>Open File</source>
         <translation>Открыть файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="160"/>
+        <location filename="../mainwindow.ui" line="167"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="169"/>
+        <location filename="../mainwindow.ui" line="176"/>
         <source>Save as</source>
         <translation>Сохранить как</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="172"/>
+        <location filename="../mainwindow.ui" line="179"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="181"/>
+        <location filename="../mainwindow.ui" line="188"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="184"/>
+        <location filename="../mainwindow.ui" line="191"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="193"/>
+        <location filename="../mainwindow.ui" line="200"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="202"/>
+        <location filename="../mainwindow.ui" line="209"/>
         <source>About Qt</source>
         <translation>О Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="211"/>
+        <location filename="../mainwindow.ui" line="218"/>
         <source>Go back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="220"/>
+        <location filename="../mainwindow.ui" line="221"/>
+        <source>Alt+Left</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="230"/>
         <source>Go forward</source>
         <translation>Вперёд</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="229"/>
+        <location filename="../mainwindow.ui" line="233"/>
+        <source>Alt+Right</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="242"/>
         <source>Find text</source>
         <translation>Найти текст</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="232"/>
+        <location filename="../mainwindow.ui" line="245"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="241"/>
+        <location filename="../mainwindow.ui" line="254"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="250"/>
+        <location filename="../mainwindow.ui" line="263"/>
         <source>Book Info</source>
         <translation>Информация о книге</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="88"/>
+        <location filename="../mainwindow.ui" line="275"/>
+        <source>FullScreen</source>
+        <translation>Во весь экран</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="278"/>
+        <source>Toggle fullscreen</source>
+        <translation>Полноэкранный режим</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="281"/>
+        <source>F11</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>Save file as...</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -247,23 +290,23 @@
         <translation type="vanished">HTML-страницы (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="226"/>
-        <location filename="../mainwindow.cpp" line="230"/>
+        <location filename="../mainwindow.cpp" line="270"/>
+        <location filename="../mainwindow.cpp" line="274"/>
         <source>Can&apos;t load book</source>
         <translation>Не удалось открыть книгу</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="226"/>
+        <location filename="../mainwindow.cpp" line="270"/>
         <source>I/O error!</source>
         <translation>Ошибка ввода/вывода!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="231"/>
+        <location filename="../mainwindow.cpp" line="275"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Формат файла не поддерживается или файл испорчен!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="271"/>
+        <location filename="../mainwindow.cpp" line="322"/>
         <source>Qt Book Reader - %1</source>
         <translation>Qt Book Reader - %1</translation>
     </message>
@@ -327,12 +370,17 @@
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="13"/>
+        <location filename="../settingsdialog.ui" line="227"/>
+        <source>Hide all UI controls on full screen</source>
+        <translation>Скрывать элементы интерфейса в полноэкранном режиме</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="12"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="81"/>
+        <location filename="../settingsdialog.cpp" line="86"/>
         <source>Select File</source>
         <translation>Выбрать файл</translation>
     </message>
@@ -341,7 +389,7 @@
         <translation type="obsolete">Открыть файл</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="82"/>
+        <location filename="../settingsdialog.cpp" line="87"/>
         <source>Stylesheets (%1)</source>
         <translation>Таблицы стилей (%1)</translation>
     </message>
@@ -349,7 +397,7 @@
 <context>
     <name>main.cpp</name>
     <message>
-        <location filename="../main.cpp" line="34"/>
+        <location filename="../main.cpp" line="33"/>
         <source>:/res/default_fb2.xml</source>
         <translation>:/res/default_ru_fb2.xml</translation>
     </message>

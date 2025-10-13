@@ -21,6 +21,9 @@ void SettingsDialog::settingsLoad() {
   auto *enableLoadLast = findChild<QCheckBox *>("enableLoadLast");
   enableLoadLast->setChecked(Settings::getLastOpenedFileEnable());
 
+  auto *hideUIOnFullScreen = findChild<QCheckBox *>("hideUIOnFullScreen");
+  hideUIOnFullScreen->setChecked(Settings::getHideUIOnFullScreen());
+
   switch (Settings::getUiVariant()) {
   case Settings::uiMenuOnly:
     findChild<QRadioButton *>("uiMenuOnly")->setChecked(true);
@@ -65,6 +68,9 @@ void SettingsDialog::settingsSave() const
     Settings::setUiVariant(0);
   }
   Settings::setBookBgColor(bookBgColor);
+
+  Settings::setHideUIOnFullScreen(
+    findChild<QCheckBox *>("hideUIOnFullScreen")->isChecked());
 }
 
 void SettingsDialog::bgColorChoose() {

@@ -117,6 +117,7 @@
     <property name="title">
      <string>View</string>
     </property>
+    <addaction name="actionFullScreen"/>
     <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuFile"/>
@@ -275,9 +276,6 @@
    </property>
    <property name="toolTip">
     <string>Toggle fullscreen</string>
-   </property>
-   <property name="shortcut">
-    <string>F11</string>
    </property>
   </action>
  </widget>

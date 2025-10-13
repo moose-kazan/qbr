@@ -45,6 +45,9 @@ public:
     static QString getCustomStyleUrl();
     static void setCustomStyleUrl(const QString& url);
 
+    static bool getHideUIOnFullScreen();
+    static void setHideUIOnFullScreen(bool hide);
+
 protected:
     static QSettings* cfg;
 };

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
-    <height>492</height>
+    <width>558</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,7 +26,7 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>450</y>
+     <y>410</y>
      <width>341</width>
      <height>31</height>
     </rect>
@@ -44,7 +44,7 @@
      <x>10</x>
      <y>10</y>
      <width>541</width>
-     <height>121</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="title">
@@ -67,7 +67,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>60</y>
+      <y>50</y>
       <width>511</width>
       <height>21</height>
      </rect>
@@ -80,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>70</y>
       <width>511</width>
       <height>21</height>
      </rect>
@@ -94,7 +94,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>370</y>
+     <y>320</y>
      <width>521</width>
      <height>21</height>
     </rect>
@@ -107,7 +107,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>410</y>
+     <y>350</y>
      <width>521</width>
      <height>21</height>
     </rect>
@@ -120,7 +120,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>150</y>
+     <y>120</y>
      <width>541</width>
      <height>71</height>
     </rect>
@@ -159,7 +159,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>240</y>
+     <y>200</y>
      <width>541</width>
      <height>111</height>
     </rect>
@@ -213,6 +213,19 @@
    <zorder>customCssUrl</zorder>
    <zorder>customCssEnable</zorder>
    <zorder>customCssSelect</zorder>
+  </widget>
+  <widget class="QCheckBox" name="hideUIOnFullScreen">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>380</y>
+     <width>541</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Hide all UI controls on full screen</string>
+   </property>
   </widget>
  </widget>
  <tabstops>

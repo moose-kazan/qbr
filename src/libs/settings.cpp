@@ -98,3 +98,12 @@ QString Settings::getCustomStyleUrl() {
 void Settings::setCustomStyleUrl(const QString& url) {
   getInstance()->setValue("CustomStyleUrl", url);
 }
+
+bool Settings::getHideUIOnFullScreen()
+{
+  return getInstance()->value("HideUIOnFullScreen", false).toBool();
+}
+void Settings::setHideUIOnFullScreen(bool hide)
+{
+  getInstance()->setValue("HideUIOnFullScreen", hide);
+}
