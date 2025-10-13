@@ -1,5 +1,25 @@
 #!/bin/bash
 
+# Test build binary
+cp -av /src /source
+cd /source || exit 1
+chown -R root:root /source
+git checkout "v$PKG_VERSION"
+
+rm -rf build
+mkdir -p build
+cmake -S. -Bbuild
+cmake --build build
+RET=$?
+
+if [ "$RET" != "0" ]; then
+    echo "Can't build binary"
+    exit 1
+fi
+
+# Build source package
+cd / || exit 1
+
 cp -av /src /source
 
 cd /source || exit 1

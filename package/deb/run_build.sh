@@ -14,7 +14,7 @@ OUTPUTDIR=$(readlink -f "./../../release")
 
 PKG_VER="$1"
 PPA_VER="$2"
-
+DST_DISTR="$3"
 
 if [ -z "$PPA_VER" ]; then
 	echo "Usage:"
@@ -33,6 +33,9 @@ mkdir -p "$ROOTPATH/.cache/apt"
 
 for dockerfile in dockerfiles/*.Dockerfile; do
 	IMGNAME=$(basename "${dockerfile/.Dockerfile//}")
+	if [ ! -z "${DST_DISTR}" ] && [ "${IMGNAME}" !=  "qbr-build-${DST_DISTR}" ]; then
+		continue
+	fi
 	echo "$IMGNAME"
 
 	docker build -f "$dockerfile" -t "$IMGNAME" "$ROOTPATH"
