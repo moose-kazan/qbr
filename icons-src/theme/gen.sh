@@ -14,6 +14,6 @@ ICONS=$(find . -type f -name '*.svg')
 
 for iconsrc in ${ICONS}; do
 	DSTICON=${iconsrc/.svg/.png}
-	mkdir -p $(dirname "${DESTDIR}/${DSTICON}")
-	convert -adaptive-resize 128x128 ${iconsrc} ${DESTDIR}/${DSTICON}
+	mkdir -p "$(dirname "${DESTDIR}/${DSTICON}")"
+	convert -adaptive-resize 128x128 "${iconsrc}" "${DESTDIR}/${DSTICON}"
 done

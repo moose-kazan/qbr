@@ -32,7 +32,7 @@ mkdir -p "$OUTPUTDIR"
 mkdir -p "$ROOTPATH/.cache/apt"
 
 for dockerfile in dockerfiles/*.Dockerfile; do
-	IMGNAME=$(basename ${dockerfile/.Dockerfile//})
+	IMGNAME=$(basename "${dockerfile/.Dockerfile//}")
 	echo "$IMGNAME"
 
 	docker build -f "$dockerfile" -t "$IMGNAME" "$ROOTPATH"
