@@ -1,3 +1,7 @@
+# Version 0.0.13 dev #
+ * New feature: full screen mode
+ * New option: "Hide UI controls in fullscreen"
+
 # Version 0.0.12 #
  * New option: export to EPUB
  * New hotkeys for navigation: Alt+Left, Alt+Right
