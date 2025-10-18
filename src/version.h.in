@@ -1,0 +1,2 @@
+#pragma once
+#define PROJECT_VERSION_STRING "@GIT_VERSION_STRING@"
