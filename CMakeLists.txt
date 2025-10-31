@@ -156,5 +156,5 @@ endforeach()
 qt_finalize_executable(qbr)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(Packing)
 include(GenerateVersion)
+include(Packing)
