@@ -128,3 +128,15 @@ span.amb_boring {
 .amb_part_header a {
    color: #ffffff;
 }
+
+a {
+    color: #008822;
+}
+
+a:hover {
+    color: #BB0000;
+}
+
+a:visited {
+    color: #008822;
+}
