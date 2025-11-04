@@ -288,6 +288,9 @@
    <property name="text">
     <string>Table of contents</string>
    </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
   </action>
  </widget>
  <customwidgets>
