@@ -93,6 +93,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tocTreeView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>TocDialog</receiver>
+   <slot>gotoClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>130</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>200</x>
+     <y>151</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>gotoClick()</slot>
