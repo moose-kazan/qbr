@@ -4,8 +4,12 @@
 #include <QList>
 #include <QRegularExpression>
 #include <QString>
+#include <zip.h>
 
-FormatCBZ::FormatCBZ() = default;
+FormatCBZ::FormatCBZ()
+{
+  book = new QBRBook();
+};
 
 QStringList FormatCBZ::getExtensions() { return QStringList("cbz"); }
 
@@ -16,9 +20,8 @@ QString FormatCBZ::getFormatTitle()
 
 
 bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
-  htmlData = ""; // reset data from previous file
-  bookInfo.clear();
-  bookInfo.FileFormat = getFormatTitle();
+  book->clear();
+  book->metadata->FileFormat = getFormatTitle();
 
   if (!fileNameRegexp.match(fileName).hasMatch()) {
     return false;
@@ -58,7 +61,11 @@ bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbru
     if (mimeType != "") {
       QDomElement nodeDiv = templateCreateElement("div");
       nodeDiv.setAttribute("class", "comics_image");
-      nodeDiv.setAttribute("id", QString("page%1").arg(i));
+      QString pageId = QString("page%1").arg(i);
+      nodeDiv.setAttribute("id", pageId);
+
+      QBRTocItem tocItem = QBRTocItem(zipEntryName, pageId);
+      book->metadata->Toc.append(tocItem);
 
       QByteArray entryData = zipData->getFileData(zipEntryName);
       QString imgData = "data:" + mimeType + ";base64," + entryData.toBase64();
@@ -71,15 +78,15 @@ bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbru
       templateBodyAppend(nodeDiv);
 
       if (i == 0) {
-          bookInfo.Cover.loadFromData(entryData);
+          book->metadata->Cover.loadFromData(entryData);
       }
     }
   }
 
-  htmlData = templateAsString();
+  book->html = templateAsString();
   return true;
 }
 
-QBRBook FormatCBZ::getBook() { return QBRBook{bookInfo, htmlData}; }
+QBRBook* FormatCBZ::getBook() { return book; }
 
 bool FormatCBZ::needUnzip() { return true; }

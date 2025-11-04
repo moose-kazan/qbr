@@ -16,7 +16,7 @@ public:
     bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
-    QBRBook getBook() override;
+    QBRBook* getBook() override;
     bool needUnzip() override;
 private:
     const QString RELATION_THUMBNAIL      = "http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail";
@@ -24,13 +24,12 @@ private:
     const QString RELATION_BOOK           = "http://www.fictionbook.org/FictionBook3/relationships/Book";
 
     QRegularExpression fileNameRegexp = QRegularExpression("\\.fb3$", QRegularExpression::CaseInsensitiveOption);
-    qbrbookinfo bookInfo;
-    QString htmlData;
+    QBRBook* book;
     static QString expandFileName(const QString& baseFileName, QString expandableFileName);
     static QString getRelsFileName(const QString& baseFileName);
-    void parseMetadata(const qbrunzip *ZipData, const QString& entryName);
+    void parseMetadata(const qbrunzip *ZipData, const QString& entryName) const;
     static QList<QDomElement> parseRels(const qbrunzip *ZipData, const QString& entryName);
-    static QDomNode parseBodyNode(const QDomNode& currentNode, const QMap<QString,QString>& bodyBinaries);
+    static QDomNode parseBodyNode(const QDomNode& currentNode, const QMap<QString,QString>& bodyBinaries, int* tocIndex, QList<QBRTocItem>* tocList);
     QList<QDomNode> parseBody(const qbrunzip* zipData, const QString& bodyEntryName) const;
     bool parseFile(const qbrunzip *ZipData);
     QHash<QString, QString> fb3ExtTypes;

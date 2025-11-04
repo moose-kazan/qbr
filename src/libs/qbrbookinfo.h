@@ -5,28 +5,42 @@
 #ifndef QBRBOOKINFO_H
 #define QBRBOOKINFO_H
 
-#include <QImage>
+#include <QStandardItemModel>
 
+class QBRTocItem
+{
+public:
+    QBRTocItem();
+    QBRTocItem(const QString& Title, const QString& Anchor);
+    QString Title;
+    QString Anchor;
+    QList<QBRTocItem> Childs;
+};
 
-struct qbrbookinfo {
+class QBRBookMetadata
+{
+public:
+    QBRBookMetadata();
     QString Author;
     QString Title;
     QString Description;
     QString FileFormat;
     QImage Cover;
-    void clear() {
-        Author = "";
-        Title = "";
-        Description = "";
-        FileFormat = "";
-        Cover = QImage();
-    }
+    QList<QBRTocItem> Toc;
+    void clear();
+    void copy(const QBRBookMetadata* other);
 };
 
-struct QBRBook {
-    qbrbookinfo metadata;
+class QBRBook
+{
+    public:
+    QBRBook();
+    QBRBookMetadata* metadata;
     QString html;
+    void clear();
+    void copy(const QBRBook* other);
 };
+
 
 
 

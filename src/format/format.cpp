@@ -15,8 +15,8 @@ bool Format::loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) 
     return false;
 };
 
-QBRBook Format::getBook() {
-    return QBRBook{};
+QBRBook* Format::getBook() {
+    return new QBRBook{};
 };
 
 QStringList Format::getExtensions() {
@@ -91,15 +91,15 @@ void Format::templateBodyAppend(const QDomNode& bodyNode) const
         .appendChild(bodyNode);
 }
 
-void Format::templateSetMeta(const qbrbookinfo& metadata) const
+void Format::templateSetMeta(QBRBookMetadata* metadata) const
 {
     QString title;
-    if (!metadata.Author.isEmpty() && !metadata.Title.isEmpty()) {
-        title = QString("%1 - %2").arg(metadata.Author, metadata.Title);
-    } else if (!metadata.Author.isEmpty()){
-        title = metadata.Author;
-    } else if (!metadata.Title.isEmpty()) {
-        title = metadata.Title;
+    if (!metadata->Author.isEmpty() && !metadata->Title.isEmpty()) {
+        title = QString("%1 - %2").arg(metadata->Author, metadata->Title);
+    } else if (!metadata->Author.isEmpty()){
+        title = metadata->Author;
+    } else if (!metadata->Title.isEmpty()) {
+        title = metadata->Title;
     }
     templateDoc.firstChildElement("html")
         .firstChildElement("head")

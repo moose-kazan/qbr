@@ -16,14 +16,14 @@ class Format : public QObject
 public:
     Format();
     virtual bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData);
-    virtual QBRBook getBook();
+    virtual QBRBook* getBook();
     virtual QStringList getExtensions();
     virtual QString getFormatTitle();
     virtual bool needUnzip();
     static bool isZipFile(const QByteArray& data);
     void templateInit();
     void templateBodyAppend(const QDomNode& bodyNode) const;
-    void templateSetMeta(const qbrbookinfo& metadata) const;
+    void templateSetMeta(QBRBookMetadata* metadata) const;
     QString templateAsString() const;
     static QDomElement templateCreateElement(const QString& tagName) ;
     static QString templateLoadCSS(const QString& fileName);

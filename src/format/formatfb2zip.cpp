@@ -1,11 +1,14 @@
 #include "formatfb2zip.h"
 
-FormatFB2Zip::FormatFB2Zip() = default;
+FormatFB2Zip::FormatFB2Zip()
+{
+    bookInfo = new QBRBook();
+}
 
 bool FormatFB2Zip::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
     (void)fileName;
 
-    bookInfo.metadata.clear();
+    bookInfo->clear();
 
     if (!isZipFile(fileData))  {
         return false;
@@ -20,7 +23,7 @@ bool FormatFB2Zip::loadFile(const QString fileName, const QByteArray fileData, q
         if (const QString& zipEntryName = zipEntryNames.at(i); zipEntryName.endsWith(".fb2", Qt::CaseInsensitive)) {
             if (parserFB2.loadFile(zipEntryName, zipData->getFileData(zipEntryName), nullptr)) {
                 bookInfo = parserFB2.getBook();
-                bookInfo.metadata.FileFormat = getFormatTitle();
+                bookInfo->metadata->FileFormat = getFormatTitle();
                 return true;
             }
         }
@@ -30,7 +33,7 @@ bool FormatFB2Zip::loadFile(const QString fileName, const QByteArray fileData, q
     return false;
 }
 
-QBRBook FormatFB2Zip::getBook() {
+QBRBook* FormatFB2Zip::getBook() {
     return bookInfo;
 }
 

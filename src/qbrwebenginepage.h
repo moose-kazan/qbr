@@ -9,6 +9,7 @@ public:
     qbrWebEnginePage();
     void positionSave(const QString& fileName) const;
     void positionRestore(const QString& fileName);
+    void scrollToAnchor(const QString& anchor);
 
 protected:
     bool acceptNavigationRequest(const QUrl &url, NavigationType type, bool isMainFrame) override;

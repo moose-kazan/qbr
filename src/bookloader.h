@@ -15,7 +15,7 @@ class BookLoader final : public QObject
     Q_OBJECT
 public:
     BookLoader();
-    QBRBook getBook();
+    QBRBook* getBook();
     QStringList getFilter();
     bool loadFile(const QString& fileName);
 private:
@@ -28,7 +28,7 @@ private:
         new FormatFB3()
     };
 
-    QBRBook bookData;
+    QBRBook* bookData;
     qbrunzip *unZip;
     QStringList filtersData;
     QRegularExpression re = QRegularExpression("^");

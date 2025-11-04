@@ -14,13 +14,13 @@ public:
     bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
-    QBRBook getBook() override;
+    QBRBook* getBook() override;
     bool needUnzip() override;
 
     const QString EMPTYGIF = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 private:
-    QBRBook bookInfo;
+    QBRBook* bookInfo;
     static bool isValidFile(const qbrunzip *zipData);
     static QStringList getRootFiles(const qbrunzip *zipData);
     static QStringList getEncryptedFiles(const qbrunzip *zipData);
@@ -32,6 +32,9 @@ private:
     void processRootFileMetadata(const qbrunzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles);
     bool processRootFile(QDomNode* returnValue, qbrunzip* zipData, const QString& rootFileName, const QStringList& encryptedFiles);
     bool parseFile(qbrunzip *zipData);
+    void loadToc(qbrunzip *zipData, const QString& tocFileName);
+    void loadTocOld(const qbrunzip *zipData, const QString& tocFileName);
+    static void loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* tocList);
 };
 
 #endif // FORMATEPUB_H

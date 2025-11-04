@@ -16,10 +16,10 @@ public:
     explicit FileInfoDialog(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     ~FileInfoDialog() override;
 
-    void setBookInfo(const qbrbookinfo& newBookInfo);
+    void setBookInfo(QBRBookMetadata* newBookInfo);
 
 private:
-    qbrbookinfo bookInfo;
+    QBRBookMetadata* bookInfo;
 
     void showEvent(QShowEvent *event) override;
     Ui::FileInfoDialog *ui;

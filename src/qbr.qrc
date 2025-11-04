@@ -21,5 +21,6 @@
         <file>icon/qbr/actions/help-about.png</file>
         <file>icon/qbr/actions/preferences-system.png</file>
         <file>icon/qbr/actions/view-fullscreen.png</file>
+        <file>icon/qbr/actions/action-toc.png</file>
     </qresource>
 </RCC>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>409</width>
-    <height>326</height>
+    <width>469</width>
+    <height>334</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -83,7 +83,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>409</width>
+     <width>469</width>
      <height>22</height>
     </rect>
    </property>
@@ -105,6 +105,7 @@
     <addaction name="actionGo_back"/>
     <addaction name="actionGo_forward"/>
     <addaction name="actionFind_text"/>
+    <addaction name="actionToc"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -149,6 +150,7 @@
    <addaction name="actionGo_forward"/>
    <addaction name="separator"/>
    <addaction name="actionFind_text"/>
+   <addaction name="actionToc"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="actionFullScreen"/>
@@ -276,6 +278,15 @@
    </property>
    <property name="toolTip">
     <string>Toggle fullscreen</string>
+   </property>
+  </action>
+  <action name="actionToc">
+   <property name="icon">
+    <iconset resource="qbr.qrc">
+     <normaloff>:/icon/qbr/actions/action-toc.png</normaloff>:/icon/qbr/actions/action-toc.png</iconset>
+   </property>
+   <property name="text">
+    <string>Table of contents</string>
    </property>
   </action>
  </widget>
@@ -466,6 +477,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionToc</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showToc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>166</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>helpAbout()</slot>
@@ -478,5 +505,6 @@
   <slot>settingsShow()</slot>
   <slot>fileBookInfo()</slot>
   <slot>toggleFullScreen()</slot>
+  <slot>showToc()</slot>
  </slots>
 </ui>

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QFileDialog>
+#include <QWebEngineView>
 
 #include "format/format.h"
 #include "aboutdialog.h"
@@ -12,6 +13,7 @@
 #include "settingsdialog.h"
 #include "bookloader.h"
 #include "booksaver.h"
+#include "tocdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -44,6 +46,7 @@ private slots:
     void settingsShow() const;
     void fileBookInfo();
     void toggleFullScreen();
+    void showToc();
 
 private:
     void readState();
@@ -57,6 +60,9 @@ private:
     FileInfoDialog *fileInfoDlg;
     SettingsDialog *settingsDlg;
     QFileDialog *openFileDlg;
+    TocDialog *tocDlg;
+
+    QWebEngineView *mainBrowser;
 
     Ui::MainWindow *ui;
 
@@ -64,7 +70,7 @@ private:
     BookLoader *bookLoader;
     BookSaver *bookSaver;
 
-    QBRBook bookInfo;
+    QBRBook* bookInfo;
 
     bool returnToMaximized{};
 };

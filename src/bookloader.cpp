@@ -3,6 +3,7 @@
 #include <QFile>
 
 BookLoader::BookLoader() {
+    bookData = new QBRBook();
     QString filterLine;
     QStringList allExts;
 
@@ -27,7 +28,7 @@ QStringList BookLoader::getFilter()
 }
 
 
-QBRBook BookLoader::getBook()
+QBRBook* BookLoader::getBook()
 {
     return bookData;
 }

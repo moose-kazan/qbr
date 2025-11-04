@@ -6,6 +6,8 @@
 #include <QUrl>
 #include <QtEndian>
 
+#include "../libs/qbrbookinfo.h"
+
 /*
  * AMB support
  *
@@ -21,6 +23,7 @@
 
 FormatAMB::FormatAMB()
 {
+  book = new QBRBook();
   for (int i = 0; i < 128; i++)
     unicodeMap[i] = defaultUnicodeMap[i];
 }
@@ -46,9 +49,9 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
     for (int j = 0; j < 12 && fileData.at(entryOffset + j) != 0; j++) {
       entryName.append(fileData.at(entryOffset + j));
     }
-    const int entryFileOffset =
+    const auto entryFileOffset =
         qFromLittleEndian<quint32>(fileData.mid(entryOffset + 12, 4).data());
-    const int entryFileLength =
+    const auto entryFileLength =
         qFromLittleEndian<quint16>(fileData.mid(entryOffset + 16, 2).data());
     if (entryName.endsWith(".amc", Qt::CaseInsensitive))
     {
@@ -76,7 +79,7 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
 
   // If file have title
   if (ambEntries.contains("title")) {
-    bookInfo.Title = convertToUtf8(ambEntries.value("title"))
+    book->metadata->Title = convertToUtf8(ambEntries.value("title"))
                          .replace("\n", "")
                          .replace("\r", "");
   }
@@ -132,8 +135,8 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
     }
   }
 
-  templateSetMeta(bookInfo);
-  htmlData = templateAsString();
+  templateSetMeta(book->metadata);
+  book->html = templateAsString();
   //htmlData.insert(htmlData.indexOf("</body>"), htmlBodyData);
 
   // htmlData = "Total files: " + QString::number(filesCount) + "!\n";
@@ -165,6 +168,10 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
   {
     sectionId.chop(4);
   }
+
+  QBRTocItem tocItemData = QBRTocItem(sectionId, sectionId);
+  book->metadata->Toc.append(tocItemData);
+
   rv.append(R"(<div class="amb_body" id=")");
   rv.append(sectionId);
   rv.append("\">\n");
@@ -226,7 +233,7 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
 
     if (openTag.length() > 0 && (c == QChar(0x0a) || c == '%')) {
       // if file end with spaces
-      for (int j = rv.length() - 1; j >= 0; j--) {
+      for (qsizetype j = rv.length() - 1; j >= 0; j--) {
         if (rv.at(j) != ' ') {
           rv.insert(j + 1, "</" + openTag + ">");
           break;
@@ -260,9 +267,8 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
 bool FormatAMB::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
   (void)zipData;
   // reset data from previous file
-  htmlData = "";
-  bookInfo.clear();
-  bookInfo.FileFormat = getFormatTitle();
+  book->clear();
+  book->metadata->FileFormat = getFormatTitle();
 
   ambEntries.clear();
   for (int i = 0; i < 128; i++)
@@ -286,7 +292,7 @@ bool FormatAMB::loadFile(const QString fileName, const QByteArray fileData, qbru
   return false;
 }
 
-QBRBook FormatAMB::getBook() { return QBRBook{bookInfo, htmlData}; }
+QBRBook* FormatAMB::getBook() { return book; }
 
 bool FormatAMB::needUnzip() { return false; }
 

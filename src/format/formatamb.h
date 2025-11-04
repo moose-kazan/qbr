@@ -13,16 +13,15 @@ public:
     bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
-    QBRBook getBook() override;
+    QBRBook* getBook() override;
     bool needUnzip() override;
     static unsigned short mvcomp_depack(unsigned char* dst, unsigned short buff16);
 
 private:
-    qbrbookinfo bookInfo;
+    QBRBook* book;
     bool parseAmb(const QByteArray& fileData);
     QString convertToUtf8(const QByteArray& fileData) const;
     QString amaToHtml(const QString& fileName) const;
-    QString htmlData;
     QHash<QString, QByteArray> ambEntries;
     static QByteArray mvucomp(const QByteArray& inputData);
 

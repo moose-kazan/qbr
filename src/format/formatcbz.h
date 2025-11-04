@@ -14,11 +14,10 @@ public:
     bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
-    QBRBook getBook() override;
+    QBRBook* getBook() override;
     bool needUnzip() override;
 private:
-    qbrbookinfo bookInfo;
-    QString htmlData;
+    QBRBook *book;
     QRegularExpression fileNameRegexp = QRegularExpression("\\.cbz$", QRegularExpression::CaseInsensitiveOption);
 };
 

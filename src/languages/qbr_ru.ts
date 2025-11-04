@@ -18,25 +18,30 @@
         <translation>&lt;h1&gt;Qt Book Reader&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.ui" line="91"/>
+        <location filename="../aboutdialog.ui" line="101"/>
         <source>Simple e-Book reader written on C++ with Qt library.</source>
         <translation>Простая читалка электронных книг, написанная на C++ с использованием библиотеки Qt.</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.ui" line="117"/>
+        <location filename="../aboutdialog.ui" line="127"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.cpp" line="10"/>
+        <location filename="../aboutdialog.cpp" line="13"/>
         <source>About</source>
         <translation>О программе</translation>
+    </message>
+    <message>
+        <location filename="../aboutdialog.cpp" line="17"/>
+        <source>Version: %1</source>
+        <translation>Версия: %1</translation>
     </message>
 </context>
 <context>
     <name>BookLoader</name>
     <message>
-        <location filename="../bookloader.cpp" line="20"/>
+        <location filename="../bookloader.cpp" line="21"/>
         <source>Books (%1)</source>
         <translation>Книги (%1)</translation>
     </message>
@@ -138,11 +143,35 @@
     </message>
 </context>
 <context>
+    <name>FormatEPub</name>
+    <message>
+        <location filename="../format/formatepub.cpp" line="467"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+</context>
+<context>
+    <name>FormatFB2</name>
+    <message>
+        <location filename="../format/formatfb2.cpp" line="146"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+</context>
+<context>
+    <name>FormatFB3</name>
+    <message>
+        <location filename="../format/formatfb3.cpp" line="308"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="20"/>
-        <location filename="../mainwindow.cpp" line="34"/>
-        <location filename="../mainwindow.cpp" line="111"/>
+        <location filename="../mainwindow.cpp" line="36"/>
+        <location filename="../mainwindow.cpp" line="119"/>
         <source>Qt Book Reader</source>
         <translation>Qt Book Reader</translation>
     </message>
@@ -166,118 +195,118 @@
         <translation>Навигация</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="111"/>
+        <location filename="../mainwindow.ui" line="112"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="118"/>
+        <location filename="../mainwindow.ui" line="119"/>
         <source>View</source>
         <translation>Вид</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="131"/>
+        <location filename="../mainwindow.ui" line="132"/>
         <source>toolBar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="164"/>
-        <location filename="../mainwindow.cpp" line="62"/>
+        <location filename="../mainwindow.ui" line="166"/>
+        <location filename="../mainwindow.cpp" line="65"/>
         <source>Open File</source>
         <translation>Открыть файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="167"/>
+        <location filename="../mainwindow.ui" line="169"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="176"/>
+        <location filename="../mainwindow.ui" line="178"/>
         <source>Save as</source>
         <translation>Сохранить как</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="179"/>
+        <location filename="../mainwindow.ui" line="181"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="188"/>
+        <location filename="../mainwindow.ui" line="190"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="191"/>
+        <location filename="../mainwindow.ui" line="193"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="200"/>
+        <location filename="../mainwindow.ui" line="202"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="209"/>
+        <location filename="../mainwindow.ui" line="211"/>
         <source>About Qt</source>
         <translation>О Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="218"/>
+        <location filename="../mainwindow.ui" line="220"/>
         <source>Go back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="221"/>
+        <location filename="../mainwindow.ui" line="223"/>
         <source>Alt+Left</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="230"/>
+        <location filename="../mainwindow.ui" line="232"/>
         <source>Go forward</source>
         <translation>Вперёд</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="233"/>
+        <location filename="../mainwindow.ui" line="235"/>
         <source>Alt+Right</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="242"/>
+        <location filename="../mainwindow.ui" line="244"/>
         <source>Find text</source>
         <translation>Найти текст</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="245"/>
+        <location filename="../mainwindow.ui" line="247"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="254"/>
+        <location filename="../mainwindow.ui" line="256"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="263"/>
+        <location filename="../mainwindow.ui" line="265"/>
         <source>Book Info</source>
         <translation>Информация о книге</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="275"/>
+        <location filename="../mainwindow.ui" line="277"/>
         <source>FullScreen</source>
         <translation>Во весь экран</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="278"/>
+        <location filename="../mainwindow.ui" line="280"/>
         <source>Toggle fullscreen</source>
         <translation>Полноэкранный режим</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="281"/>
-        <source>F11</source>
-        <translation></translation>
+        <location filename="../mainwindow.ui" line="289"/>
+        <source>Table of contents</source>
+        <translation>Оглавление</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="104"/>
         <source>Save file as...</source>
         <translation>Сохранить файл как</translation>
     </message>
@@ -290,23 +319,23 @@
         <translation type="vanished">HTML-страницы (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="270"/>
-        <location filename="../mainwindow.cpp" line="274"/>
+        <location filename="../mainwindow.cpp" line="298"/>
+        <location filename="../mainwindow.cpp" line="302"/>
         <source>Can&apos;t load book</source>
         <translation>Не удалось открыть книгу</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="270"/>
+        <location filename="../mainwindow.cpp" line="298"/>
         <source>I/O error!</source>
         <translation>Ошибка ввода/вывода!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="275"/>
+        <location filename="../mainwindow.cpp" line="303"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Формат файла не поддерживается или файл испорчен!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="322"/>
+        <location filename="../mainwindow.cpp" line="350"/>
         <source>Qt Book Reader - %1</source>
         <translation>Qt Book Reader - %1</translation>
     </message>
@@ -392,6 +421,29 @@
         <location filename="../settingsdialog.cpp" line="87"/>
         <source>Stylesheets (%1)</source>
         <translation>Таблицы стилей (%1)</translation>
+    </message>
+</context>
+<context>
+    <name>TocDialog</name>
+    <message>
+        <location filename="../tocdialog.ui" line="14"/>
+        <source>tocdialog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../tocdialog.ui" line="45"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <location filename="../tocdialog.ui" line="58"/>
+        <source>Go to</source>
+        <translation>Перейти</translation>
+    </message>
+    <message>
+        <location filename="../tocdialog.cpp" line="18"/>
+        <source>Table of contents</source>
+        <translation>Оглавление</translation>
     </message>
 </context>
 <context>

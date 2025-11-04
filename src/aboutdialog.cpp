@@ -14,8 +14,8 @@ AboutDialog::AboutDialog(QWidget* parent, const Qt::WindowFlags f)
     setModal(true);
     setFixedSize(size());
 
-    QString versionString = QString(tr("Version: %1")).arg(PROJECT_VERSION_STRING);
-    QLabel* versionLabel = findChild<QLabel*>("appVersion");
+    const QString versionString = QString(tr("Version: %1")).arg(PROJECT_VERSION_STRING);
+    auto* versionLabel = findChild<QLabel*>("appVersion");
     versionLabel->setText(versionString);
 
     const auto* okButton = findChild<QPushButton*>("okButton");

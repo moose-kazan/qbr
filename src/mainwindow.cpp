@@ -16,14 +16,15 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    bookInfo = new QBRBook();
     bookLoader = new BookLoader();
     bookSaver = new BookSaver();
 
     ui->setupUi(this);
 
-    auto* browser = findChild<QWebEngineView*>("browser");
-    browser->setPage(new qbrWebEnginePage);
-    browser->setContextMenuPolicy(Qt::NoContextMenu);
+    mainBrowser = findChild<QWebEngineView*>("browser");
+    mainBrowser->setPage(new qbrWebEnginePage);
+    mainBrowser->setContextMenuPolicy(Qt::NoContextMenu);
     connect(findChild<QWebEngineView*>("browser"), &QWebEngineView::loadFinished,
             this, &MainWindow::bookLoadFinished);
 
@@ -42,6 +43,7 @@ MainWindow::MainWindow(QWidget* parent)
     findDlg = new FindDialog(this, Qt::Dialog);
     fileInfoDlg = new FileInfoDialog(this, Qt::Dialog);
     settingsDlg = new SettingsDialog(this, Qt::Dialog);
+    tocDlg = new TocDialog(this, Qt::Dialog);
 
     openFileDlg = new QFileDialog();
 
@@ -105,7 +107,7 @@ void MainWindow::saveFileAs()
     if (fileName != "")
     {
         Export* exporter = bookSaver->exporterByFilter(selectedFilter);
-        exporter->setData(&bookInfo);
+        exporter->setData(bookInfo);
         exporter->save(fileName);
     }
 }
@@ -119,12 +121,12 @@ void MainWindow::helpAboutQt()
 
 void MainWindow::naviGoBack() const
 {
-    findChild<QWebEngineView*>("browser")->back();
+    mainBrowser->back();
 }
 
 void MainWindow::naviGoForward() const
 {
-    findChild<QWebEngineView*>("browser")->forward();
+    mainBrowser->forward();
 }
 
 void MainWindow::naviFind()
@@ -148,11 +150,11 @@ void MainWindow::naviFind()
         if (optionCaseSensitive)
             findFlags.setFlag(QWebEnginePage::FindCaseSensitively, true);
 
-        findChild<QWebEngineView*>("browser")->findText(findText, findFlags);
+        mainBrowser->findText(findText, findFlags);
     }
     else
     {
-        findChild<QWebEngineView*>("browser")->findText("");
+        mainBrowser->findText("");
     }
 }
 
@@ -173,8 +175,11 @@ void MainWindow::fileBookInfo()
     {
         return;
     }
-    fileInfoDlg->setBookInfo(bookInfo.metadata);
-    fileInfoDlg->exec();
+    fileInfoDlg->setBookInfo(bookInfo->metadata);
+    if (fileInfoDlg->exec() == QDialog::Accepted)
+    {
+
+    }
 }
 
 void MainWindow::toggleFullScreen()
@@ -201,6 +206,17 @@ void MainWindow::toggleFullScreen()
     readSettings();
 }
 
+void MainWindow::showToc()
+{
+    tocDlg->setData(&bookInfo->metadata->Toc);
+    if (tocDlg->exec() == QDialog::Accepted)
+    {
+        const QString anchor = tocDlg->getSelectedAnchor();
+        auto* wp = dynamic_cast<qbrWebEnginePage*>(mainBrowser->page());
+        wp->scrollToAnchor(anchor);
+    }
+}
+
 void MainWindow::closeEvent(QCloseEvent* event)
 {
     positionSave();
@@ -216,7 +232,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::readBookSettings() const
 {
-    findChild<QWebEngineView*>("browser")->page()->setBackgroundColor(
+    mainBrowser->page()->setBackgroundColor(
         QColor(Settings::getBookBgColor()));
 }
 
@@ -265,14 +281,14 @@ void MainWindow::loadBook(const QString& fileName)
             f.setAutoRemove(false);
             if (f.open())
             {
-                const QBRBook fullBook = bookLoader->getBook();
-                f.write(fullBook.html.toUtf8());
+                const QBRBook* fullBook = bookLoader->getBook();
+                f.write(fullBook->html.toUtf8());
                 f.close();
 
-                findChild<QWebEngineView*>("browser")->load(
+                mainBrowser->load(
                     QUrl::fromLocalFile(f.fileName()));
                 setCurrentFileName(fileName);
-                bookInfo = fullBook;
+                bookInfo->copy(fullBook);
             }
             return;
         }
@@ -292,10 +308,10 @@ void MainWindow::bookLoadFinished(const bool ok)
     if (!ok)
         return;
 
-    findChild<QWebEngineView*>("browser")->page()->history()->clear();
-    if (findChild<QWebEngineView*>("browser")->url().toLocalFile() != "")
+    mainBrowser->page()->history()->clear();
+    if (mainBrowser->url().toLocalFile() != "")
     {
-        QFile::remove(findChild<QWebEngineView*>("browser")->url().toLocalFile());
+        QFile::remove(mainBrowser->url().toLocalFile());
     }
 
     readBookSettings();
@@ -311,7 +327,7 @@ void MainWindow::positionSave()
     }
     // Save position
     const auto wp =
-        dynamic_cast<qbrWebEnginePage*>(findChild<QWebEngineView*>("browser")->page());
+        dynamic_cast<qbrWebEnginePage*>(mainBrowser->page());
     wp->positionSave(getCurrentFileName());
 }
 

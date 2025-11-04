@@ -104,6 +104,9 @@ set(PROJECT_SOURCES
     ${RES_DATA}
     ${ICON_FILES}
     ${TS_FILES}
+        src/tocdialog.cpp
+        src/tocdialog.h
+        src/tocdialog.ui
 )
 
 if (Qt6Core_VERSION VERSION_GREATER_EQUAL 6.4.0)

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TocDialog</class>
+ <widget class="QDialog" name="TocDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>401</width>
+    <height>304</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>tocdialog</string>
+  </property>
+  <widget class="QTreeView" name="tocTreeView">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>401</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="itemsExpandable">
+    <bool>false</bool>
+   </property>
+   <property name="headerHidden">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cancelButton">
+   <property name="geometry">
+    <rect>
+     <x>279</x>
+     <y>270</y>
+     <width>111</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="gotoButton">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>270</y>
+     <width>111</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Go to</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TocDialog</receiver>
+   <slot>cancelClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>334</x>
+     <y>282</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>200</x>
+     <y>151</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gotoButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TocDialog</receiver>
+   <slot>gotoClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>215</x>
+     <y>282</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>200</x>
+     <y>151</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>gotoClick()</slot>
+  <slot>cancelClick()</slot>
+ </slots>
+</ui>

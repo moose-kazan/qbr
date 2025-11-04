@@ -10,7 +10,7 @@ FileInfoDialog::FileInfoDialog(QWidget *parent, const Qt::WindowFlags f)
   setFixedSize(size());
 }
 
-void FileInfoDialog::setBookInfo(const qbrbookinfo& newBookInfo) {
+void FileInfoDialog::setBookInfo(QBRBookMetadata* newBookInfo) {
   bookInfo = newBookInfo;
 }
 
@@ -26,15 +26,15 @@ void FileInfoDialog::showEvent(QShowEvent *event) {
 
   tw->insertRow(0);
   tw->setVerticalHeaderItem(0, new QTableWidgetItem(tr("File type")));
-  tw->setItem(0, 0, new QTableWidgetItem(bookInfo.FileFormat));
+  tw->setItem(0, 0, new QTableWidgetItem(bookInfo->FileFormat));
 
   tw->insertRow(1);
   tw->setVerticalHeaderItem(1, new QTableWidgetItem(tr("Book author")));
-  tw->setItem(1, 0, new QTableWidgetItem(bookInfo.Author));
+  tw->setItem(1, 0, new QTableWidgetItem(bookInfo->Author));
 
   tw->insertRow(2);
   tw->setVerticalHeaderItem(2, new QTableWidgetItem(tr("Book title")));
-  tw->setItem(2, 0, new QTableWidgetItem(bookInfo.Title));
+  tw->setItem(2, 0, new QTableWidgetItem(bookInfo->Title));
 
   tw->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
 
@@ -44,8 +44,8 @@ void FileInfoDialog::showEvent(QShowEvent *event) {
 
   auto *cw = findChild<QLabel *>("bookCover");
   QPixmap coverPixmap;
-  if (!bookInfo.Cover.isNull()) {
-      coverPixmap.convertFromImage(bookInfo.Cover);
+  if (!bookInfo->Cover.isNull()) {
+      coverPixmap.convertFromImage(bookInfo->Cover);
   }
   else {
       coverPixmap.load(":/icon/512x512/qbr.png");

@@ -43,3 +43,18 @@ void qbrWebEnginePage::positionRestore(const QString& fileName) {
                     .arg(pos.x())
                     .arg(pos.y()));
 }
+
+void qbrWebEnginePage::scrollToAnchor(const QString& anchor)
+{
+  //qDebug() << "Scroll to anchor: " << anchor;
+  if (anchor.isEmpty())
+  {
+    const QString js = "window.scrollTo(0, 0);";
+    runJavaScript(js);
+  }
+  else
+  {
+    const QString js = "var e = document.getElementById('%1'); if (e) { e.scrollIntoView(); }";
+    runJavaScript(js.arg(anchor));
+  }
+}

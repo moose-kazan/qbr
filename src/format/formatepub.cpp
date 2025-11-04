@@ -3,19 +3,23 @@
 #include <QDomDocument>
 #include <QDir>
 #include <QUrl>
+#include <zip.h>
 
 
 /**
  * EPub-parser. Based on https://www.w3.org/TR/epub-33
  */
 
-FormatEPub::FormatEPub() = default;
+FormatEPub::FormatEPub()
+{
+    bookInfo = new QBRBook();
+}
 
 bool FormatEPub::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
     (void)fileName;
 
-    bookInfo.metadata.clear();
-    bookInfo.metadata.FileFormat = getFormatTitle();
+    bookInfo->clear();
+    bookInfo->metadata->FileFormat = getFormatTitle();
 
     if (!isZipFile(fileData)) {
         return false;
@@ -40,7 +44,7 @@ QString FormatEPub::getFormatTitle()
 }
 
 
-QBRBook FormatEPub::getBook() {
+QBRBook* FormatEPub::getBook() {
     return bookInfo;
 }
 
@@ -310,12 +314,12 @@ void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString&
         return;
     }
 
-    if (const QDomElement titleNode = metadataNode.firstChildElement("title"); bookInfo.metadata.Title.compare("") == 0 && !titleNode.isNull()) {
-        bookInfo.metadata.Title = titleNode.text();
+    if (const QDomElement titleNode = metadataNode.firstChildElement("title"); bookInfo->metadata->Title.compare("") == 0 && !titleNode.isNull()) {
+        bookInfo->metadata->Title = titleNode.text();
     }
 
-    if (const QDomElement creatorNode = metadataNode.firstChildElement("creator"); bookInfo.metadata.Author.compare("") == 0 && !creatorNode.isNull()) {
-        bookInfo.metadata.Author = creatorNode.text();
+    if (const QDomElement creatorNode = metadataNode.firstChildElement("creator"); bookInfo->metadata->Author.compare("") == 0 && !creatorNode.isNull()) {
+        bookInfo->metadata->Author = creatorNode.text();
     }
 
     // Cover imagw. Epub-2 Way
@@ -325,7 +329,7 @@ void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString&
             if (metaNode.hasAttribute("content")) {
                 if (const QString coverItemId = metaNode.attribute("content"); manifestMap->contains(coverItemId)) {
                     if (const QString coverImageName = expandFileName(rootFileName, manifestMap->value(coverItemId).attribute("href")); !encryptedFiles.contains(coverImageName)) {
-                        bookInfo.metadata.Cover.loadFromData(zipData->getFileData(coverImageName));
+                        bookInfo->metadata->Cover.loadFromData(zipData->getFileData(coverImageName));
                     }
                 }
                 break;
@@ -335,11 +339,11 @@ void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString&
     }
 
     // Cover imagw. Epub-3 Way
-    if (bookInfo.metadata.Cover.isNull()) {
+    if (bookInfo->metadata->Cover.isNull()) {
         for (int i = 0; i < manifestMap->values().count(); i++) {
             if (QDomElement manifestItem = manifestMap->values().at(i); manifestItem.attribute("properties", "").compare("cover-image") == 0) {
                 const QString coverImageName = expandFileName(rootFileName, manifestItem.attribute("href"));
-                bookInfo.metadata.Cover.loadFromData(zipData->getFileData(coverImageName));
+                bookInfo->metadata->Cover.loadFromData(zipData->getFileData(coverImageName));
             }
         }
     }
@@ -360,9 +364,24 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
 
     QMap<QString,QDomElement> manifestMap;
 
+    QString tocFileName;
+    QString tocOldFileName;
+
     QDomElement manifestItem = rootFileXml.firstChildElement("package").firstChildElement("manifest").firstChildElement("item");
     while (!manifestItem.isNull()) {
         QString manifestItemFileId = manifestItem.attribute("id", "");
+        QString manifestItemProperties = manifestItem.attribute("properties", "");
+        // TOC File
+        if (manifestItemProperties.split(" ").contains("nav"))
+        {
+            tocFileName = manifestItem.attribute("href", "");;
+        }
+        QString manifestItemMediaType = manifestItem.attribute("media-type", "");
+        // Old TOC File
+        if (manifestItemMediaType.compare("application/x-dtbncx+xml") == 0)
+        {
+            tocOldFileName = expandFileName(rootFileName, manifestItem.attribute("href"));
+        }
         manifestMap[manifestItemFileId] = manifestItem;
         manifestItem = manifestItem.nextSiblingElement("item");
     }
@@ -379,9 +398,83 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
         spineItem = spineItem.nextSiblingElement("itemref");
     }
 
+    if (!tocFileName.isEmpty())
+    {
+        loadToc(zipData, tocOldFileName);;
+    }
+    else if (!tocOldFileName.isEmpty())
+    {
+        loadTocOld(zipData, tocOldFileName);;
+    }
+
     processRootFileMetadata(zipData, rootFileName, &rootFileXml, &manifestMap, encryptedFiles);
 
     return true;
+}
+
+void FormatEPub::loadToc(qbrunzip *zipData, const QString& tocFileName)
+{
+    // TODO
+}
+
+/**
+ * Load TOC from old format. Tipically it have name "toc.ncx"
+ * @param zipData
+ * @param tocFileName
+ */
+void FormatEPub::loadTocOld(const qbrunzip *zipData, const QString& tocFileName)
+{
+    if (!zipData->fileExists(tocFileName))
+    {
+        return;
+    }
+
+    QDomDocument tocFileXml;
+    tocFileXml.setContent(zipData->getFileData(tocFileName));
+
+    QDomElement rootTocItem = tocFileXml
+        .firstChildElement("ncx")
+        .firstChildElement("navMap");
+    if (rootTocItem.isNull() || !rootTocItem.hasChildNodes())
+    {
+        return;
+    }
+
+    loadTocOldItem(rootTocItem, &bookInfo->metadata->Toc);
+}
+
+void FormatEPub::loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* tocList)
+{
+    QList<QDomElement> srcTocList;
+
+    QDomElement navPoint = curItem.firstChildElement("navPoint");
+    while (!navPoint.isNull())
+    {
+        srcTocList.append(navPoint);
+        navPoint = navPoint.nextSiblingElement("navPoint");
+    }
+
+    // May be we need sorting for srcTocList by playOrder attribute?
+
+    for (const auto & i : srcTocList)
+    {
+        QBRTocItem tocItem;
+        tocItem.Title = i
+            .firstChildElement("navLabel")
+            .firstChildElement("text").text();
+        if (tocItem.Title.isEmpty())
+        {
+            tocItem.Title = tr("...");
+        }
+        QString tocItemAnchor = i
+            .firstChildElement("content")
+            .attribute("src", "");
+        tocItem.Anchor = tocItemAnchor.split('#').last();
+
+        loadTocOldItem(i, &tocItem.Childs);
+
+        tocList->append(tocItem);
+    }
 }
 
 bool FormatEPub::parseFile(qbrunzip *zipData) {
@@ -406,8 +499,8 @@ bool FormatEPub::parseFile(qbrunzip *zipData) {
         templateBodyAppend(rootFileData);
     }
 
-    templateSetMeta(bookInfo.metadata);
-    bookInfo.html += templateAsString();
+    templateSetMeta(bookInfo->metadata);
+    bookInfo->html = templateAsString();
 
     return true;
 }

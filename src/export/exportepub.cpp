@@ -52,12 +52,12 @@ bool ExportEPub::save(const QString fileName)
     zipWriter->addItem({"content.opf", prepareContentOpf(images.keys()), zipItem::METHOD_STORE });
     zipWriter->addItem({"nav.xhtml", prepareNavXhtml(), zipItem::METHOD_DEFAULT });
     zipWriter->addItem({"index.xhtml", htmlDocument.toString().toUtf8(), zipItem::METHOD_DEFAULT });
-    if (!book->metadata.Cover.isNull())
+    if (!book->metadata->Cover.isNull())
     {
         QByteArray coverImage;
         QBuffer coverImageBuffer(&coverImage);
         coverImageBuffer.open(QIODevice::WriteOnly);
-        book->metadata.Cover.save(&coverImageBuffer, "PNG");
+        book->metadata->Cover.save(&coverImageBuffer, "PNG");
         coverImageBuffer.close();
         zipWriter->addItem({"cover.png", coverImage, zipItem::METHOD_DEFAULT});
     }
@@ -104,7 +104,7 @@ QByteArray ExportEPub::prepareContentOpf(const QStringList& images) const
     auto contentOpf = QDomDocument();
     contentOpf.setContent(contentOpfTemplate);
     // Title
-    QString title = book->metadata.Title;
+    QString title = book->metadata->Title;
     if (title.isEmpty())
     {
         title = tr("Untitled");
@@ -125,7 +125,7 @@ QByteArray ExportEPub::prepareContentOpf(const QStringList& images) const
         .firstChildElement("meta")
         .appendChild(QDomDocument().createTextNode(QDateTime::currentDateTimeUtc().toString(Qt::ISODate)));
 
-    if (!book->metadata.Cover.isNull())
+    if (!book->metadata->Cover.isNull())
     {
         QDomElement metaCoverImageNode = QDomDocument().createElement("meta");
         metaCoverImageNode.setAttribute("content", "cover");

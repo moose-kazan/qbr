@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>311</height>
+    <height>333</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,7 @@
          <x>0</x>
          <y>0</y>
          <width>450</width>
-         <height>261</height>
+         <height>270</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -80,6 +80,16 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="appVersion">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="appDesc">
           <property name="minimumSize">
            <size>
@@ -108,7 +118,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>270</y>
+     <y>290</y>
      <width>271</width>
      <height>31</height>
     </rect>
