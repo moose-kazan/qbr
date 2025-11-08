@@ -306,6 +306,11 @@
         <translation>Оглавление</translation>
     </message>
     <message>
+        <location filename="../mainwindow.ui" line="292"/>
+        <source>F3</source>
+        <translation></translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="104"/>
         <source>Save file as...</source>
         <translation>Сохранить файл как</translation>
@@ -348,58 +353,68 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="51"/>
-        <location filename="../settingsdialog.ui" line="63"/>
+        <location filename="../settingsdialog.ui" line="58"/>
+        <source>App interface</source>
+        <translation>Интерфейс</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="70"/>
+        <location filename="../settingsdialog.ui" line="82"/>
         <source>Menu and toolbar</source>
         <translation>Меню и панель инструментов</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="76"/>
+        <location filename="../settingsdialog.ui" line="95"/>
         <source>Only menu</source>
         <translation>Только меню</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="89"/>
+        <location filename="../settingsdialog.ui" line="108"/>
         <source>Only toolbar</source>
         <translation>Только панель инструментов</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="103"/>
+        <location filename="../settingsdialog.ui" line="122"/>
         <source>Show statusbar</source>
         <translation>Показывать строку состояния</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="116"/>
+        <location filename="../settingsdialog.ui" line="135"/>
         <source>Load last file on start</source>
         <translation>Открывать последний файл при запуске</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="129"/>
+        <location filename="../settingsdialog.ui" line="154"/>
+        <source>Book view</source>
+        <translation>Вид книги</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="166"/>
         <source>Book Design</source>
         <translation>Оформление книги</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="154"/>
+        <location filename="../settingsdialog.ui" line="191"/>
         <source>Background color</source>
         <translation>Цвет фона</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="168"/>
+        <location filename="../settingsdialog.ui" line="205"/>
         <source>Custom CSS</source>
         <translation>Своя таблица стилей</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="180"/>
+        <location filename="../settingsdialog.ui" line="217"/>
         <source>Enable custom (additional) CSS</source>
         <translation>Добавить свою таблицу стилей</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="193"/>
+        <location filename="../settingsdialog.ui" line="230"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="227"/>
+        <location filename="../settingsdialog.ui" line="148"/>
         <source>Hide all UI controls on full screen</source>
         <translation>Скрывать элементы интерфейса в полноэкранном режиме</translation>
     </message>
