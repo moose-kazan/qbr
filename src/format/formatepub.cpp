@@ -2,6 +2,7 @@
 
 #include <QDomDocument>
 #include <QDir>
+#include <QRegularExpression>
 #include <QUrl>
 #include <zip.h>
 
@@ -374,7 +375,7 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
         // TOC File
         if (manifestItemProperties.split(" ").contains("nav"))
         {
-            tocFileName = manifestItem.attribute("href", "");;
+            tocFileName = expandFileName(rootFileName, manifestItem.attribute("href", ""));;
         }
         QString manifestItemMediaType = manifestItem.attribute("media-type", "");
         // Old TOC File
@@ -398,9 +399,12 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
         spineItem = spineItem.nextSiblingElement("itemref");
     }
 
+    //qDebug() << "tocFile: " << tocFileName;
+    //qDebug() << "tocOldFileName: " << tocOldFileName;
+
     if (!tocFileName.isEmpty())
     {
-        loadToc(zipData, tocOldFileName);;
+        loadToc(zipData, tocFileName, rootFileName);;
     }
     else if (!tocOldFileName.isEmpty())
     {
@@ -412,13 +416,92 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
     return true;
 }
 
-void FormatEPub::loadToc(qbrunzip *zipData, const QString& tocFileName)
+/**
+ * Load TOC file. It have attr: properties="nav"
+ * More info can be found here:
+ * https://www.w3.org/TR/epub-33/#sec-nav
+ * https://www.w3.org/TR/epub-33/#confreq-nav-a-href
+ * https://idpf.github.io/epub3-samples/30/samples.html
+ *
+ * @param zipData
+ * @param tocFileName
+ * @param rootFileName
+ */
+void FormatEPub::loadToc(qbrunzip *zipData, const QString& tocFileName, const QString& rootFileName)
 {
-    // TODO
+    if (!zipData->fileExists(tocFileName))
+    {
+        return;
+    }
+
+    QDomDocument tocFileXml;
+    tocFileXml.setContent(zipData->getFileData(tocFileName));
+    QDomNodeList navList = tocFileXml.elementsByTagName("nav");
+    for (int i = 0; i < navList.size(); i++)
+    {
+        QDomElement navItem = navList.at(i).toElement();
+        if (navItem.attribute("epub:type", "") == "toc")
+        {
+            QDomElement oList = navItem.firstChildElement("ol");
+            if (oList.isNull())
+            {
+                continue;
+            }
+
+            QDomElement listItem = oList.firstChildElement("li");
+            while (!listItem.isNull())
+            {
+                loadTocItem(listItem, &bookInfo->metadata->Toc, rootFileName);
+                listItem = listItem.nextSiblingElement("li");
+            }
+        }
+    }
+}
+
+void FormatEPub::loadTocItem(const QDomElement& curItem, QList<QBRTocItem>* tocList, const QString& rootFileName)
+{
+    QBRTocItem tocItem;
+
+    QDomElement itemA = curItem.firstChildElement("a");
+    QDomElement itemSpan = curItem.firstChildElement("span");
+    QDomElement oList = curItem.firstChildElement("ol");
+
+    if (!itemSpan.isNull())
+    {
+        tocItem.Title = itemSpan.text();
+    }
+
+    if (!itemA.isNull())
+    {
+        tocItem.Title = itemA.text();
+        QString itemHref = itemA.attribute("href", "");
+        if (itemHref.contains("#"))
+        {
+            tocItem.Anchor = itemHref.split("#").at(1);
+        }
+        else
+        {
+            tocItem.Anchor = QString("file_%1").arg(expandFileName(rootFileName, itemHref));
+        }
+    }
+
+    tocItem.Title = cleanTitle(tocItem.Title);
+
+    if (!oList.isNull())
+    {
+        QDomElement listItem = oList.firstChildElement("li");
+        while (!listItem.isNull())
+        {
+            loadTocItem(listItem, &tocItem.Childs, rootFileName);
+            listItem = listItem.nextSiblingElement("li");
+        }
+    }
+
+    tocList->append(tocItem);
 }
 
 /**
- * Load TOC from old format. Tipically it have name "toc.ncx"
+ * Load TOC from old format. Typically, it have name "toc.ncx"
  * @param zipData
  * @param tocFileName
  */
@@ -454,7 +537,7 @@ void FormatEPub::loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* t
         navPoint = navPoint.nextSiblingElement("navPoint");
     }
 
-    // May be we need sorting for srcTocList by playOrder attribute?
+    // Maybe we need sorting for srcTocList by playOrder attribute?
 
     for (const auto & i : srcTocList)
     {
@@ -466,6 +549,7 @@ void FormatEPub::loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* t
         {
             tocItem.Title = tr("...");
         }
+        tocItem.Title = cleanTitle(tocItem.Title);
         QString tocItemAnchor = i
             .firstChildElement("content")
             .attribute("src", "");

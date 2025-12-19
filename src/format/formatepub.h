@@ -32,7 +32,8 @@ private:
     void processRootFileMetadata(const qbrunzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles);
     bool processRootFile(QDomNode* returnValue, qbrunzip* zipData, const QString& rootFileName, const QStringList& encryptedFiles);
     bool parseFile(qbrunzip *zipData);
-    void loadToc(qbrunzip *zipData, const QString& tocFileName);
+    void loadToc(qbrunzip* zipData, const QString& tocFileName, const QString& rootFileName);
+    void loadTocItem(const QDomElement& curItem, QList<QBRTocItem>* tocList, const QString& rootFileName);
     void loadTocOld(const qbrunzip *zipData, const QString& tocFileName);
     static void loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* tocList);
 };

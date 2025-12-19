@@ -4,6 +4,7 @@
 
 #include <QDebug>
 #include <QFile>
+#include <QRegularExpression>
 #include <QUrl>
 
 Format::Format() = default;
@@ -136,4 +137,15 @@ QString Format::templateLoadCSS(const QString& fileName)
     styleSheetFile.close();
 
     return styleSheet;
+}
+
+QString Format::cleanTitle(QString Title)
+{
+    QRegularExpression static reStart = QRegularExpression("^[\r\n\t ]+");
+    QRegularExpression static reMid = QRegularExpression("[\r\n\t ]+");
+    QRegularExpression static reEnd = QRegularExpression("[\r\n\t ]+$");
+    Title = Title.replace(reStart, "");
+    Title = Title.replace(reMid, " ");
+    Title = Title.replace(reEnd, "");
+    return Title;
 }

@@ -27,6 +27,7 @@ public:
     QString templateAsString() const;
     static QDomElement templateCreateElement(const QString& tagName) ;
     static QString templateLoadCSS(const QString& fileName);
+    static QString cleanTitle(QString title);
 
 private:
     QDomDocument templateDoc;

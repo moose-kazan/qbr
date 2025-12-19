@@ -316,6 +316,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
                 {
                     returnValue.setAttribute("id", tocItemAnchor);
                 }
+                tocItemTitle = cleanTitle(tocItemTitle);
                 QBRTocItem tocItem = QBRTocItem(tocItemTitle, tocItemAnchor);
                 tocItem.Childs = tocItems;
                 tocList->append(tocItem);
