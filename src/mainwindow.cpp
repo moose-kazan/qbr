@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget* parent)
     returnToMaximized = isMaximized();
     findChild<QAction *>("actionFullScreen")->setChecked(isFullScreen());
 
-    const auto* shortcutFullscreen = new QShortcut(Qt::Key_F11, this);
+    const auto* shortcutFullscreen = new QShortcut(QKeySequence::FullScreen, this);
     //shortcutFullscreen->setEnabled(false);
     connect(shortcutFullscreen, &QShortcut::activated, this, &MainWindow::toggleFullScreen);
 
