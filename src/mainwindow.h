@@ -53,6 +53,9 @@ private:
     void readBookSettings() const;
     void positionSave();
     void positionRestore();
+
+    static QString getDefaultBookPath();
+
     QString currentFileName;
 
     AboutDialog *aboutDlg;

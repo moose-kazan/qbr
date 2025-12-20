@@ -133,7 +133,7 @@
 <context>
     <name>Format</name>
     <message>
-        <location filename="../format/format.cpp" line="28"/>
+        <location filename="../format/format.cpp" line="29"/>
         <source>Unknown file format</source>
         <translation>Unknown file format</translation>
     </message>
@@ -141,7 +141,7 @@
 <context>
     <name>FormatEPub</name>
     <message>
-        <location filename="../format/formatepub.cpp" line="467"/>
+        <location filename="../format/formatepub.cpp" line="550"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -167,7 +167,7 @@
     <message>
         <location filename="../mainwindow.ui" line="20"/>
         <location filename="../mainwindow.cpp" line="36"/>
-        <location filename="../mainwindow.cpp" line="119"/>
+        <location filename="../mainwindow.cpp" line="103"/>
         <source>Qt Book Reader</source>
         <translation>Qt Book Reader</translation>
     </message>
@@ -203,7 +203,7 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="166"/>
-        <location filename="../mainwindow.cpp" line="65"/>
+        <location filename="../mainwindow.cpp" line="55"/>
         <source>Open File</source>
         <translation>Open File</translation>
     </message>
@@ -303,7 +303,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="104"/>
+        <location filename="../mainwindow.cpp" line="88"/>
         <source>Save file as...</source>
         <translation>Save file as...</translation>
     </message>
@@ -316,23 +316,23 @@
         <translation type="vanished">Html pages (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="298"/>
-        <location filename="../mainwindow.cpp" line="302"/>
+        <location filename="../mainwindow.cpp" line="283"/>
+        <location filename="../mainwindow.cpp" line="287"/>
         <source>Can&apos;t load book</source>
         <translation>Can&apos;t load book</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="298"/>
+        <location filename="../mainwindow.cpp" line="283"/>
         <source>I/O error!</source>
         <translation>I/O error!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="303"/>
+        <location filename="../mainwindow.cpp" line="288"/>
         <source>Unsupported file format or broken file!</source>
         <translation>Unsupported file format or broken file</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="350"/>
+        <location filename="../mainwindow.cpp" line="358"/>
         <source>Qt Book Reader - %1</source>
         <translation>Qt Book Reader - %1</translation>
     </message>
@@ -402,8 +402,29 @@
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="230"/>
+        <location filename="../settingsdialog.ui" line="307"/>
         <source>...</source>
         <translation>...</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="257"/>
+        <source>System</source>
+        <translation>System</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="269"/>
+        <source>Default path for open and save dialogs</source>
+        <translation>Default path for open and save dialogs</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="281"/>
+        <source>My Documents</source>
+        <translation>My Documents</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="294"/>
+        <source>Custom</source>
+        <translation>Custom</translation>
     </message>
     <message>
         <location filename="../settingsdialog.ui" line="148"/>
@@ -416,14 +437,19 @@
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="86"/>
+        <location filename="../settingsdialog.cpp" line="113"/>
         <source>Select File</source>
         <translation>Select File</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="87"/>
+        <location filename="../settingsdialog.cpp" line="114"/>
         <source>Stylesheets (%1)</source>
         <translation>Stylesheets (%1)</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.cpp" line="143"/>
+        <source>Select Directory</source>
+        <translation>Select Directory</translation>
     </message>
 </context>
 <context>

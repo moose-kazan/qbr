@@ -13,6 +13,9 @@ public:
     static constexpr int uiMenuOnly = 1;
     static constexpr int uiToolbarOnly = 2;
 
+    static constexpr int defaultPathMyDocs = 1;
+    static constexpr int defaultPathCustom = 2;
+
     static QSettings* getInstance();
 
     static bool getStatusBarEnabled();
@@ -47,6 +50,12 @@ public:
 
     static bool getHideUIOnFullScreen();
     static void setHideUIOnFullScreen(bool hide);
+
+    static int getDefaultPath();
+    static void setDefaultPath(int defaultPath);
+
+    static QString getDefaultPathCustom();
+    static void setDefaultPathCustom(const QString& defaultPathCustomValue);
 
 protected:
     static QSettings* cfg;

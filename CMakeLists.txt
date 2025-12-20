@@ -91,6 +91,9 @@ set(PROJECT_SOURCES
     src/qbrwebenginepage.h
     src/booksaver.h
     src/booksaver.cpp
+    src/tocdialog.cpp
+    src/tocdialog.h
+    src/tocdialog.ui
     src/export/export.h
     src/export/export.cpp
     src/export/exporthtml.h
@@ -104,9 +107,6 @@ set(PROJECT_SOURCES
     ${RES_DATA}
     ${ICON_FILES}
     ${TS_FILES}
-        src/tocdialog.cpp
-        src/tocdialog.h
-        src/tocdialog.ui
 )
 
 if (Qt6Core_VERSION VERSION_GREATER_EQUAL 6.4.0)

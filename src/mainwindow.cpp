@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget* parent)
     // setGeometry(150, 150, 640, 480);
     setMinimumSize(600, 400);
     readState();
-    readSettings();
 
     aboutDlg = new AboutDialog(this, Qt::Dialog);
     findDlg = new FindDialog(this, Qt::Dialog);
@@ -47,16 +46,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     openFileDlg = new QFileDialog();
 
-    // Start path: by default - $HOME, but if exists - xdg-documents
-    QString filterPath = QDir::homePath();
-    if (QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)
-        .count() > 0)
-    {
-        filterPath =
-            QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)
-            .at(0);
-    }
-    openFileDlg->setDirectory(filterPath);
+    readSettings();
 
     openFileDlg->setNameFilters(bookLoader->getFilter());
     openFileDlg->selectNameFilter(bookLoader->getFilter().last());
@@ -93,13 +83,7 @@ void MainWindow::saveFileAs()
         return;
     }
 
-    // Start path: by default - $HOME, but if exists - xdg-documents
-    QString filterPath = QDir::homePath();
-    if (QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).count() > 0)
-    {
-        filterPath = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).at(0);
-    }
-
+    QString filterPath = getDefaultBookPath();
     QString selectedFilter;
     const QString fileName = QFileDialog::getSaveFileName(this, tr("Save file as..."),
                                                     filterPath, bookSaver->getFilter().join(";;"), &selectedFilter);
@@ -248,6 +232,7 @@ void MainWindow::readSettings() const
     const bool hideUI = Settings::getHideUIOnFullScreen();
     const bool trueCalculated = !isFS || !hideUI;
 
+    openFileDlg->setDirectory(getDefaultBookPath());
     statusBar()->setVisible(trueCalculated && Settings::getStatusBarEnabled());
 
     switch (Settings::getUiVariant())
@@ -342,6 +327,29 @@ void MainWindow::positionRestore()
     const auto wp =
         dynamic_cast<qbrWebEnginePage*>(findChild<QWebEngineView*>("browser")->page());
     wp->positionRestore(getCurrentFileName());
+}
+
+QString MainWindow::getDefaultBookPath()
+{
+    int defaultPathType = Settings::getDefaultPath();
+    QString defaultPathValue = Settings::getDefaultPathCustom();
+
+    if (defaultPathType == Settings::defaultPathCustom && !defaultPathValue.isEmpty())
+    {
+        return defaultPathValue;
+    }
+
+    // Start path: by default - $HOME, but if exists - xdg-documents
+    QString filterPath = QDir::homePath();
+    if (QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)
+        .count() > 0)
+    {
+        filterPath =
+            QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)
+            .at(0);
+    }
+
+    return filterPath;
 }
 
 void MainWindow::setCurrentFileName(const QString& fileName)

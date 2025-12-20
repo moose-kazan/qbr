@@ -107,3 +107,31 @@ void Settings::setHideUIOnFullScreen(bool hide)
 {
   getInstance()->setValue("HideUIOnFullScreen", hide);
 }
+
+int Settings::getDefaultPath()
+{
+  int result = getInstance()->value("DefaultPathType", 0).toInt();
+  if (result == defaultPathCustom)
+  {
+    return defaultPathCustom;
+  }
+  else
+  {
+    return defaultPathMyDocs;
+  }
+}
+
+void Settings::setDefaultPath(int defaultPath)
+{
+  getInstance()->setValue("DefaultPathType", defaultPath);
+}
+
+QString Settings::getDefaultPathCustom()
+{
+  return getInstance()->value("DefaultPathCustom", "").toString();
+}
+
+void Settings::setDefaultPathCustom(const QString& defaultPathCustomValue)
+{
+  getInstance()->setValue("DefaultPathCustom", defaultPathCustomValue);
+}

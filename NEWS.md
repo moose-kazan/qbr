@@ -1,8 +1,9 @@
-# Version 0.0.13 dev #
+# Version 0.1.0 dev #
 
 * New feature: initial support for table of contents
 * New feature: full screen mode
 * New option: "Hide UI controls in fullscreen"
+* New option: default path for load/save dialogs
 * Show app version in "About" dialog
 * Various bug fixes
 

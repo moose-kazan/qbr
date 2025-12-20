@@ -48,6 +48,21 @@ void SettingsDialog::settingsLoad() {
   findChild<QLineEdit *>("customCssUrl")->setText(Settings::getCustomStyleUrl());
   findChild<QPushButton *>("customCssSelect")
       ->setEnabled(Settings::getCustomStyleEnabled());
+
+  switch (Settings::getDefaultPath())
+  {
+  case Settings::defaultPathCustom:
+    findChild<QRadioButton *>("defaultPathCustom")->setChecked(true);
+    findChild<QPushButton *>("defaultPathSelect")->setEnabled(true);
+    findChild<QLineEdit *>("defaultPathEdit")->setEnabled(true);
+    break;
+  default:
+    findChild<QRadioButton *>("defaultPathMydocs")->setChecked(true);
+    findChild<QPushButton *>("defaultPathSelect")->setEnabled(false);
+    findChild<QLineEdit *>("defaultPathEdit")->setEnabled(false);
+    break;
+  }
+  findChild<QLineEdit *>("defaultPathEdit")->setText(Settings::getDefaultPathCustom());
 }
 void SettingsDialog::settingsSave() const
 {
@@ -71,6 +86,18 @@ void SettingsDialog::settingsSave() const
 
   Settings::setHideUIOnFullScreen(
     findChild<QCheckBox *>("hideUIOnFullScreen")->isChecked());
+
+  Settings::setDefaultPathCustom(
+    findChild<QLineEdit *>("defaultPathEdit")->text());
+
+  if (findChild<QRadioButton *>("defaultPathCustom")->isChecked())
+  {
+    Settings::setDefaultPath(Settings::defaultPathCustom);
+  }
+  else
+  {
+    Settings::setDefaultPath(Settings::defaultPathMyDocs);
+  }
 }
 
 void SettingsDialog::bgColorChoose() {
@@ -99,6 +126,25 @@ void SettingsDialog::customCssEnable(const int state) const
   } else if (state == Qt::Unchecked) {
     findChild<QLineEdit *>("customCssUrl")->setEnabled(false);
     findChild<QPushButton *>("customCssSelect")->setEnabled(false);
+  }
+}
+
+void SettingsDialog::defaultPathTypeChange() const
+{
+  bool customDefaultPath = findChild<QRadioButton *>("defaultPathCustom")->isChecked();
+  findChild<QLineEdit *>("defaultPathEdit")->setEnabled(customDefaultPath);
+  findChild<QPushButton *>("defaultPathSelect")->setEnabled(customDefaultPath);
+}
+
+void SettingsDialog::defaultPathSelect() const
+{
+  QString newDefaultPath = QFileDialog::getExistingDirectory(
+    nullptr,
+    tr("Select Directory"),
+    QDir::homePath());
+  if (!newDefaultPath.isEmpty())
+  {
+    findChild<QLineEdit *>("defaultPathEdit")->setText(newDefaultPath);
   }
 }
 

@@ -24,6 +24,8 @@ private slots:
     void bgColorChoose();
     void customCssSelect();
     void customCssEnable(int state) const;
+    void defaultPathTypeChange() const;
+    void defaultPathSelect() const;
 };
 
 #endif // SETTINGSDIALOG_H
