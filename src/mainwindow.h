@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QFileDialog>
+#include <QShortcut>
 #include <QWebEngineView>
 
 #include "format/format.h"
@@ -46,7 +47,7 @@ private slots:
     void settingsShow() const;
     void fileBookInfo();
     void toggleFullScreen();
-    void showToc();
+    void showToc() const;
 
 private:
     void readState();

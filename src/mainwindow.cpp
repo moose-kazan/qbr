@@ -58,10 +58,12 @@ MainWindow::MainWindow(QWidget* parent)
     returnToMaximized = isMaximized();
     findChild<QAction *>("actionFullScreen")->setChecked(isFullScreen());
 
-    const auto* shortcutFullscreen = new QShortcut(QKeySequence::FullScreen, this);
-    //shortcutFullscreen->setEnabled(false);
-    connect(shortcutFullscreen, &QShortcut::activated, this, &MainWindow::toggleFullScreen);
-
+    // Bind all action to main window
+    const QList<QAction *> actions = findChild<QToolBar *>("toolBar")->actions();
+    for (int i = 0; i < actions.size(); ++i)
+    {
+        addAction(actions.at(i));
+    }
 }
 
 void MainWindow::openFile()
@@ -190,7 +192,7 @@ void MainWindow::toggleFullScreen()
     readSettings();
 }
 
-void MainWindow::showToc()
+void MainWindow::showToc() const
 {
     tocDlg->setData(&bookInfo->metadata->Toc);
     if (tocDlg->exec() == QDialog::Accepted)
