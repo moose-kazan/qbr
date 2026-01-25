@@ -15,7 +15,7 @@ class Format : public QObject
     Q_OBJECT
 public:
     Format();
-    virtual bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData);
+    virtual bool loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData);
     virtual QBRBook* getBook();
     virtual QStringList getExtensions();
     virtual QString getFormatTitle();

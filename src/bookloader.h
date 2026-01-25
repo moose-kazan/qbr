@@ -15,7 +15,7 @@ class BookLoader final : public QObject
     Q_OBJECT
 public:
     BookLoader();
-    QBRBook* getBook();
+    QBRBook* getBook() const;
     QStringList getFilter();
     bool loadFile(const QString& fileName);
 private:

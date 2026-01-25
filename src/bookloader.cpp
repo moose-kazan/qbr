@@ -5,20 +5,20 @@
 BookLoader::BookLoader() {
     bookData = new QBRBook();
     QString filterLine;
-    QStringList allExts;
+    QStringList allExtensions;
 
     unZip = new qbrunzip(false);
     for (int i = 0; i < bookParsers.count(); i++) {
-        QStringList formatExts = bookParsers.at(i)->getExtensions();
+        QStringList formatExtensions = bookParsers.at(i)->getExtensions();
 
-        formatExts.replaceInStrings(re, "*.");
-        filterLine = QString("%1 (%2)").arg(bookParsers.at(i)->getFormatTitle(), formatExts.join(" "));
+        formatExtensions.replaceInStrings(re, "*.");
+        filterLine = QString("%1 (%2)").arg(bookParsers.at(i)->getFormatTitle(), formatExtensions.join(" "));
         filtersData.append(filterLine);
 
-        allExts.append(formatExts);
+        allExtensions.append(formatExtensions);
     }
 
-    filterLine = QString(tr("Books (%1)")).arg(allExts.join(" "));
+    filterLine = QString(tr("Books (%1)")).arg(allExtensions.join(" "));
     filtersData.append(filterLine);
 }
 
@@ -28,7 +28,7 @@ QStringList BookLoader::getFilter()
 }
 
 
-QBRBook* BookLoader::getBook()
+QBRBook* BookLoader::getBook() const
 {
     return bookData;
 }
@@ -39,12 +39,14 @@ bool BookLoader::loadFile(const QString& fileName)
 
     QByteArray fileData;
     QFile f(fileName);
-    f.open(QIODevice::ReadOnly);
+    if (!f.open(QIODevice::ReadOnly)) {
+        return false;
+    }
     QDataStream in(&f);
     constexpr int buff_size = 4096;
     char buff[buff_size];
     while (!in.atEnd()) {
-        if (const int readed = in.readRawData(buff, buff_size); readed > 0) {
+        if (const long readed = in.readRawData(buff, buff_size); readed > 0) {
             fileData.append(buff, readed);
         }
     }

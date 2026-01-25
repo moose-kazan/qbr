@@ -27,7 +27,7 @@ private:
     Ui::TocDialog* ui;
     QTreeView* tocTreeView;
     QStandardItemModel* tocData;
-    void appendTocData(QStandardItem* curItem, QList<QBRTocItem>* tocList);
+    static void appendTocData(QStandardItem* curItem, QList<QBRTocItem>* tocList);
 private slots:
     void gotoClick();
     void cancelClick();

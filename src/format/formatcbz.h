@@ -11,7 +11,7 @@ class FormatCBZ final : public Format
 {
 public:
     FormatCBZ();
-    bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
+    bool loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
     QBRBook* getBook() override;

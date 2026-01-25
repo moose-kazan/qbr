@@ -264,7 +264,7 @@ QString FormatAMB::amaToHtml(const QString& fileName) const
   return rv;
 }
 
-bool FormatAMB::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
+bool FormatAMB::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) {
   (void)zipData;
   // reset data from previous file
   book->clear();
@@ -297,18 +297,18 @@ QBRBook* FormatAMB::getBook() { return book; }
 bool FormatAMB::needUnzip() { return false; }
 
 unsigned short FormatAMB::mvcomp_depack(unsigned char *dst, unsigned short buff16) {
-  static unsigned char rawwords; // количество несжатых слов
+  static unsigned char rawWords; // количество несжатых слов
   unsigned char *dst_start = dst;
 
-  if (rawwords != 0) {
-    unsigned short *dst16 = reinterpret_cast<unsigned short*>(dst);
+  if (rawWords != 0) {
+    auto *dst16 = reinterpret_cast<unsigned short*>(dst);
     *dst16 = buff16;
     dst += 2;
-    rawwords--;
+    rawWords--;
   } else if ((buff16 & 0xF000) == 0) {
     *dst = buff16 & 0xFF;
     dst++;
-    rawwords = buff16 >> 8;
+    rawWords = buff16 >> 8;
   } else {
     unsigned char *src = dst - (buff16 & 0x0FFF) - 1;
     buff16 >>= 12;
@@ -338,7 +338,7 @@ QByteArray FormatAMB::mvucomp(const QByteArray& inputData)
   }
 
   QVector<uchar> buffer(8192); // Буфер размером 8 КБ
-  uchar* buffptr = buffer.data();
+  uchar* buffPtr = buffer.data();
 
   unsigned long bytesIn = 0;
   unsigned long bytesOut = 0;
@@ -358,15 +358,15 @@ QByteArray FormatAMB::mvucomp(const QByteArray& inputData)
     std::memcpy(&token, inputData.constData() + i, sizeof(token));
     bytesIn += 2;
 
-    unsigned short len = mvcomp_depack(buffptr, token);
+    unsigned short len = mvcomp_depack(buffPtr, token);
     bytesOut += len;
 
-    outBuffer.write(reinterpret_cast<char*>(buffptr), len);
-    buffptr += len;
+    outBuffer.write(reinterpret_cast<char*>(buffPtr), len);
+    buffPtr += len;
 
-    if (buffptr - buffer.data() > 6144) {
-      std::memmove(buffer.data(), buffptr - 2048, 6144);
-      buffptr = buffer.data() + 6144;
+    if (buffPtr - buffer.data() > 6144) {
+      std::memmove(buffer.data(), buffPtr - 2048, 6144);
+      buffPtr = buffer.data() + 6144;
     }
 
   }

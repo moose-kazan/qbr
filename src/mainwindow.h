@@ -7,7 +7,6 @@
 #include <QShortcut>
 #include <QWebEngineView>
 
-#include "format/format.h"
 #include "aboutdialog.h"
 #include "finddialog.h"
 #include "fileinfodialog.h"

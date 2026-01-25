@@ -4,8 +4,6 @@
 #include <QDir>
 #include <QRegularExpression>
 #include <QUrl>
-#include <zip.h>
-
 
 /**
  * EPub-parser. Based on https://www.w3.org/TR/epub-33
@@ -16,7 +14,7 @@ FormatEPub::FormatEPub()
     bookInfo = new QBRBook();
 }
 
-bool FormatEPub::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
+bool FormatEPub::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) {
     (void)fileName;
 
     bookInfo->clear();
@@ -189,7 +187,7 @@ QString FormatEPub::prepareDataLink(const qbrunzip *zipData, QString dataFileNam
     return QString("data:%1;base64,%2").arg(contentType, zipData->getFileData(dataFileName).toBase64());
 }
 
-QDomNode FormatEPub::processXHTMLNode(qbrunzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles) {
+QDomNode FormatEPub::processXHTMLNode(const qbrunzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles) {
     //qDebug() << "Type: " << currentNode.nodeType() << ", Name: " << currentNode.nodeName() << ", Value: " << currentNode.nodeValue();
 
     const QList<QString> allowedTags = {
@@ -262,7 +260,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrunzip *zipData, const QString& xHTMLFil
                     returnValue.appendChild(processXHTMLNode(zipData, xHTMLFileName, localNode, encryptedFiles));
                 }
             }
-            // Dirty hack. But without it we have broken xHTML in some cases
+            // Dirty hack. But without it, we have broken xHTML in some cases
             else {
                 returnValue.appendChild(QDomDocument().createTextNode(""));
             }
@@ -282,7 +280,7 @@ QDomNode FormatEPub::processXHTMLNode(qbrunzip *zipData, const QString& xHTMLFil
     return QDomDocument().createTextNode("");
 }
 
-bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, qbrunzip *zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles) {
+bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, const qbrunzip *zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles) {
     if (encryptedFiles.contains(xHTMLFileName, Qt::CaseInsensitive)) {
         return false;
     }
@@ -308,7 +306,8 @@ bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, qbrunzip *zipData, co
     return true;
 }
 
-void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles) {
+void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles) const
+{
 
     const QDomElement metadataNode = rootFileXml->firstChildElement("package").firstChildElement("metadata");
     if (metadataNode.isNull()) {
@@ -350,7 +349,7 @@ void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString&
     }
 }
 
-bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const QString& rootFileName, const QStringList& encryptedFiles) {
+bool FormatEPub::processRootFile(QDomNode *returnValue, const qbrunzip *zipData, const QString& rootFileName, const QStringList& encryptedFiles) {
     QDomDocument rootFileXml;
     QString rootFileXmlErrorMsg;
 
@@ -417,7 +416,7 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
 }
 
 /**
- * Load TOC file. It have attr: properties="nav"
+ * Load TOC file. It has attr: properties="nav"
  * More info can be found here:
  * https://www.w3.org/TR/epub-33/#sec-nav
  * https://www.w3.org/TR/epub-33/#confreq-nav-a-href
@@ -427,7 +426,7 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, qbrunzip *zipData, const
  * @param tocFileName
  * @param rootFileName
  */
-void FormatEPub::loadToc(qbrunzip *zipData, const QString& tocFileName, const QString& rootFileName)
+void FormatEPub::loadToc(const qbrunzip *zipData, const QString& tocFileName, const QString& rootFileName) const
 {
     if (!zipData->fileExists(tocFileName))
     {
@@ -501,11 +500,11 @@ void FormatEPub::loadTocItem(const QDomElement& curItem, QList<QBRTocItem>* tocL
 }
 
 /**
- * Load TOC from old format. Typically, it have name "toc.ncx"
+ * Load TOC from old format. Typically, it has name "toc.ncx"
  * @param zipData
  * @param tocFileName
  */
-void FormatEPub::loadTocOld(const qbrunzip *zipData, const QString& tocFileName)
+void FormatEPub::loadTocOld(const qbrunzip *zipData, const QString& tocFileName) const
 {
     if (!zipData->fileExists(tocFileName))
     {
@@ -561,7 +560,7 @@ void FormatEPub::loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* t
     }
 }
 
-bool FormatEPub::parseFile(qbrunzip *zipData) {
+bool FormatEPub::parseFile(const qbrunzip *zipData) {
     // Load META-INF/container.xml and get list of rootfiles
     const QStringList rootFiles = getRootFiles(zipData);
 

@@ -4,7 +4,6 @@
 #include <QList>
 #include <QRegularExpression>
 #include <QString>
-#include <zip.h>
 
 FormatCBZ::FormatCBZ()
 {
@@ -19,7 +18,7 @@ QString FormatCBZ::getFormatTitle()
 }
 
 
-bool FormatCBZ::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
+bool FormatCBZ::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) {
   book->clear();
   book->metadata->FileFormat = getFormatTitle();
 

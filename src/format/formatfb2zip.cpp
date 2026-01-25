@@ -5,7 +5,7 @@ FormatFB2Zip::FormatFB2Zip()
     bookInfo = new QBRBook();
 }
 
-bool FormatFB2Zip::loadFile(const QString fileName, const QByteArray fileData, qbrunzip *zipData) {
+bool FormatFB2Zip::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) {
     (void)fileName;
 
     bookInfo->clear();

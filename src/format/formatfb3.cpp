@@ -28,7 +28,7 @@ QString FormatFB3::getFormatTitle()
 }
 
 
-bool FormatFB3::loadFile(const QString fileName, const QByteArray fileData, qbrunzip* zipData)
+bool FormatFB3::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData)
 {
     // reset data from previous file
     book->clear();

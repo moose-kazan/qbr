@@ -60,9 +60,9 @@ MainWindow::MainWindow(QWidget* parent)
 
     // Bind all action to main window
     const QList<QAction *> actions = findChild<QToolBar *>("toolBar")->actions();
-    for (int i = 0; i < actions.size(); ++i)
+    for (const auto action : actions)
     {
-        addAction(actions.at(i));
+        addAction(action);
     }
 }
 

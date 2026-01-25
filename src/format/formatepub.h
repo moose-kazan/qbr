@@ -11,7 +11,7 @@ class FormatEPub final : public Format
 {
 public:
     FormatEPub();
-    bool loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) override;
+    bool loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;
     QBRBook* getBook() override;
@@ -27,14 +27,14 @@ private:
     static QString expandFileName(const QString& baseFileName, QString expandableFileName);
     static QString prepareLink(const QString& baseFileName, QString link);
     QString prepareDataLink(const qbrunzip *zipData, QString dataFileName, const QStringList& encryptedFiles) const;
-    QDomNode processXHTMLNode(qbrunzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles);
-    bool processXHTMLFile(QDomNode* xHTMLFileData, qbrunzip* zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles);
-    void processRootFileMetadata(const qbrunzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles);
-    bool processRootFile(QDomNode* returnValue, qbrunzip* zipData, const QString& rootFileName, const QStringList& encryptedFiles);
-    bool parseFile(qbrunzip *zipData);
-    void loadToc(qbrunzip* zipData, const QString& tocFileName, const QString& rootFileName);
-    void loadTocItem(const QDomElement& curItem, QList<QBRTocItem>* tocList, const QString& rootFileName);
-    void loadTocOld(const qbrunzip *zipData, const QString& tocFileName);
+    QDomNode processXHTMLNode(const qbrunzip* zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles);
+    bool processXHTMLFile(QDomNode* xHTMLFileData, const qbrunzip* zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles);
+    void processRootFileMetadata(const qbrunzip *zipData, const QString& rootFileName, const QDomDocument *rootFileXml, const QMap<QString,QDomElement> *manifestMap, const QStringList& encryptedFiles) const;
+    bool processRootFile(QDomNode* returnValue, const qbrunzip* zipData, const QString& rootFileName, const QStringList& encryptedFiles);
+    bool parseFile(const qbrunzip* zipData);
+    void loadToc(const qbrunzip* zipData, const QString& tocFileName, const QString& rootFileName) const;
+    static void loadTocItem(const QDomElement& curItem, QList<QBRTocItem>* tocList, const QString& rootFileName);
+    void loadTocOld(const qbrunzip *zipData, const QString& tocFileName) const;
     static void loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* tocList);
 };
 

@@ -19,7 +19,7 @@ public:
     void setBookInfo(QBRBookMetadata* newBookInfo);
 
 private:
-    QBRBookMetadata* bookInfo;
+    QBRBookMetadata* bookInfo{};
 
     void showEvent(QShowEvent *event) override;
     Ui::FileInfoDialog *ui;

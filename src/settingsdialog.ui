@@ -32,10 +32,10 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+    <enum>Qt::Orientation::Horizontal</enum>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
    </property>
   </widget>
   <widget class="QTabWidget" name="tabWidget">
@@ -48,10 +48,10 @@
     </rect>
    </property>
    <property name="tabPosition">
-    <enum>QTabWidget::North</enum>
+    <enum>QTabWidget::TabPosition::North</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tabUI">
     <attribute name="title">
@@ -259,9 +259,9 @@
     <widget class="QGroupBox" name="defaultPath">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>10</y>
-       <width>561</width>
+       <width>541</width>
        <height>121</height>
       </rect>
      </property>
@@ -273,7 +273,7 @@
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>541</width>
+        <width>521</width>
         <height>23</height>
        </rect>
       </property>
@@ -286,7 +286,7 @@
        <rect>
         <x>10</x>
         <y>50</y>
-        <width>541</width>
+        <width>521</width>
         <height>23</height>
        </rect>
       </property>
@@ -297,7 +297,7 @@
      <widget class="QPushButton" name="defaultPathSelect">
       <property name="geometry">
        <rect>
-        <x>500</x>
+        <x>480</x>
         <y>80</y>
         <width>51</width>
         <height>31</height>
@@ -312,7 +312,7 @@
        <rect>
         <x>10</x>
         <y>80</y>
-        <width>481</width>
+        <width>461</width>
         <height>31</height>
        </rect>
       </property>

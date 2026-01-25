@@ -305,7 +305,7 @@ void FormatFB2::parseBookInfo(const QDomDocument* parserXml) const
     // qDebug() << "Book author" << bookInfo.Author;
 }
 
-bool FormatFB2::loadFile(const QString fileName, const QByteArray fileData, qbrunzip* zipData)
+bool FormatFB2::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData)
 {
     (void)zipData;
     book->clear();

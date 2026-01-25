@@ -9,7 +9,7 @@
 
 Format::Format() = default;
 
-bool Format::loadFile(QString fileName, QByteArray fileData, qbrunzip *zipData) {
+bool Format::loadFile(const QString &fileName, const QByteArray &fileData, const qbrunzip *zipData) {
     (void)fileName;
     (void)fileData;
     (void)zipData;
