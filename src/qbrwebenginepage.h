@@ -6,7 +6,7 @@
 class qbrWebEnginePage final : public QWebEnginePage
 {
 public:
-    qbrWebEnginePage();
+    qbrWebEnginePage(QObject *parent = nullptr);
     void positionSave(const QString& fileName) const;
     void positionRestore(const QString& fileName);
     void scrollToAnchor(const QString& anchor);

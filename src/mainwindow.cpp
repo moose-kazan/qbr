@@ -23,7 +23,8 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
 
     mainBrowser = findChild<QWebEngineView*>("browser");
-    mainBrowser->setPage(new qbrWebEnginePage);
+    auto *webPage = new qbrWebEnginePage(this);
+    mainBrowser->setPage(webPage);
     mainBrowser->setContextMenuPolicy(Qt::NoContextMenu);
     connect(findChild<QWebEngineView*>("browser"), &QWebEngineView::loadFinished,
             this, &MainWindow::bookLoadFinished);
