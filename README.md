@@ -3,7 +3,7 @@
 ![Screenshot](./screenshot.png)
 
 ## Russian ##
-Простая читалка электронных книг, написанная на C++ с использованием тулкита Qt5.
+Простая читалка электронных книг, написанная на C++ с использованием тулкита Qt6.
 
 В настоящий момент поддерживаются следующие форматы:
 * FictionBook 2.0 (fb2)
@@ -34,7 +34,7 @@
 3. sudo apt install qbr
 
 ## English ##
-Simple book reader, written on C++ with Qt5 toolkit.
+Simple book reader, written on C++ with Qt6 toolkit.
 
 For now it support the next file formats:
 * FictionBook 2.0 (fb2)
