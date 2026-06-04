@@ -1,3 +1,7 @@
+# Version 0.1.1 dev #
+* Fix some bugs in TOC generation for FB2
+* Change default tab in settings dialog
+
 # Version 0.1.0 #
 
 * New feature: initial support for table of contents
