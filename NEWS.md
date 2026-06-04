@@ -1,6 +1,7 @@
 # Version 0.1.1 dev #
-* Fix some bugs in TOC generation for FB2
-* Change default tab in settings dialog
+* TOC: fir some bugs with FB2 files
+* Setting dialog: change default tab
+* About dialog: correct version number in deb-packages 
 
 # Version 0.1.0 #
 

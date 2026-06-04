@@ -1,8 +1,17 @@
 find_package(Git QUIET)
+find_program(DPKG_PARSECHANGELOG dpkg-parsechangelog)
+
 if (GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
     execute_process(
             COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty --match "v*"
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE GIT_VERSION_STRING_SRC
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+elseif(DPKG_PARSECHANGELOG  AND EXISTS "${CMAKE_SOURCE_DIR}/debian/changelog")
+    execute_process(
+            COMMAND ${DPKG_PARSECHANGELOG} -S Version
+            WORKING_DIRECTORY  ${CMAKE_SOURCE_DIR}
             OUTPUT_VARIABLE GIT_VERSION_STRING_SRC
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
