@@ -104,8 +104,9 @@ void FormatFB3::parseMetadata(const qbrunzip* ZipData, const QString& entryName)
     }
 
     QDomDocument descriptionXml;
-    if (!descriptionXml.setContent(fb3_description_data))
+    if (!QDomDocumentSetContent(&descriptionXml, fb3_description_data))
     {
+        qDebug() << "Can't parse "<< entryName;
         return;
     }
 
@@ -166,8 +167,9 @@ QList<QDomElement> FormatFB3::parseRels(const qbrunzip* ZipData, const QString& 
     }
 
     QDomDocument bodyRelsXml;
-    if (!bodyRelsXml.setContent(bodyRelsData))
+    if (!QDomDocumentSetContent(&bodyRelsXml, bodyRelsData))
     {
+        qDebug() << "Can't parse " << entryName;
         return relsData;
     }
 
@@ -357,10 +359,9 @@ QList<QDomNode> FormatFB3::parseBody(const qbrunzip* zipData, const QString& bod
     }
 
     QDomDocument xmlFile;
-    QString xmlErrorMsg;
-    if (!xmlFile.setContent(zipData->getFileData(bodyEntryName), true, &xmlErrorMsg))
+    if (!QDomDocumentSetContent(&xmlFile, zipData->getFileData(bodyEntryName)))
     {
-        qDebug() << "Can't parse " << bodyEntryName << ": " << xmlErrorMsg;
+        qDebug() << "Can't parse " << bodyEntryName;
         return {};
     }
 
@@ -388,10 +389,9 @@ bool FormatFB3::parseFile(const qbrunzip* ZipData)
     }
 
     QDomDocument docContentType;
-    QString docContentTypeErrorMsg;
-    if (!docContentType.setContent(docContentTypeData, true, &docContentTypeErrorMsg))
+    if (!QDomDocumentSetContent(&docContentType, docContentTypeData))
     {
-        qDebug() << "can't parse [Content_Types].xml" << docContentTypeErrorMsg;
+        qDebug() << "can't parse [Content_Types].xml";
         return false;
     }
 

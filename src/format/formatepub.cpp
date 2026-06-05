@@ -64,10 +64,8 @@ bool FormatEPub::isValidFile(const qbrunzip *zipData) {
 QStringList FormatEPub::getRootFiles(const qbrunzip *zipData) {
     QStringList rootFiles;
 
-    QString containerXmlErrorMsg;
-
-    if (QDomDocument containerXml; !containerXml.setContent(zipData->getFileData("META-INF/container.xml"), true, &containerXmlErrorMsg)) {
-        qDebug() << "Can't read META-INF/container.xml: " << containerXmlErrorMsg;
+    if (QDomDocument containerXml; !QDomDocumentSetContent(&containerXml, zipData->getFileData("META-INF/container.xml"))) {
+        qDebug() << "Can't read META-INF/container.xml:";
     }
     else {
         QDomElement rootFileNode = containerXml.firstChildElement("container").firstChildElement("rootfiles").firstChildElement("rootfile");
@@ -94,10 +92,8 @@ QStringList FormatEPub::getEncryptedFiles(const qbrunzip *zipData) {
 
     qDebug() << "File partialy or fully encrypted!";
 
-    QString containerXmlErrorMsg;
-
-    if (QDomDocument containerXml; !containerXml.setContent(zipData->getFileData("META-INF/encryption.xml"), true, &containerXmlErrorMsg)) {
-        qDebug() << "Can't read META-INF/encryption.xml: " << containerXmlErrorMsg;
+    if (QDomDocument containerXml; !QDomDocumentSetContent(&containerXml, zipData->getFileData("META-INF/encryption.xml"))) {
+        qDebug() << "Can't read META-INF/encryption.xml: ";
     }
     else {
         QDomElement encryptedData = containerXml.firstChildElement("encryption").firstChildElement("EncryptedData");
@@ -286,9 +282,9 @@ bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, const qbrunzip *zipDa
     }
 
     QDomDocument xHTMLFile;
-    QString xHTMLErrorMsg;
-    if (!xHTMLFile.setContent(zipData->getFileData(xHTMLFileName), true, &xHTMLErrorMsg)) {
-        qDebug() << "Can't parse " << xHTMLFileName << ": " << xHTMLErrorMsg;
+    if (!QDomDocumentSetContent(&xHTMLFile, zipData->getFileData(xHTMLFileName)))
+    {
+        qDebug() << "Can't parse " << xHTMLFileName;;
         return false;
     }
 
@@ -351,14 +347,12 @@ void FormatEPub::processRootFileMetadata(const qbrunzip *zipData, const QString&
 
 bool FormatEPub::processRootFile(QDomNode *returnValue, const qbrunzip *zipData, const QString& rootFileName, const QStringList& encryptedFiles) {
     QDomDocument rootFileXml;
-    QString rootFileXmlErrorMsg;
-
     if (encryptedFiles.contains(rootFileName, Qt::CaseInsensitive)) {
         return false;
     }
 
-    if (!rootFileXml.setContent(zipData->getFileData(rootFileName), true, &rootFileXmlErrorMsg)) {
-        qDebug() << "Can't read rootfile: " << rootFileName << "Error: " << rootFileXmlErrorMsg;
+    if (!QDomDocumentSetContent(&rootFileXml, zipData->getFileData(rootFileName))) {
+        qDebug() << "Can't read rootfile: " << rootFileName;
         return false;
     }
 

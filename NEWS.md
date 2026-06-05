@@ -1,7 +1,9 @@
 # Version 0.1.1 dev #
 * TOC: fir some bugs with FB2 files
 * Setting dialog: change default tab
-* About dialog: correct version number in deb-packages 
+* About dialog: correct version number in deb-packages
+* Some optimizations
+* Support for QT 6.10+
 
 # Version 0.1.0 #
 

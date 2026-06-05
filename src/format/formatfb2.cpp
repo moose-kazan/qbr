@@ -177,15 +177,9 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
 
 bool FormatFB2::parseXml(const QByteArray& fileData)
 {
-    QString paserXmlErrorMsg;
-    int parserXmlErrorLine;
-    int parserXmlErrorColumn;
     QDomDocument parserXml;
-    if (!parserXml.setContent(fileData, true, &paserXmlErrorMsg,
-                              &parserXmlErrorLine, &parserXmlErrorColumn))
+    if (!QDomDocumentSetContent(&parserXml, fileData))
     {
-        // qDebug() << "Error message: " << paserXmlErrorMsg << " at line " <<
-        // parserXmlErrorLine << ", column: " << parserXmlErrorColumn;
         return false;
     }
 
@@ -311,6 +305,10 @@ bool FormatFB2::loadFile(const QString& fileName, const QByteArray& fileData, co
     (void)fileName; // Remove "unused parameter" warning
     try
     {
+        if (isZipFile(fileData))
+        {
+            return false;
+        }
         return parseXml(fileData);
     }
     catch (...)

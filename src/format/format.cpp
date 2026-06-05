@@ -149,3 +149,29 @@ QString Format::cleanTitle(QString Title)
     Title = Title.replace(reEnd, "");
     return Title;
 }
+
+bool Format::QDomDocumentSetContent(QDomDocument* domDocument, const QByteArray data)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    QDomDocument::ParseOption parserOptions = QDomDocument::ParseOption::UseNamespaceProcessing;
+    QDomDocument::ParseResult result = domDocument->setContent(data, parserOptions);
+    if (!result)
+    {
+        qDebug() << "Can't parse XML: " << result.errorMessage;
+        return false;
+    }
+#else
+    QString paserXmlErrorMsg;
+    int parserXmlErrorLine;
+    int parserXmlErrorColumn;
+    if (!domDocument->setContent(data, true, &paserXmlErrorMsg,
+                              &parserXmlErrorLine, &parserXmlErrorColumn))
+    {
+        qDebug() << "Can't parse XML: " << paserXmlErrorMsg << " at line " <<
+        parserXmlErrorLine << ", column: " << parserXmlErrorColumn;
+        return false;
+    }
+#endif
+
+    return true;
+}
