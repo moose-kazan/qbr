@@ -88,7 +88,7 @@ void Settings::setBookBgColor(const QString& color) {
 bool Settings::getCustomStyleEnabled() {
   return getInstance()->value("CustomStyleEnabled", false).toBool();
 }
-void Settings::setCustomStaticEnabled(const bool enable) {
+void Settings::setCustomStyleEnabled(const bool enable) {
   getInstance()->setValue("CustomStyleEnabled", enable);
 }
 

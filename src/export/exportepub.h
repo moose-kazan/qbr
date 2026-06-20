@@ -15,7 +15,7 @@ private:
     QByteArray prepareContentOpf(const QStringList& images) const;
     static QByteArray prepareNavXhtml();
     QBRBook *book;
-    qbrzip *zipWriter;
+    qbrzip zipWriter;
 };
 
 

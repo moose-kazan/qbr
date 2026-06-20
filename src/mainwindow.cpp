@@ -94,8 +94,11 @@ void MainWindow::saveFileAs()
     if (fileName != "")
     {
         Export* exporter = bookSaver->exporterByFilter(selectedFilter);
-        exporter->setData(bookInfo);
-        exporter->save(fileName);
+        if (exporter != nullptr)
+        {
+            exporter->setData(bookInfo);
+            exporter->save(fileName);
+        }
     }
 }
 
@@ -106,12 +109,12 @@ void MainWindow::helpAboutQt()
     QMessageBox::aboutQt(this, tr("Qt Book Reader"));
 }
 
-void MainWindow::naviGoBack() const
+void MainWindow::naviGoBack()
 {
     mainBrowser->back();
 }
 
-void MainWindow::naviGoForward() const
+void MainWindow::naviGoForward()
 {
     mainBrowser->forward();
 }
@@ -200,6 +203,11 @@ void MainWindow::showToc() const
     {
         const QString anchor = tocDlg->getSelectedAnchor();
         auto* wp = dynamic_cast<qbrWebEnginePage*>(mainBrowser->page());
+        if (!wp)
+        {
+            qWarning() << "MainWindow::showToc(): widget is null";
+            return;
+        }
         wp->scrollToAnchor(anchor);
     }
 }
@@ -365,4 +373,15 @@ void MainWindow::setCurrentFileName(const QString& fileName)
 
 QString MainWindow::getCurrentFileName() { return currentFileName; }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow()
+{
+    delete aboutDlg;
+    delete findDlg;
+    delete fileInfoDlg;
+    delete settingsDlg;
+    delete tocDlg;
+    delete bookInfo;
+    delete bookLoader;
+    delete bookSaver;
+    delete ui;
+}

@@ -15,18 +15,12 @@ class BookLoader final : public QObject
     Q_OBJECT
 public:
     BookLoader();
+    ~BookLoader();
     QBRBook* getBook() const;
     QStringList getFilter();
     bool loadFile(const QString& fileName);
 private:
-    QList<Format*> bookParsers = {
-        new FormatAMB(),
-        new FormatCBZ(),
-        new FormatEPub(),
-        new FormatFB2(),
-        new FormatFB2Zip(),
-        new FormatFB3()
-    };
+    QList<Format*> bookParsers = {};
 
     QBRBook* bookData;
     qbrunzip *unZip;

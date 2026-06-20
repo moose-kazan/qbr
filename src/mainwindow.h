@@ -40,8 +40,8 @@ private slots:
     void saveFileAs();
     void helpAbout() const;
     void helpAboutQt();
-    void naviGoBack() const;
-    void naviGoForward() const;
+    void naviGoBack();
+    void naviGoForward();
     void naviFind();
     void settingsShow() const;
     void fileBookInfo();

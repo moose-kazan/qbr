@@ -6,7 +6,7 @@
 
 #include <QObject>
 #include <QString>
-#include <QImage>
+#include <QRegularExpression>
 #include <QDomNode>
 
 

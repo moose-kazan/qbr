@@ -43,7 +43,7 @@ public:
     static void setBookBgColor(const QString& color);
 
     static bool getCustomStyleEnabled();
-    static void setCustomStaticEnabled(bool enable);
+    static void setCustomStyleEnabled(bool enable);
 
     static QString getCustomStyleUrl();
     static void setCustomStyleUrl(const QString& url);

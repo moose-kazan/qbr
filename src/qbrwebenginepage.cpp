@@ -19,7 +19,14 @@ bool qbrWebEnginePage::acceptNavigationRequest(
 
   if (url.scheme() != "file" && url.scheme() != "data" &&
       url.scheme() != "javascript") {
-    QDesktopServices::openUrl(url);
+    if (url.isValid() && !url.isEmpty())
+    {
+      QDesktopServices::openUrl(url);
+    }
+    else
+    {
+      qWarning() << "Invalid URL";
+    }
     return false;
   }
   return true;
@@ -34,7 +41,7 @@ void qbrWebEnginePage::positionSave(const QString& fileName) const
 }
 
 void qbrWebEnginePage::positionRestore(const QString& fileName) {
-  qDebug() << "Restoring position for file: " << fileName;
+  //qDebug() << "Restoring position for file: " << fileName;
   const QPointF pos = Settings::getFilePosition(fileName);
   runJavaScript(QString("window.scrollTo(%1*document.body.scrollHeight, "
                         "%2*document.body.scrollWidth);")

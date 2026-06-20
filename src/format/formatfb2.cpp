@@ -311,8 +311,13 @@ bool FormatFB2::loadFile(const QString& fileName, const QByteArray& fileData, co
         }
         return parseXml(fileData);
     }
+    catch (const std::exception& e)
+    {
+        qWarning() << "Exception in parseXml:" << e.what();
+    }
     catch (...)
     {
+        qWarning() << "FormatFB2::loadFile(): unhandled exception";
     }
 
     return false;

@@ -80,7 +80,7 @@ QByteArray qbrunzip::getFileData(QString fileName) const
   if (!entry_names_cs) {
     fileName = fileName.toLower();
   }
-  return zipEntries.value(fileName, nullptr);
+  return zipEntries.value(fileName, QByteArray());
 }
 
 bool qbrunzip::fileExists(QString fileName) const

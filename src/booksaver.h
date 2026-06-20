@@ -14,17 +14,11 @@ class BookSaver
 {
 public:
     BookSaver();
+    ~BookSaver();
     QStringList getFilter();
     [[nodiscard]] Export* exporterByFilter(const QString& filter) const;
 private:
-    QList<Export*> exporters = {
-        new ExportHTML(),
-        new ExportText(),
-        new ExportEPub(),
-#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
-        new ExportMarkdown(),
-#endif
-    };
+    QList<Export*> exporters = {};
     QStringList filters;
 };
 

@@ -3,6 +3,14 @@
 #include <QFile>
 
 BookLoader::BookLoader() {
+    bookParsers.append(new FormatAMB());
+    bookParsers.append(new FormatCBZ());
+    bookParsers.append(new FormatEPub());
+    bookParsers.append(new FormatFB2());
+    bookParsers.append(new FormatFB2Zip());
+    bookParsers.append(new FormatFB3());
+
+
     bookData = new QBRBook();
     QString filterLine;
     QStringList allExtensions;
@@ -20,6 +28,14 @@ BookLoader::BookLoader() {
 
     filterLine = QString(tr("Books (%1)")).arg(allExtensions.join(" "));
     filtersData.append(filterLine);
+}
+
+BookLoader::~BookLoader()
+{
+    for (int i = 0; i < bookParsers.count(); i++)
+    {
+        delete bookParsers.at(i);
+    }
 }
 
 QStringList BookLoader::getFilter()

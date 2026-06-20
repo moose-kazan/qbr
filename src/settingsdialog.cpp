@@ -71,7 +71,7 @@ void SettingsDialog::settingsSave() const
   Settings::setLastOpenedFileEnable(
       findChild<QCheckBox *>("enableLoadLast")->isChecked());
 
-  Settings::setCustomStaticEnabled(
+  Settings::setCustomStyleEnabled(
       findChild<QCheckBox *>("customCssEnable")->isChecked());
   Settings::setCustomStyleUrl(findChild<QLineEdit *>("customCssUrl")->text());
 

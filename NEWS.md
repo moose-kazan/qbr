@@ -4,6 +4,7 @@
 * About dialog: correct version number in deb-packages
 * Some optimizations
 * Support for QT 6.10+
+* Some cleanups and memory leakfixes
 
 # Version 0.1.0 #
 

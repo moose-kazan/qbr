@@ -10,15 +10,15 @@
 
 ExportEPub::ExportEPub()
 {
-    zipWriter = new qbrzip();
+    //zipWriter = new qbrzip();
 };
 
 QString ExportEPub::getFilter() {
     return QString(tr("EPub files (%1)")).arg("*.epub");
 }
 
-void ExportEPub::setData(QBRBook *book) {
-    this->book = book;;
+void ExportEPub::setData(QBRBook *bookData) {
+    this->book = bookData;
 }
 
 bool ExportEPub::save(const QString fileName)
@@ -46,12 +46,12 @@ bool ExportEPub::save(const QString fileName)
         }
     }
 
-    zipWriter->newFile();
-    zipWriter->addItem({"mimetype", "application/epub+zip", zipItem::METHOD_STORE});
-    zipWriter->addItem({"META-INF/container.xml", prepareContainerXml(), zipItem::METHOD_STORE});
-    zipWriter->addItem({"content.opf", prepareContentOpf(images.keys()), zipItem::METHOD_STORE });
-    zipWriter->addItem({"nav.xhtml", prepareNavXhtml(), zipItem::METHOD_DEFAULT });
-    zipWriter->addItem({"index.xhtml", htmlDocument.toString().toUtf8(), zipItem::METHOD_DEFAULT });
+    zipWriter.newFile();
+    zipWriter.addItem({"mimetype", "application/epub+zip", zipItem::METHOD_STORE});
+    zipWriter.addItem({"META-INF/container.xml", prepareContainerXml(), zipItem::METHOD_STORE});
+    zipWriter.addItem({"content.opf", prepareContentOpf(images.keys()), zipItem::METHOD_STORE });
+    zipWriter.addItem({"nav.xhtml", prepareNavXhtml(), zipItem::METHOD_DEFAULT });
+    zipWriter.addItem({"index.xhtml", htmlDocument.toString().toUtf8(), zipItem::METHOD_DEFAULT });
     if (!book->metadata->Cover.isNull())
     {
         QByteArray coverImage;
@@ -59,17 +59,17 @@ bool ExportEPub::save(const QString fileName)
         coverImageBuffer.open(QIODevice::WriteOnly);
         book->metadata->Cover.save(&coverImageBuffer, "PNG");
         coverImageBuffer.close();
-        zipWriter->addItem({"cover.png", coverImage, zipItem::METHOD_DEFAULT});
+        zipWriter.addItem({"cover.png", coverImage, zipItem::METHOD_DEFAULT});
     }
     for (int i = 0; i < images.size(); i++)
     {
-        zipWriter->addItem({
+        zipWriter.addItem({
             images.keys().at(i),
             images.values().at(i),
             zipItem::METHOD_DEFAULT });
     }
 
-    return zipWriter->save(fileName);
+    return zipWriter.save(fileName);
 }
 
 QByteArray ExportEPub::prepareContainerXml()
