@@ -93,6 +93,9 @@ body {
 /* Image style for all formats */
 img {
     max-width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Image style for CBZ */

@@ -1,6 +1,7 @@
 # Version 0.1.1 dev #
 * TOC: fix some bugs with FB2 files
 * Setting dialog: change default tab
+* Centered images by default
 * About dialog: correct version number in deb-packages
 * Some optimizations
 * Support for QT 6.10+
