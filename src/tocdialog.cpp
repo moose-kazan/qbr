@@ -24,7 +24,7 @@ TocDialog::TocDialog(QWidget* parent, const Qt::WindowFlags f) :
     tocTreeView->setModel(tocData);
 }
 
-void TocDialog::setData(QList<QBRTocItem>* tocList)
+void TocDialog::setData(QList<QBRTocItem>* tocList) const
 {
     tocData->clear();
 
@@ -33,7 +33,7 @@ void TocDialog::setData(QList<QBRTocItem>* tocList)
     tocTreeView->expandAll();
 }
 
-void TocDialog::appendTocData(QStandardItem* curItem, QList<QBRTocItem>* tocList)
+void TocDialog::appendTocData(QStandardItem* curItem, const QList<QBRTocItem>* tocList)
 {
     for (qsizetype i = 0; i < tocList->count(); i++)
     {

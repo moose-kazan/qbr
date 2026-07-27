@@ -516,10 +516,10 @@ void FormatEPub::loadTocOld(const qbrunzip *zipData, const QString& tocFileName)
         return;
     }
 
-    loadTocOldItem(rootTocItem, &bookInfo->metadata->Toc);
+    loadTocOldItem(tocFileName, rootTocItem, &bookInfo->metadata->Toc);
 }
 
-void FormatEPub::loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* tocList)
+void FormatEPub::loadTocOldItem(const QString& tocFileName, const QDomElement& curItem, QList<QBRTocItem>* tocList)
 {
     QList<QDomElement> srcTocList;
 
@@ -546,9 +546,16 @@ void FormatEPub::loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* t
         QString tocItemAnchor = i
             .firstChildElement("content")
             .attribute("src", "");
-        tocItem.Anchor = tocItemAnchor.split('#').last();
+        if (tocItemAnchor.contains("#"))
+        {
+            tocItem.Anchor = tocItemAnchor.split('#').last();
+        }
+        else
+        {
+            tocItem.Anchor = QString("file_%1").arg(expandFileName(tocFileName, tocItemAnchor));
+        }
 
-        loadTocOldItem(i, &tocItem.Childs);
+        loadTocOldItem(tocFileName, i, &tocItem.Childs);
 
         tocList->append(tocItem);
     }

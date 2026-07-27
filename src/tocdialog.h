@@ -21,13 +21,13 @@ class TocDialog : public QDialog
 
 public:
     explicit TocDialog(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
-    void setData(QList<QBRTocItem>* tocList);
+    void setData(QList<QBRTocItem>* tocList) const;
     QString getSelectedAnchor() const;
 private:
     Ui::TocDialog* ui;
     QTreeView* tocTreeView;
     QStandardItemModel* tocData;
-    static void appendTocData(QStandardItem* curItem, QList<QBRTocItem>* tocList);
+    static void appendTocData(QStandardItem* curItem, const QList<QBRTocItem>* tocList);
 private slots:
     void gotoClick();
     void cancelClick();

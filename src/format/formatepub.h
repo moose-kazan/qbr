@@ -35,7 +35,7 @@ private:
     void loadToc(const qbrunzip* zipData, const QString& tocFileName, const QString& rootFileName) const;
     static void loadTocItem(const QDomElement& curItem, QList<QBRTocItem>* tocList, const QString& rootFileName);
     void loadTocOld(const qbrunzip *zipData, const QString& tocFileName) const;
-    static void loadTocOldItem(const QDomElement& curItem, QList<QBRTocItem>* tocList);
+    static void loadTocOldItem(const QString& tocFileName, const QDomElement& curItem, QList<QBRTocItem>* tocList);
 };
 
 #endif // FORMATEPUB_H
