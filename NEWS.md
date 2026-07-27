@@ -1,4 +1,4 @@
-# Version 0.1.1 dev #
+# Version 0.1.1 #
 * TOC: fix some bugs with FB2 files
 * TOC: fix some bugs with old EPUB files
 * Setting dialog: change default tab
