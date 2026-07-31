@@ -1,7 +1,12 @@
 find_package(Git QUIET)
 find_program(DPKG_PARSECHANGELOG dpkg-parsechangelog)
 
-if (GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
+set(RPM_PACKAGE_VERSION "$ENV{RPM_PACKAGE_VERSION}")
+set(RPM_PACKAGE_RELEASE "$ENV{RPM_PACKAGE_RELEASE}")
+
+if (NOT "${RPM_PACKAGE_VERSION}" STREQUAL "")
+	set(GIT_VERSION_STRING_SRC "v${RPM_PACKAGE_VERSION}-${RPM_PACKAGE_RELEASE}")
+elseif (GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
     execute_process(
             COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty --match "v*"
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -22,6 +27,8 @@ endif()
 string(REGEX REPLACE "^v" "" GIT_VERSION_STRING ${GIT_VERSION_STRING_SRC})
 set(CPACK_PACKAGE_VERSION ${GIT_VERSION_STRING})
 #set(CPACK_PACKAGE_VERSION_MAJOR, "12")
+
+message(STATUS "Set app version to ${GIT_VERSION_STRING}")
 
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/src/version.h.in"
