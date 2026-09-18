@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
+    <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
    </property>
    <property name="itemsExpandable">
     <bool>false</bool>
@@ -59,6 +59,11 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>tocTreeView</tabstop>
+  <tabstop>gotoButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
