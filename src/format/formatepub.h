@@ -26,6 +26,7 @@ private:
     static QStringList getEncryptedFiles(const qbrunzip *zipData);
     static QString expandFileName(const QString& baseFileName, QString expandableFileName);
     static QString prepareLink(const QString& baseFileName, QString link);
+    static QString getIdPrefix(const QString& zipFileName);
     QString prepareDataLink(const qbrunzip *zipData, QString dataFileName, const QStringList& encryptedFiles) const;
     QDomNode processXHTMLNode(const qbrunzip* zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles);
     bool processXHTMLFile(QDomNode* xHTMLFileData, const qbrunzip* zipData, const QString& xHTMLFileName, const QStringList& encryptedFiles);

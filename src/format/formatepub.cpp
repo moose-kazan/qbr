@@ -131,15 +131,23 @@ QString FormatEPub::expandFileName(const QString& baseFileName, QString expandab
     return expandedFileName;
 }
 
+QString FormatEPub::getIdPrefix(const QString& zipFileName) {
+    return QFileInfo(zipFileName).baseName() + "_";
+}
+
 QString FormatEPub::prepareLink(const QString& baseFileName, QString link) {
     if (const QUrl linkUrl(link); linkUrl.scheme().compare("") != 0) {
         return link;
     }
     else if (linkUrl.hasFragment()) {
-        return QString("#%1").arg(linkUrl.fragment());
+        const QString filePart = linkUrl.path();
+        const QString fragmentPart = linkUrl.fragment();
+        const QString targetFile = filePart.isEmpty() ? baseFileName : expandFileName(baseFileName, filePart);
+        return QString("#file_%1_%2").arg(getIdPrefix(targetFile), fragmentPart);
     }
 
-    return QString("#file_%1").arg(expandFileName(baseFileName, link));
+    const QString expanded = expandFileName(baseFileName, link);
+    return QString("#file_%1_%2").arg(getIdPrefix(expanded), expanded.toHtmlEscaped());
 
 }
 
@@ -245,7 +253,13 @@ QDomNode FormatEPub::processXHTMLNode(const qbrunzip *zipData, const QString& xH
 
             for (int i = 0; (currentNode.hasAttributes() && i < allowedAttributes.count()); i++) {
                 if (const QString& attrName = allowedAttributes.at(i); currentNode.attributes().contains(attrName)) {
-                    returnValue.setAttribute(attrName, currentNode.attributes().namedItem(attrName).nodeValue());
+                    const QString attrValue = currentNode.attributes().namedItem(attrName).nodeValue();
+                    if (attrName == "id") {
+                        returnValue.setAttribute(attrName, QString("file_%1_%2").arg(getIdPrefix(xHTMLFileName), attrValue));
+                    }
+                    else {
+                        returnValue.setAttribute(attrName, attrValue);
+                    }
                 }
             }
 
@@ -291,7 +305,7 @@ bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, const qbrunzip *zipDa
     const QDomNodeList docBodies = xHTMLFile.elementsByTagName("body");
 
     QDomElement processResult = templateCreateElement("div");
-    processResult.setAttribute("id", QString("file_%1").arg(xHTMLFileName.toHtmlEscaped()));
+    processResult.setAttribute("id", QString("file_%1_%2").arg(getIdPrefix(xHTMLFileName), xHTMLFileName.toHtmlEscaped()));
     for (int i = 0; i < docBodies.length(); i++) {
         QDomNode convertedNode = processXHTMLNode(zipData, xHTMLFileName, docBodies.at(i), encryptedFiles);
         processResult.appendChild(convertedNode);
@@ -470,11 +484,16 @@ void FormatEPub::loadTocItem(const QDomElement& curItem, QList<QBRTocItem>* tocL
         QString itemHref = itemA.attribute("href", "");
         if (itemHref.contains("#"))
         {
-            tocItem.Anchor = itemHref.split("#").at(1);
+            const QStringList parts = itemHref.split("#");
+            const QString filePart = parts.at(0);
+            const QString fragmentPart = parts.at(1);
+            const QString expanded = filePart.isEmpty() ? rootFileName : expandFileName(rootFileName, filePart);
+            tocItem.Anchor = QString("file_%1_%2").arg(getIdPrefix(expanded), fragmentPart);
         }
         else
         {
-            tocItem.Anchor = QString("file_%1").arg(expandFileName(rootFileName, itemHref));
+            const QString expanded = expandFileName(rootFileName, itemHref);
+            tocItem.Anchor = QString("file_%1_%2").arg(getIdPrefix(expanded), expanded.toHtmlEscaped());
         }
     }
 
@@ -548,11 +567,16 @@ void FormatEPub::loadTocOldItem(const QString& tocFileName, const QDomElement& c
             .attribute("src", "");
         if (tocItemAnchor.contains("#"))
         {
-            tocItem.Anchor = tocItemAnchor.split('#').last();
+            const QStringList parts = tocItemAnchor.split("#");
+            const QString filePart = parts.at(0);
+            const QString fragmentPart = parts.at(1);
+            const QString expanded = filePart.isEmpty() ? tocFileName : expandFileName(tocFileName, filePart);
+            tocItem.Anchor = QString("file_%1_%2").arg(getIdPrefix(expanded), fragmentPart);
         }
         else
         {
-            tocItem.Anchor = QString("file_%1").arg(expandFileName(tocFileName, tocItemAnchor));
+            const QString expanded = expandFileName(tocFileName, tocItemAnchor);
+            tocItem.Anchor = QString("file_%1_%2").arg(getIdPrefix(expanded), expanded.toHtmlEscaped());
         }
 
         loadTocOldItem(tocFileName, i, &tocItem.Childs);
