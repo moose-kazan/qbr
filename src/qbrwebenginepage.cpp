@@ -8,9 +8,10 @@
 #include <QSizeF>
 #include <QUrl>
 
-qbrWebEnginePage::qbrWebEnginePage(QObject *parent) : QWebEnginePage(parent) {
+qbrWebEnginePage::qbrWebEnginePage(QWebEngineProfile *profile, QObject *parent) : QWebEnginePage(profile, parent) {
     setZoomFactor(Helpers::getDesktopScale());
 }
+
 
 bool qbrWebEnginePage::acceptNavigationRequest(
     const QUrl &url, const NavigationType type, const bool isMainFrame) {

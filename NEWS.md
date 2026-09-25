@@ -1,6 +1,7 @@
 # Version 0.1.2-dev #
 * TOC: small UI fixes
 * Epub: fixed internal links in some files
+* Small fixes for web page cache
 
 # Version 0.1.1 #
 * TOC: fix some bugs with FB2 files

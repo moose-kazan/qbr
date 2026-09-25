@@ -57,6 +57,8 @@ public:
     static QString getDefaultPathCustom();
     static void setDefaultPathCustom(const QString& defaultPathCustomValue);
 
+    static QString getWebCachePath();
+
 protected:
     static QSettings* cfg;
 };

@@ -12,6 +12,8 @@
 #include <QTemporaryFile>
 #include <QWebEngineHistory>
 #include <QShortcut>
+#include <QWebEngineProfile>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -23,7 +25,11 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
 
     mainBrowser = findChild<QWebEngineView*>("browser");
-    auto *webPage = new qbrWebEnginePage(this);
+
+    auto *webPageProfile = new QWebEngineProfile("Main", this);
+    webPageProfile->setCachePath(Settings::getWebCachePath());
+    auto *webPage = new qbrWebEnginePage(webPageProfile, this);
+
     mainBrowser->setPage(webPage);
     mainBrowser->setContextMenuPolicy(Qt::NoContextMenu);
     connect(findChild<QWebEngineView*>("browser"), &QWebEngineView::loadFinished,

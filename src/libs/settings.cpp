@@ -1,5 +1,7 @@
 #include "settings.h"
+
 #include <QSettings>
+#include <QStandardPaths>
 
 Settings::Settings() = default;
 
@@ -134,4 +136,10 @@ QString Settings::getDefaultPathCustom()
 void Settings::setDefaultPathCustom(const QString& defaultPathCustomValue)
 {
   getInstance()->setValue("DefaultPathCustom", defaultPathCustomValue);
+}
+
+
+QString Settings::getWebCachePath()
+{
+  return QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/web";
 }
