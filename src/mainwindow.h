@@ -48,6 +48,9 @@ private slots:
     void toggleFullScreen();
     void showToc() const;
 
+protected:
+   bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
     void readState();
     void readBookSettings() const;

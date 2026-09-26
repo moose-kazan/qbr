@@ -13,7 +13,8 @@
 #include <QWebEngineHistory>
 #include <QShortcut>
 #include <QWebEngineProfile>
-#include <QDir>
+#include <QDragEnterEvent>
+#include <QMimeData>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -71,6 +72,9 @@ MainWindow::MainWindow(QWidget* parent)
     {
         addAction(action);
     }
+
+    mainBrowser->setAcceptDrops(true);
+    mainBrowser->installEventFilter(this);
 }
 
 void MainWindow::openFile()
@@ -378,6 +382,34 @@ void MainWindow::setCurrentFileName(const QString& fileName)
 }
 
 QString MainWindow::getCurrentFileName() { return currentFileName; }
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    // Only for main webEngineView
+    if (watched != mainBrowser) {
+        return QMainWindow::eventFilter(watched, event);
+    }
+
+    // We suppprot drag&drop only for single file
+    if (event->type() == QEvent::DragEnter) {
+        auto *dragEvent = static_cast<QDragEnterEvent *>(event);
+        if (dragEvent->mimeData()->hasUrls() && dragEvent->mimeData()->urls().size() == 1) {
+            dragEvent->acceptProposedAction();
+            return true;
+        }
+    }
+    else if (event->type() == QEvent::Drop) {
+        auto *dropEvent = static_cast<QDropEvent *>(event);
+        if (dropEvent->mimeData()->hasUrls() && dropEvent->mimeData()->urls().size() == 1) {
+            QString filePath = dropEvent->mimeData()->urls().first().toLocalFile();
+            if (!filePath.isEmpty()) {
+                loadBook(filePath);
+            }
+            return true;
+        }
+    }
+    return QMainWindow::eventFilter(watched, event);
+}
 
 MainWindow::~MainWindow()
 {
