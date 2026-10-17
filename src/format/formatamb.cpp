@@ -291,7 +291,8 @@ bool FormatAMB::loadFile(const QString& fileName, const QByteArray& fileData, co
   try {
     return parseAmb(fileData);
   } catch (...) {
-    //return false;
+    qWarning() << "Can't parse amb file";
+    return false;
   }
   return false;
 }

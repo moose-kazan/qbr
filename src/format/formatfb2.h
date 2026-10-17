@@ -22,7 +22,7 @@ public:
     bool needUnzip() override;
 private:
     QBRBook *book;
-    static QDomNode parseXmlNode(const QDomNode& currentNode, const QHash<QString, QString>& fb2Binaries, int* tocIndex, QList<QBRTocItem>* tocList);
+    QDomNode parseXmlNode(const QDomNode& currentNode, const QHash<QString, QString>& fb2Binaries, int* tocIndex, QList<QBRTocItem>* tocList);
     bool parseXml(const QByteArray& fileData);
     void parseBookInfo(const QDomDocument *parserXml) const;
 };

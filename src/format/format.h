@@ -25,12 +25,12 @@ public:
     void templateBodyAppend(const QDomNode& bodyNode) const;
     void templateSetMeta(QBRBookMetadata* metadata) const;
     QString templateAsString() const;
-    static QDomElement templateCreateElement(const QString& tagName) ;
+    QDomElement templateCreateElement(const QString& tagName) const;
     static QString templateLoadCSS(const QString& fileName);
     static QString cleanTitle(QString title);
     static bool QDomDocumentSetContent(QDomDocument* domDocument, const QByteArray data);
 private:
-    QDomDocument templateDoc;
+    mutable QDomDocument templateDoc;
 };
 
 #endif // FORMAT_H

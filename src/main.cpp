@@ -5,6 +5,8 @@
 #include <QIcon>
 #include <QTranslator>
 
+QTranslator translator;
+
 int main(int argc, char *argv[]) {
   QString currentLocale = QLocale::system().name();
   currentLocale.truncate(currentLocale.lastIndexOf('_'));
@@ -17,7 +19,6 @@ int main(int argc, char *argv[]) {
 
   QApplication a(argc, argv);
 
-  QTranslator translator;
   if (translator.load(langFilePath)) {
     QApplication::installTranslator(&translator);
   }

@@ -15,6 +15,7 @@
 #include <QWebEngineProfile>
 #include <QDragEnterEvent>
 #include <QMimeData>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)

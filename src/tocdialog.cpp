@@ -11,6 +11,15 @@
 #include "ui_tocdialog.h"
 
 
+TocDialog::~TocDialog()
+{
+    if (tocData != nullptr)
+    {
+        delete tocData;
+        tocData = nullptr;
+    }
+}
+
 TocDialog::TocDialog(QWidget* parent, const Qt::WindowFlags f) :
     QDialog(parent, f), ui(new Ui::TocDialog)
 {

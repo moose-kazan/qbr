@@ -193,7 +193,7 @@ QList<QDomElement> FormatFB3::parseRels(const qbrunzip* ZipData, const QString& 
 }
 
 QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QString, QString>& bodyBinaries,
-                                  int* tocIndex, QList<QBRTocItem>* tocList)
+                                  int* tocIndex, QList<QBRTocItem>* tocList) const
 {
     const QHash<QString, QString> baseTags = {
         {"strong", "strong"},

@@ -117,10 +117,10 @@ QString Format::templateAsString() const
     return "";
 }
 
-QDomElement Format::templateCreateElement(const QString& tagName)
+QDomElement Format::templateCreateElement(const QString& tagName) const
 {
-    QDomElement element = QDomDocument().createElement(tagName);
-    element.appendChild(QDomDocument().createTextNode("\n"));
+    QDomElement element = templateDoc.createElement(tagName);
+    element.appendChild(templateDoc.createTextNode("\n"));
     return element;
 }
 

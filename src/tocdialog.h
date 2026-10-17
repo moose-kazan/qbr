@@ -21,6 +21,7 @@ class TocDialog : public QDialog
 
 public:
     explicit TocDialog(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
+    ~TocDialog();
     void setData(QList<QBRTocItem>* tocList) const;
     QString getSelectedAnchor() const;
 private:

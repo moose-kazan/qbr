@@ -34,7 +34,7 @@ private:
     static QString getRelsFileName(const QString& baseFileName);
     void parseMetadata(const qbrunzip *ZipData, const QString& entryName) const;
     static QList<QDomElement> parseRels(const qbrunzip *ZipData, const QString& entryName);
-    static QDomNode parseBodyNode(const QDomNode& currentNode, const QMap<QString,QString>& bodyBinaries, int* tocIndex, QList<QBRTocItem>* tocList);
+    QDomNode parseBodyNode(const QDomNode& currentNode, const QMap<QString,QString>& bodyBinaries, int* tocIndex, QList<QBRTocItem>* tocList) const;
     QList<QDomNode> parseBody(const qbrunzip* zipData, const QString& bodyEntryName) const;
     bool parseFile(const qbrunzip *ZipData);
     QHash<QString, QString> fb3ExtTypes;
