@@ -1,7 +1,7 @@
 #include "helpers.h"
 
 #include <QApplication>
-#include <QDebug>
+#include <QtDebug>
 #include <QScreen>
 #include <QString>
 #include <cmath>

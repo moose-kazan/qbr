@@ -2,7 +2,7 @@
 
 #include <QBuffer>
 #include <QByteArray>
-#include <QDebug>
+#include <QtDebug>
 
 #include <zip.h>
 
@@ -38,7 +38,7 @@ bool qbrunzip::setData(QByteArray zipData) {
   for (int i = 0; i < filesCount; i++) {
     QString zipEntryName = zip_get_name(zf, i, 0);
 
-    // qDebug() << "Filename: " << zipEntryName;
+    // qWarning() << "Filename: " << zipEntryName;
 
     if (zipEntryName.at(zipEntryName.length() - 1) == '/') {
       continue;

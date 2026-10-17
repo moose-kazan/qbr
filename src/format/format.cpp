@@ -2,7 +2,7 @@
 
 #include "../libs/settings.h"
 
-#include <QDebug>
+#include <QtDebug>
 #include <QFile>
 #include <QRegularExpression>
 #include <QUrl>
@@ -17,7 +17,7 @@ bool Format::loadFile(const QString &fileName, const QByteArray &fileData, const
 };
 
 QBRBook* Format::getBook() {
-    return new QBRBook{};
+    return nullptr;
 };
 
 QStringList Format::getExtensions() {
@@ -82,7 +82,7 @@ void Format::templateInit()
     rootNode.appendChild(nodeBody);
 
     templateDoc.appendChild(rootNode);
-    //qDebug() << templateDoc.toString();
+    //qWarning() << templateDoc.toString();
 }
 
 void Format::templateBodyAppend(const QDomNode& bodyNode) const
@@ -129,7 +129,7 @@ QString Format::templateLoadCSS(const QString& fileName)
     QFile styleSheetFile(fileName);
     if (!styleSheetFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "Could not open file " << fileName;
+        qWarning() << "Could not open file " << fileName;
         return "";
     }
     QTextStream styleSheetStream(&styleSheetFile);
@@ -157,7 +157,7 @@ bool Format::QDomDocumentSetContent(QDomDocument* domDocument, const QByteArray 
     QDomDocument::ParseResult result = domDocument->setContent(data, parserOptions);
     if (!result)
     {
-        qDebug() << "Can't parse XML: " << result.errorMessage;
+        qWarning() << "Can't parse XML: " << result.errorMessage;
         return false;
     }
 #else
@@ -167,7 +167,7 @@ bool Format::QDomDocumentSetContent(QDomDocument* domDocument, const QByteArray 
     if (!domDocument->setContent(data, true, &paserXmlErrorMsg,
                               &parserXmlErrorLine, &parserXmlErrorColumn))
     {
-        qDebug() << "Can't parse XML: " << paserXmlErrorMsg << " at line " <<
+        qWarning() << "Can't parse XML: " << paserXmlErrorMsg << " at line " <<
         parserXmlErrorLine << ", column: " << parserXmlErrorColumn;
         return false;
     }

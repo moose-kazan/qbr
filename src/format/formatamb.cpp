@@ -69,7 +69,7 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
                         fileData.mid(entryFileOffset, entryFileLength));
     }
 
-    // qDebug() << entryName << " " << entryFileOffset << " " <<
+    // qWarning() << entryName << " " << entryFileOffset << " " <<
     // entryFileLength;
   }
 

@@ -69,7 +69,7 @@ QStringList FormatEPub::getRootFiles(const qbrunzip *zipData) {
     QStringList rootFiles;
 
     if (QDomDocument containerXml; !QDomDocumentSetContent(&containerXml, zipData->getFileData("META-INF/container.xml"))) {
-        qDebug() << "Can't read META-INF/container.xml:";
+        qWarning() << "Can't read META-INF/container.xml:";
     }
     else {
         QDomElement rootFileNode = containerXml.firstChildElement("container").firstChildElement("rootfiles").firstChildElement("rootfile");
@@ -94,17 +94,17 @@ QStringList FormatEPub::getEncryptedFiles(const qbrunzip *zipData) {
         return encryptedFiles;
     }
 
-    qDebug() << "File partialy or fully encrypted!";
+    qWarning() << "File partialy or fully encrypted!";
 
     if (QDomDocument containerXml; !QDomDocumentSetContent(&containerXml, zipData->getFileData("META-INF/encryption.xml"))) {
-        qDebug() << "Can't read META-INF/encryption.xml: ";
+        qWarning() << "Can't read META-INF/encryption.xml: ";
     }
     else {
         QDomElement encryptedData = containerXml.firstChildElement("encryption").firstChildElement("EncryptedData");
         while (!encryptedData.isNull()) {
             if (QDomElement cipherReference = encryptedData.firstChildElement("CipherData").firstChildElement("CipherReference"); cipherReference.hasAttribute("URI")) {
                 if (QString encryptedFile = cipherReference.attribute("URI", ""); encryptedFile.length() > 0) {
-                    qDebug() << "Found encrypted object:" << encryptedFile;
+                    qWarning() << "Found encrypted object:" << encryptedFile;
                     encryptedFiles.append(encryptedFile);
                 }
             }
@@ -196,7 +196,7 @@ QString FormatEPub::prepareDataLink(const qbrunzip *zipData, QString dataFileNam
 }
 
 QDomNode FormatEPub::processXHTMLNode(const qbrunzip *zipData, const QString& xHTMLFileName, const QDomNode& currentNode, const QStringList& encryptedFiles) {
-    //qDebug() << "Type: " << currentNode.nodeType() << ", Name: " << currentNode.nodeName() << ", Value: " << currentNode.nodeValue();
+    //qWarning() << "Type: " << currentNode.nodeType() << ", Name: " << currentNode.nodeName() << ", Value: " << currentNode.nodeValue();
 
     const QList<QString> allowedTags = {
         "ul", "li",
@@ -230,7 +230,7 @@ QDomNode FormatEPub::processXHTMLNode(const qbrunzip *zipData, const QString& xH
             }
             /*
             else {
-                qDebug() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
+                qWarning() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
             }
             */
 
@@ -287,7 +287,7 @@ QDomNode FormatEPub::processXHTMLNode(const qbrunzip *zipData, const QString& xH
     case QDomNode::EntityReferenceNode:
         return currentNode.cloneNode();
     default:
-        //qDebug() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
+        //qWarning() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
         break;
     }
 
@@ -302,7 +302,7 @@ bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, const qbrunzip *zipDa
     QDomDocument xHTMLFile;
     if (!QDomDocumentSetContent(&xHTMLFile, zipData->getFileData(xHTMLFileName)))
     {
-        qDebug() << "Can't parse " << xHTMLFileName;
+        qWarning() << "Can't parse " << xHTMLFileName;
         return false;
     }
 
@@ -370,7 +370,7 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, const qbrunzip *zipData,
     }
 
     if (!QDomDocumentSetContent(&rootFileXml, zipData->getFileData(rootFileName))) {
-        qDebug() << "Can't read rootfile: " << rootFileName;
+        qWarning() << "Can't read rootfile: " << rootFileName;
         return false;
     }
 
@@ -410,8 +410,8 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, const qbrunzip *zipData,
         spineItem = spineItem.nextSiblingElement("itemref");
     }
 
-    //qDebug() << "tocFile: " << tocFileName;
-    //qDebug() << "tocOldFileName: " << tocOldFileName;
+    //qWarning() << "tocFile: " << tocFileName;
+    //qWarning() << "tocOldFileName: " << tocOldFileName;
 
     if (!tocFileName.isEmpty())
     {
@@ -535,7 +535,10 @@ void FormatEPub::loadTocOld(const qbrunzip *zipData, const QString& tocFileName)
     }
 
     QDomDocument tocFileXml;
-    tocFileXml.setContent(zipData->getFileData(tocFileName));
+    QDomDocument::ParseResult pResult = tocFileXml.setContent(zipData->getFileData(tocFileName));
+    if (!pResult) {
+        return;
+    }
 
     QDomElement rootTocItem = tocFileXml
         .firstChildElement("ncx")

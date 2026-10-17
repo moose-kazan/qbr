@@ -2,13 +2,12 @@
 
 FormatFB2Zip::FormatFB2Zip()
 {
+    bookInfo = new QBRBook();
 }
 
 FormatFB2Zip::~FormatFB2Zip()
 {
-    if (bookInfo != nullptr) {
-        delete bookInfo;
-    }
+    delete bookInfo;
 }
 
 bool FormatFB2Zip::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) {
@@ -22,17 +21,18 @@ bool FormatFB2Zip::loadFile(const QString& fileName, const QByteArray& fileData,
         return false;
     }
 
+    bookInfo->clear();
+
     const QStringList zipEntryNames = zipData->getFileNameList();
     for (int i = 0; i < zipEntryNames.count(); i++) {
         if (const QString& zipEntryName = zipEntryNames.at(i); zipEntryName.endsWith(".fb2", Qt::CaseInsensitive)) {
             if (parserFB2.loadFile(zipEntryName, zipData->getFileData(zipEntryName), nullptr)) {
-                bookInfo = parserFB2.getBook();
+                bookInfo->copy(parserFB2.getBook());
                 bookInfo->metadata->FileFormat = getFormatTitle();
                 return true;
             }
         }
     }
-
 
     return false;
 }

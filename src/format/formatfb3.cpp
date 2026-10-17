@@ -1,7 +1,7 @@
 #include "formatfb3.h"
 
 #include <QByteArray>
-#include <QDebug>
+#include <QtDebug>
 #include <QDomDocument>
 #include <QDir>
 #include <QHash>
@@ -64,7 +64,7 @@ bool FormatFB3::loadFile(const QString& fileName, const QByteArray& fileData, co
     {
         if (!zipData->fileExists(requiredFiles.at(i)))
         {
-            // qDebug() << "can't find file: " << requiredFiles.at(i);
+            // qWarning() << "can't find file: " << requiredFiles.at(i);
             return false;
         }
     }
@@ -110,7 +110,7 @@ void FormatFB3::parseMetadata(const qbrunzip* ZipData, const QString& entryName)
     QDomDocument descriptionXml;
     if (!QDomDocumentSetContent(&descriptionXml, fb3_description_data))
     {
-        qDebug() << "Can't parse "<< entryName;
+        qWarning() << "Can't parse "<< entryName;
         return;
     }
 
@@ -173,7 +173,7 @@ QList<QDomElement> FormatFB3::parseRels(const qbrunzip* ZipData, const QString& 
     QDomDocument bodyRelsXml;
     if (!QDomDocumentSetContent(&bodyRelsXml, bodyRelsData))
     {
-        qDebug() << "Can't parse " << entryName;
+        qWarning() << "Can't parse " << entryName;
         return relsData;
     }
 
@@ -239,7 +239,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
                 returnTagName = baseTags.value(currentNodeTag);
             }
             /*else {
-                qDebug() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
+                qWarning() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
             }*/
 
             QDomElement returnValue = templateCreateElement(returnTagName);
@@ -262,7 +262,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
                 if (currentNode.attributes().contains("href"))
                 {
                     const QString aHref = currentNode.attributes().namedItem("href").nodeValue();
-                    //qDebug() << "a.href" << aHref;
+                    //qWarning() << "a.href" << aHref;
                     returnValue.setAttribute("href", aHref);
                     returnValue.setAttribute("title", aHref);
                 }
@@ -338,7 +338,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
     case QDomNode::EntityReferenceNode:
         return currentNode.cloneNode();
     default:
-        //qDebug() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
+        //qWarning() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
         break;
     }
 
@@ -359,13 +359,13 @@ QList<QDomNode> FormatFB3::parseBody(const qbrunzip* zipData, const QString& bod
 
         bodyBinaries.insert(
             nodeId, QString("data:%1;base64,%2").arg(nodeContentType, zipData->getFileData(nodeTarget).toBase64()));
-        //qDebug() << nodeId << nodeTargetExtension << nodeContentType << nodeTarget << bodyBinaries.value(nodeId).length();
+        //qWarning() << nodeId << nodeTargetExtension << nodeContentType << nodeTarget << bodyBinaries.value(nodeId).length();
     }
 
     QDomDocument xmlFile;
     if (!QDomDocumentSetContent(&xmlFile, zipData->getFileData(bodyEntryName)))
     {
-        qDebug() << "Can't parse " << bodyEntryName;
+        qWarning() << "Can't parse " << bodyEntryName;
         return {};
     }
 
@@ -388,14 +388,14 @@ bool FormatFB3::parseFile(const qbrunzip* ZipData)
     const QByteArray docContentTypeData = ZipData->getFileData("[Content_Types].xml");
     if (docContentTypeData.isNull())
     {
-        // qDebug() << "can't extract [Content_Types].xml";
+        // qWarning() << "can't extract [Content_Types].xml";
         return false;
     }
 
     QDomDocument docContentType;
     if (!QDomDocumentSetContent(&docContentType, docContentTypeData))
     {
-        qDebug() << "can't parse [Content_Types].xml";
+        qWarning() << "can't parse [Content_Types].xml";
         return false;
     }
 
@@ -465,7 +465,7 @@ bool FormatFB3::parseFile(const qbrunzip* ZipData)
         for (int i = 0; i < book->metadata->Toc.count(); i++)
         {
             QBRTocItem tocItem = book->metadata->Toc.at(i);
-            qDebug() << tocItem.Title << tocItem.Anchor << tocItem.Childs.count();
+            qWarning() << tocItem.Title << tocItem.Anchor << tocItem.Childs.count();
         }
         */
 

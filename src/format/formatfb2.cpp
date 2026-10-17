@@ -75,7 +75,7 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
                 returnTagName = baseTags.value(currentNodeTag);
             }
             /*else {
-                qDebug() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
+                qWarning() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue();
             }*/
 
             QDomElement returnValue = templateCreateElement(returnTagName);
@@ -99,7 +99,7 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
                 if (currentNode.attributes().contains("href"))
                 {
                     const QString aHref = currentNode.attributes().namedItem("href").nodeValue();
-                    //qDebug() << "a.href" << aHref;
+                    //qWarning() << "a.href" << aHref;
                     returnValue.setAttribute("href", aHref);
                     returnValue.setAttribute("title", aHref);
                 }
@@ -172,7 +172,7 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
         return currentNode.cloneNode();
 
     default:
-        //qDebug() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
+        //qWarning() << "nodeType" << currentNode.nodeType() << "nodeName" << currentNode.nodeName() << "nodeValue" << currentNode.nodeValue() << "count" << currentNode.childNodes().count();
         break;
     }
 
@@ -226,7 +226,7 @@ bool FormatFB2::parseXml(const QByteArray& fileData)
         for (int i = 0; i < book->metadata->Toc.count(); i++)
         {
             QBRTocItem tocItem = book->metadata->Toc.at(i);
-            qDebug() << tocItem.Title << tocItem.Anchor << tocItem.Childs.count();
+            qWarning() << tocItem.Title << tocItem.Anchor << tocItem.Childs.count();
         }
         */
     return true;
@@ -239,7 +239,7 @@ void FormatFB2::parseBookInfo(const QDomDocument* parserXml) const
                                                .firstChildElement("title-info");
     if (nodeTitleInfo.isNull())
     {
-        // qDebug() << "Book description is null";
+        // qWarning() << "Book description is null";
         return;
     }
 
@@ -296,8 +296,8 @@ void FormatFB2::parseBookInfo(const QDomDocument* parserXml) const
     }
 
 
-    // qDebug() << "Book title" << bookInfo.Title;
-    // qDebug() << "Book author" << bookInfo.Author;
+    // qWarning() << "Book title" << bookInfo.Title;
+    // qWarning() << "Book author" << bookInfo.Author;
 }
 
 bool FormatFB2::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData)

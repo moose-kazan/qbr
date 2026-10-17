@@ -52,7 +52,7 @@ void FileInfoDialog::showEvent(QShowEvent *event) {
   }
   cw->setPixmap(coverPixmap.scaled(cw->width(), cw->height(), Qt::KeepAspectRatio));
   //cw->setScaledContents(true);
-  //qDebug() << cover.width() << "x" << cover.height() << cover.isNull();
+  //qWarning() << cover.width() << "x" << cover.height() << cover.isNull();
 }
 
 FileInfoDialog::~FileInfoDialog() { delete ui; }

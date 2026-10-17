@@ -2,7 +2,7 @@
 #include "libs/settings.h"
 #include "libs/helpers.h"
 
-#include <QDebug>
+#include <QtDebug>
 #include <QDesktopServices>
 #include <QPointF>
 #include <QSizeF>
@@ -42,7 +42,7 @@ void qbrWebEnginePage::positionSave(const QString& fileName) const
 }
 
 void qbrWebEnginePage::positionRestore(const QString& fileName) {
-  //qDebug() << "Restoring position for file: " << fileName;
+  //qWarning() << "Restoring position for file: " << fileName;
   const QPointF pos = Settings::getFilePosition(fileName);
   runJavaScript(QString("window.scrollTo(%1*document.body.scrollHeight, "
                         "%2*document.body.scrollWidth);")
@@ -52,7 +52,7 @@ void qbrWebEnginePage::positionRestore(const QString& fileName) {
 
 void qbrWebEnginePage::scrollToAnchor(const QString& anchor)
 {
-  //qDebug() << "Scroll to anchor: " << anchor;
+  //qWarning() << "Scroll to anchor: " << anchor;
   if (anchor.isEmpty())
   {
     const QString js = "window.scrollTo(0, 0);";
