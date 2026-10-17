@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget* parent)
     settingsDlg = new SettingsDialog(this, Qt::Dialog);
     tocDlg = new TocDialog(this, Qt::Dialog);
 
-    openFileDlg = new QFileDialog();
+    openFileDlg = new QFileDialog(this);
 
     readSettings();
 
@@ -186,7 +186,7 @@ void MainWindow::toggleFullScreen()
 {
     if (!isFullScreen())
     {
-        findChild<QAction *>("actionFullScreen")->setChecked(true);;
+        findChild<QAction *>("actionFullScreen")->setChecked(true);
         returnToMaximized = isMaximized();
         showFullScreen();
     }

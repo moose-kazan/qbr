@@ -302,7 +302,7 @@ bool FormatEPub::processXHTMLFile(QDomNode *xHTMLFileData, const qbrunzip *zipDa
     QDomDocument xHTMLFile;
     if (!QDomDocumentSetContent(&xHTMLFile, zipData->getFileData(xHTMLFileName)))
     {
-        qDebug() << "Can't parse " << xHTMLFileName;;
+        qDebug() << "Can't parse " << xHTMLFileName;
         return false;
     }
 
@@ -386,7 +386,7 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, const qbrunzip *zipData,
         // TOC File
         if (manifestItemProperties.split(" ").contains("nav"))
         {
-            tocFileName = expandFileName(rootFileName, manifestItem.attribute("href", ""));;
+            tocFileName = expandFileName(rootFileName, manifestItem.attribute("href", ""));
         }
         QString manifestItemMediaType = manifestItem.attribute("media-type", "");
         // Old TOC File
@@ -415,11 +415,11 @@ bool FormatEPub::processRootFile(QDomNode *returnValue, const qbrunzip *zipData,
 
     if (!tocFileName.isEmpty())
     {
-        loadToc(zipData, tocFileName, rootFileName);;
+        loadToc(zipData, tocFileName, rootFileName);
     }
     else if (!tocOldFileName.isEmpty())
     {
-        loadTocOld(zipData, tocOldFileName);;
+        loadTocOld(zipData, tocOldFileName);
     }
 
     processRootFileMetadata(zipData, rootFileName, &rootFileXml, &manifestMap, encryptedFiles);
@@ -579,7 +579,10 @@ void FormatEPub::loadTocOldItem(const QString& tocFileName, const QDomElement& c
         {
             const QStringList parts = tocItemAnchor.split("#");
             const QString filePart = parts.at(0);
-            const QString fragmentPart = parts.at(1);
+            QString fragmentPart = "";
+            if (parts.size() > 1) {
+                fragmentPart = parts.at(1);
+            }
             const QString expanded = filePart.isEmpty() ? tocFileName : expandFileName(tocFileName, filePart);
             tocItem.Anchor = QString("file_%1_%2").arg(getIdPrefix(expanded), fragmentPart);
         }

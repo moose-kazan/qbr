@@ -147,7 +147,7 @@ QDomNode FormatFB2::parseXmlNode(const QDomNode& currentNode, const QHash<QStrin
                 }
                 tocItemTitle = cleanTitle(tocItemTitle);
                 (*tocIndex)++;
-                QString tocItemAnchor = QString("qbr_toc_item_%1").arg(*tocIndex);;
+                QString tocItemAnchor = QString("qbr_toc_item_%1").arg(*tocIndex);
                 if (returnValue.hasAttribute("id"))
                 {
                     tocItemAnchor = returnValue.attribute("id");

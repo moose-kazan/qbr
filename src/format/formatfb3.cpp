@@ -313,7 +313,7 @@ QDomNode FormatFB3::parseBodyNode(const QDomNode& currentNode, const QMap<QStrin
                 {
                     tocItemTitle = tr("...");
                 }
-                QString tocItemAnchor = QString("qbr_toc_item_%1").arg(*tocIndex);;
+                QString tocItemAnchor = QString("qbr_toc_item_%1").arg(*tocIndex);
                 if (returnValue.hasAttribute("id"))
                 {
                     tocItemAnchor = returnValue.attribute("id");

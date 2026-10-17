@@ -6,7 +6,9 @@ FormatFB2Zip::FormatFB2Zip()
 
 FormatFB2Zip::~FormatFB2Zip()
 {
-    delete bookInfo;
+    if (bookInfo != nullptr) {
+        delete bookInfo;
+    }
 }
 
 bool FormatFB2Zip::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) {
