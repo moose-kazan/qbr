@@ -52,7 +52,7 @@ bool FormatCBZ::loadFile(const QString& fileName, const QByteArray& fileData, co
     } else if (zipEntryName.endsWith(".gif", Qt::CaseInsensitive)) {
       mimeType = "image/gif";
     } else if (zipEntryName.endsWith("svg", Qt::CaseInsensitive)) {
-      mimeType = "image/svg";
+      mimeType = "image/sv+xml";
     } else if (zipEntryName.endsWith(".webp", Qt::CaseInsensitive)) {
       mimeType = "image/webp";
     } else if (zipEntryName.endsWith(".jpg", Qt::CaseInsensitive)) {
