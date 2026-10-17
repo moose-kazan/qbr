@@ -9,6 +9,10 @@
 #include <QString>
 #include <QUrl>
 
+FormatFB3::~FormatFB3() {
+    delete book;
+}
+
 /*
  * Format description:
  * http://www.fictionbook.org/index.php/FictionBook_3.0_beta_-_%D0%BA%D1%80%D0%B0%D1%82%D0%BA%D0%BE%D0%B5_%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5

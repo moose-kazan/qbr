@@ -11,6 +11,11 @@ class FormatCBZ final : public Format
 {
 public:
     FormatCBZ();
+    ~FormatCBZ() override;
+
+    FormatCBZ(const FormatCBZ&) = delete;
+    FormatCBZ& operator=(const FormatCBZ&) = delete;
+
     bool loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;

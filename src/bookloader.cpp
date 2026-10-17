@@ -36,6 +36,8 @@ BookLoader::~BookLoader()
     {
         delete bookParsers.at(i);
     }
+    delete bookData;
+    delete unZip;
 }
 
 QStringList BookLoader::getFilter()

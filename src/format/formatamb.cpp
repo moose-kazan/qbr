@@ -8,6 +8,10 @@
 
 #include "../libs/qbrbookinfo.h"
 
+FormatAMB::~FormatAMB() {
+    delete book;
+}
+
 /*
  * AMB support
  *

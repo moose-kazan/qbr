@@ -10,6 +10,11 @@ class FormatAMB final : public Format
 {
 public:
     FormatAMB();
+    ~FormatAMB() override;
+
+    FormatAMB(const FormatAMB&) = delete;
+    FormatAMB& operator=(const FormatAMB&) = delete;
+
     bool loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;

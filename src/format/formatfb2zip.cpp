@@ -2,13 +2,15 @@
 
 FormatFB2Zip::FormatFB2Zip()
 {
-    bookInfo = new QBRBook();
+}
+
+FormatFB2Zip::~FormatFB2Zip()
+{
+    delete bookInfo;
 }
 
 bool FormatFB2Zip::loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) {
     (void)fileName;
-
-    bookInfo->clear();
 
     if (!isZipFile(fileData))  {
         return false;

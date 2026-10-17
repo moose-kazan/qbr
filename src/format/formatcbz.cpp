@@ -5,6 +5,10 @@
 #include <QRegularExpression>
 #include <QString>
 
+FormatCBZ::~FormatCBZ() {
+    delete book;
+}
+
 FormatCBZ::FormatCBZ()
 {
   book = new QBRBook();

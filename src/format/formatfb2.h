@@ -10,6 +10,11 @@ class FormatFB2 final : public Format
 {
 public:
     FormatFB2();
+    ~FormatFB2() override;
+
+    FormatFB2(const FormatFB2&) = delete;
+    FormatFB2& operator=(const FormatFB2&) = delete;
+
     bool loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;

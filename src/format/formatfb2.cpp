@@ -8,6 +8,10 @@
 #include <QString>
 
 
+FormatFB2::~FormatFB2() {
+    delete book;
+}
+
 /**
  * FB2-Parser.
  * XML-Schema: http://www.fictionbook.org/index.php/XML_%D1%81%D1%85%D0%B5%D0%BC%D0%B0_FictionBook2.2

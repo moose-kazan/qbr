@@ -13,6 +13,11 @@ class FormatFB3 final : public Format
 {
 public:
     FormatFB3();
+    ~FormatFB3() override;
+
+    FormatFB3(const FormatFB3&) = delete;
+    FormatFB3& operator=(const FormatFB3&) = delete;
+
     bool loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;

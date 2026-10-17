@@ -15,6 +15,10 @@ class BookSaver
 public:
     BookSaver();
     ~BookSaver();
+
+    BookSaver(const BookSaver&) = delete;
+    BookSaver& operator=(const BookSaver&) = delete;
+
     QStringList getFilter();
     [[nodiscard]] Export* exporterByFilter(const QString& filter) const;
 private:

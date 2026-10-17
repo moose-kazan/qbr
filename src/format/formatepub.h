@@ -11,6 +11,11 @@ class FormatEPub final : public Format
 {
 public:
     FormatEPub();
+    ~FormatEPub() override;
+
+    FormatEPub(const FormatEPub&) = delete;
+    FormatEPub& operator=(const FormatEPub&) = delete;
+
     bool loadFile(const QString& fileName, const QByteArray& fileData, const qbrunzip* zipData) override;
     QStringList getExtensions() override;
     QString getFormatTitle() override;

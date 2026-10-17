@@ -9,6 +9,10 @@
  * EPub-parser. Based on https://www.w3.org/TR/epub-33
  */
 
+FormatEPub::~FormatEPub() {
+    delete bookInfo;
+}
+
 FormatEPub::FormatEPub()
 {
     bookInfo = new QBRBook();
@@ -442,7 +446,10 @@ void FormatEPub::loadToc(const qbrunzip *zipData, const QString& tocFileName, co
     }
 
     QDomDocument tocFileXml;
-    tocFileXml.setContent(zipData->getFileData(tocFileName));
+    QDomDocument::ParseResult pResult = tocFileXml.setContent(zipData->getFileData(tocFileName));
+    if(!pResult){
+        return;
+    }
     QDomNodeList navList = tocFileXml.elementsByTagName("nav");
     for (int i = 0; i < navList.size(); i++)
     {
@@ -486,7 +493,10 @@ void FormatEPub::loadTocItem(const QDomElement& curItem, QList<QBRTocItem>* tocL
         {
             const QStringList parts = itemHref.split("#");
             const QString filePart = parts.at(0);
-            const QString fragmentPart = parts.at(1);
+            QString fragmentPart = "";
+            if (parts.count()>1) {
+                fragmentPart = parts.at(1);
+            }
             const QString expanded = filePart.isEmpty() ? rootFileName : expandFileName(rootFileName, filePart);
             tocItem.Anchor = QString("file_%1_%2").arg(getIdPrefix(expanded), fragmentPart);
         }
