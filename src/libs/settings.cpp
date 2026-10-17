@@ -81,7 +81,7 @@ void Settings::setLastOpenedFileEnable(const bool enable) {
 }
 
 QString Settings::getBookBgColor() {
-  return getInstance()->value("BookDesignBgColor", "#ffeeaa").toString();
+  return getInstance()->value("BookDesignBgColor", defaultBookBgColor).toString();
 }
 void Settings::setBookBgColor(const QString& color) {
   getInstance()->setValue("BookDesignBgColor", color);

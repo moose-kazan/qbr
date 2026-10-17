@@ -16,6 +16,8 @@ public:
     static constexpr int defaultPathMyDocs = 1;
     static constexpr int defaultPathCustom = 2;
 
+    static constexpr const char* defaultBookBgColor = "#ffeeaa";
+
     static QSettings* getInstance();
 
     static bool getStatusBarEnabled();

@@ -1,6 +1,7 @@
 #include "formatamb.h"
 
 #include <QBuffer>
+#include <algorithm>
 #include <QCollator>
 #include <QString>
 #include <QUrl>
@@ -116,15 +117,9 @@ bool FormatAMB::parseAmb(const QByteArray& fileData) {
   QCollator collator;
   collator.setNumericMode(true);
 
-  for (int i = 0; i < entryNames.length() - 1; i++) {
-    for (int j = i + 1; j < entryNames.length(); j++) {
-      if (const int r = collator.compare(entryNames.at(i), entryNames.at(j)); r > 0) {
-        QString tmp = entryNames.at(i);
-        entryNames.replace(i, entryNames.at(j));
-        entryNames.replace(j, tmp);
-      }
-    }
-  }
+  std::sort(entryNames.begin(), entryNames.end(), [&collator](const QString& a, const QString& b) {
+    return collator.compare(a, b) < 0;
+  });
 
   for (int i = 0; i < entryNames.length(); i++) {
     if (
