@@ -84,7 +84,7 @@ bool BookLoader::loadFile(const QString& fileName)
         }
 
         if (bookParsers.at(i)->loadFile(fileName, fileData, unZip)) {
-            bookData = bookParsers.at(i)->getBook();
+            bookData->copy(bookParsers.at(i)->getBook());
             return true;
         }
     }
