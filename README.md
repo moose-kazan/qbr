@@ -10,7 +10,6 @@
 * Zipped FictionBook 2.0 (fb2.zip)
 * FictionBook 3.0 (fb3)
 * Electronic Publication (epub)
-* Comics Book Zip (cbz)
 * Ancient Machine Book (amb)
 
 ### Установка ###
@@ -41,7 +40,6 @@ For now it support the next file formats:
 * Zipped FictionBook 2.0 (fb2.zip)
 * FictionBook 3.0 (fb3)
 * Electronic Publication (epub)
-* Comics Book Zip (cbz)
 * Ancient Machine Book (amb)
 
 ### Installation ###

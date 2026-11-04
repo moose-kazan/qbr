@@ -4,7 +4,6 @@
 #include "libs/qbrunzip.h"
 #include "format/format.h"
 #include "format/formatamb.h"
-#include "format/formatcbz.h"
 #include "format/formatfb2.h"
 #include "format/formatfb2zip.h"
 #include "format/formatfb3.h"

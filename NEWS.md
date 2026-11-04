@@ -4,6 +4,7 @@
 * Small fixes for web page cache
 * Support for drag and drop
 * Fix some memory leaks
+* Removed support for CBZ
 
 # Version 0.1.1 #
 * TOC: fix some bugs with FB2 files

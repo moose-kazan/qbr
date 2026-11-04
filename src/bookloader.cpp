@@ -4,7 +4,6 @@
 
 BookLoader::BookLoader() {
     bookParsers.append(new FormatAMB());
-    bookParsers.append(new FormatCBZ());
     bookParsers.append(new FormatEPub());
     bookParsers.append(new FormatFB2());
     bookParsers.append(new FormatFB2Zip());

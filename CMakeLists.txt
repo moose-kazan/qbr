@@ -62,8 +62,6 @@ set(PROJECT_SOURCES
     src/format/format.cpp
     src/format/formatamb.h
     src/format/formatamb.cpp
-    src/format/formatcbz.h
-    src/format/formatcbz.cpp
     src/format/formatfb2.h
     src/format/formatfb2.cpp
     src/format/formatfb2zip.h
