@@ -286,17 +286,21 @@ void MainWindow::loadBook(const QString& fileName)
         {
             QTemporaryFile f(QDir::tempPath() + "/QBR.XXXXXXX.html");
             f.setAutoRemove(false);
-            if (f.open())
+            if (!f.open())
             {
-                const QBRBook* fullBook = bookLoader->getBook();
-                f.write(fullBook->html.toUtf8());
-                f.close();
-
-                mainBrowser->load(
-                    QUrl::fromLocalFile(f.fileName()));
-                setCurrentFileName(fileName);
-                bookInfo->copy(fullBook);
+                QMessageBox::critical(this, tr("Can't load book"),
+                    tr("Temporary file creation failed!"));
+                return;
             }
+
+            const QBRBook* fullBook = bookLoader->getBook();
+            f.write(fullBook->html.toUtf8());
+            f.close();
+
+            mainBrowser->load(
+                QUrl::fromLocalFile(f.fileName()));
+            setCurrentFileName(fileName);
+            bookInfo->copy(fullBook);
             return;
         }
     }
@@ -419,6 +423,7 @@ MainWindow::~MainWindow()
     delete fileInfoDlg;
     delete settingsDlg;
     delete tocDlg;
+    delete openFileDlg;
     delete bookInfo;
     delete bookLoader;
     delete bookSaver;
