@@ -9,7 +9,10 @@ QTranslator translator;
 
 int main(int argc, char *argv[]) {
   QString currentLocale = QLocale::system().name();
-  currentLocale.truncate(currentLocale.lastIndexOf('_'));
+  int underscorePos = currentLocale.lastIndexOf('_');
+  if (underscorePos > 0) {
+    currentLocale.truncate(underscorePos);
+  }
   QString langFilePath = ":/languages/qbr_";
   langFilePath.append(currentLocale);
   langFilePath.append(".qm");
